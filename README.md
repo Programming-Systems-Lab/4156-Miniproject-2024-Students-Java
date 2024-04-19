@@ -28,6 +28,9 @@ it puts you in the spotlight and you must set a proper example for your fellow s
 
 I wish you the best of luck in completing this and any and all future endeavors you have!
 
+One last addition, you'll need to clone the repo in intellij and then open the individualproject 
+folder directly in order for things to work out.
+
 Best wishes,
 
 Griffin N
