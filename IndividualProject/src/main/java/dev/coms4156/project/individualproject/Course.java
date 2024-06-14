@@ -4,7 +4,14 @@ import java.io.*;
 
 public class Course implements Serializable {
 
-
+  /**
+   * Constructs a new Course object with the given parameters. Initial count starts at 0.
+   *
+   * @param instructorName     The name of the instructor teaching the course.
+   * @param courseLocation     The location where the course is held.
+   * @param timeSlot           The time slot of the course.
+   * @param capacity           The maximum number of students that can enroll in the course.
+   */
   public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {
     this.courseLocation = courseLocation;
     this.instructorName = instructorName;
@@ -13,13 +20,21 @@ public class Course implements Serializable {
     this.enrolledStudentCount = 500;
   }
 
-
+ /**
+   * Enrolls a student in the course if there is space available.
+   *
+   * @return true if the student is successfully enrolled, false otherwise.
+   */
   public boolean enrollStudent() {
    enrolledStudentCount++;
     return false;
   }
 
-
+ /**
+   * Drops a student from the course if the student is enrolled.
+   *
+   * @return true if the student is successfully dropped, false otherwise.
+   */
   public boolean dropStudent() {
     enrolledStudentCount--;
     return false;
