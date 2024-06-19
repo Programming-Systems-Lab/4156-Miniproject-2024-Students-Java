@@ -1,7 +1,13 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 
+/**
+ * The {@code Course} class represents a course offered by an educational institution.
+ * This class stores information about the course, such as the instructor's name, location,
+ * time slot, enrollment capacity, and the number of students currently enrolled.
+ */
 public class Course implements Serializable {
 
   /**
@@ -20,17 +26,17 @@ public class Course implements Serializable {
     this.enrolledStudentCount = 500;
   }
 
- /**
+  /**
    * Enrolls a student in the course if there is space available.
    *
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-   enrolledStudentCount++;
+    enrolledStudentCount++;
     return false;
   }
 
- /**
+  /**
    * Drops a student from the course if the student is enrolled.
    *
    * @return true if the student is successfully dropped, false otherwise.
@@ -55,11 +61,20 @@ public class Course implements Serializable {
     return this.courseTimeSlot;
   }
 
-
+  /**
+   * Returns a string representation of the course details, including the
+   * instructor name, course location, and course time slot.
+   *
+   * @return a string containing the course details in the format:
+   *         "Instructor: [instructorName]; Location: [courseLocation]; Time: [courseTimeSlot]"
+   */
   public String toString() {
-    return "\nInstructor: " + instructorName +  "; Location: "  + courseLocation +  "; Time: " + courseTimeSlot;
+    StringBuilder sb = new StringBuilder();
+    sb.append("\nInstructor: ").append(instructorName)
+            .append("; Location: ").append(courseLocation)
+            .append("; Time: ").append(courseTimeSlot);
+    return sb.toString();
   }
-
 
   public void reassignInstructor(String newInstructorName) {
     this.instructorName = newInstructorName;
