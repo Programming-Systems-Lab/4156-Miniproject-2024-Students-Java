@@ -1,6 +1,7 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 
 public class Course implements Serializable {
 
