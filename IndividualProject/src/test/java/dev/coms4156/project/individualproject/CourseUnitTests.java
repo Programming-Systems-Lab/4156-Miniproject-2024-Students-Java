@@ -1,11 +1,19 @@
 package dev.coms4156.project.individualproject;
 
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+/**
+  * Sets the enrollment count for a department based on the provided department code.
+  *
+  * @param deptCode The code of the department whose enrollment count is to be set.
+  * @return A response entity indicating the result of the operation.
+  */
+  
 @SpringBootTest
 @ContextConfiguration
 public class CourseUnitTests {
