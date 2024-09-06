@@ -21,20 +21,20 @@ public class Course implements Serializable {
   }
 
  /**
-   * Enrolls a student in the course if there is space available.
-   *
-   * @return true if the student is successfully enrolled, false otherwise.
-   */
+ * Enrolls a student in the course if there is space available.
+ *
+ * @return true if the student is successfully enrolled, false otherwise.
+ */
   public boolean enrollStudent() {
    enrolledStudentCount++;
     return false;
   }
 
  /**
-   * Drops a student from the course if a student is enrolled.
-   *
-   * @return true if the student is successfully dropped, false otherwise.
-   */
+ * Drops a student from the course if a student is enrolled.
+ *
+ * @return true if the student is successfully dropped, false otherwise.
+ */
   public boolean dropStudent() {
     enrolledStudentCount--;
     return false;
