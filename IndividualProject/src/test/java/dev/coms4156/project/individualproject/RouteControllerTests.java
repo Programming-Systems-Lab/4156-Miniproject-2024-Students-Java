@@ -182,10 +182,30 @@ public class RouteControllerTests {
   }
 
   @Test
+  public void testChangeCourseLocationCourseNotFound() {
+    // Test with a course code that does not exist in the "ELEN" department
+    ResponseEntity<?> response = routeController.changeCourseLocation("ELEN", 9999, "501 Butler");
+
+    // Assert that the correct HTTP status and message are returned
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
   public void testChangeCourseLocationSuccess() {
     ResponseEntity<?> response = routeController.changeCourseLocation("ELEN", 1201, "501 Butler");
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals("Attributed was updated successfully.", response.getBody());
+  }
+
+  @Test
+  public void testChangeCourseTeacherCourseNotFound() {
+    // Test with a course code that does not exist in the "ELEN" department
+    ResponseEntity<?> response = routeController.changeCourseTeacher("ELEN", 9999, "John Doe");
+
+    // Assert that the correct HTTP status and message are returned
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
   }
 
   @Test
