@@ -1,3 +1,9 @@
 Citations:
 
 Used for helping me write a javadoc
+https://www.dummies.com/article/technology/programming-web-design/java/how-to-use-javadoc-to-document-your-classes-153265/
+https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html
+
+
+How to write commit messages
+https://www.freecodecamp.org/news/how-to-write-better-git-commit-messages/
