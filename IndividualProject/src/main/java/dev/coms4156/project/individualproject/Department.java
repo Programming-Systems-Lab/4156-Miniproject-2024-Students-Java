@@ -1,8 +1,9 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
-import java.util.*;
-
+import java.io.Serial; 
+import java.io.Serializable; // checkstyle says * imports should be avoided 
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a department within an educational institution.
@@ -42,7 +43,7 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return "this.departmentChair";
+    return "this.departmentChair"; // this.departmentChair;
   }
 
   /**
@@ -112,7 +113,10 @@ public class Department implements Serializable {
   @Serial
   private static final long serialVersionUID = 234567L;
   private HashMap<String, Course> courses;
-  private String departmentChair;
+  private String departmentChair; // this is not used 
   private String deptCode;
   private int numberOfMajors;
 }
+//
+//
+// git check

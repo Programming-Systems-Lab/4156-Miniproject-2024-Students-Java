@@ -1,0 +1,33 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------< dev.coms4156.project:IndividualProject >---------------
+[INFO] Building IndividualProject 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- checkstyle:3.2.0:check (default-cli) @ IndividualProject ---
+[INFO] Starting audit...
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\RouteController.java:72: Line is longer than 100 characters (found 146). [LineLength]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\RouteController.java:109: Line is longer than 100 characters (found 144). [LineLength]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\RouteController.java:197: Line is longer than 100 characters (found 150). [LineLength]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\RouteController.java:234: Line is longer than 100 characters (found 152). [LineLength]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\RouteController.java:271: Line is longer than 100 characters (found 146). [LineLength]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\RouteController.java:359: Line is longer than 100 characters (found 143). [LineLength]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\RouteController.java:387:3: Missing a Javadoc comment. [MissingJavadocMethod]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\RouteController.java:388: Line is longer than 100 characters (found 192). [LineLength]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\RouteController.java:423: Line is longer than 100 characters (found 191). [LineLength]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\RouteController.java:459: Line is longer than 100 characters (found 200). [LineLength]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\RouteController.java:482:3: Missing a Javadoc comment. [MissingJavadocMethod]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\RouteController.java:483: Line is longer than 100 characters (found 203). [LineLength]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\test\java\dev\coms4156\project\individualproject\CourseUnitTests.java:3:29: Using the '.*' form of import should be avoided - org.junit.jupiter.api.*. [AvoidStarImport]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\test\java\dev\coms4156\project\individualproject\CourseUnitTests.java:7:1: Import statement for 'org.junit.jupiter.api.Assertions.*' is in the wrong order. Should be in the 'STATIC' group, expecting not assigned imports on this line. [CustomImportOrder]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\test\java\dev\coms4156\project\individualproject\CourseUnitTests.java:7:47: Using the '.*' form of import should be avoided - org.junit.jupiter.api.Assertions.*. [AvoidStarImport]
+[WARN] C:\Users\grace\Desktop\Advanced Software Engineering\Miniproject\4156-Miniproject-2024-Students-Java\IndividualProject\src\test\java\dev\coms4156\project\individualproject\CourseUnitTests.java:9:1: Missing a Javadoc comment. [MissingJavadocType]
+Audit done.
+[INFO] You have 0 Checkstyle violations.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.047 s
+[INFO] Finished at: 2024-09-06T22:41:43-04:00
+[INFO] ------------------------------------------------------------------------
