@@ -1,7 +1,7 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * This class represents a file-based database containing department mappings.

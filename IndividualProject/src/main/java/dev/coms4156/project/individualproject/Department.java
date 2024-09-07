@@ -1,8 +1,6 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
-import java.util.*;
-
+import java.util.HashMap;
 
 /**
  * Represents a department within an educational institution.
