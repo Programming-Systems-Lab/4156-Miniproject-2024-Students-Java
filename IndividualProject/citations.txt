@@ -1,0 +1,8 @@
+Part 4: Citations
+
+Citations:
+https://www.baeldung.com/java-unit-testing-best-practices
+https://stackoverflow.com/questions/6197370/should-unit-tests-be-written-for-getter-and-setters
+https://stackoverflow.com/questions/3258733/new-to-unit-testing-how-to-write-great-tests
+https://phauer.com/2019/modern-best-practices-testing-java/
+https://stackoverflow.com/questions/54517032/beforeall-vs-beforeeach-when-to-use-them

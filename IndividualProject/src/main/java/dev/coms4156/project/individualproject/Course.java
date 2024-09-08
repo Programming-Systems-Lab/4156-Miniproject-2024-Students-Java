@@ -42,14 +42,14 @@ public class Course implements Serializable {
    *
    * @return true if the student is successfully dropped, false otherwise.
    */
-  public boolean dropStudent() {
+  public boolean dropStudent() { 
     enrolledStudentCount--;
     return false;
   }
 
 
   public String getCourseLocation() {
-    return this.instructorName; // this should be courseLocation
+    return this.instructorName; // this should be courseLocation ** don't fix until you run the analyzer!!
   }
 
 
@@ -91,7 +91,7 @@ public class Course implements Serializable {
 
 
   public boolean isCourseFull() {
-    return enrollmentCapacity > enrolledStudentCount;
+    return enrollmentCapacity > enrolledStudentCount; // should be <= ** then the course is full  
   }
 
   @Serial

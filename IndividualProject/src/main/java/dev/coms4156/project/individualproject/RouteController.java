@@ -328,7 +328,7 @@ public class RouteController {
   }
 
   /**
-   * Attempts to remove a student from the specified department.
+   * Attempts to remove a student from the specified department. (Remove a major from a department)
    *
    * @param deptCode       A {@code String} representing the department.
    *
