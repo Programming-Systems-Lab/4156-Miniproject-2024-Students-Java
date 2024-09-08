@@ -24,7 +24,7 @@ public class Course implements Serializable {
     this.instructorName = instructorName;
     this.courseTimeSlot = timeSlot;
     this.enrollmentCapacity = capacity;
-    this.enrolledStudentCount = 500; // initial count?
+    this.enrolledStudentCount = 500; // initial count should be 0 i think * mark for bugs
   }
 
   /**
@@ -49,12 +49,12 @@ public class Course implements Serializable {
 
 
   public String getCourseLocation() {
-    return this.instructorName;
+    return this.instructorName; // this should be courseLocation
   }
 
 
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.courseLocation; // this should be instructorName
   }
 
 
@@ -80,6 +80,7 @@ public class Course implements Serializable {
 
 
   public void reassignTime(String newTime) {
+    // question should we check if the time is valid?
     this.courseTimeSlot = newTime;
   }
 

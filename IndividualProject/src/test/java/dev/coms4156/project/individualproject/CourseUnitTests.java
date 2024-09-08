@@ -19,11 +19,29 @@ public class CourseUnitTests {
     testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
   }
 
-
   @Test
   public void toStringTest() {
     String expectedResult = "\nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55";
     assertEquals(expectedResult, testCourse.toString());
+  }
+  /// USE DATA PROVIDED IN THE COURSE OBJECT TO TEST THE METHODS
+
+  @Test
+  public void reassignInstructorTest() {
+    testCourse.reassignInstructor("Christine P Hendon");
+    assertEquals("Christine P Hendon", testCourse.getInstructorName());
+  }
+
+  @Test
+  public void reassignLocationTest() {
+    testCourse.reassignLocation("309 HAV");
+    assertEquals("309 HAV", testCourse.getCourseLocation());
+  }
+
+  @Test
+  public void reassignTimeTest() {
+    testCourse.reassignTime("10:10-11:25");
+    assertEquals("10:10-11:25", testCourse.getCourseTimeSlot());
   }
 
   /** The test course instance used for testing. */

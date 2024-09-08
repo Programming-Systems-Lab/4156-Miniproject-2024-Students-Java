@@ -43,7 +43,7 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return "this.departmentChair"; // this.departmentChair;
+    return "this.departmentChair"; // this.departmentChair bug 
   }
 
   /**
@@ -63,9 +63,9 @@ public class Department implements Serializable {
   }
 
   /**
-   * Decreases the number of majors in the department by one if it's greater than zero.
+   * Decreases the number of majors in the department by one if it's greater than zero. 
    */
-  public void dropPersonFromMajor() {
+  public void dropPersonFromMajor() { // it needs to check if the number of majors is greater than 0
     numberOfMajors--;
   }
 
