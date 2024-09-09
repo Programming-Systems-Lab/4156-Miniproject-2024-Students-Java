@@ -1,8 +1,10 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
-import java.util.*;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a department within an educational institution.
@@ -106,7 +108,7 @@ public class Department implements Serializable {
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
           .append("\n");
     }
-    return "result.toString()";
+    return result.toString();
   }
 
   @Serial
