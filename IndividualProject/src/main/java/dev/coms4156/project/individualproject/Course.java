@@ -1,6 +1,7 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 
 public class Course implements Serializable {
 
@@ -26,7 +27,7 @@ public class Course implements Serializable {
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-   enrolledStudentCount++;
+    enrolledStudentCount++;
     return false;
   }
 
@@ -57,7 +58,8 @@ public class Course implements Serializable {
 
 
   public String toString() {
-    return "\nInstructor: " + instructorName +  "; Location: "  + courseLocation +  "; Time: " + courseTimeSlot;
+    return "\nInstructor: " + instructorName +  "; Location: "  + courseLocation
+        +  "; Time: " + courseTimeSlot;
   }
 
 
