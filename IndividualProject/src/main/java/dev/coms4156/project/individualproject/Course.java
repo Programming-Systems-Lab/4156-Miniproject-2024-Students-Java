@@ -1,16 +1,22 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 
+/**
+ * Represents a course offered by an educational institution.
+ * This class stores the following information about the course:
+ * its instructor, location, time slot, and maximum number of students that can enroll.
+ */
 public class Course implements Serializable {
 
   /**
    * Constructs a new Course object with the given parameters. Initial count starts at 0.
    *
-   * @param instructorName     The name of the instructor teaching the course.
-   * @param courseLocation     The location where the course is held.
-   * @param timeSlot           The time slot of the course.
-   * @param capacity           The maximum number of students that can enroll in the course.
+   * @param instructorName The name of the instructor teaching the course.
+   * @param courseLocation The location where the course is held.
+   * @param timeSlot       The time slot of the course.
+   * @param capacity       The maximum number of students that can enroll in the course.
    */
   public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {
     this.courseLocation = courseLocation;
@@ -20,17 +26,17 @@ public class Course implements Serializable {
     this.enrolledStudentCount = 500;
   }
 
- /**
+  /**
    * Enrolls a student in the course if there is space available.
    *
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-   enrolledStudentCount++;
+    enrolledStudentCount++;
     return false;
   }
 
- /**
+  /**
    * Drops a student from the course if a student is enrolled.
    *
    * @return true if the student is successfully dropped, false otherwise.
@@ -55,9 +61,15 @@ public class Course implements Serializable {
     return this.courseTimeSlot;
   }
 
-
+  /**
+   * Returns a string representation of the course, including its instructor, location, and time.
+   *
+   * @return A string representing the course.
+   */
   public String toString() {
-    return "\nInstructor: " + instructorName +  "; Location: "  + courseLocation +  "; Time: " + courseTimeSlot;
+    return "\nInstructor: " + instructorName
+        + "; Location: " + courseLocation
+        + "; Time: " + courseTimeSlot;
   }
 
 
