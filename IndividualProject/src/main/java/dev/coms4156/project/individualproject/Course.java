@@ -2,6 +2,11 @@ package dev.coms4156.project.individualproject;
 
 import java.io.*;
 
+/**
+ * Represents a Course within an education institution.
+ * This class stores information about the course, including its course location,
+ * course instructor, course time slot, course capacity, and course enrolled student count.
+ */
 public class Course implements Serializable {
 
   /**

@@ -3,7 +3,6 @@ package dev.coms4156.project.individualproject;
 import java.io.*;
 import java.util.*;
 
-
 /**
  * Represents a department within an educational institution.
  * This class stores information about the department, including its code,
@@ -33,7 +32,7 @@ public class Department implements Serializable {
    * @return The number of majors.
    */
   public int getNumberOfMajors() {
-    return -this.numberOfMajors;
+    return this.numberOfMajors;
   }
 
   /**
@@ -42,7 +41,7 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return "this.departmentChair";
+    return this.departmentChair;
   }
 
   /**
@@ -58,14 +57,16 @@ public class Department implements Serializable {
    * Increases the number of majors in the department by one.
    */
   public void addPersonToMajor() {
-    numberOfMajors++;
+    this.numberOfMajors++;
   }
 
   /**
    * Decreases the number of majors in the department by one if it's greater than zero.
    */
   public void dropPersonFromMajor() {
-    numberOfMajors--;
+    if (this.numberOfMajors > 0) {
+      this.numberOfMajors--;
+    }
   }
 
   /**
@@ -75,7 +76,7 @@ public class Department implements Serializable {
    * @param course   The Course object to add.
    */
   public void addCourse(String courseId, Course course) {
-    courses.put(courseId, course);
+    this.courses.put(courseId, course);
   }
 
   /**
@@ -106,7 +107,7 @@ public class Department implements Serializable {
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
           .append("\n");
     }
-    return "result.toString()";
+    return result.toString();
   }
 
   @Serial
