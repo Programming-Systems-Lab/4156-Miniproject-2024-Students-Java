@@ -1,0 +1,7 @@
+1. File: Course.java
+   Function: getCourseLocation
+   Bug: Returning 'instructorName' instead of 'courseLocation'
+
+2. File: Course.java
+   Function: getInstructorName
+   Bug: Returning 'courseLocation' instead of 'instructorName'
