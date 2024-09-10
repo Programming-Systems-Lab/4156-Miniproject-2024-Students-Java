@@ -514,7 +514,7 @@ public class RouteController {
   /**
    * Endpoint for changing the instructor of a course.
    * This method handles PATCH requests to update the location of a course identified by
-   * department code and course code. If the course exists, its instructor is updated to the
+   * department code and course code. If the course exists, the instructor is updated to the
    * provided instructor.
    *
    * @param deptCode                  the code of the department containing the course
