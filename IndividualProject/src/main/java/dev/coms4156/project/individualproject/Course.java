@@ -13,6 +13,23 @@ import java.io.Serializable;
  */
 public class Course implements Serializable {
 
+  @Serial private static final long serialVersionUID = 123456L;
+
+  // max number of students that can enroll in a course, must be positive int
+  private final int enrollmentCapacity;
+
+  // current number of students enrolled in a course, must be positive int
+  private int enrolledStudentCount;
+
+  // Typically includes room number followed by building code i.e. 405 SCH
+  private String courseLocation;
+
+  // should be full name (and middle initial if applicable) of instructor
+  private String instructorName;
+
+  // Course timeslot formats (string): 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM', or 'HH:MM-HH:MM'
+  private String courseTimeSlot;
+
   /**
    * Constructs a new Course object with the given parameters. Initial count starts at 0.
    *
@@ -23,10 +40,10 @@ public class Course implements Serializable {
    */
   public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {
     this.courseLocation = courseLocation;
-    this.instructorName = instructorName;
     this.courseTimeSlot = timeSlot;
     this.enrollmentCapacity = capacity;
-    this.enrolledStudentCount = 500;
+    this.enrolledStudentCount = 0;
+    this.instructorName = instructorName;
   }
 
   /**
@@ -35,7 +52,11 @@ public class Course implements Serializable {
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-    enrolledStudentCount++;
+    if (!isCourseFull()) {
+      this.enrolledStudentCount++;
+      return true;
+    }
+
     return false;
   }
 
@@ -45,20 +66,64 @@ public class Course implements Serializable {
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
-    enrolledStudentCount--;
+    if (this.enrolledStudentCount > 0) {
+      enrolledStudentCount--;
+      return true;
+    }
+
     return false;
   }
 
+  /**
+   * Get the location for a course
+   *
+   * @return course location
+   */
   public String getCourseLocation() {
-    return this.instructorName;
-  }
-
-  public String getInstructorName() {
     return this.courseLocation;
   }
 
+  /**
+   * Get the time slot for a course
+   *
+   * @return time slot (string)
+   */
   public String getCourseTimeSlot() {
     return this.courseTimeSlot;
+  }
+
+  /**
+   * Get the max number of students that can enroll in a course
+   *
+   * @return enrollment capacity (int)
+   */
+  public int getEnrollmentCapacity() {
+    return this.enrollmentCapacity;
+  }
+
+  /**
+   * Get the number of students currently enrolled in a course
+   *
+   * @return enrolled student count (int)
+   */
+  public int getEnrolledStudentCount() {
+    return this.enrolledStudentCount;
+  }
+
+  public void setEnrolledStudentCount(int count) {
+    if (count < 0) {
+      throw new IllegalArgumentException("Enrolled student count cannot be non-negative.");
+    }
+    this.enrolledStudentCount = count;
+  }
+
+  /**
+   * Get the instructor's name for a course
+   *
+   * @return instructor name
+   */
+  public String getInstructorName() {
+    return this.instructorName;
   }
 
   /**
@@ -76,30 +141,57 @@ public class Course implements Serializable {
         + courseTimeSlot;
   }
 
+  /**
+   * Sets a new instructor for a course. Cannot be null or empty string
+   *
+   * @param newInstructorName the name of the new instructor to assign to the course
+   * @throws IllegalArgumentException if {@code newInstructorName} is null or an empty string.
+   */
   public void reassignInstructor(String newInstructorName) {
+    if (newInstructorName == null || newInstructorName.trim().isEmpty()) {
+      throw new IllegalArgumentException("Instructor name cannot be null or empty.");
+    }
     this.instructorName = newInstructorName;
   }
 
+  /**
+   * Sets a new location for a course. Cannot be null or empty string
+   *
+   * @param newLocation the name of the new location to assign to the course
+   * @throws IllegalArgumentException if {@code newLocation} is null or an empty string.
+   */
   public void reassignLocation(String newLocation) {
+    if (newLocation == null || newLocation.trim().isEmpty()) {
+      throw new IllegalArgumentException("Location cannot be null or empty.");
+    }
     this.courseLocation = newLocation;
   }
 
+  /**
+   * Sets a new time for a course. Must match the expected format below
+   *
+   * @param newTime the new time (string)
+   * @throws IllegalArgumentException if {@code newTime} does not match the expected format
+   */
   public void reassignTime(String newTime) {
+    // Allowed time formats: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM', or 'HH:MM-HH:MM'
+    String timePattern = "^([0-9]{1,2}:[0-5][0-9]-[0-9]{1,2}:[0-5][0-9])$";
+
+    // Check if the input matches the pattern
+    if (!newTime.matches(timePattern)) {
+      throw new IllegalArgumentException(
+          "Invalid time format. Expected format: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM', or 'HH:MM-HH:MM'.");
+    }
+
     this.courseTimeSlot = newTime;
   }
 
-  public void setEnrolledStudentCount(int count) {
-    this.enrolledStudentCount = count;
-  }
-
+  /**
+   * Returns boolean to determine if a course is full or not
+   *
+   * @return true if full; else false
+   */
   public boolean isCourseFull() {
-    return enrollmentCapacity > enrolledStudentCount;
+    return enrolledStudentCount >= enrollmentCapacity;
   }
-
-  @Serial private static final long serialVersionUID = 123456L;
-  private final int enrollmentCapacity;
-  private int enrolledStudentCount;
-  private String courseLocation;
-  private String instructorName;
-  private String courseTimeSlot;
 }
