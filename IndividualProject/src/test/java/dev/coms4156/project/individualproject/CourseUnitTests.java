@@ -23,7 +23,6 @@ public class CourseUnitTests {
   @BeforeAll
   public static void setupCourseForTesting() {
     testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
-    testCourse.setEnrolledStudentCount(256);
   }
 
   @Test
@@ -34,21 +33,28 @@ public class CourseUnitTests {
   }
 
   @Test
-  public void isCourseFullTest() {
+  @Order(2)
+  public void enrollDropWhenFullTest() {
     boolean expectedResult = true;
     assertEquals(expectedResult, testCourse.isCourseFull());
-  }
-
-  @Test
-  public void enrollStudentTest() {
-    boolean expectedResult = false;
+    
+    expectedResult = false;
     assertEquals(expectedResult, testCourse.enrollStudent());
+
+    expectedResult = true;
+    assertEquals(expectedResult, testCourse.dropStudent());
   }
 
   @Test
-  public void dropStudentTest() {
-    boolean expectedResult = true;
+  @Order(3)
+  public void enrollDropWhenEmptyTest() {
+    testCourse.setEnrolledStudentCount(0);
+
+    boolean expectedResult = false;
     assertEquals(expectedResult, testCourse.dropStudent());
+
+    expectedResult = true;
+    assertEquals(expectedResult, testCourse.enrollStudent());
   }
 
   @Test
