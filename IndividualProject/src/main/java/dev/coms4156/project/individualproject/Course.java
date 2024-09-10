@@ -34,7 +34,7 @@ public class Course implements Serializable {
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-    if (enrolledStudentCount + 1 <= enrollmentCapacity) {
+    if (enrolledStudentCount < enrollmentCapacity) {
       enrolledStudentCount++;
       return true;
     }
@@ -47,13 +47,12 @@ public class Course implements Serializable {
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
-    if (enrolledStudentCount - 1 >= 0) {
+    if (enrolledStudentCount > 0) {
       enrolledStudentCount--;
       return true;
     }
     return false;
   }
-
 
   public String getCourseLocation() {
     return this.courseLocation;
