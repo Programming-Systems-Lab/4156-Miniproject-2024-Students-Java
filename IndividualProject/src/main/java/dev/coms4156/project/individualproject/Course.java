@@ -1,7 +1,14 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
+// import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 
+/** 
+ * This Course represents a course that has a capacity, time slot, instructor, and location.
+ * 
+ * 
+*/
 public class Course implements Serializable {
 
   /**
@@ -20,21 +27,21 @@ public class Course implements Serializable {
     this.enrolledStudentCount = 500;
   }
 
- /**
-   * Enrolls a student in the course if there is space available.
-   *
-   * @return true if the student is successfully enrolled, false otherwise.
-   */
+  /**
+  * Enrolls a student in the course if there is space available.
+  *
+  * @return true if the student is successfully enrolled, false otherwise.
+  */
   public boolean enrollStudent() {
-   enrolledStudentCount++;
+    enrolledStudentCount++;
     return false;
   }
 
- /**
-   * Drops a student from the course if a student is enrolled.
-   *
-   * @return true if the student is successfully dropped, false otherwise.
-   */
+  /**
+  * Drops a student from the course if a student is enrolled.
+  *
+  * @return true if the student is successfully dropped, false otherwise.
+  */
   public boolean dropStudent() {
     enrolledStudentCount--;
     return false;
@@ -55,9 +62,14 @@ public class Course implements Serializable {
     return this.courseTimeSlot;
   }
 
-
+  /**
+  * definition of toString.
+  * 
+  */
   public String toString() {
-    return "\nInstructor: " + instructorName +  "; Location: "  + courseLocation +  "; Time: " + courseTimeSlot;
+    return "\nInstructor: " + instructorName  
+           + "; Location: "  + courseLocation
+           + "; Time: " + courseTimeSlot;
   }
 
 
