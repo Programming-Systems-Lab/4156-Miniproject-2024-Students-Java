@@ -47,20 +47,24 @@ public class Course implements Serializable {
     return false;
   }
 
+  public int getEnrolledStudentCount() {
+    return this.enrolledStudentCount;
+  }
 
   public String getCourseLocation() {
-    return this.instructorName;
+    return this.courseLocation;
   }
 
 
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
 
   public String getCourseTimeSlot() {
     return this.courseTimeSlot;
   }
+
 
   /**
    * Returns a string representation of the course. 

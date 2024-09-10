@@ -1,0 +1,6 @@
+Bugs:
+
+Department.java
+    1. getNumberOfMajors:  the number of majors was wrongly returned as the negative value
+
+    2. getDepartmentChair: the string returned by this method was
