@@ -1,7 +1,13 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 
+/**
+ * Represents a course within an educational institution.
+ * This class store information about a course such as the instructor, location, time slot,
+ * the amount of students enrolled, and the max capacity.
+ */
 public class Course implements Serializable {
 
   /**
@@ -20,17 +26,17 @@ public class Course implements Serializable {
     this.enrolledStudentCount = 500;
   }
 
- /**
+  /**
    * Enrolls a student in the course if there is space available.
    *
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-   enrolledStudentCount++;
+    enrolledStudentCount++;
     return false;
   }
 
- /**
+  /**
    * Drops a student from the course if a student is enrolled.
    *
    * @return true if the student is successfully dropped, false otherwise.
@@ -40,47 +46,86 @@ public class Course implements Serializable {
     return false;
   }
 
-
+  /**
+   * Gets the location of the course.
+   *
+   * @return the current location of the course
+   */
   public String getCourseLocation() {
     return this.instructorName;
   }
 
-
+  /**
+   * Gets the name of the Instructor.
+   *
+   * @return the current name of instructor
+   */
   public String getInstructorName() {
     return this.courseLocation;
   }
 
-
+  /**
+   * Gets the timeslot of the course.
+   *
+   * @return the current timeslot of the course
+   */
   public String getCourseTimeSlot() {
     return this.courseTimeSlot;
   }
 
-
+  /**
+   * Gets a string representing the name of the instructor, the location of the course,
+   * and the timeslot of the course.
+   *
+   * @return a string containing instructorName, instructorName, and courseTimeSlot
+   */
   public String toString() {
-    return "\nInstructor: " + instructorName +  "; Location: "  + courseLocation +  "; Time: " + courseTimeSlot;
+    return "\nInstructor: " + instructorName 
+      + "; Location: "  + courseLocation 
+      + "; Time: " + courseTimeSlot;
   }
 
-
+  /**
+   * Reassigns the course to a new instructor.
+   *
+   * @param newInstructorName the name of the new instructor
+   */
   public void reassignInstructor(String newInstructorName) {
     this.instructorName = newInstructorName;
   }
 
-
+  /**
+   * Reassigns the course to a new location.
+   *
+   * @param newLocation the new location that will be assigned
+   */
   public void reassignLocation(String newLocation) {
     this.courseLocation = newLocation;
   }
 
-
+  /**
+   * Reassigns the time slot to a new time.
+   *
+   * @param newTime the new time slot that will be assigned 
+   */
   public void reassignTime(String newTime) {
     this.courseTimeSlot = newTime;
   }
 
-
+  /**
+   * Sets the count of enrolled students to a new count.
+   *
+   * @param count the new count that is being assigned
+   */
   public void setEnrolledStudentCount(int count) {
     this.enrolledStudentCount = count;
   }
 
-
+  /**
+   * Checks if the course is at max capacity.
+   *
+   * @return true if course is full, false if otherwise.
+   */
   public boolean isCourseFull() {
     return enrollmentCapacity > enrolledStudentCount;
   }
