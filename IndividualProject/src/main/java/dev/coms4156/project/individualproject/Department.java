@@ -30,6 +30,10 @@ public class Department implements Serializable {
     this.deptCode = deptCode;
   }
 
+  public Department(String string, String string2) {
+    //TODO Auto-generated constructor stub
+  }
+
   /**
    * Gets the number of majors in the department.
    *
