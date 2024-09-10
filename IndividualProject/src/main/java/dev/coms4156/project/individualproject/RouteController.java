@@ -394,7 +394,7 @@ public class RouteController {
    * Sets the enrollment count for a specified course within a department.
    *
    * @param deptCode                    the department code to identify the department
-   * @param courseCode                  the course code to identify the course 
+   * @param courseCode                  the code of the course to change the enrollment count for
    * @param count                       the new enrollment count to set for the course
    * @return                            a ResponseEntity with a success message if the operation is
    *                                    successful, or an error message if the course is not found
@@ -503,8 +503,8 @@ public class RouteController {
    * Change the location for a specified course within a department.
    *
    * @param deptCode                    the department code to identify the department
-   * @param courseCode                  the course code to identify the course 
-   * @param location                    the new location of the course 
+   * @param courseCode                  the code of the course to change the location for 
+   * @param location                    the new location for the course 
    * @return                            a ResponseEntity with a success message if the operation is
    *                                    successful, or an error message if the course is not found
   */
