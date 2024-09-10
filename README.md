@@ -2,6 +2,5 @@
 
 ## Part 2
 To run JaCoCo, I ran the following command:
-```
-mvn clean test jacoco:report
-```
+- `mvn clean test`
+- `mvn jacoco:report`
