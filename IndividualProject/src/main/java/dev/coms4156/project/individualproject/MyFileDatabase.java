@@ -22,7 +22,7 @@ public class MyFileDatabase {
    */
   public MyFileDatabase(int flag, String filePath) {
     this.filePath = filePath;
-    if (flag ==0) {
+    if (flag == 0) {
       this.departmentMapping = deSerializeObjectFromFile();
     }
   }
@@ -99,3 +99,4 @@ public class MyFileDatabase {
   /** The mapping of department names to Department objects. */
   private HashMap<String, Department> departmentMapping;
 }
+

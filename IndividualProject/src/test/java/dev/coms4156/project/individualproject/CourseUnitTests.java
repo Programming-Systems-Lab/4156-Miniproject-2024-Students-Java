@@ -1,13 +1,18 @@
 package dev.coms4156.project.individualproject;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Unit tests for the IndividualProjectApplication class.
+ *
+ * <p>Tests include verifying the toString method of the Course and
+ * Department classes.
+ */
 @SpringBootTest
 @ContextConfiguration
 public class CourseUnitTests {
@@ -27,4 +32,3 @@ public class CourseUnitTests {
   /** The test course instance used for testing. */
   public static Course testCourse;
 }
-
