@@ -1,18 +1,21 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * This class represents a file-based database containing department mappings.
  */
 public class MyFileDatabase {
-
+  Logger log = Logger.getLogger(MyFileDatabase.class.getName());
   /**
    * Constructs a MyFileDatabase object and loads up the data structure with
    * the contents of the file.
@@ -20,6 +23,7 @@ public class MyFileDatabase {
    * @param flag     used to distinguish mode of database
    * @param filePath the path to the file containing the entries of the database
    */
+
   public MyFileDatabase(int flag, String filePath) {
     this.filePath = filePath;
     if (flag == 0) {
@@ -41,8 +45,9 @@ public class MyFileDatabase {
    *
    * @return the deserialized department mapping
    */
-  public HashMap<String, Department> deSerializeObjectFromFile() {
-    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
+  public final HashMap<String, Department> deSerializeObjectFromFile() {
+    try (InputStream is = Files.newInputStream(Paths.get(filePath));
+         ObjectInputStream in = new ObjectInputStream(is)) {
       Object obj = in.readObject();
       if (obj instanceof HashMap) {
         return (HashMap<String, Department>) obj;
@@ -51,7 +56,7 @@ public class MyFileDatabase {
       }
     } catch (IOException | ClassNotFoundException e) {
       e.printStackTrace();
-      return null;
+      return new HashMap<>();
     }
   }
 
@@ -60,9 +65,10 @@ public class MyFileDatabase {
    * overwritten with this operation.
    */
   public void saveContentsToFile() {
-    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
+    try (OutputStream os = Files.newOutputStream(Paths.get(filePath));
+         ObjectOutputStream out = new ObjectOutputStream(os)) {
       out.writeObject(departmentMapping);
-      System.out.println("Object serialized successfully.");
+      log.fine("Object serialized successfully.");
     } catch (IOException e) {
       e.printStackTrace();
     }

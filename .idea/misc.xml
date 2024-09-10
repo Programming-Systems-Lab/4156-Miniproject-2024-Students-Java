@@ -8,6 +8,25 @@
       </list>
     </option>
   </component>
+  <component name="PDMPlugin">
+    <option name="customRuleSets">
+      <list>
+        <option value="C:\Users\20689\Downloads\quickstart.xml" />
+      </list>
+    </option>
+    <option name="optionKeyToValue">
+      <map>
+        <entry key="Statistics URL" value="" />
+        <entry key="Target JDK" value="20-preview" />
+        <entry key="Threads" value="16" />
+      </map>
+    </option>
+    <option name="skipTestSources" value="false" />
+  </component>
+  <component name="PWA">
+    <option name="enabled" value="true" />
+    <option name="wasEnabledAtLeastOnce" value="true" />
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_22" default="true" project-jdk-name="openjdk-22" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>

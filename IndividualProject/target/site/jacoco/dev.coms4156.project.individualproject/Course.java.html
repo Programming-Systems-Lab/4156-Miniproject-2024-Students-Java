@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Course.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IndividualProject</a> &gt; <a href="index.source.html" class="el_package">dev.coms4156.project.individualproject</a> &gt; <span class="el_source">Course.java</span></div><h1>Course.java</h1><pre class="source lang-java linenums">package dev.coms4156.project.individualproject;
+
+import java.io.Serial;
+import java.io.Serializable;
+
+/**
+ * Represents a course with an instructor, location, time slot, and enrollment capacity.
+ * Students can enroll, drop from the course, and details like the instructor, location,
+ * and time can be updated.
+ */
+
+public class Course implements Serializable {
+
+  /**
+   * Constructs a new Course object with the given parameters. Initial count starts at 0.
+   *
+   * @param instructorName     The name of the instructor teaching the course.
+   * @param courseLocation     The location where the course is held.
+   * @param timeSlot           The time slot of the course.
+   * @param capacity           The maximum number of students that can enroll in the course.
+   */
+<span class="fc" id="L22">  public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {</span>
+<span class="fc" id="L23">    this.courseLocation = courseLocation;</span>
+<span class="fc" id="L24">    this.instructorName = instructorName;</span>
+<span class="fc" id="L25">    this.courseTimeSlot = timeSlot;</span>
+<span class="fc" id="L26">    this.enrollmentCapacity = capacity;</span>
+<span class="fc" id="L27">    this.enrolledStudentCount = 500;</span>
+<span class="fc" id="L28">  }</span>
+
+  /**
+   * Enrolls a student in the course if there is space available.
+   *
+   * @return true if the student is successfully enrolled, false otherwise.
+   */
+  public boolean enrollStudent() {
+<span class="fc bfc" id="L36" title="All 2 branches covered.">    if (enrolledStudentCount &lt; enrollmentCapacity) {</span>
+<span class="fc" id="L37">      enrolledStudentCount++;</span>
+<span class="fc" id="L38">      return true;</span>
+    } else {
+<span class="fc" id="L40">      return false;</span>
+    }
+  }
+
+  /**
+   * Drops a student from the course if a student is enrolled.
+   *
+   * @return true if the student is successfully dropped, false otherwise.
+   */
+  public boolean dropStudent() {
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    if (enrolledStudentCount &gt; 0) {</span>
+<span class="fc" id="L51">      enrolledStudentCount--;</span>
+<span class="fc" id="L52">      return true;</span>
+    } else {
+<span class="fc" id="L54">      return false;</span>
+    }
+  }
+
+
+
+  public String getCourseLocation() {
+<span class="fc" id="L61">    return this.courseLocation;</span>
+  }
+
+
+  public String getInstructorName() {
+<span class="fc" id="L66">    return this.instructorName;</span>
+  }
+
+
+  public String getCourseTimeSlot() {
+<span class="fc" id="L71">    return this.courseTimeSlot;</span>
+  }
+
+
+  public String toString() {
+<span class="fc" id="L76">    return &quot;\nInstructor: &quot; + instructorName +  &quot;; Location: &quot;</span>
+            + courseLocation +  &quot;; Time: &quot; + courseTimeSlot;
+  }
+
+
+  public void reassignInstructor(String newInstructorName) {
+<span class="fc" id="L82">    this.instructorName = newInstructorName;</span>
+<span class="fc" id="L83">  }</span>
+
+
+  public void reassignLocation(String newLocation) {
+<span class="fc" id="L87">    this.courseLocation = newLocation;</span>
+<span class="fc" id="L88">  }</span>
+
+
+  public void reassignTime(String newTime) {
+<span class="fc" id="L92">    this.courseTimeSlot = newTime;</span>
+<span class="fc" id="L93">  }</span>
+
+
+  public void setEnrolledStudentCount(int count) {
+<span class="fc" id="L97">    this.enrolledStudentCount = count;</span>
+<span class="fc" id="L98">  }</span>
+
+
+  public boolean isCourseFull() {
+<span class="fc bfc" id="L102" title="All 2 branches covered.">    return enrollmentCapacity &lt;= enrolledStudentCount;</span>
+  }
+
+  @Serial
+  private static final long serialVersionUID = 123456L;
+  private final int enrollmentCapacity;
+  private int enrolledStudentCount;
+  private String courseLocation;
+  private String instructorName;
+  private String courseTimeSlot;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

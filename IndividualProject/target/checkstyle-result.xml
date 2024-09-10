@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="9.3">
+<file name="C:\Users\20689\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\Course.java">
+</file>
+<file name="C:\Users\20689\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\Department.java">
+</file>
+<file name="C:\Users\20689\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\IndividualProjectApplication.java">
+</file>
+<file name="C:\Users\20689\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\MyFileDatabase.java">
+</file>
+<file name="C:\Users\20689\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\java\dev\coms4156\project\individualproject\RouteController.java">
+</file>
+<file name="C:\Users\20689\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject\src\test\java\dev\coms4156\project\individualproject\CourseUnitTests.java">
+</file>
+<file name="C:\Users\20689\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject\src\test\java\dev\coms4156\project\individualproject\DepartmentUnitTests.java">
+</file>
+<file name="C:\Users\20689\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject\src\test\java\dev\coms4156\project\individualproject\MyFileDatabaseTests.java">
+</file>
+<file name="C:\Users\20689\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject\src\test\java\dev\coms4156\project\individualproject\RouteControllerTests.java">
+</file>
+<file name="C:\Users\20689\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject\src\main\resources\application.properties">
+</file>
+</checkstyle>

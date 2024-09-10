@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IndividualProjectApplication.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IndividualProject</a> &gt; <a href="index.source.html" class="el_package">dev.coms4156.project.individualproject</a> &gt; <span class="el_source">IndividualProjectApplication.java</span></div><h1>IndividualProjectApplication.java</h1><pre class="source lang-java linenums">package dev.coms4156.project.individualproject;
+
+import jakarta.annotation.PreDestroy;
+import java.util.HashMap;
+import java.util.logging.Logger;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/**
+ * Class contains all the startup logic for the application.
+ *
+ * &lt;P&gt;DO NOT MODIFY ANYTHING BELOW THIS POINT WITH REGARD TO FUNCTIONALITY
+ * YOU MAY MAKE STYLE/REFACTOR MODIFICATIONS AS NEEDED
+ */
+@SpringBootApplication
+<span class="fc" id="L17">public class IndividualProjectApplication implements CommandLineRunner {</span>
+<span class="fc" id="L18">  private static final Logger LOG = Logger.getLogger(IndividualProjectApplication.class.getName());</span>
+  /**
+   * The main launcher for the service all it does
+   * is make a call to the overridden run method.
+   *
+   * @param args A {@code String[]} of any potential
+   *             runtime arguments
+   */
+
+  public static void main(String[] args) {
+<span class="nc" id="L28">    SpringApplication.run(IndividualProjectApplication.class, args);</span>
+<span class="nc" id="L29">  }</span>
+
+  /**
+   * This contains all the setup logic, it will mainly be focused
+   * on loading up and creating an instance of the database based
+   * off a saved file or will create a fresh database if the file
+   * is not present.
+   *
+   * @param args A {@code String[]} of any potential runtime args
+   */
+  @Override
+  public void run(String[] args) {
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">    for (String arg : args) {</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">      if (arg.equals(&quot;setup&quot;)) {</span>
+<span class="nc" id="L43">        myFileDatabase = new MyFileDatabase(1, &quot;./data.txt&quot;);</span>
+<span class="nc" id="L44">        resetDataFile();</span>
+<span class="nc" id="L45">        LOG.fine(&quot;System Setup&quot;);</span>
+<span class="nc" id="L46">        return;</span>
+      }
+    }
+<span class="fc" id="L49">    myFileDatabase = new MyFileDatabase(0, &quot;./data.txt&quot;);</span>
+<span class="fc" id="L50">    LOG.fine(&quot;Start up&quot;);</span>
+<span class="fc" id="L51">  }</span>
+
+  /**
+   * Overrides the database reference, used when testing.
+   *
+   * @param testData A {@code MyFileDatabase} object referencing test data.
+   */
+  public static void overrideDatabase(MyFileDatabase testData) {
+<span class="nc" id="L59">    myFileDatabase = testData;</span>
+<span class="nc" id="L60">    saveData = false;</span>
+<span class="nc" id="L61">  }</span>
+
+  /**
+   * Allows for data to be reset in event of errors.
+   */
+  public void resetDataFile() {
+<span class="nc" id="L67">    String[] times = {&quot;11:40-12:55&quot;, &quot;4:10-5:25&quot;, &quot;10:10-11:25&quot;, &quot;2:40-3:55&quot;};</span>
+<span class="nc" id="L68">    String[] locations = {&quot;417 IAB&quot;, &quot;309 HAV&quot;, &quot;301 URIS&quot;};</span>
+
+    //data for coms dept
+<span class="nc" id="L71">    Course coms1004 = new Course(&quot;Adam Cannon&quot;, locations[0], times[0], 400);</span>
+<span class="nc" id="L72">    coms1004.setEnrolledStudentCount(249);</span>
+<span class="nc" id="L73">    Course coms3134 = new Course(&quot;Brian Borowski&quot;, locations[2], times[1], 250);</span>
+<span class="nc" id="L74">    coms3134.setEnrolledStudentCount(242);</span>
+<span class="nc" id="L75">    Course coms3157 = new Course(&quot;Jae Lee&quot;, locations[0], times[1], 400);</span>
+<span class="nc" id="L76">    coms3157.setEnrolledStudentCount(311);</span>
+<span class="nc" id="L77">    Course coms3203 = new Course(&quot;Ansaf Salleb-Aouissi&quot;, locations[2], times[2], 250);</span>
+<span class="nc" id="L78">    coms3203.setEnrolledStudentCount(215);</span>
+<span class="nc" id="L79">    Course coms3261 = new Course(&quot;Josh Alman&quot;, locations[0], times[3], 150);</span>
+<span class="nc" id="L80">    coms3261.setEnrolledStudentCount(140);</span>
+<span class="nc" id="L81">    Course coms3251 = new Course(&quot;Tony Dear&quot;, &quot;402 CHANDLER&quot;, &quot;1:10-3:40&quot;, 125);</span>
+<span class="nc" id="L82">    coms3251.setEnrolledStudentCount(99);</span>
+<span class="nc" id="L83">    Course coms3827 = new Course(&quot;Daniel Rubenstein&quot;, &quot;207 Math&quot;, times[2], 300);</span>
+<span class="nc" id="L84">    coms3827.setEnrolledStudentCount(283);</span>
+<span class="nc" id="L85">    Course coms4156 = new Course(&quot;Gail Kaiser&quot;, &quot;501 NWC&quot;, times[2], 120);</span>
+<span class="nc" id="L86">    coms4156.setEnrolledStudentCount(109);</span>
+<span class="nc" id="L87">    HashMap&lt;String, Course&gt; courses = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L88">    courses.put(&quot;1004&quot;, coms1004);</span>
+<span class="nc" id="L89">    courses.put(&quot;3134&quot;, coms3134);</span>
+<span class="nc" id="L90">    courses.put(&quot;3157&quot;, coms3157);</span>
+<span class="nc" id="L91">    courses.put(&quot;3203&quot;, coms3203);</span>
+<span class="nc" id="L92">    courses.put(&quot;3261&quot;, coms3261);</span>
+<span class="nc" id="L93">    courses.put(&quot;3251&quot;, coms3251);</span>
+<span class="nc" id="L94">    courses.put(&quot;3827&quot;, coms3827);</span>
+<span class="nc" id="L95">    courses.put(&quot;4156&quot;, coms4156);</span>
+<span class="nc" id="L96">    Department compSci = new Department(&quot;COMS&quot;, courses, &quot;Luca Carloni&quot;, 2700);</span>
+<span class="nc" id="L97">    HashMap&lt;String, Department&gt; mapping = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L98">    mapping.put(&quot;COMS&quot;, compSci);</span>
+
+    //data for econ dept
+<span class="nc" id="L101">    Course econ1105 = new Course(&quot;Waseem Noor&quot;, locations[1], times[3], 210);</span>
+<span class="nc" id="L102">    econ1105.setEnrolledStudentCount(187);</span>
+<span class="nc" id="L103">    Course econ2257 = new Course(&quot;Tamrat Gashaw&quot;, &quot;428 PUP&quot;, times[2], 125);</span>
+<span class="nc" id="L104">    econ2257.setEnrolledStudentCount(63);</span>
+<span class="nc" id="L105">    Course econ3211 = new Course(&quot;Murat Yilmaz&quot;, &quot;310 FAY&quot;, times[1], 96);</span>
+<span class="nc" id="L106">    econ3211.setEnrolledStudentCount(81);</span>
+<span class="nc" id="L107">    Course econ3213 = new Course(&quot;Miles Leahey&quot;, &quot;702 HAM&quot;, times[1], 86);</span>
+<span class="nc" id="L108">    econ3213.setEnrolledStudentCount(77);</span>
+<span class="nc" id="L109">    Course econ3412 = new Course(&quot;Thomas Piskula&quot;, &quot;702 HAM&quot;, times[0], 86);</span>
+<span class="nc" id="L110">    econ3412.setEnrolledStudentCount(81);</span>
+<span class="nc" id="L111">    Course econ4415 = new Course(&quot;Evan D Sadler&quot;, locations[1], times[2], 110);</span>
+<span class="nc" id="L112">    econ4415.setEnrolledStudentCount(63);</span>
+<span class="nc" id="L113">    Course econ4710 = new Course(&quot;Matthieu Gomez&quot;, &quot;517 HAM&quot;, &quot;8:40-9:55&quot;, 86);</span>
+<span class="nc" id="L114">    econ4710.setEnrolledStudentCount(37);</span>
+<span class="nc" id="L115">    Course econ4840 = new Course(&quot;Mark Dean&quot;, &quot;142 URIS&quot;, times[3], 108);</span>
+<span class="nc" id="L116">    econ4840.setEnrolledStudentCount(67);</span>
+
+<span class="nc" id="L118">    courses = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L119">    courses.put(&quot;1105&quot;, econ1105);</span>
+<span class="nc" id="L120">    courses.put(&quot;2257&quot;, econ2257);</span>
+<span class="nc" id="L121">    courses.put(&quot;3211&quot;, econ3211);</span>
+<span class="nc" id="L122">    courses.put(&quot;3213&quot;, econ3213);</span>
+<span class="nc" id="L123">    courses.put(&quot;3412&quot;, econ3412);</span>
+<span class="nc" id="L124">    courses.put(&quot;4415&quot;, econ4415);</span>
+<span class="nc" id="L125">    courses.put(&quot;4710&quot;, econ4710);</span>
+<span class="nc" id="L126">    courses.put(&quot;4840&quot;, econ4840);</span>
+
+<span class="nc" id="L128">    Department econ = new Department(&quot;ECON&quot;, courses, &quot;Michael Woodford&quot;, 2345);</span>
+<span class="nc" id="L129">    mapping.put(&quot;ECON&quot;, econ);</span>
+
+    //data for ieor dept
+<span class="nc" id="L132">    Course ieor2500 = new Course(&quot;Uday Menon&quot;, &quot;627 MUDD&quot;, times[0], 50);</span>
+<span class="nc" id="L133">    ieor2500.setEnrolledStudentCount(52);</span>
+<span class="nc" id="L134">    Course ieor3404 = new Course(&quot;Christopher J Dolan&quot;, &quot;303 MUDD&quot;, times[2], 73);</span>
+<span class="nc" id="L135">    ieor3404.setEnrolledStudentCount(80);</span>
+<span class="nc" id="L136">    Course ieor3658 = new Course(&quot;Daniel Lacker&quot;, &quot;310 FAY&quot;, times[2], 96);</span>
+<span class="nc" id="L137">    ieor3658.setEnrolledStudentCount(87);</span>
+<span class="nc" id="L138">    Course ieor4102 = new Course(&quot;Antonius B Dieker&quot;, &quot;209 HAM&quot;, times[2], 110);</span>
+<span class="nc" id="L139">    ieor4102.setEnrolledStudentCount(92);</span>
+<span class="nc" id="L140">    Course ieor4106 = new Course(&quot;Kaizheng Wang&quot;, &quot;501 NWC&quot;, times[2], 150);</span>
+<span class="nc" id="L141">    ieor4106.setEnrolledStudentCount(161);</span>
+<span class="nc" id="L142">    Course ieor4405 = new Course(&quot;Yuri Faenza&quot;, &quot;517 HAV&quot;, times[0], 80);</span>
+<span class="nc" id="L143">    ieor4405.setEnrolledStudentCount(19);</span>
+<span class="nc" id="L144">    Course ieor4511 = new Course(&quot;Michael Robbins&quot;, &quot;633 MUDD&quot;, &quot;9:00-11:30&quot;, 150);</span>
+<span class="nc" id="L145">    ieor4511.setEnrolledStudentCount(50);</span>
+<span class="nc" id="L146">    Course ieor4540 = new Course(&quot;Krzysztof M Choromanski&quot;, &quot;633 MUDD&quot;, &quot;7:10-9:40&quot;, 60);</span>
+<span class="nc" id="L147">    ieor4540.setEnrolledStudentCount(33);</span>
+
+<span class="nc" id="L149">    courses = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L150">    courses.put(&quot;2500&quot;, ieor2500);</span>
+<span class="nc" id="L151">    courses.put(&quot;3404&quot;, ieor3404);</span>
+<span class="nc" id="L152">    courses.put(&quot;3658&quot;, ieor3658);</span>
+<span class="nc" id="L153">    courses.put(&quot;4102&quot;, ieor4102);</span>
+<span class="nc" id="L154">    courses.put(&quot;4106&quot;, ieor4106);</span>
+<span class="nc" id="L155">    courses.put(&quot;4405&quot;, ieor4405);</span>
+<span class="nc" id="L156">    courses.put(&quot;4511&quot;, ieor4511);</span>
+<span class="nc" id="L157">    courses.put(&quot;4540&quot;, ieor4540);</span>
+
+<span class="nc" id="L159">    Department ieor = new Department(&quot;IEOR&quot;, courses, &quot;Jay Sethuraman&quot;, 67);</span>
+<span class="nc" id="L160">    mapping.put(&quot;IEOR&quot;, ieor);</span>
+
+    //data for chem dept
+<span class="nc" id="L163">    Course chem1403 = new Course(&quot;Ruben M Savizky&quot;, locations[1], &quot;6:10-7:25&quot;, 120);</span>
+<span class="nc" id="L164">    chem1403.setEnrolledStudentCount(100);</span>
+<span class="nc" id="L165">    Course chem1500 = new Course(&quot;Joseph C Ulichny&quot;, &quot;302 HAV&quot;, &quot;6:10-9:50&quot;, 46);</span>
+<span class="nc" id="L166">    chem1500.setEnrolledStudentCount(50);</span>
+<span class="nc" id="L167">    Course chem2045 = new Course(&quot;Luis M Campos&quot;, &quot;209 HAV&quot;, &quot;1:10-2:25&quot;, 50);</span>
+<span class="nc" id="L168">    chem2045.setEnrolledStudentCount(29);</span>
+<span class="nc" id="L169">    Course chem2444 = new Course(&quot;Christopher Eckdahl&quot;, locations[1], times[0], 150);</span>
+<span class="nc" id="L170">    chem2444.setEnrolledStudentCount(150);</span>
+<span class="nc" id="L171">    Course chem2494 = new Course(&quot;Talha Siddiqui&quot;, &quot;202 HAV&quot;, &quot;1:10-5:00&quot;, 24);</span>
+<span class="nc" id="L172">    chem2494.setEnrolledStudentCount(18);</span>
+<span class="nc" id="L173">    Course chem3080 = new Course(&quot;Milan Delor&quot;, &quot;209 HAV&quot;, times[2], 60);</span>
+<span class="nc" id="L174">    chem3080.setEnrolledStudentCount(18);</span>
+<span class="nc" id="L175">    Course chem4071 = new Course(&quot;Jonathan S Owen&quot;, &quot;320 HAV&quot;, &quot;8:40-9:55&quot;, 42);</span>
+<span class="nc" id="L176">    chem4071.setEnrolledStudentCount(29);</span>
+<span class="nc" id="L177">    Course chem4102 = new Course(&quot;Dalibor Sames&quot;, &quot;320 HAV&quot;, times[2], 28);</span>
+<span class="nc" id="L178">    chem4102.setEnrolledStudentCount(27);</span>
+
+<span class="nc" id="L180">    courses = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L181">    courses.put(&quot;1403&quot;, chem1403);</span>
+<span class="nc" id="L182">    courses.put(&quot;1500&quot;, chem1500);</span>
+<span class="nc" id="L183">    courses.put(&quot;2045&quot;, chem2045);</span>
+<span class="nc" id="L184">    courses.put(&quot;2444&quot;, chem2444);</span>
+<span class="nc" id="L185">    courses.put(&quot;2494&quot;, chem2494);</span>
+<span class="nc" id="L186">    courses.put(&quot;3080&quot;, chem3080);</span>
+<span class="nc" id="L187">    courses.put(&quot;4071&quot;, chem4071);</span>
+<span class="nc" id="L188">    courses.put(&quot;4102&quot;, chem4102);</span>
+
+<span class="nc" id="L190">    Department chem = new Department(&quot;CHEM&quot;, courses, &quot;Laura J. Kaufman&quot;, 250);</span>
+<span class="nc" id="L191">    mapping.put(&quot;CHEM&quot;, chem);</span>
+
+    //data for phys dept
+<span class="nc" id="L194">    Course phys1001 = new Course(&quot;Szabolcs Marka&quot;, &quot;301 PUP&quot;, times[3], 150);</span>
+<span class="nc" id="L195">    phys1001.setEnrolledStudentCount(131);</span>
+<span class="nc" id="L196">    Course phys1201 = new Course(&quot;Eric Raymer&quot;, &quot;428 PUP&quot;, times[3], 145);</span>
+<span class="nc" id="L197">    phys1201.setEnrolledStudentCount(130);</span>
+<span class="nc" id="L198">    Course phys1602 = new Course(&quot;Kerstin M Perez&quot;, &quot;428 PUP&quot;, times[2], 140);</span>
+<span class="nc" id="L199">    phys1602.setEnrolledStudentCount(77);</span>
+<span class="nc" id="L200">    Course phys2802 = new Course(&quot;Yury Levin&quot;, &quot;329 PUP&quot;, &quot;10:10-12:00&quot;, 60);</span>
+<span class="nc" id="L201">    phys2802.setEnrolledStudentCount(23);</span>
+<span class="nc" id="L202">    Course phys3008 = new Course(&quot;William A Zajc&quot;, &quot;329 PUP&quot;, times[2], 75);</span>
+<span class="nc" id="L203">    phys3008.setEnrolledStudentCount(60);</span>
+<span class="nc" id="L204">    Course phys4003 = new Course(&quot;Frederik Denef&quot;, &quot;214 PUP&quot;, times[1], 50);</span>
+<span class="nc" id="L205">    phys4003.setEnrolledStudentCount(19);</span>
+<span class="nc" id="L206">    Course phys4018 = new Course(&quot;James W McIver&quot;, &quot;307 PUP&quot;, times[3], 30);</span>
+<span class="nc" id="L207">    phys4018.setEnrolledStudentCount(18);</span>
+<span class="nc" id="L208">    Course phys4040 = new Course(&quot;James C Hill&quot;, &quot;214 PUP&quot;, times[1], 50);</span>
+<span class="nc" id="L209">    phys4040.setEnrolledStudentCount(31);</span>
+
+<span class="nc" id="L211">    courses = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L212">    courses.put(&quot;2802&quot;, phys2802);</span>
+<span class="nc" id="L213">    courses.put(&quot;3008&quot;, phys3008);</span>
+<span class="nc" id="L214">    courses.put(&quot;4003&quot;, phys4003);</span>
+<span class="nc" id="L215">    courses.put(&quot;4018&quot;, phys4018);</span>
+<span class="nc" id="L216">    courses.put(&quot;4040&quot;, phys4040);</span>
+<span class="nc" id="L217">    courses.put(&quot;1602&quot;, phys1602);</span>
+<span class="nc" id="L218">    courses.put(&quot;1001&quot;, phys1001);</span>
+<span class="nc" id="L219">    courses.put(&quot;1201&quot;, phys1201);</span>
+
+<span class="nc" id="L221">    Department phys = new Department(&quot;PHYS&quot;, courses, &quot;Dmitri N. Basov&quot;, 43);</span>
+<span class="nc" id="L222">    mapping.put(&quot;PHYS&quot;, phys);</span>
+
+    //data for elen dept
+<span class="nc" id="L225">    Course elen1201 = new Course(&quot;David G Vallancourt&quot;, &quot;301 PUP&quot;, times[1], 120);</span>
+<span class="nc" id="L226">    elen1201.setEnrolledStudentCount(108);</span>
+<span class="nc" id="L227">    Course elen3082 = new Course(&quot;Kenneth Shepard&quot;, &quot;1205 MUDD&quot;, &quot;4:10-6:40&quot;, 32);</span>
+<span class="nc" id="L228">    elen3082.setEnrolledStudentCount(30);</span>
+<span class="nc" id="L229">    Course elen3331 = new Course(&quot;David G Vallancourt&quot;, &quot;203 MATH&quot;, times[0], 80);</span>
+<span class="nc" id="L230">    elen3331.setEnrolledStudentCount(54);</span>
+<span class="nc" id="L231">    Course elen3401 = new Course(&quot;Keren Bergman&quot;, &quot;829 MUDD&quot;, times[3], 40);</span>
+<span class="nc" id="L232">    elen3401.setEnrolledStudentCount(25);</span>
+<span class="nc" id="L233">    Course elen3701 = new Course(&quot;Irving Kalet&quot;, &quot;333 URIS&quot;, times[3], 50);</span>
+<span class="nc" id="L234">    elen3701.setEnrolledStudentCount(24);</span>
+<span class="nc" id="L235">    Course elen4510 = new Course(&quot;Mohamed Kamaludeen&quot;, &quot;903 SSW&quot;, &quot;7:00-9:30&quot;, 30);</span>
+<span class="nc" id="L236">    elen4510.setEnrolledStudentCount(22);</span>
+<span class="nc" id="L237">    Course elen4702 = new Course(&quot;Alexei Ashikhmin&quot;, &quot;332 URIS&quot;, &quot;7:00-9:30&quot;, 50);</span>
+<span class="nc" id="L238">    elen4702.setEnrolledStudentCount(5);</span>
+<span class="nc" id="L239">    Course elen4830 = new Course(&quot;Christine P Hendon&quot;, &quot;633 MUDD&quot;, &quot;10:10-12:40&quot;, 60);</span>
+<span class="nc" id="L240">    elen4830.setEnrolledStudentCount(22);</span>
+
+<span class="nc" id="L242">    courses = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L243">    courses.put(&quot;1201&quot;, elen1201);</span>
+<span class="nc" id="L244">    courses.put(&quot;3082&quot;, elen3082);</span>
+<span class="nc" id="L245">    courses.put(&quot;3331&quot;, elen3331);</span>
+<span class="nc" id="L246">    courses.put(&quot;3401&quot;, elen3401);</span>
+<span class="nc" id="L247">    courses.put(&quot;3701&quot;, elen3701);</span>
+<span class="nc" id="L248">    courses.put(&quot;4510&quot;, elen4510);</span>
+<span class="nc" id="L249">    courses.put(&quot;4702&quot;, elen4702);</span>
+<span class="nc" id="L250">    courses.put(&quot;4830&quot;, elen4830);</span>
+
+<span class="nc" id="L252">    Department elen = new Department(&quot;ELEN&quot;, courses, &quot;Ioannis Kymissis&quot;, 250);</span>
+<span class="nc" id="L253">    mapping.put(&quot;ELEN&quot;, elen);</span>
+
+    //data for psyc dept
+<span class="nc" id="L256">    Course psyc1001 = new Course(&quot;Patricia G Lindemann&quot;, &quot;501 SCH&quot;, &quot;1:10-2:25&quot;, 200);</span>
+<span class="nc" id="L257">    psyc1001.setEnrolledStudentCount(191);</span>
+<span class="nc" id="L258">    Course psyc1610 = new Course(&quot;Christopher Baldassano&quot;, &quot;200 SCH&quot;, times[2], 45);</span>
+<span class="nc" id="L259">    psyc1610.setEnrolledStudentCount(42);</span>
+<span class="nc" id="L260">    Course psyc2235 = new Course(&quot;Katherine T Fox-Glassman&quot;, &quot;501 SCH&quot;, times[0], 125);</span>
+<span class="nc" id="L261">    psyc2235.setEnrolledStudentCount(128);</span>
+<span class="nc" id="L262">    Course psyc2620 = new Course(&quot;Jeffrey M Cohen&quot;, &quot;303 URIS&quot;, &quot;1:10-3:40&quot;, 60);</span>
+<span class="nc" id="L263">    psyc2620.setEnrolledStudentCount(55);</span>
+<span class="nc" id="L264">    Course psyc3212 = new Course(&quot;Mayron Piccolo&quot;, &quot;200 SCH&quot;, &quot;2:10-4:00&quot;, 15);</span>
+<span class="nc" id="L265">    psyc3212.setEnrolledStudentCount(15);</span>
+<span class="nc" id="L266">    Course psyc3445 = new Course(&quot;Mariam Aly&quot;, &quot;405 SCH&quot;, &quot;2:10-4:00&quot;, 12);</span>
+<span class="nc" id="L267">    psyc3445.setEnrolledStudentCount(12);</span>
+<span class="nc" id="L268">    Course psyc4236 = new Course(&quot;Trenton Jerde&quot;, &quot;405 SCH&quot;, &quot;6:10-8:00&quot;, 18);</span>
+<span class="nc" id="L269">    psyc4236.setEnrolledStudentCount(17);</span>
+<span class="nc" id="L270">    Course psyc4493 = new Course(&quot;Jennifer Blaze&quot;, &quot;200 SCH&quot;, &quot;2:10-4:00&quot;, 15);</span>
+<span class="nc" id="L271">    psyc4493.setEnrolledStudentCount(9);</span>
+
+<span class="nc" id="L273">    courses = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L274">    courses.put(&quot;1001&quot;, psyc1001);</span>
+<span class="nc" id="L275">    courses.put(&quot;1610&quot;, psyc1610);</span>
+<span class="nc" id="L276">    courses.put(&quot;2235&quot;, psyc2235);</span>
+<span class="nc" id="L277">    courses.put(&quot;2620&quot;, psyc2620);</span>
+<span class="nc" id="L278">    courses.put(&quot;3212&quot;, psyc3212);</span>
+<span class="nc" id="L279">    courses.put(&quot;3445&quot;, psyc3445);</span>
+<span class="nc" id="L280">    courses.put(&quot;4236&quot;, psyc4236);</span>
+<span class="nc" id="L281">    courses.put(&quot;4493&quot;, psyc4493);</span>
+
+<span class="nc" id="L283">    Department psyc = new Department(&quot;PSYC&quot;, courses, &quot;Nim Tottenham&quot;, 437);</span>
+<span class="nc" id="L284">    mapping.put(&quot;PSYC&quot;, psyc);</span>
+
+<span class="nc" id="L286">    myFileDatabase.setMapping(mapping);</span>
+<span class="nc" id="L287">  }</span>
+
+  /**
+   * This contains all the overheading teardown logic, it will
+   * mainly be focused on saving all the created user data to a
+   * file, so it will be ready for the next setup.
+   */
+  @PreDestroy
+  public void onTermination() {
+<span class="fc" id="L296">    LOG.fine(&quot;Termination&quot;);</span>
+<span class="pc bpc" id="L297" title="1 of 2 branches missed.">    if (saveData) {</span>
+<span class="fc" id="L298">      myFileDatabase.saveContentsToFile();</span>
+    }
+<span class="fc" id="L300">  }</span>
+
+
+  //Database Instance
+  public static MyFileDatabase myFileDatabase;
+<span class="fc" id="L305">  private static boolean saveData = true;</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

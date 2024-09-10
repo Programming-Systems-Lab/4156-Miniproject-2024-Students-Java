@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Department.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">IndividualProject</a> &gt; <a href="index.source.html" class="el_package">dev.coms4156.project.individualproject</a> &gt; <span class="el_source">Department.java</span></div><h1>Department.java</h1><pre class="source lang-java linenums">package dev.coms4156.project.individualproject;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Represents a department within an educational institution.
+ * This class stores information about the department, including its code,
+ * courses offered, department chair, and number of majors.
+ */
+public class Department implements Serializable {
+
+  /**
+   * Constructs a new Department object with the given parameters.
+   *
+   * @param deptCode         The code of the department.
+   * @param courses          A HashMap containing courses offered by the department.
+   * @param departmentChair  The name of the department chair.
+   * @param numberOfMajors   The number of majors in the department.
+   */
+  public Department(String deptCode, HashMap&lt;String, Course&gt; courses, String departmentChair,
+<span class="fc" id="L24">                    int numberOfMajors) {</span>
+<span class="fc" id="L25">    this.courses = courses;</span>
+<span class="fc" id="L26">    this.departmentChair = departmentChair;</span>
+<span class="fc" id="L27">    this.numberOfMajors = numberOfMajors;</span>
+<span class="fc" id="L28">    this.deptCode = deptCode;</span>
+<span class="fc" id="L29">  }</span>
+
+  /**
+   * Gets the number of majors in the department.
+   *
+   * @return The number of majors.
+   */
+  public int getNumberOfMajors() {
+<span class="fc" id="L37">    return this.numberOfMajors;</span>
+  }
+
+  /**
+   * Gets the name of the department chair.
+   *
+   * @return The name of the department chair.
+   */
+  public String getDepartmentChair() {
+<span class="fc" id="L46">    return this.departmentChair;</span>
+  }
+
+  /**
+   * Gets the courses offered by the department.
+   *
+   * @return A HashMap containing courses offered by the department.
+   */
+  public HashMap&lt;String, Course&gt; getCourseSelection() {
+<span class="fc" id="L55">    return this.courses;</span>
+  }
+
+  /**
+   * Increases the number of majors in the department by one.
+   */
+  public void addMajorToDepartment() {
+<span class="fc" id="L62">    numberOfMajors++;</span>
+<span class="fc" id="L63">  }</span>
+
+  /**
+   * Decreases the number of majors in the department by one if it's greater than zero.
+   */
+  public void dropPersonFromMajor() {
+<span class="fc bfc" id="L69" title="All 2 branches covered.">    if (numberOfMajors &gt; 0) {</span>
+<span class="fc" id="L70">      numberOfMajors--;</span>
+    } else {
+<span class="fc" id="L72">      throw new IllegalStateException(&quot;Cannot drop majors, no majors left.&quot;);</span>
+    }
+<span class="fc" id="L74">  }</span>
+
+  /**
+   * Adds a new course to the department's course selection.
+   *
+   * @param courseId The ID of the course to add.
+   * @param course   The Course object to add.
+   */
+  public void addCourse(String courseId, Course course) {
+<span class="fc" id="L83">    courses.put(courseId, course);</span>
+<span class="fc" id="L84">  }</span>
+
+  /**
+   * Creates and adds a new course to the department's course selection.
+   *
+   * @param courseId           The ID of the new course.
+   * @param instructorName     The name of the instructor teaching the course.
+   * @param courseLocation     The location where the course is held.
+   * @param courseTimeSlot     The time slot of the course.
+   * @param capacity           The maximum number of students that can enroll in the course.
+   */
+  public void createCourse(String courseId, String instructorName, String courseLocation,
+                           String courseTimeSlot, int capacity) {
+<span class="fc" id="L97">    Course newCourse = new Course(instructorName, courseLocation, courseTimeSlot, capacity);</span>
+<span class="fc" id="L98">    addCourse(courseId, newCourse);</span>
+<span class="fc" id="L99">  }</span>
+
+  /**
+   * Returns a string representation of the department, including its code and the courses offered.
+   *
+   * @return A string representing the department.
+   */
+  public String toString() {
+<span class="fc" id="L107">    StringBuilder result = new StringBuilder();</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">    for (Map.Entry&lt;String, Course&gt; entry : courses.entrySet()) {</span>
+<span class="fc" id="L109">      String key = entry.getKey();</span>
+<span class="fc" id="L110">      Course value = entry.getValue();</span>
+<span class="fc" id="L111">      result.append(deptCode).append(' ').append(key).append(&quot;: &quot;).append(value.toString())</span>
+<span class="fc" id="L112">        .append('\n');</span>
+<span class="fc" id="L113">    }</span>
+<span class="fc" id="L114">    return result.toString();</span>
+  }
+
+  @Serial
+  private static final long serialVersionUID = 234567L;
+  private HashMap&lt;String, Course&gt; courses;
+  private String departmentChair;
+  private String deptCode;
+  private int numberOfMajors;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

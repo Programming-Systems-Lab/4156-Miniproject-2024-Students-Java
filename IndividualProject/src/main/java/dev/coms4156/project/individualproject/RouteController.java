@@ -1,6 +1,7 @@
 package dev.coms4156.project.individualproject;
 
 import java.util.HashMap;
+import java.util.logging.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,18 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 /**
  * This class contains all the API routes for the system.
  */
+
 @RestController
 public class RouteController {
-
+  Logger log = Logger.getLogger(RouteController.class.getName());
   /**
    * Redirects to the homepage.
    *
    * @return A String containing the name of the html file to be loaded.
    */
+
   @GetMapping({"/", "/index", "/home"})
   public String index() {
     return "Welcome, in order to make an API call direct your browser or Postman to an endpoint "
@@ -555,7 +557,7 @@ public class RouteController {
   }
 
   private ResponseEntity<?> handleException(Exception e) {
-    System.out.println(e.toString());
+    e.printStackTrace();
     return new ResponseEntity<>("An Error has occurred", HttpStatus.OK);
   }
 

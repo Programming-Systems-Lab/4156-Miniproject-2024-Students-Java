@@ -2,6 +2,7 @@ package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
@@ -88,8 +89,12 @@ public class DepartmentUnitTests {
   @Test
   public void testDropPersonFromMajorWhenZero() {
     department = new Department("ELEN", courses, "David Vallancourt", 0); // Set majors to zero
-    department.dropPersonFromMajor(); // Should not decrement below zero
-    assertEquals(0, department.getNumberOfMajors(), "Number of majors should stay at zero.");
+    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+      department.dropPersonFromMajor();
+    });
+
+    // Optionally, check the exception message
+    assertEquals("Cannot drop majors, no majors left.", exception.getMessage());
   }
 
   /**

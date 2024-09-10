@@ -101,7 +101,6 @@ public class MyFileDatabaseTests {
   @Test
   public void testToString() {
     String result = myFileDatabase.toString();
-    System.out.println(result);
     assertTrue(result.contains("COMS"), "The string representation should contain 'COMS'.");
     assertTrue(result.contains("Adam Cannon"),
         "The string representation should contain 'Adam Cannon'.");
