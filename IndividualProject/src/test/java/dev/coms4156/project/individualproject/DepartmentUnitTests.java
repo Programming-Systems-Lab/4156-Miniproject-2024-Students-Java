@@ -29,7 +29,7 @@ public class DepartmentUnitTests {
   * a department. The department is stored in {@code testDepartment} for use in tests.</p>
   */
   @BeforeAll
-  public static void setupCourseForTesting() {
+  public static void setupDepartmentForTesting() {
     // Creating Courses
     Course course1 = new Course("Henry Yuen", "HAV 209", "10:10-11:25", 80);
     Course course2 = new Course("Suman Jana", "MUDD 1127", "1:10-2:25", 65);
