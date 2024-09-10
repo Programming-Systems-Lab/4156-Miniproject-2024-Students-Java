@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * Represents a department within an educational institution.
- * This class stores information about the department, including its code,
+ * This class stores information about the department, including its
  * courses offered, department chair, and number of majors.
  */
 public class Department implements Serializable {
