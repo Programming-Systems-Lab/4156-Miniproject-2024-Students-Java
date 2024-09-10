@@ -65,7 +65,7 @@ public class Department implements Serializable {
    * Decreases the number of majors in the department by one if it's greater than zero.
    */
   public void dropPersonFromMajor() {
-    if (numberOfMajors>0){
+    if (numberOfMajors > 0) {
       numberOfMajors--;
     }
   }
@@ -77,7 +77,7 @@ public class Department implements Serializable {
    * @param course   The Course object to add.
    */
   public void addCourse(String courseId, Course course) {
-    courses.put(courseId,course);
+    courses.put(courseId, course);
   }
 
   /**
@@ -102,7 +102,8 @@ public class Department implements Serializable {
    */
   public String toString() {
     StringBuilder result = new StringBuilder();
-    result.append("Department: ").append(deptCode).append("\n").append("courses offered: ").append("\n");
+    result.append("Department: ").append(deptCode).append("\n")
+    .append("courses offered: ").append("\n");
     for (Map.Entry<String, Course> entry : courses.entrySet()) {
       String key = entry.getKey();
       Course value = entry.getValue();
