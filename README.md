@@ -1,3 +1,7 @@
-# Welcome Students of 4156
+# COMS 4156: Individual Project
 
-Please follow the assignment specifications on Courseworks when completing this project.
+## Part 2
+To run JaCoCo, I ran the following command:
+```
+mvn clean test jacoco:report
+```
