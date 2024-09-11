@@ -1,8 +1,9 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
-import java.util.*;
-
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a department within an educational institution.
@@ -14,13 +15,14 @@ public class Department implements Serializable {
   /**
    * Constructs a new Department object with the given parameters.
    *
-   * @param deptCode         The code of the department.
-   * @param courses          A HashMap containing courses offered by the department.
-   * @param departmentChair  The name of the department chair.
-   * @param numberOfMajors   The number of majors in the department.
+   * @param deptCode        The code of the department.
+   * @param courses         A HashMap containing courses offered by the
+   *                        department.
+   * @param departmentChair The name of the department chair.
+   * @param numberOfMajors  The number of majors in the department.
    */
   public Department(String deptCode, HashMap<String, Course> courses, String departmentChair,
-                    int numberOfMajors) {
+      int numberOfMajors) {
     this.courses = courses;
     this.departmentChair = departmentChair;
     this.numberOfMajors = numberOfMajors;
@@ -62,7 +64,8 @@ public class Department implements Serializable {
   }
 
   /**
-   * Decreases the number of majors in the department by one if it's greater than zero.
+   * Decreases the number of majors in the department by one if it's greater than
+   * zero.
    */
   public void dropPersonFromMajor() {
     numberOfMajors--;
@@ -81,20 +84,22 @@ public class Department implements Serializable {
   /**
    * Creates and adds a new course to the department's course selection.
    *
-   * @param courseId           The ID of the new course.
-   * @param instructorName     The name of the instructor teaching the course.
-   * @param courseLocation     The location where the course is held.
-   * @param courseTimeSlot     The time slot of the course.
-   * @param capacity           The maximum number of students that can enroll in the course.
+   * @param courseId       The ID of the new course.
+   * @param instructorName The name of the instructor teaching the course.
+   * @param courseLocation The location where the course is held.
+   * @param courseTimeSlot The time slot of the course.
+   * @param capacity       The maximum number of students that can enroll in the
+   *                       course.
    */
   public void createCourse(String courseId, String instructorName, String courseLocation,
-                           String courseTimeSlot, int capacity) {
+      String courseTimeSlot, int capacity) {
     Course newCourse = new Course(instructorName, courseLocation, courseTimeSlot, capacity);
     addCourse(courseId, newCourse);
   }
 
   /**
-   * Returns a string representation of the department, including its code and the courses offered.
+   * Returns a string representation of the department, including its code and the
+   * courses offered.
    *
    * @return A string representing the department.
    */
