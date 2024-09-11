@@ -1,0 +1,15 @@
+I, Bryan Granda (bag2158), have read and understood the following:
+
+    1. CS department's Policies and Procedures on Academic Honesty
+    2. The Course Specific Academic Honesty Policies
+    3. The assignment specs outlining the consequences of not submitting this pledge and other      aspects of the policy
+
+I affirm that I will abide by all the policies stated in the relevant materials from above. I understand that the relevant policies apply to: individual assignments, group projects, and individual examinations.
+
+I also affirm that I understand that all course materials, with the exception of the individual/group project, are subject to the appropriate copyrights and thus will not post them on any public forum or publicly hosted repository, this includes but is not limited to: GitHub, stackoverflow, chegg etc.
+
+I also affirm that I will be 100% honest when evaluating the performance of myself and my teammates when prompted by an assignment or member of the teaching staff.
+
+Finally I affirm that I will not attempt to find any loopholes in these policies for the benefit of myself or others enrolled in the course presently or possibly in the future.
+
+Signed: Bryan Granda (bag2158) 09/11/2024
