@@ -62,6 +62,10 @@ public class Course implements Serializable {
   }
 
 
+  public int getCourseCapacity() {
+    return this.enrollmentCapacity;
+  }
+
   public String toString() {
     return "\nInstructor: " + instructorName +  "; Location: "
       + courseLocation +  "; Time: " + courseTimeSlot;
