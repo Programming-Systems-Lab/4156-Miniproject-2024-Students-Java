@@ -39,11 +39,43 @@ public class Course implements Serializable {
    * @param capacity The maximum number of students that can enroll in the course.
    */
   public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {
+    if (instructorName == null || instructorName.trim().isEmpty()) {
+      throw new IllegalArgumentException("Instructor name cannot be null or empty.");
+    }
+    if (courseLocation == null || courseLocation.trim().isEmpty()) {
+      throw new IllegalArgumentException("Course location cannot be null or empty.");
+    }
+    if (!isValidTimeSlot(timeSlot)) {
+      throw new IllegalArgumentException(
+          "Invalid time format. Expected format: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM', or 'HH:MM-HH:MM'.");
+    }
+    if (capacity <= 0) {
+      throw new IllegalArgumentException("Capacity must be a positive number.");
+    }
+
     this.courseLocation = courseLocation;
     this.courseTimeSlot = timeSlot;
     this.enrollmentCapacity = capacity;
     this.enrolledStudentCount = 0;
     this.instructorName = instructorName;
+  }
+
+  /**
+   * Validates the time slot format. Allowed time formats: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM',
+   * 'HH:MM-HH:MM'. Also checks to ensure valid hours (00-23) and minutes (00-59)
+   *
+   * @param timeSlot the time slot string to validate
+   * @return true if the time slot is valid, false otherwise
+   */
+  public static boolean isValidTimeSlot(String timeSlot) {
+    if (timeSlot == null || timeSlot.trim().isEmpty()) {
+      return false;
+    }
+
+    // Allowed time formats: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM', 'HH:MM-HH:MM'
+    // Also checks to ensure valid hours (00-23) and minutes (00-59)
+    String timePattern = "^([01]?\\d|2[0-3]):[0-5]\\d-([01]?\\d|2[0-3]):[0-5]\\d$";
+    return timeSlot.matches(timePattern);
   }
 
   /**
@@ -174,13 +206,12 @@ public class Course implements Serializable {
    * @throws IllegalArgumentException if {@code newTime} does not match the expected format
    */
   public void reassignTime(String newTime) {
-    // Allowed time formats: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM', or 'HH:MM-HH:MM'
-    String timePattern = "^([0-9]{1,2}:[0-5][0-9]-[0-9]{1,2}:[0-5][0-9])$";
-
-    // Check if the input matches the pattern
-    if (!newTime.matches(timePattern)) {
+    // Ensure valid timeSlot
+    if (!isValidTimeSlot(newTime)) {
       throw new IllegalArgumentException(
-          "Invalid time format. Expected format: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM', or 'HH:MM-HH:MM'.");
+          "Invalid time format.  "
+              + "Expected format: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM', or 'HH:MM-HH:MM'.  "
+              + "Also ensure valid hours (00-23) and minutes (00-59).");
     }
 
     this.courseTimeSlot = newTime;

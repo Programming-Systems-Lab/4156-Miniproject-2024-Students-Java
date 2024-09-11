@@ -26,6 +26,48 @@ public class CourseUnitTests {
   }
 
   @Test
+  public void Course_Constructor_testValidConstructor() {
+    Course course = new Course("Gail Kaiser", "417 IAB", "11:40-12:55", 30);
+    assertNotNull(course);
+  }
+
+  @Test
+  public void Course_Constructor_testInvalidInstructorName() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          new Course(null, "417 IAB", "11:40-12:55", 30);
+        });
+  }
+
+  @Test
+  public void Course_Constructor_testInvalidCourseLocation() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          new Course("Gail Kaiser", "", "11:40-12:55", 30);
+        });
+  }
+
+  @Test
+  public void Course_Constructor_testInvalidTimeSlot() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          new Course("Gail Kaiser", "11:40-12:55", null, 30);
+        });
+  }
+
+  @Test
+  public void Course_Constructor_testInvalidCapacity() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          new Course("Gail Kaiser", "417 IAB", "11:40-12:55", -1);
+        });
+  }
+
+  @Test
   public void Course_toString_ReturnsCourseParamsAsString() {
     String expectedResult = "\nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55";
     assertEquals(expectedResult, testCourse.toString());
@@ -127,7 +169,26 @@ public class CourseUnitTests {
     Exception exception =
         assertThrows(IllegalArgumentException.class, () -> testCourse.reassignTime("invalid-time"));
     String expectedMessage =
-        "Invalid time format. Expected format: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM', or 'HH:MM-HH:MM'.";
+        "Invalid time format.  "
+            + "Expected format: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM', or 'HH:MM-HH:MM'.  "
+            + "Also ensure valid hours (00-23) and minutes (00-59).";
     assertEquals(expectedMessage, exception.getMessage());
+  }
+
+  @Test
+  public void Course_isValidTimeSlot_testValidTimeSlot() {
+    assertTrue(Course.isValidTimeSlot("9:00-17:30"));
+    assertTrue(Course.isValidTimeSlot("09:00-17:30"));
+    assertTrue(Course.isValidTimeSlot("9:00-9:30"));
+    assertTrue(Course.isValidTimeSlot("09:00-09:30"));
+  }
+
+  @Test
+  public void Course_isValidTimeSlot_testInvalidTimeSlot() {
+    assertFalse(Course.isValidTimeSlot("9:00-25:00")); // Invalid hour
+    assertFalse(Course.isValidTimeSlot("09:00-17:60")); // Invalid minute
+    assertFalse(Course.isValidTimeSlot("9:00-17:30-20:00")); // Incorrect format
+    assertFalse(Course.isValidTimeSlot("")); // Empty string
+    assertFalse(Course.isValidTimeSlot(null)); // Null input
   }
 }
