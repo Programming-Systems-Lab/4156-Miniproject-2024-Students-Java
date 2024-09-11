@@ -554,6 +554,4 @@ public class RouteController {
     System.out.println(e.toString());
     return new ResponseEntity<>("An Error has occurred", HttpStatus.OK);
   }
-
-
 }
