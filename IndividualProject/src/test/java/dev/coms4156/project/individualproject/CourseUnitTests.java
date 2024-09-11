@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.lang.reflect.Field;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +19,9 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration
 public class CourseUnitTests {
 
+  /**
+   * Defines and initializes variables for a new test course.
+   */
   @BeforeAll
   public static void setupCourseForTesting() {
     testCourse = new Course(instructorName, courseLocation, timeSlot, capacity);
@@ -49,6 +51,13 @@ public class CourseUnitTests {
   }
 
   @Test
+  public void setEnrolledStudentCountTest() {
+    int newCount = 100;
+    testCourse.setEnrolledStudentCount(newCount);
+    assertEquals(newCount, testCourse.getEnrolledStudentCount());
+  }
+
+  @Test
   public void getInstructorNameTest() {
     assertEquals(instructorName, testCourse.getInstructorName());
   }
@@ -74,7 +83,24 @@ public class CourseUnitTests {
 
   @Test
   public void reassignTime() {
+    String newTime = "8:40-9:55";
+    testCourse.reassignTime(newTime);
+    assertEquals(newTime, testCourse.getCourseTimeSlot());
+  }
 
+  @Test
+  public void isCourseFullTest() {
+    int over = 600;
+    testCourse.setEnrolledStudentCount(over);
+    assertTrue(testCourse.isCourseFull());
+
+    int under = 100;
+    testCourse.setEnrolledStudentCount(under);
+    assertTrue(testCourse.isCourseFull());
+
+    int equal = 250;
+    testCourse.setEnrolledStudentCount(equal);
+    assertFalse(testCourse.isCourseFull());
   }
 
   @Test
