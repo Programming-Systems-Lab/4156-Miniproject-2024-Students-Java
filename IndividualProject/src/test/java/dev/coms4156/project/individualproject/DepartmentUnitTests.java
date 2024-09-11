@@ -33,7 +33,7 @@ public class DepartmentUnitTests {
     // Creating Courses
     Course course1 = new Course("Henry Yuen", "HAV 209", "10:10-11:25", 80);
     Course course2 = new Course("Suman Jana", "MUDD 1127", "1:10-2:25", 65);
-    
+
     // Create a HashMap of courses
     HashMap<String, Course> courses = new HashMap<>();
     courses.put("W4281", course1);
@@ -46,8 +46,8 @@ public class DepartmentUnitTests {
   @Order(1)
   public void toStringTest() {
     String expectedResult = "COMS W4281: \nInstructor: Henry Yuen; Location: HAV 209; "
-                                + "Time: 10:10-11:25\nCOMS W4181: \nInstructor: Suman Jana; "
-                                + "Location: MUDD 1127; Time: 1:10-2:25\n";
+        + "Time: 10:10-11:25\nCOMS W4181: \nInstructor: Suman Jana; "
+        + "Location: MUDD 1127; Time: 1:10-2:25\n";
     assertEquals(expectedResult, testDepartment.toString());
   }
 
@@ -89,15 +89,49 @@ public class DepartmentUnitTests {
     testDepartment.createCourse("W4156", "Gail Kaiser", "Zoom", "10:10-11:25", 200);
 
     String result = testDepartment.toString();
-    
+
     String course1 = "COMS W4281: \nInstructor: Henry Yuen; Location: HAV 209; Time: 10:10-11:25";
     assertTrue(result.contains(course1));
-    
+
     String course2 = "COMS W4181: \nInstructor: Suman Jana; Location: MUDD 1127; Time: 1:10-2:25";
     assertTrue(result.contains(course2));
-    
+
     String course3 = "COMS W4156: \nInstructor: Gail Kaiser; Location: Zoom; Time: 10:10-11:25";
     assertTrue(result.contains(course3));
+  }
+
+  @Test
+  @Order(6)
+  public void addCourseTest() {
+    Course newCourse = new Course("Jeffrey Ullman", "Zoom", "3:10-4:25", 150);
+    testDepartment.addCourse("CS345", newCourse);
+
+    assertTrue(testDepartment.getCourseSelection().containsKey("CS345"));
+    assertEquals("Jeffrey Ullman", 
+                  testDepartment.getCourseSelection().get("CS345").getInstructorName());
+  }
+
+  @Test
+  @Order(7)
+  public void testAddAndDropMajors() {
+    testDepartment.addPersonToMajor();
+    testDepartment.addPersonToMajor();
+    assertEquals(2, testDepartment.getNumberOfMajors());
+
+    testDepartment.dropPersonFromMajor();
+    assertEquals(1, testDepartment.getNumberOfMajors());
+
+    testDepartment.dropPersonFromMajor();
+    assertEquals(0, testDepartment.getNumberOfMajors());
+  }
+
+  @Test
+  @Order(8)
+  public void testNoCoursesInDepartment() {
+    Department emptyDepartment = new Department("PHYS", new HashMap<>(), "Albert Einstein", 50);
+
+    assertEquals(0, emptyDepartment.getCourseSelection().size());
+    assertEquals("Albert Einstein", emptyDepartment.getDepartmentChair());
   }
 
   /** The test course instance used for testing. */

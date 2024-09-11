@@ -1,6 +1,7 @@
 package dev.coms4156.project.individualproject;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -54,6 +55,9 @@ public class MyFileDatabase {
       } else {
         throw new IllegalArgumentException("Invalid object type in file.");
       }
+    } catch (FileNotFoundException e) {
+      logger.log(Level.WARNING, "File not found: {0}", filePath);
+      return null; 
     } catch (IOException | ClassNotFoundException e) {
       logger.log(Level.SEVERE, "An exception occurred while saving contents to file", e);
       return null;

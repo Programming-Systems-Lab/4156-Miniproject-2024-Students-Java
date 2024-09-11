@@ -1,6 +1,8 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -35,14 +37,12 @@ public class CourseUnitTests {
   @Test
   @Order(2)
   public void enrollDropWhenFullTest() {
-    boolean expectedResult = true;
-    assertEquals(expectedResult, testCourse.isCourseFull());
-    
-    expectedResult = false;
-    assertEquals(expectedResult, testCourse.enrollStudent());
+    testCourse.setEnrolledStudentCount(250);
 
-    expectedResult = true;
-    assertEquals(expectedResult, testCourse.dropStudent());
+    assertTrue(testCourse.isCourseFull());
+    assertFalse(testCourse.enrollStudent());
+    assertTrue(testCourse.dropStudent());
+    assertTrue(testCourse.enrollStudent());
   }
 
   @Test
@@ -50,11 +50,8 @@ public class CourseUnitTests {
   public void enrollDropWhenEmptyTest() {
     testCourse.setEnrolledStudentCount(0);
 
-    boolean expectedResult = false;
-    assertEquals(expectedResult, testCourse.dropStudent());
-
-    expectedResult = true;
-    assertEquals(expectedResult, testCourse.enrollStudent());
+    assertFalse(testCourse.dropStudent());
+    assertTrue(testCourse.enrollStudent());
   }
 
   @Test
@@ -85,6 +82,22 @@ public class CourseUnitTests {
     testCourse.reassignTime("10:00-12:00");
     expectedResult = "10:00-12:00";
     assertEquals(expectedResult, testCourse.getCourseTimeSlot());
+  }
+
+  @Test
+  @Order(4)
+  public void enrollWhenOneSeatLeftTest() {
+    testCourse.setEnrolledStudentCount(249);
+    assertTrue(testCourse.enrollStudent());
+    assertTrue(testCourse.isCourseFull());
+  }
+
+  @Test
+  @Order(5)
+  public void dropWhenOneStudentLeftTest() {
+    testCourse.setEnrolledStudentCount(1);
+    assertTrue(testCourse.dropStudent());
+    assertFalse(testCourse.isCourseFull());
   }
 
   /** The test course instance used for testing. */
