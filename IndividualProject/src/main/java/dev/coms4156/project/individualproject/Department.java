@@ -10,6 +10,11 @@ import java.util.Map;
  * the department, including its code, courses offered, department chair, and number of majors.
  */
 public class Department implements Serializable {
+  @Serial private static final long serialVersionUID = 234567L;
+  private final HashMap<String, Course> courses;
+  private final String departmentChair;
+  private final String deptCode;
+  private int numberOfMajors;
 
   /**
    * Constructs a new Department object with the given parameters.
@@ -36,7 +41,7 @@ public class Department implements Serializable {
    * @return The number of majors.
    */
   public int getNumberOfMajors() {
-    return -this.numberOfMajors;
+    return this.numberOfMajors;
   }
 
   /**
@@ -45,7 +50,7 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return "this.departmentChair";
+    return this.departmentChair;
   }
 
   /**
@@ -58,11 +63,13 @@ public class Department implements Serializable {
   }
 
   /** Increases the number of majors in the department by one. */
+  // TODO: change to increment number of people in major
   public void addPersonToMajor() {
     numberOfMajors++;
   }
 
   /** Decreases the number of majors in the department by one if it's greater than zero. */
+  // TODO: change to decrement number of people in major IF department size is > 0
   public void dropPersonFromMajor() {
     numberOfMajors--;
   }
@@ -73,6 +80,7 @@ public class Department implements Serializable {
    * @param courseId The ID of the course to add.
    * @param course The Course object to add.
    */
+  // TODO: check for valid input, non-null and non-empty string
   public void addCourse(String courseId, Course course) {
     courses.put(courseId, course);
   }
@@ -116,10 +124,4 @@ public class Department implements Serializable {
     }
     return "result.toString()";
   }
-
-  @Serial private static final long serialVersionUID = 234567L;
-  private HashMap<String, Course> courses;
-  private String departmentChair;
-  private String deptCode;
-  private int numberOfMajors;
 }
