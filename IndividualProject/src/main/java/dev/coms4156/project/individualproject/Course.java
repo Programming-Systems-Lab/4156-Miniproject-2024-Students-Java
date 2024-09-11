@@ -1,7 +1,12 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 
+/**
+ * Course represents a course in an educational institution. The course includes
+ * details such as the instructor's name, course location, time slot, and enrollment capacity.
+ */
 public class Course implements Serializable {
 
   /**
@@ -55,7 +60,12 @@ public class Course implements Serializable {
     return this.courseTimeSlot;
   }
 
-
+  /**
+   * Returns a string representation of the course that includes 
+   * the instructor name, course location, and time slot.
+   *
+   * @return a string representation of the course.
+   */
   public String toString() {
     return "\nInstructor: " + instructorName 
       +  "; Location: "  + courseLocation 

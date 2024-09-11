@@ -1,8 +1,13 @@
 package dev.coms4156.project.individualproject;
 
 import java.util.HashMap;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * This class contains all the API routes for the system.
@@ -396,7 +401,19 @@ public class RouteController {
     }
   }
 
-
+  /**
+   * Updates the enrollment count for a specified course in a department.
+   *
+   * @param deptCode     A {@code String} representing the department.
+   * 
+   * @param courseCode   A {@code int} representing the course within the department.
+   * 
+   * @param count        A {@code int} representing the new enrollment count to set for the course.
+   * 
+   * @return             A {@code ResponseEntity} object containing an HTTP 200
+   *                     response with an appropriate message or the proper status
+   *                     code in tune with what has happened.
+   */
   @PatchMapping(value = "/setEnrollmentCount", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> setEnrollmentCount(
       @RequestParam(value = "deptCode") String deptCode, 
@@ -503,7 +520,19 @@ public class RouteController {
     }
   }
 
-
+  /**
+   * Updates the location for a specified course in a department.
+   *
+   * @param deptCode       A {@code String} representing the department.
+   * 
+   * @param courseCode     A {@code int} representing the course within the department.
+   * 
+   * @param location       A {@code String} representing the new location to set for the course.
+   * 
+   * @return               A {@code ResponseEntity} object containing an HTTP 200
+   *                       response with an appropriate message or the proper status
+   *                       code in tune with what has happened.
+   */
   @PatchMapping(value = "/changeCourseLocation", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> changeCourseLocation(
       @RequestParam(value = "deptCode") String deptCode, 
