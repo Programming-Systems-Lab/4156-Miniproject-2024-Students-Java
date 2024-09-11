@@ -66,8 +66,8 @@ public class Department implements Serializable {
    * Decreases the number of majors in the department by one if it's greater than zero.
    */
   public void dropPersonFromMajor() {
-    if (this.numberOfMajors > 0) {
-      this.numberOfMajors--;
+    if (numberOfMajors > 0) {
+      numberOfMajors--;
     }
   }
 
@@ -78,7 +78,7 @@ public class Department implements Serializable {
    * @param course   The Course object to add.
    */
   public void addCourse(String courseId, Course course) {
-    this.courses.put(courseId, course);
+    courses.put(courseId, course);
   }
 
   /**
