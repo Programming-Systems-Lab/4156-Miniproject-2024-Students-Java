@@ -90,7 +90,7 @@ public class Course implements Serializable {
     this.enrolledStudentCount = count;
   }
 
-  public boolean isCourseFull() {
+  public boolean isCourseAvailable() { // Renamed: As the original did not make sense logically
     return enrollmentCapacity > enrolledStudentCount;
   }
 

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,8 +22,8 @@ public class CourseUnitTests {
   /**
    * Defines and initializes variables for a new test course.
    */
-  @BeforeAll
-  public static void setupCourseForTesting() {
+  @BeforeEach
+  public void setupCourseForTesting() {
     testCourse = new Course(instructorName, courseLocation, timeSlot, capacity);
   }
 
@@ -90,17 +90,17 @@ public class CourseUnitTests {
 
   @Test
   public void isCourseFullTest() {
-    int over = 600;
+    int over = 1000;
     testCourse.setEnrolledStudentCount(over);
-    assertTrue(testCourse.isCourseFull());
+    assertFalse(testCourse.isCourseAvailable());
 
     int under = 100;
     testCourse.setEnrolledStudentCount(under);
-    assertTrue(testCourse.isCourseFull());
+    assertTrue(testCourse.isCourseAvailable());
 
     int equal = 250;
     testCourse.setEnrolledStudentCount(equal);
-    assertFalse(testCourse.isCourseFull());
+    assertFalse(testCourse.isCourseAvailable());
   }
 
   @Test
