@@ -20,8 +20,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 /**
- * Unit tests for the Course class.
- * This class contains tests to verify the behavior and functionality of the Course class.
+ * Unit tests for the Database class.
+ * This class contains tests to verify the behavior and functionality of the Database class.
  * It uses Spring's testing framework to set up the environment and run the tests.
  */
 @SpringBootTest
