@@ -92,7 +92,9 @@ public class Course implements Serializable {
     if (count > enrollmentCapacity) {
       enrolledStudentCount = enrollmentCapacity;
     }
-    enrolledStudentCount = count;
+    else{
+      enrolledStudentCount = count;
+    }
   }
 
 

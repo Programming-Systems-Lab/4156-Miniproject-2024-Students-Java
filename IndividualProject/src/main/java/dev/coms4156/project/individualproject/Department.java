@@ -109,7 +109,7 @@ public class Department implements Serializable {
       Course value = entry.getValue();
       result.append(key).append(": ").append(value.toString()).append("\n");
     }
-    return result.toString();
+    return result.toString().substring(0,result.length()-1);
   }
 
   @Serial
