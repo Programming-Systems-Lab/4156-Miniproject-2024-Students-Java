@@ -1,4 +1,12 @@
 Part 1: Code Clean Up
 - https://docs.opendaylight.org/en/latest/contributor-guides/coding-guidelines/coding-guidelines-java.html
 - https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html
+- https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716
 
+Part 2 & 3: Test Suite Creation & Debugging
+- https://mkyong.com/maven/maven-jacoco-code-coverage-example/
+- https://stackoverflow.com/questions/22836455/jacoco-report-generation-using-maven
+- https://www.baeldung.com/junit-5-test-order
+- https://www.geeksforgeeks.org/junit-5-test-execution-order/
+- https://www.baeldung.com/junit-5-nested-test-classes
+- https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
