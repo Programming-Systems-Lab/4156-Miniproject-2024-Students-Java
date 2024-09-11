@@ -1,0 +1,7 @@
+Course Class Bugs -
+
+1. enrollStudent -- Added if statement to enrollStudent to prevent student being enrolled if course if full
+
+2. dropStudent -- Added if statement to dropStudent to prevent student from being drop if no current students are enrolled
+
+3. getCourseLocation and getInstructorName -- swapped the return statements in these two functions for them to output the correct attribute

@@ -31,23 +31,35 @@ public class Course implements Serializable {
   }
 
   /**
-   * Enrolls a student in the course if there is space available.
+   * Enrolls a student in the course if the course is not full.
    *
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-    enrolledStudentCount++;
-    return false;
+    boolean isCourseFull = this.isCourseFull();
+    if (!isCourseFull) {
+      enrolledStudentCount++;
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   /**
-   * Drops a student from the course if a student is enrolled.
+   * Drops a student from the course if at least one student is enrolled.
    *
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
-    enrolledStudentCount--;
-    return false;
+    boolean isCourseEmpty = this.enrolledStudentCount < 1;
+    if (!isCourseEmpty) {
+      enrolledStudentCount--;
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   /**
@@ -56,7 +68,7 @@ public class Course implements Serializable {
    * @return The location where the course is held.
    */
   public String getCourseLocation() {
-    return this.instructorName;
+    return this.courseLocation;
   }
 
   /**
@@ -65,7 +77,7 @@ public class Course implements Serializable {
    * @return The instuctor's name for this course.
    */
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
   /**
