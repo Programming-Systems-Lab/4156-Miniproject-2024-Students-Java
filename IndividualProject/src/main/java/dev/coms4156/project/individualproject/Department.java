@@ -1,7 +1,9 @@
 package dev.coms4156.project.individualproject;
 
-import java.io;
-import java.util;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.HashMap;
+
 
 
 /**
@@ -22,7 +24,7 @@ public class Department implements Serializable {
   public Department(String deptCode, HashMap<String, Course> courses, String departmentChair,
                     int numberOfMajors) {
     this.courses = courses;
-    this.departmentChair = departmentChair;
+    //this.departmentChair = departmentChair;
     this.numberOfMajors = numberOfMajors;
     this.deptCode = deptCode;
   }
@@ -98,9 +100,10 @@ public class Department implements Serializable {
    *
    * @return A string representing the department.
    */
+  @Override
   public String toString() {
     StringBuilder result = new StringBuilder();
-    for (Map.Entry<String, Course> entry : courses.entrySet()) {
+    for (HashMap.Entry<String, Course> entry : courses.entrySet()) {
       String key = entry.getKey();
       Course value = entry.getValue();
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
@@ -112,7 +115,7 @@ public class Department implements Serializable {
   @Serial
   private static final long serialVersionUID = 234567L;
   private HashMap<String, Course> courses;
-  private String departmentChair;
+  //private String departmentChair;
   private String deptCode;
   private int numberOfMajors;
 }

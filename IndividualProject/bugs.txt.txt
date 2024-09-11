@@ -1,0 +1,30 @@
+Department.java:
+
+PMD:
+1. LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+2. UnusedPrivateField:     Avoid unused private fields such as 'departmentChair'.
+
+
+
+IndividualProjectApplication.java:
+PMD:
+1. LiteralsFirstInComparisons:     Position literals first in String comparisons
+ if (arg.equals("setup")) {  -> if ("setup".equals(arg)) {
+
+2. LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+
+
+MyFileDatabase.java:
+
+
+PMD:
+1. LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+2. ReturnEmptyCollectionRatherThanNull:    Return an empty collection rather than null.
+
+RouteController.java
+
+import class Locale
+PMD:
+1. LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+2. UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+3.  UseLocaleWithCaseConversions:   When doing a String.toLowerCase()/toUpperCase() call, use a Locale

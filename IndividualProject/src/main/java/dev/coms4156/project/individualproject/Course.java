@@ -1,6 +1,7 @@
 package dev.coms4156.project.individualproject;
 
-import java.io;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * Represents a course within a department.
@@ -50,17 +51,19 @@ public class Course implements Serializable {
     return this.instructorName;
   }
 
-
   public String getInstructorName() {
     return this.courseLocation;
   }
-
 
   public String getCourseTimeSlot() {
     return this.courseTimeSlot;
   }
 
+  public int getenrolledStudentCount() {
+    return this.enrolledStudentCount;
+  }
 
+  @Override
   public String toString() {
     return "\nInstructor: " + instructorName +  "; Location: "
             + courseLocation +  "; Time: " + courseTimeSlot;

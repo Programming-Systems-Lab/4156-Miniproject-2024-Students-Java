@@ -1,7 +1,12 @@
 package dev.coms4156.project.individualproject;
 
-import java.io;
-import java.util;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
+
 
 /**
  * This class represents a file-based database containing department mappings.
@@ -46,7 +51,7 @@ public class MyFileDatabase {
       }
     } catch (IOException | ClassNotFoundException e) {
       e.printStackTrace();
-      return null;
+      return new HashMap<>();
     }
   }
 
@@ -80,7 +85,7 @@ public class MyFileDatabase {
   @Override
   public String toString() {
     StringBuilder result = new StringBuilder();
-    for (Map.Entry<String, Department> entry : departmentMapping.entrySet()) {
+    for (HashMap.Entry<String, Department> entry : departmentMapping.entrySet()) {
       String key = entry.getKey();
       Department value = entry.getValue();
       result.append("For the ").append(key).append(" department: \n").append(value.toString());
