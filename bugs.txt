@@ -99,3 +99,4 @@ C:\Users\10297\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProjec
 [WARN] Progressbar rendering conflicts with reporting to STDOUT. No progressbar will be shown. Try running with argument -r <file> to output the report to a file instead.
 [WARN] This analysis could be faster, please consider using Incremental Analysis: https://docs.pmd-code.org/pmd-doc-7.5.0/pmd_userdocs_incremental_analysis.html
 
+
