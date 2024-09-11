@@ -1,0 +1,101 @@
+Course.java:
+1. In the method enrollStudent(), enrolledStudentCount always increases and false is returned. However, enrolledStudentCount should only increase if enrolledStudentCount < enrollmentCapacity, and in the case true is returned.
+2. In the method dropStudent(), enrolledStudentCount always decreases and false is returned. However, enrolledStudentCount should only decrease if enrolledStudentCount > 0, and in the case true is returned.
+3. getCourseLocation() method returns this.instructorName and the getInstructorName() method returns this.courseLocation. We need to swap them to make the logic correct.
+4. In the constructor of Course, enrolledStudentCount is set to 500. However, by default it should be 0.
+5. In the method isCourseFull(), the condition enrollmentCapacity > enrolledStudentCount is wrong and should be changed to enrollmentCapacity <= enrolledStudentCount
+6. setEnrolledStudentCount() method directly sets the value of this.enrolledStudentCount. However, this should be performed only when the given parameter has a non-negative value and the value is not greater than this.enrollmentCapacity.
+
+Department.java:
+1. getNumberOfMajors() method returns the negative of the number of majors, which is wrong, and we should remove that negative sign.
+2. getDepartmentChair() returns a string, and we should change it to this.departmentChair. We need the actual value, not string.
+3. Similarly, toString() returns a string, and we should change it to result.toString(). We need the actual value, not string.
+4. In the method dropPersonFromMajor(), numberOfMajors always decreases. However, it should only decrease if it is greater than 0.
+
+IndividualProjectApplication.java:
+1. In the method retrieveDepartment(), the logic is incorrect. We need to fix it such that HttpStatus.NOT_FOUND is returned if the department is not found. HttpStatus.OK should be returned if the department exists.
+2. In the method retrieveCourse(), when the course is found, HttpStatus.FORBIDDEN is incorrectly returned. To fix that, we change it to HttpStatus.OK.
+3. In the method getMajorCtFromDept(), the negative value of departmentMapping.get(deptCode).getNumberOfMajors() is used, which is wrong. We should remove the negative sign.
+4. handleException() always returns HttpStatus.OK, which is improper. We may change it to HttpStatus.INTERNAL_SERVER_ERROR.
+5. In the method findCourseTime(), if the course exists, the returned ResponseEntity<>("The course meets at: " + "some time ", HttpStatus.OK) is incorrect. We should replace "some time " with requestedCourse.getCourseTimeSlot().
+
+Furthermore, I have used the following commands to run PMD on my Windows PC, and I got a long list of issues. Then I fixed the codebase so that now when I run PMD again, the output contains no issues anymore.
+C:\Users\10297\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject>SET PATH=C:\Users\10297\pmd-dist-7.5.0-bin\pmd-bin-7.5.0\bin;%PATH%
+C:\Users\10297\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject>pmd.bat check -d src -R rulesets/java/quickstart.xml -f text
+[WARN] Progressbar rendering conflicts with reporting to STDOUT. No progressbar will be shown. Try running with argument -r <file> to output the report to a file instead.
+[WARN] This analysis could be faster, please consider using Incremental Analysis: https://docs.pmd-code.org/pmd-doc-7.5.0/pmd_userdocs_incremental_analysis.html
+src\main\java\dev\coms4156\project\individualproject\Course.java:72:  MissingOverride:        The method 'toString()' is missing an @Override annotation.
+src\main\java\dev\coms4156\project\individualproject\Department.java:24:      LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\Department.java:56:      LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\Department.java:106:     MissingOverride:        The method 'toString()' is missing an @Override annotation.
+src\main\java\dev\coms4156\project\individualproject\Department.java:123:     LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\IndividualProjectApplication.java:36:    LiteralsFirstInComparisons:     Position literals first in String comparisons
+src\main\java\dev\coms4156\project\individualproject\IndividualProjectApplication.java:79:    LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\IndividualProjectApplication.java:89:    LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\MyFileDatabase.java:33:  LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\MyFileDatabase.java:42:  LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\MyFileDatabase.java:52:  ReturnEmptyCollectionRatherThanNull:    Return an empty collection rather than null.
+src\main\java\dev\coms4156\project\individualproject\MyFileDatabase.java:74:  LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\MyFileDatabase.java:98:  LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:36: UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:38: LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:41: UseLocaleWithCaseConversions:   When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:45: UseLocaleWithCaseConversions:   When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:65: UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:66: UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:70: LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:72: LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:99: UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:100:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:106:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:108:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:132:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:136:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:160:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:164:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:188:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:189:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:195:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:197:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:225:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:226:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:232:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:234:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:262:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:263:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:269:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:271:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:292:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:296:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:317:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:321:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:344:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:345:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:351:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:353:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:384:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:385:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:386:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:392:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:394:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:421:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:422:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:423:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:429:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:431:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:458:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:459:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:460:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:466:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:468:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:494:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:495:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:496:        UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:502:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+src\main\java\dev\coms4156\project\individualproject\RouteController.java:504:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+
+Here is the output when I run PMD now:
+C:\Users\10297\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject>pmd.bat check -d src -R rulesets/java/quickstart.xml -f text
+[WARN] Progressbar rendering conflicts with reporting to STDOUT. No progressbar will be shown. Try running with argument -r <file> to output the report to a file instead.
+[WARN] This analysis could be faster, please consider using Incremental Analysis: https://docs.pmd-code.org/pmd-doc-7.5.0/pmd_userdocs_incremental_analysis.html
+
