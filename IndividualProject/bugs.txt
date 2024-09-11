@@ -1,0 +1,7 @@
+1. enrollStudent returned false when it could enroll students within a course. Also, enrollStudent doesn’t check if the capacity of the class is hit
+2. dropStudent originally returned false but it should check if the actual variable’s value has decreased, then return the appropriate boolean value
+3. isCourseFull should be checking if student count is equal to capacity
+4. There’s no way to check the course’s current enrollmentAmount ????
+5. getCourseLocation() was grabbing the instructorName instead of courseLocation, silly mistake :P
+6. getInstructorName() was grabbing the courseLocation instead of instructor's name, :PP
+7.
