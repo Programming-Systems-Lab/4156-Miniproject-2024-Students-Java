@@ -45,7 +45,7 @@ public class Course implements Serializable {
    *
    * @return true if the student is successfully dropped, false otherwise.
    */
-  public boolean dropStudent(){
+  public boolean dropStudent() {
     
     enrolledStudentCount--;
     return true;
