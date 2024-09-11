@@ -1,0 +1,1 @@
+/Users/rahafbinmuhanna/2025/4156/4156-Miniproject-2024-Students-Java/IndividualProject/src/main/java/dev/coms4156/project/individualproject/Department.java:117:	UnusedPrivateField:	Avoid unused private fields such as 'departmentChair'.

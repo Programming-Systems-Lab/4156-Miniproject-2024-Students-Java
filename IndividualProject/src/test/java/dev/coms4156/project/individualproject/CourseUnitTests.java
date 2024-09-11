@@ -18,8 +18,19 @@ public class CourseUnitTests {
   @BeforeAll
   public static void setupCourseForTesting() {
     testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    testCourseData = new Course("Gail Kaiser", "501 NWC", "Setup SDK", 120);
   }
 
+  @Test
+  public void setEnrolledStudentCountTest() {
+    testCourse.setEnrolledStudentCount(249);
+    assertEquals(249, testCourse.get());
+  }
+
+  @Test
+  public void isCourseFullTest() {
+    assertEquals(false, testCourse.enrollStudent());
+  }
 
   @Test
   public void toStringTest() {

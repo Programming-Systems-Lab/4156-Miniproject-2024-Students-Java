@@ -1,5 +1,9 @@
 package dev.coms4156.project.individualproject;
 
+import java.io.Serial;
+import java.io.Serializable;
+
+
 /**
  * Represents a course that can be offered by a departmet.
  * This class stores information about the course, including its instructor name,
@@ -64,6 +68,7 @@ public class Course implements Serializable {
    *
    * @return A string representing the course.
    */
+  @Override
   public String toString() {
     return "\nInstructor: " + instructorName
             +  "; Location: "  + courseLocation

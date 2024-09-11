@@ -1,6 +1,9 @@
 package dev.coms4156.project.individualproject;
 
-import java.util.HashMap;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Map;
+
 
 /**
  * Represents a department within an educational institution.
@@ -13,16 +16,16 @@ public class Department implements Serializable {
    * Constructs a new Department object with the given parameters.
    *
    * @param deptCode         The code of the department.
-   * @param courses          A HashMap containing courses offered by the department.
+   * @param courses          A Map containing courses offered by the department.
    * @param departmentChair  The name of the department chair.
    * @param numberOfMajors   The number of majors in the department.
    */
-  public Department(String deptCode, HashMap<String, Course> courses, String departmentChair,
-                    int numberOfMajors) {
+  public Department(String deptCode, Map<String, Course> courses,
+                    String departmentChair, int numberOfMajors) {
+    this.deptCode = deptCode;
     this.courses = courses;
     this.departmentChair = departmentChair;
     this.numberOfMajors = numberOfMajors;
-    this.deptCode = deptCode;
   }
 
   /**
@@ -46,9 +49,9 @@ public class Department implements Serializable {
   /**
    * Gets the courses offered by the department.
    *
-   * @return A HashMap containing courses offered by the department.
+   * @return A Map containing courses offered by the department.
    */
-  public HashMap<String, Course> getCourseSelection() {
+  public Map<String, Course> getCourseSelection() {
     return this.courses;
   }
 
@@ -96,6 +99,7 @@ public class Department implements Serializable {
    *
    * @return A string representing the department.
    */
+  @Override
   public String toString() {
     StringBuilder result = new StringBuilder();
     for (Map.Entry<String, Course> entry : courses.entrySet()) {
@@ -109,7 +113,7 @@ public class Department implements Serializable {
 
   @Serial
   private static final long serialVersionUID = 234567L;
-  private HashMap<String, Course> courses;
+  private Map<String, Course> courses;
   private String departmentChair;
   private String deptCode;
   private int numberOfMajors;
