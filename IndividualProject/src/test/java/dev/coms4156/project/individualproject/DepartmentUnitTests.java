@@ -1,6 +1,7 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,6 +13,11 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.HashMap;
 
+
+/**
+ * Unit tests for the Department class.
+ * the tests ensures the correctness of the Department class implementation.
+ */
 @SpringBootTest
 @ContextConfiguration
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -33,10 +39,8 @@ public class DepartmentUnitTests {
     coms3261.setEnrolledStudentCount(140);
     Course coms3251 = new Course("Tony Dear", "402 CHANDLER", "1:10-3:40", 125);
     coms3251.setEnrolledStudentCount(99);
-    Course coms3827 = new Course("Daniel Rubenstein", "207 Math", times[2], 300);
-    coms3827.setEnrolledStudentCount(283);
-    Course coms4156 = new Course("Gail Kaiser", "501 NWC", times[2], 120);
-    coms4156.setEnrolledStudentCount(109);
+
+
     HashMap<String, Course> courses = new HashMap<>();
     courses.put("1004", coms1004);
     courses.put("3134", coms3134);
@@ -44,14 +48,12 @@ public class DepartmentUnitTests {
     courses.put("3203", coms3203);
     courses.put("3261", coms3261);
     courses.put("3251", coms3251);
-    courses.put("3827", coms3827);
-    courses.put("4156", coms4156);
     testDepartment = new Department("COMS", courses, "Luca Carloni",2700);
   }
 
   @Test
   @Order(1)
-  public void testGetCourses() {
+  public void getNumberOfMajorsTest() {
     assertEquals(2700, testDepartment.getNumberOfMajors());
   }
 
@@ -61,7 +63,44 @@ public class DepartmentUnitTests {
     assertEquals("Luca Carloni", testDepartment.getDepartmentChair());
   }
 
+  @Test
+  @Order(2)
+  void getCourseSelectionTest() {
+    assertEquals(6, testDepartment.getCourseSelection().size());
+  }
 
+  @Test
+  @Order(3)
+  public void addPersonToMajorTest() {
+    testDepartment.addPersonToMajor();
+    assertEquals(2701, testDepartment.getNumberOfMajors());
+  }
+
+  @Test
+  @Order(4)
+  public void dropPersonFromMajorTest() {
+    testDepartment.dropPersonFromMajor();
+    assertEquals(2700, testDepartment.getNumberOfMajors());
+  }
+
+
+  @Test
+  @Order(5)
+  void addCourseTest() {
+    Course coms4156 = new Course("Gail Kaiser", "501 NWC", "10:10-11:25", 120);
+    coms4156.setEnrolledStudentCount(109);
+    testDepartment.addCourse("4156", coms4156);
+
+    assertTrue(testDepartment.getCourseSelection().containsKey("4156"));
+  }
+
+  @Test
+  @Order(5)
+  public void createCourseTest() {
+    testDepartment.createCourse("3827", "Daniel Rubenstein", "207 Math", "10:10-11:25", 300);
+
+    assertTrue(testDepartment.getCourseSelection().containsKey("3827"));
+  }
 
   /** The test department instance used for testing. */
   private static Department testDepartment;

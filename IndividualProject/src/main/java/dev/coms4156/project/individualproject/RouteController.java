@@ -1,6 +1,8 @@
 package dev.coms4156.project.individualproject;
 
 import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +47,7 @@ public class RouteController {
       if (!departmentMapping.containsKey(deptCode.toUpperCase())) {
         return new ResponseEntity<>("Department Not Found", HttpStatus.OK);
       } else {
+        System.out.println("reacged");
         return new ResponseEntity<>(departmentMapping.get(deptCode.toUpperCase()).toString(),
             HttpStatus.NOT_FOUND);
       }
@@ -53,6 +56,7 @@ public class RouteController {
       return handleException(e);
     }
   }
+
 
   /**
    * Displays the details of the requested course to the user or displays the proper error

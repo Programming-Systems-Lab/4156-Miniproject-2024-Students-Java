@@ -51,13 +51,14 @@ public class Course implements Serializable {
     return this.enrolledStudentCount;
   }
 
+
   public String getCourseLocation() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
 
   public String getInstructorName() {
-    return this.instructorName;
+    return this.courseLocation;
   }
 
 
@@ -72,6 +73,7 @@ public class Course implements Serializable {
    *
    * @return A string representation of the course.
    */
+  @Override
   public String toString() {
     return "\nInstructor: " 
         + instructorName 

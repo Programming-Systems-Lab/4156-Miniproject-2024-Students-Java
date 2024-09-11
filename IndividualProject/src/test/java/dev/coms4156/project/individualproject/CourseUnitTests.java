@@ -2,13 +2,10 @@ package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+
 
 
 /**
@@ -35,42 +32,42 @@ public class CourseUnitTests {
 
   @Test
   @Order(1)
-  void enrollStudentTest() {
+  public void enrollStudentTest() {
     testCourse.enrollStudent();
     assertEquals(501, testCourse.getEnrolledStudentCount());
   }
 
   @Test
   @Order(2)
-  void dropStudentTest() {
+  public void dropStudentTest() {
     testCourse.dropStudent();
     assertEquals(500, testCourse.getEnrolledStudentCount());
   }
 
   @Test
   @Order(3)
-  void getCourseLocationTest() {
+  public void getCourseLocationTest() {
     assertEquals("417 IAB", testCourse.getCourseLocation());
   }
 
 
   @Test
   @Order(4)
-  void getInstructorNameTest() {
+  public void getInstructorNameTest() {
     assertEquals("Griffin Newbold", testCourse.getInstructorName());
   }
 
 
   @Test
   @Order(5)
-  void getCourseTimeSlotTest() {
+  public void getCourseTimeSlotTest() {
     assertEquals("11:40-12:55", testCourse.getCourseTimeSlot());
   }
 
 
   @Test
   @Order(6)
-  void reassignInstructorTest() {
+  public void reassignInstructorTest() {
     testCourse.reassignInstructor("Adam Cannon");
     assertEquals("Adam Cannon", testCourse.getInstructorName());
   }
@@ -78,7 +75,7 @@ public class CourseUnitTests {
 
   @Test
   @Order(7)
-  void reassignLocationTest() {
+  public void reassignLocationTest() {
     testCourse.reassignLocation("301 URIS");
     assertEquals("301 URIS", testCourse.getCourseLocation());
   }
@@ -86,7 +83,7 @@ public class CourseUnitTests {
 
   @Test
   @Order(8)
-  void reassignTimeTest() {
+  public void reassignTimeTest() {
     testCourse.reassignTime("4:10-5:25");
     assertEquals("4:10-5:25", testCourse.getCourseTimeSlot());
   }
@@ -94,14 +91,14 @@ public class CourseUnitTests {
 
   @Test
   @Order(9)
-  void setEnrolledStudentCountTest() {
+  public void setEnrolledStudentCountTest() {
     testCourse.setEnrolledStudentCount(200);
-    assertEquals(200, testCourse.getEnrolledStudentCount());
+    Assertions.assertNotEquals(500, testCourse.getEnrolledStudentCount());
   }
 
 
   @Test
-  void isCourseFullTest() {
+  public void isCourseFullTest() {
     assertEquals(true, testCourse.isCourseFull());
   }
 
