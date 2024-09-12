@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 /**
- * Unit tests for the IndividualProjectApplication class.
+ * Unit tests for the Course class.
  *
  * <p>Tests include verifying the toString method of the Course and
  * Department classes.

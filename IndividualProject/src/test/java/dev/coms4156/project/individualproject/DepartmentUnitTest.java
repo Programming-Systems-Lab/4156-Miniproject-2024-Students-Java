@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 /**
- * Unit tests for the IndividualProjectApplication class.
+ * Unit tests for the Department class.
  *
  * <p>Tests include verifying various methods within the
  * Department classes.

@@ -283,6 +283,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     myFileDatabase.setMapping(mapping);
   }
 
+
   /**
    * This contains all the overheading teardown logic, it will
    * mainly be focused on saving all the created user data to a
@@ -295,7 +296,6 @@ public class IndividualProjectApplication implements CommandLineRunner {
       myFileDatabase.saveContentsToFile();
     }
   }
-
 
   //Database Instance
   public static MyFileDatabase myFileDatabase;
