@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RouteController {
 
   private static final Logger logger = Logger.getLogger(
-      RouteController.class.getName()
+    RouteController.class.getName()
   );
 
   /**
@@ -49,10 +49,10 @@ public class RouteController {
       departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
 
       if (!departmentMapping.containsKey(deptCode.toUpperCase())) {
-        return new ResponseEntity<>("Department Not Found", HttpStatus.OK);
+        return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
       } else {
         return new ResponseEntity<>(departmentMapping.get(deptCode.toUpperCase()).toString(),
-            HttpStatus.NOT_FOUND);
+            HttpStatus.OK);
       }
 
     } catch (Exception e) {

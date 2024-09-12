@@ -29,30 +29,6 @@ public class IndividualProjectApplicationUnitTests {
   private Logger logger;
   private CustomLoggerHandler logHandler;
 
-  class CustomLoggerHandler extends StreamHandler {
-    private LogRecord latestLogRecord;
-
-    @Override
-    public void publish(LogRecord record) {
-      latestLogRecord = record;
-      super.publish(record);
-    }
-
-    @Override
-    public void flush() {
-      super.flush();
-    }
-
-    @Override
-    public void close() throws SecurityException {
-      super.close();
-    }
-
-    public LogRecord getLatestLogRecord() {
-      return latestLogRecord;
-    }
-  }
-
   /**
   * Sets up the test environment before each test.
   * 
