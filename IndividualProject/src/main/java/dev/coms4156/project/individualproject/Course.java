@@ -86,9 +86,9 @@ public class Course implements Serializable {
    * @return A string representation of the course.
    */
   public String toString() {
-    return "\nInstructor: " + instructorName +
-            "; Location: "  + courseLocation +
-            "; Time: " + courseTimeSlot;
+    return "\nInstructor: " + instructorName
+            + "; Location: "  + courseLocation
+            + "; Time: " + courseTimeSlot;
   }
 
   /**
