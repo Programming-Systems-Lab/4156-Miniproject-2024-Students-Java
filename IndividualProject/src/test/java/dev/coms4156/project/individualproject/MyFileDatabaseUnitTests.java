@@ -78,8 +78,7 @@ public class MyFileDatabaseUnitTests {
 
   @Test
   public void toStringTest() {
-    String expectedString = "For the CS department: \n"
-            + "Instructor: Dr. Smith; Location: ; Time: \n";
+    String expectedString = "For the CS department: \n"; // no course case
     assertEquals(expectedString, database.toString());
   }
 

@@ -37,15 +37,16 @@ public class CourseUnitTests {
 
   @Test
   public void enrollStudentTest() {
+    testCourse.setEnrolledStudentCount(10);
     boolean result = testCourse.enrollStudent();
-    assertFalse(result);
+    assertTrue(result);
   }
 
   @Test
   public void dropStudentTest() {
-    testCourse.enrollStudent(); // First, enroll one student to have at least one student
+    testCourse.setEnrolledStudentCount(10);
     boolean result = testCourse.dropStudent();
-    assertFalse(result);
+    assertTrue(result);
   }
 
   @Test

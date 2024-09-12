@@ -43,7 +43,8 @@ public class DepartmentUnitTests {
 
   @Test
   public void toStringTest() {
-    String expectedResult = "result.toString()";
+    String expectedResult = "CS CS101: \n" +
+            "Instructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n";
     assertEquals(expectedResult, testDepartment.toString());
   }
 

@@ -3,47 +3,30 @@ package dev.coms4156.project.individualproject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.HashMap;
 
 public class RouteControllerUnitTests {
-  @InjectMocks
   private RouteController routeController;
-
-  @Mock
-  private Department department;
-
-  @Mock
   private MyFileDatabase myFileDatabase;
-
-  @Mock
-  private Course course;
-
-  private HashMap<String, Department> departmentMapping;
-  private HashMap<String, Course> courseMapping;
+  private IndividualProjectApplication app;
 
   @BeforeEach
   public void setUp() {
-    MockitoAnnotations.openMocks(this);
+    app = new IndividualProjectApplication();
+    myFileDatabase = new MyFileDatabase(0, "./data.txt");
+    app.myFileDatabase = myFileDatabase;
+    app.resetDataFile();
 
-    departmentMapping = new HashMap<>();
-    courseMapping = new HashMap<>();
-
-    departmentMapping.put("CS", department);
-    courseMapping.put("101", course);
-
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(department.getCourseSelection()).thenReturn(courseMapping);
     routeController = new RouteController();
   }
 
@@ -55,292 +38,408 @@ public class RouteControllerUnitTests {
 
   @Test
   public void testRetrieveDepartment_Found() {
-    when(departmentMapping.containsKey("CS")).thenReturn(true);
+    ResponseEntity<?> response = routeController.retrieveDepartment("COMS");
 
-    ResponseEntity<?> response = routeController.retrieveDepartment("CS");
-    assertEquals(OK, response.getStatusCode());
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertTrue(response.getBody().toString().contains("COMS"));
   }
 
   @Test
   public void testRetrieveDepartment_NotFound() {
-    when(departmentMapping.containsKey("MATH")).thenReturn(false);
+    ResponseEntity<?> response = routeController.retrieveDepartment("UNKNOWN");
 
-    ResponseEntity<?> response = routeController.retrieveDepartment("MATH");
-    assertEquals(OK, response.getStatusCode());
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Department Not Found", response.getBody());
+  }
+
+
+  @Test
+  public void testRetrieveCourseSuccess() {
+    ResponseEntity<?> response = routeController.retrieveCourse("CHEM", 1403);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("\nInstructor: Ruben M Savizky; Location: 309 HAV; Time: 6:10-7:25", response.getBody());
+  }
+
+  @Test
+  public void testRetrieveCourseNotFound() {
+    ResponseEntity<?> response = routeController.retrieveCourse("CHEM", 9999);
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testRetrieveCourseDepartmentNotFound() {
+    ResponseEntity<?> response = routeController.retrieveCourse("NONEXISTENT", 0000);
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Department Not Found", response.getBody());
   }
 
   @Test
-  public void testRetrieveCourse_Found() {
-    when(departmentMapping.containsKey("CS")).thenReturn(true);
-    when(courseMapping.containsKey("101")).thenReturn(true);
+  public void testIsCourseFull_Full() {
+    ResponseEntity<?> response = routeController.isCourseFull("IEOR", 4106);
 
-    ResponseEntity<?> response = routeController.retrieveCourse("CS", 101);
-    assertEquals(OK, response.getStatusCode());
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(false, response.getBody());
   }
 
   @Test
-  public void testRetrieveCourse_NotFound() {
-    when(departmentMapping.containsKey("CS")).thenReturn(true);
-    when(courseMapping.containsKey("101")).thenReturn(false);
+  public void testIsCourseFull_NotFull() {
+    ResponseEntity<?> response = routeController.isCourseFull("IEOR", 4102);
 
-    ResponseEntity<?> response = routeController.retrieveCourse("CS", 101);
-    assertEquals(NOT_FOUND, response.getStatusCode());
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(true, response.getBody());
+  }
+
+  @Test
+  public void testIsCourseFullCourseNotFound() {
+    ResponseEntity<?> response = routeController.isCourseFull("IEOR", 9999);
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
   }
 
   @Test
-  public void testIsCourseFull_CourseIsFull() {
-    when(course.isCourseFull()).thenReturn(true);
+  public void testIsCourseFullDepartmentNotFound() {
+    ResponseEntity<?> response = routeController.isCourseFull("NONEXISTENT", 1001);
 
-    boolean result = course.isCourseFull();
-    assertTrue(result);
-  }
-
-  @Test
-  public void testIsCourseFull_CourseIsNotFull() {
-    when(course.isCourseFull()).thenReturn(false);
-
-    boolean result = course.isCourseFull();
-    assertFalse(result);
-  }
-
-
-  @Test
-  public void testGetMajorCtFromDept_Found() {
-    when(departmentMapping.containsKey("CS")).thenReturn(true);
-    when(department.getNumberOfMajors()).thenReturn(100);
-
-    ResponseEntity<?> response = routeController.getMajorCtFromDept("CS");
-    assertEquals(OK, response.getStatusCode());
-    assertEquals("There are: -100 majors in the department", response.getBody());
-  }
-
-  @Test
-  public void testIdentifyDeptChair_Found() {
-    when(departmentMapping.containsKey("CS")).thenReturn(true);
-    when(department.getDepartmentChair()).thenReturn("Dr. Smith");
-
-    ResponseEntity<?> response = routeController.identifyDeptChair("CS");
-    assertEquals(OK, response.getStatusCode());
-    assertEquals("Dr. Smith is the department chair.", response.getBody());
-  }
-
-  @Test
-  public void testFindCourseLocation_CourseExists() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    HashMap<String, Course> courseMapping = new HashMap<>();
-
-    courseMapping.put("101", course);
-    departmentMapping.put("CS", department);
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(department.getCourseSelection()).thenReturn(courseMapping);
-    when(course.getCourseLocation()).thenReturn("Room 101");
-
-    ResponseEntity<?> response = routeController.findCourseLocation("CS", 101);
-    assertEquals(OK, response.getStatusCode());
-    assertEquals("Room 101", response.getBody());
-  }
-
-  @Test
-  public void testFindCourseLocation_CourseNotFound() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-
-    ResponseEntity<?> response = routeController.findCourseLocation("CS", 101);
-    assertEquals(NOT_FOUND, response.getStatusCode());
-    assertEquals("Course Not Found", response.getBody());
-  }
-
-
-  @Test
-  public void testFindCourseInstructor_CourseExists() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    HashMap<String, Course> courseMapping = new HashMap<>();
-
-    // Mock course behavior
-    courseMapping.put("101", course);
-    departmentMapping.put("CS", department);
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(department.getCourseSelection()).thenReturn(courseMapping);
-    when(course.getInstructorName()).thenReturn("Dr. Smith");
-
-    ResponseEntity<?> response = routeController.findCourseInstructor("CS", 101);
-    assertEquals(OK, response.getStatusCode());
-    assertEquals("Dr. Smith is the instructor for the course.", response.getBody());
-  }
-
-  @Test
-  public void testFindCourseInstructor_CourseNotFound() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    HashMap<String, Course> courseMapping = new HashMap<>();
-
-    departmentMapping.put("CS", department);
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(department.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = routeController.findCourseInstructor("CS", 102);
-    assertEquals(NOT_FOUND, response.getStatusCode());
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
   }
 
   @Test
-  public void testFindCourseTime_CourseExists() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    HashMap<String, Course> courseMapping = new HashMap<>();
+  public void testGetMajorCtFromDeptSuccess() {
+    ResponseEntity<?> response = routeController.getMajorCtFromDept("COMS");
 
-    courseMapping.put("101", course);
-    departmentMapping.put("CS", department);
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(department.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = routeController.findCourseTime("CS", 101);
-    assertEquals(OK, response.getStatusCode());
-    assertEquals("The course meets at: some time ", response.getBody());
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("There are: 2700 majors in the department", response.getBody());
   }
 
   @Test
-  public void testFindCourseTime_CourseNotFound() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    departmentMapping.put("CS", department);
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(department.getCourseSelection()).thenReturn(new HashMap<>());
+  public void testGetMajorCtFromDeptDepartmentNotFound() {
+    ResponseEntity<?> response = routeController.getMajorCtFromDept("NONEXISTENT");
 
-    ResponseEntity<?> response = routeController.findCourseTime("CS", 102);
-    assertEquals(NOT_FOUND, response.getStatusCode());
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Department Not Found", response.getBody());
+  }
+
+  @Test
+  public void testIdentifyDeptChairSuccess() {
+    String deptCode = "COMS";
+    String expectedChair = "Luca Carloni";
+    ResponseEntity<?> response = routeController.identifyDeptChair(deptCode);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(expectedChair + " is the department chair.", response.getBody());
+  }
+
+  @Test
+  public void testIdentifyDeptChairDepartmentNotFound() {
+    ResponseEntity<?> response = routeController.identifyDeptChair("NONEXISTENT");
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Department Not Found", response.getBody());
+  }
+
+  @Test
+  public void testFindCourseLocationSuccess() {
+    ResponseEntity<?> response = routeController.findCourseLocation("ECON", 1105);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("309 HAV is where the course is located.", response.getBody());
+  }
+
+  @Test
+  public void testFindCourseLocationCourseNotFound() {
+    ResponseEntity<?> response = routeController.findCourseLocation("ECON", 9999);
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
   }
 
   @Test
-  public void testAddMajorToDept_DepartmentExists() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    departmentMapping.put("CS", department);
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
+  public void testFindCourseLocationDepartmentNotFound() {
+    ResponseEntity<?> response = routeController.findCourseLocation("NONEXISTENT", 1001);
 
-    ResponseEntity<?> response = routeController.addMajorToDept("CS");
-    assertEquals(OK, response.getStatusCode());
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testFindCourseInstructorSuccess() {
+    ResponseEntity<?> response = routeController.findCourseInstructor("ECON", 1105);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Waseem Noor is the instructor for the course.", response.getBody());
+  }
+
+  @Test
+  public void testFindCourseInstructorCourseNotFound() {
+    ResponseEntity<?> response = routeController.findCourseInstructor("ECON", 9999);
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testFindCourseInstructorDepartmentNotFound() {
+    ResponseEntity<?> response = routeController.findCourseInstructor("NONEXISTENT", 1001);
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testFindCourseTimeSuccess() {
+    ResponseEntity<?> response = routeController.findCourseTime("ECON", 1105);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("The course meets at: 2:40-3:55.", response.getBody());
+  }
+
+  @Test
+  public void testFindCourseTimeCourseNotFound() {
+    ResponseEntity<?> response = routeController.findCourseTime("ECON", 9999);
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testFindCourseTimeDepartmentNotFound() {
+    ResponseEntity<?> response = routeController.findCourseTime("NONEXISTENT", 1001);
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testAddMajorToDeptSuccess() {
+    String deptCode = "COMS";
+    Department department = app.myFileDatabase.getDepartmentMapping().get(deptCode);
+
+    ResponseEntity<?> response = routeController.addMajorToDept(deptCode);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals("Attribute was updated successfully", response.getBody());
+    assertEquals(2701, department.getNumberOfMajors());
   }
 
   @Test
   public void testAddMajorToDept_DepartmentNotFound() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-
-    ResponseEntity<?> response = routeController.addMajorToDept("MATH");
-    assertEquals(NOT_FOUND, response.getStatusCode());
+    String deptCode = "NONEXISTENT";
+    ResponseEntity<?> response = routeController.addMajorToDept(deptCode);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Department Not Found", response.getBody());
   }
 
   @Test
-  public void testDropStudentFromCourse_CourseExists_StudentDropped() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    HashMap<String, Course> courseMapping = new HashMap<>();
+  public void testRemoveMajorToDeptSuccess() {
+    String deptCode = "COMS";
+    Department department = app.myFileDatabase.getDepartmentMapping().get(deptCode);
 
-    courseMapping.put("101", course);
-    departmentMapping.put("CS", department);
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(department.getCourseSelection()).thenReturn(courseMapping);
-    when(course.dropStudent()).thenReturn(true);
+    ResponseEntity<?> response = routeController.removeMajorFromDept(deptCode);
 
-    ResponseEntity<?> response = routeController.dropStudent("CS", 101);
-    assertEquals(OK, response.getStatusCode());
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attribute was updated or is at minimum", response.getBody());
+    assertEquals(2699, department.getNumberOfMajors());
+  }
+
+  @Test
+  public void testRemoveMajorToDept_DepartmentNotFound() {
+    String deptCode = "NONEXISTENT";
+    ResponseEntity<?> response = routeController.removeMajorFromDept(deptCode);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Department Not Found", response.getBody());
+  }
+
+  @Test
+  public void testDropStudentSuccess() {
+    String deptCode = "COMS";
+    int courseCode = 1004;
+
+    ResponseEntity<?> response = routeController.dropStudent(deptCode, courseCode);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals("Student has been dropped.", response.getBody());
   }
 
   @Test
-  public void testDropStudentFromCourse_CourseExists_StudentNotDropped() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    HashMap<String, Course> courseMapping = new HashMap<>();
+  public void testDropStudentFail() {
+    String deptCode = "COMS";
+    int courseCode = 1004;
+    Department department = app.myFileDatabase.getDepartmentMapping().get(deptCode);
+    Course course = department.getCourseSelection().get(Integer.toString(courseCode));
+    course.setEnrolledStudentCount(0);
 
-    courseMapping.put("101", course);
-    departmentMapping.put("CS", department);
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(department.getCourseSelection()).thenReturn(courseMapping);
-    when(course.dropStudent()).thenReturn(false);
+    ResponseEntity<?> response = routeController.dropStudent(deptCode, courseCode);
 
-    ResponseEntity<?> response = routeController.dropStudent("CS", 101);
-    assertEquals(BAD_REQUEST, response.getStatusCode());
+    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     assertEquals("Student has not been dropped.", response.getBody());
   }
 
   @Test
-  public void testSetEnrollmentCount_CourseExists() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    HashMap<String, Course> courseMapping = new HashMap<>();
+  public void testDropStudentCourseNotFound() {
+    String deptCode = "COMS";
+    int courseCode = 9999;
+    ResponseEntity<?> response = routeController.dropStudent(deptCode, courseCode);
 
-    courseMapping.put("101", course);
-    departmentMapping.put("CS", department);
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(department.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = routeController.setEnrollmentCount("CS", 101, 50);
-    assertEquals(OK, response.getStatusCode());
-    assertEquals("Attributed was updated successfully.", response.getBody());
-  }
-
-  @Test
-  public void testChangeCourseTime_CourseExists() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    HashMap<String, Course> courseMapping = new HashMap<>();
-
-    courseMapping.put("101", course);
-    departmentMapping.put("CS", department);
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(department.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = routeController.changeCourseTime("CS", 101, "10:00 AM");
-    assertEquals(OK, response.getStatusCode());
-    assertEquals("Attributed was updated successfully.", response.getBody());
-  }
-
-  @Test
-  public void testChangeCourseTime_CourseNotFound() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-
-    ResponseEntity<?> response = routeController.changeCourseTime("CS", 101, "10:00 AM");
-    assertEquals(NOT_FOUND, response.getStatusCode());
+    // Then
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
   }
 
   @Test
-  public void testChangeCourseTeacher_CourseExists() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    HashMap<String, Course> courseMapping = new HashMap<>();
+  public void testDropStudentDepartmentNotFound() {
+    String deptCode = "NONEXISTENT";
+    int courseCode = 1001;
 
-    courseMapping.put("101", course);
-    departmentMapping.put("CS", department);
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(department.getCourseSelection()).thenReturn(courseMapping);
+    ResponseEntity<?> response = routeController.dropStudent(deptCode, courseCode);
 
-    ResponseEntity<?> response = routeController.changeCourseTeacher("CS", 101, "New Teacher");
-    assertEquals(OK, response.getStatusCode());
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testSetEnrollmentSuccess() {
+    String deptCode = "COMS";
+    int courseCode = 1004;
+
+    ResponseEntity<?> response = routeController.setEnrollmentCount(deptCode, courseCode, 10);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals("Attributed was updated successfully.", response.getBody());
   }
 
   @Test
-  public void testChangeCourseLocation_CourseExists() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    HashMap<String, Course> courseMapping = new HashMap<>();
+  public void testSetEnrollmentCourseNotFound() {
+    String deptCode = "COMS";
+    int courseCode = 9999;
+    ResponseEntity<?> response = routeController.setEnrollmentCount(deptCode, courseCode, 10);
 
-    courseMapping.put("101", course);
-    departmentMapping.put("CS", department);
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(department.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = routeController.changeCourseLocation("CS", 101, "New Building");
-    assertEquals(OK, response.getStatusCode());
-    assertEquals("Attributed was updated successfully.", response.getBody());
+    // Then
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
   }
 
   @Test
-  public void testChangeCourseLocation_CourseNotFound() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
+  public void testSetEnrollmentDepartmentNotFound() {
+    String deptCode = "NONEXISTENT";
+    int courseCode = 1001;
 
-    ResponseEntity<?> response = routeController.changeCourseLocation("CS", 101, "New Building");
-    assertEquals(NOT_FOUND, response.getStatusCode());
+    ResponseEntity<?> response = routeController.setEnrollmentCount(deptCode, courseCode,10);
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testChangeCourseTimeSuccess() {
+    String deptCode = "COMS";
+    int courseCode = 1004;
+    Department department = app.myFileDatabase.getDepartmentMapping().get(deptCode);
+    Course course = department.getCourseSelection().get(Integer.toString(courseCode));
+
+    ResponseEntity<?> response = routeController.changeCourseTime(deptCode, courseCode, "1:10-3:40");
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attributed was updated successfully.", response.getBody());
+    assertEquals("1:10-3:40", course.getCourseTimeSlot());
+  }
+
+  @Test
+  public void testChangeCourseTimeCourseNotFound() {
+    String deptCode = "COMS";
+    int courseCode = 9999;
+    ResponseEntity<?> response = routeController.changeCourseTime(deptCode, courseCode, "1:10-3:40");
+
+    // Then
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testChangeCourseTimeDepartmentNotFound() {
+    String deptCode = "NONEXISTENT";
+    int courseCode = 1001;
+
+    ResponseEntity<?> response = routeController.changeCourseTime(deptCode, courseCode, "1:10-3:40");
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testChangeCourseTeacherSuccess() {
+    String deptCode = "COMS";
+    int courseCode = 1004;
+    Department department = app.myFileDatabase.getDepartmentMapping().get(deptCode);
+    Course course = department.getCourseSelection().get(Integer.toString(courseCode));
+
+    ResponseEntity<?> response = routeController.changeCourseTeacher(deptCode, courseCode, "new teacher");
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attributed was updated successfully.", response.getBody());
+    assertEquals("new teacher", course.getInstructorName());
+  }
+
+  @Test
+  public void testChangeCourseTeacherCourseNotFound() {
+    String deptCode = "COMS";
+    int courseCode = 9999;
+    ResponseEntity<?> response = routeController.changeCourseTeacher(deptCode, courseCode, "new teacher");
+
+    // Then
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testChangeCourseTeacherDepartmentNotFound() {
+    String deptCode = "NONEXISTENT";
+    int courseCode = 1001;
+
+    ResponseEntity<?> response = routeController.changeCourseTeacher(deptCode, courseCode, "new teacher");
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testChangeCourseLocationSuccess() {
+    String deptCode = "COMS";
+    int courseCode = 1004;
+    Department department = app.myFileDatabase.getDepartmentMapping().get(deptCode);
+    Course course = department.getCourseSelection().get(Integer.toString(courseCode));
+
+    ResponseEntity<?> response = routeController.changeCourseLocation(deptCode, courseCode, "new location");
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attributed was updated successfully.", response.getBody());
+    assertEquals("new location", course.getCourseLocation());
+  }
+
+  @Test
+  public void testChangeCourseLocationCourseNotFound() {
+    String deptCode = "COMS";
+    int courseCode = 9999;
+    ResponseEntity<?> response = routeController.changeCourseLocation(deptCode, courseCode, "new location");
+
+    // Then
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testChangeCourseLocationDepartmentNotFound() {
+    String deptCode = "NONEXISTENT";
+    int courseCode = 1001;
+
+    ResponseEntity<?> response = routeController.changeCourseLocation(deptCode, courseCode, "new location");
+
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
   }
 
