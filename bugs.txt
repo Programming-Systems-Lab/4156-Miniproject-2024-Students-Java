@@ -4,7 +4,6 @@ Course.java:
 3. getCourseLocation() method returns this.instructorName and the getInstructorName() method returns this.courseLocation. We need to swap them to make the logic correct.
 4. In the constructor of Course, enrolledStudentCount is set to 500. However, by default it should be 0.
 5. In the method isCourseFull(), the condition enrollmentCapacity > enrolledStudentCount is wrong and should be changed to enrollmentCapacity <= enrolledStudentCount
-6. setEnrolledStudentCount() method directly sets the value of this.enrolledStudentCount. However, this should be performed only when the given parameter has a non-negative value and the value is not greater than this.enrollmentCapacity.
 
 Department.java:
 1. getNumberOfMajors() method returns the negative of the number of majors, which is wrong, and we should remove that negative sign.
@@ -98,5 +97,4 @@ Here is the output when I run PMD now:
 C:\Users\10297\Desktop\4156\4156-Miniproject-2024-Students-Java\IndividualProject>pmd.bat check -d src -R rulesets/java/quickstart.xml -f text
 [WARN] Progressbar rendering conflicts with reporting to STDOUT. No progressbar will be shown. Try running with argument -r <file> to output the report to a file instead.
 [WARN] This analysis could be faster, please consider using Incremental Analysis: https://docs.pmd-code.org/pmd-doc-7.5.0/pmd_userdocs_incremental_analysis.html
-
 

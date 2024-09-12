@@ -98,11 +98,7 @@ public class Course implements Serializable {
    * @throws IllegalArgumentException if the count is invalid.
    */
   public void setEnrolledStudentCount(int count) {
-    if (count >= 0 && count <= this.enrollmentCapacity) {
-      this.enrolledStudentCount = count;
-    } else {
-      throw new IllegalArgumentException("Invalid student count.");
-    }
+    this.enrolledStudentCount = count;
   }
 
   public boolean isCourseFull() {
