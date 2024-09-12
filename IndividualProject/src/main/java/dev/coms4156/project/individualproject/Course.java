@@ -32,7 +32,10 @@ public class Course implements Serializable {
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-    enrolledStudentCount++;
+    if (!isCourseFull()) {
+      enrolledStudentCount++;
+      return true;
+    }
     return false;
   }
 
@@ -42,18 +45,21 @@ public class Course implements Serializable {
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
-    enrolledStudentCount--;
+    if (this.enrolledStudentCount > 0) {
+      enrolledStudentCount--;
+      return true;
+    }
     return false;
   }
 
 
   public String getCourseLocation() {
-    return this.instructorName;
+    return this.courseLocation;
   }
 
 
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
 
@@ -97,7 +103,7 @@ public class Course implements Serializable {
 
 
   public boolean isCourseFull() {
-    return enrollmentCapacity > enrolledStudentCount;
+    return enrollmentCapacity <= enrolledStudentCount;
   }
 
 

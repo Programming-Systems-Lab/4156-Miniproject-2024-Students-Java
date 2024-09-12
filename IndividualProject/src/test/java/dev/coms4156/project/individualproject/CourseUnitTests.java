@@ -163,7 +163,8 @@ public class CourseUnitTests {
    */
   @Test
   public void testIsCourseFullSuccess() {
-    int amountAboveCapacity = testCourse.getCourseCapacity() + 100;
+    int amountAboveCapacity = testCourse.getCourseCapacity() + 10;
+    testCourse.setEnrolledStudentCount(amountAboveCapacity);
     assertTrue(testCourse.isCourseFull());
   }
 
@@ -175,7 +176,7 @@ public class CourseUnitTests {
   @Test
   public void testIsCourseFullFailure() {
     testCourse.setEnrolledStudentCount(testCourse.getCourseCapacity()-1);
-    assertTrue(testCourse.isCourseFull());
+    assertFalse(testCourse.isCourseFull());
   }
 
 
