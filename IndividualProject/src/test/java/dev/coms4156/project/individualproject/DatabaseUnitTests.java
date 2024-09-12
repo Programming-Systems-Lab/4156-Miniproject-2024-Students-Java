@@ -1,8 +1,8 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,7 +66,7 @@ public class DatabaseUnitTests {
   public void getDeptMappingTest() {
     HashMap<String, Department> testMapping = testDatabase.getDepartmentMapping();
     HashMap<String, Course> compSciCourses = testMapping.get("COMS").getCourseSelection();
-    assertEquals("Adam Cannon",compSciCourses.get("1004").getInstructorName());
+    assertEquals("Adam Cannon", compSciCourses.get("1004").getInstructorName());
   }
 
   /**
@@ -84,7 +84,7 @@ public class DatabaseUnitTests {
 
   /**
    * This test attempts to deserialize the object from the file and check if the object is of the
-   * type HashMap<String, Department>.
+   * type HashMap with Strings as the key and Department as the value.
    */
   @Test
   public void deSerializeTest() {
@@ -99,15 +99,15 @@ public class DatabaseUnitTests {
   @Test
   public void deSerializeInvalidTest() {
     try (ObjectOutputStream out = new ObjectOutputStream(
-      new FileOutputStream("./invalidDB.txt"))) {
-        out.writeObject("This is a string, not a HashMap!");
+        new FileOutputStream("./invalidDB.txt"))) {
+      out.writeObject("This is a string, not a HashMap!");
     } catch (IOException e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
 
-    MyFileDatabase invalidDB = new MyFileDatabase(1, "./invalidDB.txt");
+    MyFileDatabase invalidDb = new MyFileDatabase(1, "./invalidDB.txt");
     assertThrows(IllegalArgumentException.class, () -> {
-        invalidDB.deSerializeObjectFromFile();
+      invalidDb.deSerializeObjectFromFile();
     });
   }
   
