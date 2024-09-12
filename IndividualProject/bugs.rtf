@@ -7,9 +7,21 @@
 \margl1440\margr1440\vieww11520\viewh8400\viewkind0
 \pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
 \ls1\ilvl0
-\f0\fs24 \cf0 {\listtext	1.	}Inside Course.java\
+\f0\fs24 \cf0 {\listtext	1.	}Course.java\
 \pard\tx940\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1440\fi-1440\pardirnatural\partightenfactor0
-\ls1\ilvl1\cf0 {\listtext	\uc0\u8259 	}\
+\ls1\ilvl1\cf0 {\listtext	\uc0\u8259 	}enrollStudent(): Fixed not checking if course is full. Added if-else depending on isCourseFull()\
+{\listtext	\uc0\u8259 	}isCourseFull(): FIxed wrong logic to indicate the course is full when enrollmentCapacity < enrolledStudentCount: return true. otherwise, the course is not full when enrollmentCapacity >= enrolledStudentCount\
+{\listtext	\uc0\u8259 	}dropStudent(): Fixed return true if the student is successfully dropped. Added a logic that when no students enrolled, return false because this means the student is not enrolled. Can\'92t do further change due to lack of infomation.\
+{\listtext	\uc0\u8259 	}getCourseLocation(): Fixed false return of InstructorName to CourseLocation\
+{\listtext	\uc0\u8259 	}getInstructorName(): Fixed false return of CourseLocation to InstructorName\
+{\listtext	\uc0\u8259 	}\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf0 {\listtext	2.	}Department.java\
+\pard\tx940\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1440\fi-1440\pardirnatural\partightenfactor0
+\ls1\ilvl1\cf0 {\listtext	\uc0\u8259 	}getNumberOfMajors(): Deleted hyphen \'91-\'92 to correctly return numberOfMajors.\
+{\listtext	\uc0\u8259 	}getDepartmentChair(): Changed returning a string to return the string variable of name of department chair.\
+{\listtext	\uc0\u8259 	}addCourse(\'85): Fixed confusion by adding \'93this.\'94 infront of courses.put\
+{\listtext	\uc0\u8259 	}toString(): Deleted \'93\'94 so that it returns a string representing the depart, not \'93result.toString()\'94\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
 }
