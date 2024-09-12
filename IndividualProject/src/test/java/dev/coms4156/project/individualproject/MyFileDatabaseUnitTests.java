@@ -1,66 +1,28 @@
 package dev.coms4156.project.individualproject;
 
-import jakarta.annotation.PreDestroy;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.Map;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+
 
 /**
- * Class contains all the startup logic for the application.
- *
- * <p>DO NOT MODIFY ANYTHING BELOW THIS POINT WITH REGARD TO FUNCTIONALITY
- * YOU MAY MAKE STYLE/REFACTOR MODIFICATIONS AS NEEDED
+ * This class contains unit tests for the MyFileDatabase class.
  */
-@SpringBootApplication
-public class IndividualProjectApplication implements CommandLineRunner {
-
-  /**
-   * The main launcher for the service all it does
-   * is make a call to the overridden run method.
-   *
-   * @param args A {@code String[]} of any potential
-   *             runtime arguments
-   */
-  public static void main(String[] args) {
-    SpringApplication.run(IndividualProjectApplication.class, args);
-  }
-
-  /**
-   * This contains all the setup logic, it will mainly be focused
-   * on loading up and creating an instance of the database based
-   * off a saved file or will create a fresh database if the file
-   * is not present.
-   *
-   * @param args A {@code String[]} of any potential runtime args
-   */
-  public void run(String[] args) {
-    for (String arg : args) {
-      if (arg.equals("setup")) {
-        myFileDatabase = new MyFileDatabase(1, "./data.txt");
-        resetDataFile();
-        System.out.println("System Setup");
-        return;
-      }
-    }
-    myFileDatabase = new MyFileDatabase(0, "./data.txt");
-    System.out.println("Start up");
-  }
-
-  /**
-   * Overrides the database reference, used when testing.
-   *
-   * @param testData A {@code MyFileDatabase} object referencing test data.
-   */
-  public static void overrideDatabase(MyFileDatabase testData) {
-    myFileDatabase = testData;
-    saveData = false;
-  }
-
-  /**
-   * Allows for data to be reset in event of errors.
-   */
-  public void resetDataFile() {
+@SpringBootTest
+@ContextConfiguration
+public class MyFileDatabaseUnitTests {
+  @BeforeEach
+  public void setupDatabaseForTesting() {
+    testDatabase = new MyFileDatabase(0, "./data.txt");
     String[] times = {"11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55"};
     String[] locations = {"417 IAB", "309 HAV", "301 URIS"};
 
@@ -91,7 +53,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     courses.put("3827", coms3827);
     courses.put("4156", coms4156);
     Department compSci = new Department("COMS", courses, "Luca Carloni", 2700);
-    HashMap<String, Department> mapping = new HashMap<>();
+    mapping = new HashMap<>();
     mapping.put("COMS", compSci);
 
     //data for econ dept
@@ -279,24 +241,48 @@ public class IndividualProjectApplication implements CommandLineRunner {
 
     Department psyc = new Department("PSYC", courses, "Nim Tottenham", 437);
     mapping.put("PSYC", psyc);
-
-    myFileDatabase.setMapping(mapping);
   }
 
-  /**
-   * This contains all the overheading teardown logic, it will
-   * mainly be focused on saving all the created user data to a
-   * file, so it will be ready for the next setup.
-   */
-  @PreDestroy
-  public void onTermination() {
-    System.out.println("Termination");
-    if (saveData) {
-      myFileDatabase.saveContentsToFile();
+  @Test
+  public void deSerializeObjectFromFileTest() {
+    assertEquals(mapping, testDatabase.getDepartmentMapping());
+  }
+
+  @Test
+  public void toStringTest() {
+    StringBuilder result = new StringBuilder();
+    for (Map.Entry<String, Department> entry : mapping.entrySet()) {
+      String key = entry.getKey();
+      Department value = entry.getValue();
+      result.append("For the ").append(key).append(" department: \n").append(value.toString());
     }
+    assertEquals(result.toString(), testDatabase.toString());
   }
 
-  //Database Instance
-  public static MyFileDatabase myFileDatabase;
-  private static boolean saveData = true;
+  @Test
+  public void setMappingTest() {
+    HashMap<String, Department> tempmapping = new HashMap<>();
+    HashMap<String, Course> courses = new HashMap<>();
+    Course psyc1001 = new Course("Patricia G Lindemann", "501 SCH", "1:10-2:25", 200);
+    courses.put("1001", psyc1001);
+    Department psyc = new Department("PSYC", courses, "Nim Tottenham", 437);
+    tempmapping.put("PSYC", psyc);
+    testDatabase.setMapping(tempmapping);
+    assertEquals(tempmapping, testDatabase.getDepartmentMapping());
+  }
+
+  @Test
+  public void saveContentsToFileTest() {
+    testDatabase = new MyFileDatabase(1, "./test_data.txt");
+    testDatabase.setMapping(mapping);
+    testDatabase.saveContentsToFile();
+    testDatabase.deSerializeObjectFromFile();
+    assertEquals(mapping, testDatabase.getDepartmentMapping());
+  }
+
+
+  /** The test department instance used for testing and reference mapping. */
+  public static MyFileDatabase testDatabase;
+  public static HashMap<String, Department> mapping;
 }
+

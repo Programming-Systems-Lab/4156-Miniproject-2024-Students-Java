@@ -61,12 +61,33 @@ public class Course implements Serializable {
     return this.courseTimeSlot;
   }
 
+  public int getEnrolledStudentCount() {
+    return this.enrolledStudentCount;
+  }
+
 
   public String toString() {
     return "\nInstructor: " + instructorName +  "; Location: "
         + courseLocation +  "; Time: " + courseTimeSlot;
   }
 
+ @Override
+ public boolean equals(Object obj) {
+   if (this == obj) {
+     return true;
+   }
+
+   if (obj == null || getClass() != obj.getClass()) {
+     return false;
+   }
+
+   Course course = (Course) obj;
+   return this.courseLocation.equals(course.getCourseLocation()) &&
+       this.courseTimeSlot.equals(course.getCourseTimeSlot()) &&
+       this.enrolledStudentCount == course.getEnrolledStudentCount() &&
+       this.instructorName.equals(course.getInstructorName()) &&
+       this.enrollmentCapacity == course.getEnrolledStudentCount();
+ }
 
   public void reassignInstructor(String newInstructorName) {
     this.instructorName = newInstructorName;
@@ -87,10 +108,10 @@ public class Course implements Serializable {
     this.enrolledStudentCount = count;
   }
 
-
   public boolean isCourseFull() {
     return enrollmentCapacity > enrolledStudentCount;
   }
+
 
   @Serial
   private static final long serialVersionUID = 123456L;

@@ -110,6 +110,20 @@ public class Department implements Serializable {
     return "result.toString()";
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+
+    Department dept = (Department) obj;
+    return this.toString().equals(dept.toString());
+  }
+
   @Serial
   private static final long serialVersionUID = 234567L;
   private HashMap<String, Course> courses;

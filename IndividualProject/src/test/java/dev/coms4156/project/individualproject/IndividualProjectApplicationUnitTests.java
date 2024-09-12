@@ -1,66 +1,32 @@
 package dev.coms4156.project.individualproject;
 
-import jakarta.annotation.PreDestroy;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.HashMap;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
+
 
 /**
- * Class contains all the startup logic for the application.
- *
- * <p>DO NOT MODIFY ANYTHING BELOW THIS POINT WITH REGARD TO FUNCTIONALITY
- * YOU MAY MAKE STYLE/REFACTOR MODIFICATIONS AS NEEDED
+ * This class contains unit tests for the IndividualProjectApplication class.
  */
-@SpringBootApplication
-public class IndividualProjectApplication implements CommandLineRunner {
+@SpringBootTest
+@ContextConfiguration
+public class IndividualProjectApplicationUnitTests {
 
-  /**
-   * The main launcher for the service all it does
-   * is make a call to the overridden run method.
-   *
-   * @param args A {@code String[]} of any potential
-   *             runtime arguments
-   */
-  public static void main(String[] args) {
-    SpringApplication.run(IndividualProjectApplication.class, args);
-  }
-
-  /**
-   * This contains all the setup logic, it will mainly be focused
-   * on loading up and creating an instance of the database based
-   * off a saved file or will create a fresh database if the file
-   * is not present.
-   *
-   * @param args A {@code String[]} of any potential runtime args
-   */
-  public void run(String[] args) {
-    for (String arg : args) {
-      if (arg.equals("setup")) {
-        myFileDatabase = new MyFileDatabase(1, "./data.txt");
-        resetDataFile();
-        System.out.println("System Setup");
-        return;
-      }
-    }
-    myFileDatabase = new MyFileDatabase(0, "./data.txt");
-    System.out.println("Start up");
-  }
-
-  /**
-   * Overrides the database reference, used when testing.
-   *
-   * @param testData A {@code MyFileDatabase} object referencing test data.
-   */
-  public static void overrideDatabase(MyFileDatabase testData) {
-    myFileDatabase = testData;
-    saveData = false;
-  }
-
-  /**
-   * Allows for data to be reset in event of errors.
-   */
-  public void resetDataFile() {
+  @BeforeAll
+  public static void setupBeforeTests() {
     String[] times = {"11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55"};
     String[] locations = {"417 IAB", "309 HAV", "301 URIS"};
 
@@ -91,8 +57,10 @@ public class IndividualProjectApplication implements CommandLineRunner {
     courses.put("3827", coms3827);
     courses.put("4156", coms4156);
     Department compSci = new Department("COMS", courses, "Luca Carloni", 2700);
-    HashMap<String, Department> mapping = new HashMap<>();
+    mapping = new HashMap<>();
     mapping.put("COMS", compSci);
+    mapping_small = new HashMap<>();
+    mapping_small.put("COMS", compSci);
 
     //data for econ dept
     Course econ1105 = new Course("Waseem Noor", locations[1], times[3], 210);
@@ -279,24 +247,51 @@ public class IndividualProjectApplication implements CommandLineRunner {
 
     Department psyc = new Department("PSYC", courses, "Nim Tottenham", 437);
     mapping.put("PSYC", psyc);
-
-    myFileDatabase.setMapping(mapping);
   }
 
-  /**
-   * This contains all the overheading teardown logic, it will
-   * mainly be focused on saving all the created user data to a
-   * file, so it will be ready for the next setup.
-   */
-  @PreDestroy
-  public void onTermination() {
-    System.out.println("Termination");
-    if (saveData) {
-      myFileDatabase.saveContentsToFile();
+  @Test
+  public void checkRunSetup() {
+    IndividualProjectApplication ipa = new IndividualProjectApplication();
+    String[] setuparray = {"setup"};
+    ipa.run(setuparray);
+    assertEquals(IndividualProjectApplication.myFileDatabase.getDepartmentMapping(), mapping);
+  }
+
+  @Test
+  public void checkMainAndRunEmpty() {
+    String[] emptyarray = {};
+    IndividualProjectApplication.main(emptyarray);
+    assertEquals(IndividualProjectApplication.myFileDatabase.getDepartmentMapping(), mapping);
+  }
+
+  @Test
+  public void checkOverrideDatabase() {
+    MyFileDatabase testDatabase = new MyFileDatabase(1, "./temp.txt");
+    testDatabase.setMapping(mapping_small);
+    IndividualProjectApplication.overrideDatabase(testDatabase);
+    assertEquals(IndividualProjectApplication.myFileDatabase.getDepartmentMapping(), mapping_small);
+  }
+
+  @Test
+  public void checkOnTerminate() {
+    IndividualProjectApplication ipa = new IndividualProjectApplication();
+    Object obj = null;
+    MyFileDatabase testDatabase = new MyFileDatabase(1, "./temp.txt");
+    testDatabase.setMapping(mapping_small);
+    IndividualProjectApplication.overrideDatabase(testDatabase);
+    ipa.onTermination();
+    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("./temp.txt"))) {
+      obj = in.readObject();
+      if (!(obj instanceof HashMap)) {
+        fail();
+      }
+    } catch (IOException | ClassNotFoundException e) {
+      fail();
     }
+    assertEquals(IndividualProjectApplication.myFileDatabase.getDepartmentMapping(), obj);
   }
 
-  //Database Instance
-  public static MyFileDatabase myFileDatabase;
-  private static boolean saveData = true;
+  public static HashMap<String, Department> mapping;
+  public static HashMap<String, Department> mapping_small;
 }
+
