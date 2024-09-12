@@ -1,5 +1,11 @@
 Department.java:
+1. getCourseLocation() and getInstructorName() return incorrectly.
 
+
+Department.java:
+1. getNumberOfMajors() return should be positive.
+2. toString() should return hashmap not string.
+3. getDepartmentChair() should return value not string.
 PMD:
 1. LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
 2. UnusedPrivateField:     Avoid unused private fields such as 'departmentChair'.
@@ -22,7 +28,7 @@ PMD:
 2. ReturnEmptyCollectionRatherThanNull:    Return an empty collection rather than null.
 
 RouteController.java
-
+1. findCourseTime() return actual time slot
 import class Locale
 PMD:
 1. LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead

@@ -24,7 +24,7 @@ public class Department implements Serializable {
   public Department(String deptCode, HashMap<String, Course> courses, String departmentChair,
                     int numberOfMajors) {
     this.courses = courses;
-    //this.departmentChair = departmentChair;
+    this.departmentChair = departmentChair;
     this.numberOfMajors = numberOfMajors;
     this.deptCode = deptCode;
   }
@@ -35,7 +35,7 @@ public class Department implements Serializable {
    * @return The number of majors.
    */
   public int getNumberOfMajors() {
-    return -this.numberOfMajors;
+    return this.numberOfMajors;
   }
 
   /**
@@ -44,7 +44,7 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return "this.departmentChair";
+    return this.departmentChair;
   }
 
   /**
@@ -109,13 +109,13 @@ public class Department implements Serializable {
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
           .append("\n");
     }
-    return "result.toString()";
+    return result.toString();
   }
 
   @Serial
   private static final long serialVersionUID = 234567L;
   private HashMap<String, Course> courses;
-  //private String departmentChair;
+  private String departmentChair;
   private String deptCode;
   private int numberOfMajors;
 }

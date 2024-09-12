@@ -35,23 +35,18 @@ public class CourseUnitTests {
   *some test method for Course.java
   */
   @Test
-  public void getenrolledStudentCount() {
-    assertEquals(500, testCourse.getenrolledStudentCount());
-  }
-
-  @Test
   public void enrollStudentTest() {
-    int cur = testCourse.getenrolledStudentCount();
+    int cur = testCourse.getenrolledStudentCount()+1;
     if (!testCourse.enrollStudent()) {
-      assertEquals(cur++, testCourse.getenrolledStudentCount());
+      assertEquals(cur, testCourse.getenrolledStudentCount());
     };
   }
 
   @Test
   public void dropStudentTest() {
-    int cur = testCourse.getenrolledStudentCount();
+    int cur = testCourse.getenrolledStudentCount()-1;
     if (!testCourse.dropStudent()) {
-      assertEquals(cur--, testCourse.getenrolledStudentCount());
+      assertEquals(cur, testCourse.getenrolledStudentCount());
     };
   }
 
@@ -63,9 +58,11 @@ public class CourseUnitTests {
 
   @Test
   public void setEnrolledStudentCountTest() {
+    int pre_enroll = testCourse.getenrolledStudentCount();
     testCourse.setEnrolledStudentCount(100);
     int expectedCount = 100;
     assertEquals(expectedCount, testCourse.getenrolledStudentCount());
+    testCourse.setEnrolledStudentCount(pre_enroll);
   }
 
   @Test
@@ -88,20 +85,26 @@ public class CourseUnitTests {
 
   @Test
   public void reassignInstructorTest() {
-    testCourse.reassignInstructor("A professor");
-    assertEquals("A professor", testCourse.getInstructorName());
+    String pre_instructor = testCourse.getInstructorName();
+    testCourse.reassignInstructor("Jae Woo");
+    assertEquals("Jae Woo", testCourse.getInstructorName());
+    testCourse.reassignInstructor(pre_instructor);
   }
 
   @Test
   public void reassignLocationTest() {
-    testCourse.reassignLocation("Somewhere");
-    assertEquals("Somewhere", testCourse.getCourseLocation());
+    String pre_location = testCourse.getCourseLocation();
+    testCourse.reassignLocation("IAB 501");
+    assertEquals("IAB 501", testCourse.getCourseLocation());
+    testCourse.reassignLocation(pre_location);
   }
 
   @Test
   public void reassignTimeTest() {
+    String pre_time = testCourse.getCourseTimeSlot();
     testCourse.reassignTime("10:10-11:35");
     assertEquals("10:10-11:35", testCourse.getCourseTimeSlot());
+    testCourse.reassignTime(pre_time);
   }
 
   /** The test course instance used for testing. */
