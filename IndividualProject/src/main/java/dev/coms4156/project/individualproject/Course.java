@@ -23,7 +23,7 @@ public class Course implements Serializable {
     this.instructorName = instructorName;
     this.courseTimeSlot = timeSlot;
     this.enrollmentCapacity = capacity;
-    this.enrolledStudentCount = 500;
+    this.enrolledStudentCount = 0;
   }
 
   /**
