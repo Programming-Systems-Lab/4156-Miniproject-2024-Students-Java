@@ -1,2 +1,6 @@
+what the issue you fixed was, where it was, 
+and if it has a proper name identified by a static analyzer what that name was
+
+
 Course.java
 - 
