@@ -1,6 +1,7 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 
 public class Course implements Serializable {
 
@@ -88,8 +89,9 @@ public class Course implements Serializable {
 
 
   public boolean isCourseFull() {
-    return enrollmentCapacity > enrolledStudentCount;
-  }
+    return this.enrolledStudentCount > this.enrollmentCapacity;
+}
+
 
   @Serial
   private static final long serialVersionUID = 123456L;
