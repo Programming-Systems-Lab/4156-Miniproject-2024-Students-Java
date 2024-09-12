@@ -29,10 +29,21 @@ public class Department implements Serializable {
       HashMap<String, Course> courses,
       String departmentChair,
       int numberOfMajors) {
+
+    if (deptCode == null || deptCode.trim().isEmpty()) {
+      throw new IllegalArgumentException("Department code cannot be null or empty.");
+    }
+    if (departmentChair == null || departmentChair.trim().isEmpty()) {
+      throw new IllegalArgumentException("Department chair cannot be null or empty.");
+    }
+    if (numberOfMajors < 0) {
+      throw new IllegalArgumentException("Number of majors must be a positive number.");
+    }
+
+    this.deptCode = deptCode;
     this.courses = courses;
     this.departmentChair = departmentChair;
     this.numberOfMajors = numberOfMajors;
-    this.deptCode = deptCode;
   }
 
   /**
@@ -53,6 +64,11 @@ public class Department implements Serializable {
     return this.departmentChair;
   }
 
+  /** Gets the department code. */
+  public String getDepartmentCode() {
+    return this.deptCode;
+  }
+
   /**
    * Gets the courses offered by the department.
    *
@@ -63,15 +79,19 @@ public class Department implements Serializable {
   }
 
   /** Increases the number of majors in the department by one. */
-  // TODO: change to increment number of people in major
   public void addPersonToMajor() {
-    numberOfMajors++;
+    this.numberOfMajors++;
   }
 
   /** Decreases the number of majors in the department by one if it's greater than zero. */
-  // TODO: change to decrement number of people in major IF department size is > 0
   public void dropPersonFromMajor() {
-    numberOfMajors--;
+    if (this.numberOfMajors <= 0) {
+      throw new IllegalArgumentException(
+          "Can only remove a major from a department if there is at least 1 major in a"
+              + "department.");
+    }
+
+    this.numberOfMajors--;
   }
 
   /**
@@ -80,8 +100,13 @@ public class Department implements Serializable {
    * @param courseId The ID of the course to add.
    * @param course The Course object to add.
    */
-  // TODO: check for valid input, non-null and non-empty string
   public void addCourse(String courseId, Course course) {
+    if (courseId == null || courseId.trim().isEmpty()) {
+      throw new IllegalArgumentException("courseId cannot be null or empty.");
+    }
+    if (course == null) {
+      throw new IllegalArgumentException("Course cannot be null.");
+    }
     courses.put(courseId, course);
   }
 
@@ -111,17 +136,19 @@ public class Department implements Serializable {
    */
   public String toString() {
     StringBuilder result = new StringBuilder();
-    for (Map.Entry<String, Course> entry : courses.entrySet()) {
-      String key = entry.getKey();
-      Course value = entry.getValue();
-      result
-          .append(deptCode)
-          .append(" ")
-          .append(key)
-          .append(": ")
-          .append(value.toString())
-          .append("\n");
+    if (!courses.isEmpty()) {
+      for (Map.Entry<String, Course> entry : courses.entrySet()) {
+        String key = entry.getKey();
+        Course value = entry.getValue();
+        result
+            .append(deptCode)
+            .append(" ")
+            .append(key)
+            .append(": ")
+            .append(value.toString())
+            .append("\n");
+      }
     }
-    return "result.toString()";
+    return result.toString();
   }
 }

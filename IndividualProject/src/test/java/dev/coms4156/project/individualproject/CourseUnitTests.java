@@ -1,6 +1,10 @@
 package dev.coms4156.project.individualproject;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,154 +22,133 @@ import org.springframework.test.context.ContextConfiguration;
 public class CourseUnitTests {
 
   /** The test course instance used for testing. */
-  public static Course testCourse;
+  private Course testCourse;
 
   @BeforeEach
-  public void Course_setUp() {
+  public void setUp() {
     testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
   }
 
   @Test
-  public void Course_Constructor_testValidConstructor() {
+  public void constructorTestValidConstructor() {
     Course course = new Course("Gail Kaiser", "417 IAB", "11:40-12:55", 30);
     assertNotNull(course);
   }
 
   @Test
-  public void Course_Constructor_testInvalidInstructorName() {
+  public void constructorTestInvalidInstructorName() {
     assertThrows(
-        IllegalArgumentException.class,
-        () -> {
-          new Course(null, "417 IAB", "11:40-12:55", 30);
-        });
+        IllegalArgumentException.class, () -> new Course(null, "417 IAB", "11:40-12:55", 30));
   }
 
   @Test
-  public void Course_Constructor_testInvalidCourseLocation() {
+  public void constructorTestInvalidCourseLocation() {
     assertThrows(
-        IllegalArgumentException.class,
-        () -> {
-          new Course("Gail Kaiser", "", "11:40-12:55", 30);
-        });
+        IllegalArgumentException.class, () -> new Course("Gail Kaiser", "", "11:40-12:55", 30));
   }
 
   @Test
-  public void Course_Constructor_testInvalidTimeSlot() {
+  public void constructorTestInvalidTimeSlot() {
     assertThrows(
-        IllegalArgumentException.class,
-        () -> {
-          new Course("Gail Kaiser", "11:40-12:55", null, 30);
-        });
+        IllegalArgumentException.class, () -> new Course("Gail Kaiser", "11:40-12:55", null, 30));
   }
 
   @Test
-  public void Course_Constructor_testInvalidCapacity() {
+  public void constructorTestInvalidCapacity() {
     assertThrows(
         IllegalArgumentException.class,
-        () -> {
-          new Course("Gail Kaiser", "417 IAB", "11:40-12:55", -1);
-        });
+        () -> new Course("Gail Kaiser", "417 IAB", "11:40-12:55", -1));
   }
 
   @Test
-  public void Course_toString_ReturnsCourseParamsAsString() {
+  public void toStringReturnsCourseParamsAsString() {
     String expectedResult = "\nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55";
     assertEquals(expectedResult, testCourse.toString());
   }
 
   @Test
-  public void Course_enrollStudent_WhenCourseIsNotFull() {
+  public void enrollStudentWhenCourseIsNotFull() {
     testCourse.setEnrolledStudentCount(0);
     assertTrue(testCourse.enrollStudent());
     assertEquals(1, testCourse.getEnrolledStudentCount());
   }
 
   @Test
-  public void Course_enrollStudent_WhenCourseIsFull() {
+  public void enrollStudentWhenCourseIsFull() {
     testCourse.setEnrolledStudentCount(250);
     assertFalse(
         testCourse.enrollStudent(), "Course is full, cannot add a student to a full course");
   }
 
   @Test
-  public void Course_setEnrollStudentCount_UpdateEnrolledStudentCount() {
+  public void setEnrollStudentCountUpdateEnrolledStudentCount() {
     testCourse.setEnrolledStudentCount(200);
     assertEquals(200, testCourse.getEnrolledStudentCount());
   }
 
   @Test
-  public void Course_setEnrollStudentCount_NonNegative() {
+  public void setEnrollStudentCountNonNegative() {
 
     assertThrows(
         IllegalArgumentException.class,
-        () -> {
-          testCourse.setEnrolledStudentCount(-1);
-        },
+        () -> testCourse.setEnrolledStudentCount(-1),
         "Expected non-negative value");
   }
 
   @Test
-  public void Course_dropStudent_WhenStudentsAreEnrolled() {
+  public void dropStudentWhenStudentsAreEnrolled() {
     testCourse.setEnrolledStudentCount(1);
     assertTrue(testCourse.dropStudent());
     assertEquals(0, testCourse.getEnrolledStudentCount());
   }
 
   @Test
-  public void Course_dropStudent_WhenStudentsAreNotEnrolled() {
+  public void dropStudentWhenStudentsAreNotEnrolled() {
     testCourse.setEnrolledStudentCount(0);
     assertFalse(testCourse.dropStudent());
   }
 
   @Test
-  public void Course_reassignInstructor_UpdateInstructorName() {
+  public void reassignInstructorUpdateInstructorName() {
     testCourse.reassignInstructor("Gail Kaiser");
     assertEquals("Gail Kaiser", testCourse.getInstructorName());
   }
 
   @Test
-  public void Course_reassignInstructor_CheckForValidInstructorName() {
+  public void reassignInstructorCheckForValidInstructorName() {
     String variableType = "instructor name";
     assertThrows(
         IllegalArgumentException.class,
-        () -> {
-          testCourse.reassignInstructor("");
-        },
+        () -> testCourse.reassignInstructor(""),
         String.format("Expected an empty string for %s when validating input.", variableType));
 
     assertThrows(
         IllegalArgumentException.class,
-        () -> {
-          testCourse.reassignInstructor(null);
-        },
+        () -> testCourse.reassignInstructor(null),
         String.format("Expected a null value for %s when validating input.", variableType));
   }
 
   @Test
-  public void Course_reassignLocation_CheckForValidLocationName() {
+  public void reassignLocationCheckForValidLocationName() {
     assertThrows(
         IllegalArgumentException.class,
-        () -> {
-          testCourse.reassignLocation("");
-        },
+        () -> testCourse.reassignLocation(""),
         "Expected a non-empty string for location name.");
 
     assertThrows(
         IllegalArgumentException.class,
-        () -> {
-          testCourse.reassignLocation(null);
-        },
+        () -> testCourse.reassignLocation(null),
         "Expected a non-null value for location name.");
   }
 
   @Test
-  public void Course_reassignTime_ValidTimeFormat() {
+  public void reassignTimeValidTimeFormat() {
     testCourse.reassignTime("2:40-4:55");
     assertEquals("2:40-4:55", testCourse.getCourseTimeSlot());
   }
 
   @Test
-  public void Course_reassignTime_InvalidTimeFormat() {
+  public void reassignTimeInvalidTimeFormat() {
     Exception exception =
         assertThrows(IllegalArgumentException.class, () -> testCourse.reassignTime("invalid-time"));
     String expectedMessage =
@@ -176,7 +159,7 @@ public class CourseUnitTests {
   }
 
   @Test
-  public void Course_isValidTimeSlot_testValidTimeSlot() {
+  public void isValidTimeSlotTestValidTimeSlot() {
     assertTrue(Course.isValidTimeSlot("9:00-17:30"));
     assertTrue(Course.isValidTimeSlot("09:00-17:30"));
     assertTrue(Course.isValidTimeSlot("9:00-9:30"));
@@ -184,7 +167,7 @@ public class CourseUnitTests {
   }
 
   @Test
-  public void Course_isValidTimeSlot_testInvalidTimeSlot() {
+  public void isValidTimeSlotTestInvalidTimeSlot() {
     assertFalse(Course.isValidTimeSlot("9:00-25:00")); // Invalid hour
     assertFalse(Course.isValidTimeSlot("09:00-17:60")); // Invalid minute
     assertFalse(Course.isValidTimeSlot("9:00-17:30-20:00")); // Incorrect format
