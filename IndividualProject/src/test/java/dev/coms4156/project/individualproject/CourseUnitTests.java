@@ -1,8 +1,6 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -36,33 +34,33 @@ public class CourseUnitTests {
   */
   @Test
   public void enrollStudentTest() {
-    int cur = testCourse.getenrolledStudentCount()+1;
-    if (!testCourse.enrollStudent()) {
+    int cur = testCourse.getenrolledStudentCount() + 1;
+    if (testCourse.enrollStudent()) {
       assertEquals(cur, testCourse.getenrolledStudentCount());
-    };
+    }
   }
 
   @Test
   public void dropStudentTest() {
-    int cur = testCourse.getenrolledStudentCount()-1;
-    if (!testCourse.dropStudent()) {
+    int cur = testCourse.getenrolledStudentCount() - 1;
+    if (testCourse.dropStudent()) {
       assertEquals(cur, testCourse.getenrolledStudentCount());
-    };
+    }
   }
 
   @Test
   public void isCourseFullTest() {
     int enrollstudent = testCourse.getenrolledStudentCount();
-    assertEquals(500>enrollstudent, testCourse.isCourseFull());
+    assertEquals(500 > enrollstudent, testCourse.isCourseFull());
   }
 
   @Test
   public void setEnrolledStudentCountTest() {
-    int pre_enroll = testCourse.getenrolledStudentCount();
+    int preenroll = testCourse.getenrolledStudentCount();
     testCourse.setEnrolledStudentCount(100);
     int expectedCount = 100;
     assertEquals(expectedCount, testCourse.getenrolledStudentCount());
-    testCourse.setEnrolledStudentCount(pre_enroll);
+    testCourse.setEnrolledStudentCount(preenroll);
   }
 
   @Test
@@ -85,26 +83,26 @@ public class CourseUnitTests {
 
   @Test
   public void reassignInstructorTest() {
-    String pre_instructor = testCourse.getInstructorName();
+    String preinstructor = testCourse.getInstructorName();
     testCourse.reassignInstructor("Jae Woo");
     assertEquals("Jae Woo", testCourse.getInstructorName());
-    testCourse.reassignInstructor(pre_instructor);
+    testCourse.reassignInstructor(preinstructor);
   }
 
   @Test
   public void reassignLocationTest() {
-    String pre_location = testCourse.getCourseLocation();
+    String prelocation = testCourse.getCourseLocation();
     testCourse.reassignLocation("IAB 501");
     assertEquals("IAB 501", testCourse.getCourseLocation());
-    testCourse.reassignLocation(pre_location);
+    testCourse.reassignLocation(prelocation);
   }
 
   @Test
   public void reassignTimeTest() {
-    String pre_time = testCourse.getCourseTimeSlot();
+    String pretime = testCourse.getCourseTimeSlot();
     testCourse.reassignTime("10:10-11:35");
     assertEquals("10:10-11:35", testCourse.getCourseTimeSlot());
-    testCourse.reassignTime(pre_time);
+    testCourse.reassignTime(pretime);
   }
 
   /** The test course instance used for testing. */

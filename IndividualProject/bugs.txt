@@ -1,5 +1,6 @@
-Department.java:
+Course.java:
 1. getCourseLocation() and getInstructorName() return incorrectly.
+2. enroll and drop should return True
 
 
 Department.java:
@@ -21,14 +22,18 @@ PMD:
 
 
 MyFileDatabase.java:
-
-
 PMD:
 1. LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
 2. ReturnEmptyCollectionRatherThanNull:    Return an empty collection rather than null.
 
+
+
 RouteController.java
 1. findCourseTime() return actual time slot
+2. retrieveDepartment() status code not correct return
+3. retrieveCourse() status code not correctly return 
+4. getMajorCtFromDept() negative become positive return
+5. getMajorCtFromDept() forbidden should be not_found
 import class Locale
 PMD:
 1. LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead

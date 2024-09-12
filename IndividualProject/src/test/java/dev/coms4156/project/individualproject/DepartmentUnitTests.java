@@ -1,7 +1,8 @@
 package dev.coms4156.project.individualproject;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -19,17 +20,24 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration
 public class DepartmentUnitTests {
 
+  /**
+   * This test checks if the Department methods returns the correct department
+   * details when given a valid department code.
+   */
+
   @BeforeAll
   public static void setupDepartmentForTesting() {
-    Course coms4156 = new Course("Gail Kaiser", "501 NWC", "10:10-11:25", 120);
+    Course coms4156 = new Course("Gail Kaiser",
+            "501 NWC", "10:10-11:25", 120);
     coms4156.setEnrolledStudentCount(109);
     HashMap<String, Course> courses = new HashMap<>();
     courses.put("4156", coms4156);
     testDepartment = new Department("COMS", courses, "Luca Carloni", 2700);
   }
 
+
   @Test
-  public void getNumberOfMajorsTest(){
+  public void getNumberOfMajorsTest() {
     assertEquals(2700, testDepartment.getNumberOfMajors());
   }
 
@@ -39,7 +47,7 @@ public class DepartmentUnitTests {
   }
 
   @Test
-  public void getCourseSelectionTest() {/////////////////////////////////////////
+  public void getCourseSelectionTest() {
     assertEquals("Luca Carloni", testDepartment.getDepartmentChair());
   }
 
@@ -58,14 +66,14 @@ public class DepartmentUnitTests {
   }
 
   @Test
-  public void addCourseTest() {///////////////////////////////////////////////////////////////////////////////
+  public void addCourseTest() {
     Course newCourse = new Course("Jae Lee", "417 IAB", "4:10-5:25", 311);
     testDepartment.addCourse("3157", newCourse);
     assertEquals(newCourse, testDepartment.getCourseSelection().get("3157"));
   }
 
   @Test
-  public void createCourseTest() {////////////////////////////////////////////////////////////////////////
+  public void createCourseTest() {
     testDepartment.createCourse("3157", "Jae Lee", "417 IAB", "4:10-5:25", 100);
     Course course = testDepartment.getCourseSelection().get("3157");
     assertEquals("Jae Lee", course.getInstructorName());
@@ -76,12 +84,13 @@ public class DepartmentUnitTests {
 
   @Test
   public void toStringTest() {
-    String expected = "COMS 4156: \n" +
-            "Instructor: Gail Kaiser; Location: 501 NWC; Time: 10:10-11:25\n" +
-            "COMS 3157: \n" +
-            "Instructor: Jae Lee; Location: 417 IAB; Time: 4:10-5:25\n";
+    String expected = "COMS 4156: \n"
+            + "Instructor: Gail Kaiser; Location: 501 NWC; Time: 10:10-11:25\n"
+            + "COMS 3157: \n"
+            + "Instructor: Jae Lee; Location: 417 IAB; Time: 4:10-5:25\n";
     System.out.println(testDepartment.toString());
     assertEquals(expected, testDepartment.toString());
   }
+
   public static Department testDepartment;
 }
