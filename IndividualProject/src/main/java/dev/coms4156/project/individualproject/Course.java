@@ -47,7 +47,8 @@ public class Course implements Serializable {
     }
     if (!isValidTimeSlot(timeSlot)) {
       throw new IllegalArgumentException(
-          "Invalid time format. Expected format: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM', or 'HH:MM-HH:MM'.");
+          "Invalid time format. Expected format: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM', or "
+              + "'HH:MM-HH:MM'.");
     }
     if (capacity <= 0) {
       throw new IllegalArgumentException("Capacity must be a positive number.");
@@ -62,10 +63,10 @@ public class Course implements Serializable {
 
   /**
    * Validates the time slot format. Allowed time formats: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM',
-   * 'HH:MM-HH:MM'. Also checks to ensure valid hours (00-23) and minutes (00-59)
+   * 'HH:MM-HH:MM'. Also checks to ensure valid hours (00-23) and minutes (00-59).
    *
-   * @param timeSlot the time slot string to validate
-   * @return true if the time slot is valid, false otherwise
+   * @param timeSlot the time slot string to validate.
+   * @return true if the time slot is valid, false otherwise.
    */
   public static boolean isValidTimeSlot(String timeSlot) {
     if (timeSlot == null || timeSlot.trim().isEmpty()) {
@@ -107,41 +108,42 @@ public class Course implements Serializable {
   }
 
   /**
-   * Get the location for a course
+   * Get the location for a course.
    *
-   * @return course location
+   * @return course location.
    */
   public String getCourseLocation() {
     return this.courseLocation;
   }
 
   /**
-   * Get the time slot for a course
+   * Get the time slot for a course.
    *
-   * @return time slot (string)
+   * @return time slot (string).
    */
   public String getCourseTimeSlot() {
     return this.courseTimeSlot;
   }
 
   /**
-   * Get the max number of students that can enroll in a course
+   * Get the max number of students that can enroll in a course.
    *
-   * @return enrollment capacity (int)
+   * @return enrollment capacity (int).
    */
   public int getEnrollmentCapacity() {
     return this.enrollmentCapacity;
   }
 
   /**
-   * Get the number of students currently enrolled in a course
+   * Get the number of students currently enrolled in a course.
    *
-   * @return enrolled student count (int)
+   * @return enrolled student count (int).
    */
   public int getEnrolledStudentCount() {
     return this.enrolledStudentCount;
   }
 
+  /** Set the number of students to enroll in a course. */
   public void setEnrolledStudentCount(int count) {
     if (count < 0) {
       throw new IllegalArgumentException("Enrolled student count cannot be non-negative.");
@@ -150,9 +152,9 @@ public class Course implements Serializable {
   }
 
   /**
-   * Get the instructor's name for a course
+   * Get the instructor's name for a course.
    *
-   * @return instructor name
+   * @return instructor name.
    */
   public String getInstructorName() {
     return this.instructorName;
@@ -174,9 +176,9 @@ public class Course implements Serializable {
   }
 
   /**
-   * Sets a new instructor for a course. Cannot be null or empty string
+   * Sets a new instructor for a course. Cannot be null or empty string.
    *
-   * @param newInstructorName the name of the new instructor to assign to the course
+   * @param newInstructorName the name of the new instructor to assign to the course.
    * @throws IllegalArgumentException if {@code newInstructorName} is null or an empty string.
    */
   public void reassignInstructor(String newInstructorName) {
@@ -187,9 +189,9 @@ public class Course implements Serializable {
   }
 
   /**
-   * Sets a new location for a course. Cannot be null or empty string
+   * Sets a new location for a course. Cannot be null or empty string.
    *
-   * @param newLocation the name of the new location to assign to the course
+   * @param newLocation the name of the new location to assign to the course.
    * @throws IllegalArgumentException if {@code newLocation} is null or an empty string.
    */
   public void reassignLocation(String newLocation) {
@@ -200,10 +202,10 @@ public class Course implements Serializable {
   }
 
   /**
-   * Sets a new time for a course. Must match the expected format below
+   * Sets a new time for a course. Must match the expected format below.
    *
-   * @param newTime the new time (string)
-   * @throws IllegalArgumentException if {@code newTime} does not match the expected format
+   * @param newTime the new time (string).
+   * @throws IllegalArgumentException if {@code newTime} does not match the expected format.
    */
   public void reassignTime(String newTime) {
     // Ensure valid timeSlot
@@ -218,9 +220,9 @@ public class Course implements Serializable {
   }
 
   /**
-   * Returns boolean to determine if a course is full or not
+   * Returns boolean to determine if a course is full or not.
    *
-   * @return true if full; else false
+   * @return true if full; else false.
    */
   public boolean isCourseFull() {
     return enrolledStudentCount >= enrollmentCapacity;

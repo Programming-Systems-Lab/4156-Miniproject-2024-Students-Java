@@ -63,3 +63,42 @@
       value `this.departmentChair`
     - **Fix**: Remove double quotes of `"this.departmentChair"` and return the value stored in
       `this.departmentChair`
+- **Method Name**: `dropPersonFromMajor()`
+    - **Type**: Bug
+    - **Description**: There is no input validation if the number of majors is <= 0 in a department.
+    - **Fix**: Throw an `IllegalArgumentException` is the number of majors is <= 0.
+- **Method Name**: `addCourse()`
+    - **Type**: Bug
+    - **Description**: There is no input validation to check if the `courseId` is non-null and not
+      an
+      empty string. Additionally, no check to ensure that `course` is not null
+    - **Fix**: Throw an `IllegalArgumentException` if the `course` is null or `courseId` is
+      null/empty string.
+- **Method Name**: `Department.toString()`.
+    - **Type**: Bug
+    - **Description**: The method returns the string `"result.toString()"` and not the actual
+      value `result.toString()`. Additionally, there is no check to ensure that courses is non-null.
+    - **Fix**: Remove double quotes of `"result.toString()"` and return the value stored in
+      `result.toString()`. Add a check to ensure courses is non-null.
+
+### Bugs/Updates in `MyFileDatabase`
+
+- **Variable Name**: `filePath`.
+    - **Type**: Bug-ish
+    - **Description**: `filePath` variable should be final
+    - **Fix**: `private final String filePath;`
+- **Method Name**: `MyFileDatabase constructor`
+    - **Type**: Bug
+    - **Description**: If the flag is not `0`, the departmentMapping remains uninitialized (`null`),
+      which may lead to unexpected behavior.
+    - **Fix**: Initialize `departmentMapping` to an empty `HashMap` by default in the constructor.
+- **Method Name**: `deSerializeObjectFromFile()`.
+    - **Type**: Bug
+    - **Description**: if we cannot get a valid object input stream, we return `null` which could
+      lead to `NullPointerException`.
+    - **Fix**: return an empty `HashMap` instead.
+- **Method Name**: `myFileDatabase.toString()`.
+    - **Type**: Bug
+    - **Description**: there is no check to see if `departmentMapping` is null or not.
+    - **Fix**: add an if-statement to see if `departmentMapping` is null. If it is null, print
+      `"No department data available."`; else print departments.
