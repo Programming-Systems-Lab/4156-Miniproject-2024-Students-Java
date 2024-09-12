@@ -1,0 +1,5 @@
+Citations and resources used:
+
+An introduction to Jacoco: https://www.baeldung.com/jacoco
+Running Intellij code with Coverage: https://www.jetbrains.com/help/idea/code-coverage.html#run_with_coverage
+How to run Jacoco: https://stackoverflow.com/questions/22836455/jacoco-report-generation-using-maven

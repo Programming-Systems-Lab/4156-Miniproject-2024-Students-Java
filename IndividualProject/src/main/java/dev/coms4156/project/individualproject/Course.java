@@ -61,9 +61,12 @@ public class Course implements Serializable {
     return this.courseTimeSlot;
   }
 
-
   public int getCourseCapacity() {
     return this.enrollmentCapacity;
+  }
+
+  public int getEnrolledStudentCount() {
+    return this.enrolledStudentCount;
   }
 
   public String toString() {
