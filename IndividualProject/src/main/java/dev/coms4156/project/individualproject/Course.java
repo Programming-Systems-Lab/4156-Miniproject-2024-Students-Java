@@ -80,6 +80,15 @@ public class Course implements Serializable {
   }
 
   /**
+   * Gets enrolled student count.
+   *
+   * @return the enrolled student count
+   */
+  public int getEnrolledStudentCount() {
+    return this.enrolledStudentCount;
+  }
+
+  /**
    * A string representation of the course details.
    * Such as instructor name, course location, and course time slot.
    *
