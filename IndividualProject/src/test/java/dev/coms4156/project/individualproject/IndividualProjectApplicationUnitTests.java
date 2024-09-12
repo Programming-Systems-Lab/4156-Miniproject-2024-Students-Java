@@ -34,7 +34,6 @@ public class IndividualProjectApplicationUnitTests {
 
     @Override
     public void publish(LogRecord record) {
-      // Store the most recent log record
       latestLogRecord = record;
       super.publish(record);
     }
@@ -49,7 +48,6 @@ public class IndividualProjectApplicationUnitTests {
       super.close();
     }
 
-    // Method to get the latest log record
     public LogRecord getLatestLogRecord() {
       return latestLogRecord;
     }
