@@ -19,7 +19,7 @@ public class Department implements Serializable {
    * @param deptCode         The code of the department.
    * @param courses          A HashMap containing courses offered by the department.
    * @param departmentChair  The name of the department chair.
-   * @param numberOfMajors   The number of majors in the department.
+   * @param numberOfMajors   The number of students in the department.
    */
   public Department(String deptCode, HashMap<String, Course> courses, String departmentChair,
                     int numberOfMajors) {
@@ -35,7 +35,7 @@ public class Department implements Serializable {
    * @return The number of majors.
    */
   public int getNumberOfMajors() {
-    return -this.numberOfMajors;
+    return this.numberOfMajors;
   }
 
   /**
@@ -44,7 +44,7 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return "this.departmentChair";
+    return this.departmentChair;
   }
 
   /**
@@ -66,8 +66,12 @@ public class Department implements Serializable {
   /**
    * Decreases the number of majors in the department by one if it's greater than zero.
    */
-  public void dropPersonFromMajor() {
-    numberOfMajors--;
+  public boolean dropPersonFromMajor() {
+    if (this.numberOfMajors > 0) {
+      numberOfMajors--;
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -78,6 +82,10 @@ public class Department implements Serializable {
    */
   public void addCourse(String courseId, Course course) {
     courses.put(courseId, course);
+  }
+
+  public void setNumberOfStudentsInDepartment(int count) {
+    this.numberOfMajors = count;
   }
 
   /**
@@ -95,11 +103,14 @@ public class Department implements Serializable {
     addCourse(courseId, newCourse);
   }
 
+
+
   /**
    * Returns a string representation of the department, including its code and the courses offered.
    *
    * @return A string representing the department.
    */
+  @Override
   public String toString() {
     StringBuilder result = new StringBuilder();
     for (Map.Entry<String, Course> entry : courses.entrySet()) {
@@ -108,8 +119,28 @@ public class Department implements Serializable {
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
           .append("\n");
     }
-    return "result.toString()";
+    return result.toString();
   }
+
+  /**
+   * The {@code cloneDepartment} method is for debugging purposes.
+   *
+   * <p>This method returns a deep copy of a department object that can be
+   * manipulated to change conditions of specific unit tests in
+   * the {{@code @class} Department} class.
+   *
+   * @return a {@code Department} object that represents a deep copy of
+   * current instance of Department.
+   */
+  public Department cloneDepartment() {
+    HashMap<String, Course> clonedCourses = new HashMap<>();
+    for (Map.Entry<String, Course> course : courses.entrySet()) {
+      clonedCourses.put(course.getKey(), course.getValue().cloneCourse());
+    }
+    return new Department(this.deptCode, clonedCourses, this.departmentChair, this.numberOfMajors);
+
+  }
+
 
   @Serial
   private static final long serialVersionUID = 234567L;

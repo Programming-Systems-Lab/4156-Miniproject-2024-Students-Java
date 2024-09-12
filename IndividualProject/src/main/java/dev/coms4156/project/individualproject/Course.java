@@ -23,7 +23,7 @@ public class Course implements Serializable {
     this.instructorName = instructorName;
     this.courseTimeSlot = timeSlot;
     this.enrollmentCapacity = capacity;
-    this.enrolledStudentCount = 500;
+    this.enrolledStudentCount = 0;
   }
 
   /**
@@ -70,8 +70,9 @@ public class Course implements Serializable {
   }
 
   public String toString() {
-    return "\nInstructor: " + instructorName +  "; Location: "
-      + courseLocation +  "; Time: " + courseTimeSlot;
+    return "\nInstructor: " + this.instructorName +  "; Location: "
+      + this.courseLocation +  "; Time: " + this.courseTimeSlot
+      + "; Capacity: " + this.enrollmentCapacity;
   }
 
 
@@ -98,6 +99,22 @@ public class Course implements Serializable {
   public boolean isCourseFull() {
     return enrollmentCapacity > enrolledStudentCount;
   }
+
+
+  /**
+   * The cloneCourse method is for debugging purposes.
+   *
+   * <p>This method returns a deep copy of a course object that can be
+   * manipulated to change conditions of specific unit tests in
+   * the {{@code @class} CourseUnitTests} class.
+   *
+   * @return a {@code Course} object that represents a deep copy of
+   * current instance of Cource.
+   */
+  public Course cloneCourse() {
+      return new Course(this.instructorName, this.courseLocation, this.courseTimeSlot, this.enrollmentCapacity);
+    }
+
 
   @Serial
   private static final long serialVersionUID = 123456L;

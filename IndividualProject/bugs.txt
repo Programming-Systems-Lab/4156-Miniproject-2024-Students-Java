@@ -1,2 +1,33 @@
 This document outlines bugs found, the location, the problem and the solution.
 
+COURSE BUG FIXES:
+
+Bug Location        |   PMD Error             |   Description                            |     Solution
+ _____________________________________________________________________
+1. toString()           N/A                     toString() does not print capacity           append capacity to toString()
+2. toString()           N/A                     missing this. prefix                         change variables to append this. (removes ambiguity)
+
+
+
+
+DEPARTMENT BUG FIXES:
+
+1. toString() method:
+    - PMD Error: Missing Override, DataflowAnomalyAnalysis
+    - Problems: Missing @Override tag, return result is a string literal
+    - Solutions: include @Override, return actual string variable instead of string literal.
+
+3. dropPersonFromMajor():
+    - PMD Error: N/A
+    - Problems: method ignores boundary condition outlined in Javadoc
+    - Solution: Include boundary condition
+
+4. getDepartmentChair():
+    - PMD Error: N/A
+    - Problems: method returns string literal instead of actual value
+    - Solution: Return string variable
+
+5. getNumberOfMajors():
+    - PMD Error: N/A
+    - Problems: method returns negative number of majors.
+    - Solution: return positive number of majors.

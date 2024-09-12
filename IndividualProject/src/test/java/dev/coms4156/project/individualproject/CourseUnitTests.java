@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,16 +19,30 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration
 public class CourseUnitTests {
 
+  private Course testCourse;
+
   @BeforeAll
   public static void setupCourseForTesting() {
     myFileDatabase = new MyFileDatabase(0, "./data.txt"); // Adjust the path if needed
-    testCourse = myFileDatabase.getDepartmentMapping().get("COMS").getCourseSelection().get("1004");
+    originalTestCourse = myFileDatabase.getDepartmentMapping().get("COMS").getCourseSelection().get("1004");
+  }
+
+  /**
+   * Generates a deep copy of the originalTestCourse object for
+   * debugging purposes. Enables changes to verify class methods.
+   */
+  @BeforeEach
+  public void setupTestCourseForEachTest() {
+    testCourse = originalTestCourse.cloneCourse();
   }
 
 
   @Test
   public void toStringTest() {
-    String expectedResult = "\nInstructor: Adam Cannon; Location: 417 IAB; Time: 11:40-12:55";
+    testCourse = myFileDatabase.getDepartmentMapping().get("COMS").getCourseSelection().get("1004");
+    String expectedResult = "\nInstructor: Adam Cannon; Location: 417 IAB; Time: 11:40-12:55; Capacity: 400";
+    System.out.println(expectedResult);
+    System.out.println(testCourse.toString());
     assertEquals(expectedResult, testCourse.toString());
   }
 
@@ -167,7 +182,7 @@ public class CourseUnitTests {
 
   /** The test course instance used for testing. */
   private static MyFileDatabase myFileDatabase;
-  private static Course testCourse;
+  private static Course originalTestCourse;
 
 }
 
