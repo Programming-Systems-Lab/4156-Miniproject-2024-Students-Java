@@ -1,0 +1,29 @@
+In Course.java file,
+
+I added a getter method called getEnrolledStudentCount(). It is not a bug.
+
+
+In RouteController.java file,
+
+under method retrieveDepartment. (line 48 - line 54)
+In the if and else condition, the logic is wrong. It should be when deparmentMapping does not have the deptCode the user
+queried, HttpStatus should return NOT_FOUND else return HttpStatus.OK.
+
+under method retrieveCourse. (line 88 - line 90)
+In the else condition, which is when the coursesMapping contains the courseCode user queried, so we should return
+HttpStatus.ok not HttpStatus.Forbidden.
+
+under method getMajorCtFromDept. (line 155 - line 157)
+Same bug as above. When the specific department does not exist, it should be HttpStatus.NOT_FOUND instead of
+HttpStatus.FORBIDDEN.
+
+under method getMajorCtFromDept. (line 152 - line 154)
+When get the number of majors from specific department, it should be a positive number not negative. So there should not
+be a minus sign. Just delete it.
+
+under method findCourseTime. (line 290 - line 292)
+When return the response body if the course exists, we should return its time instead of hard coded "some time ".
+Replace hard coded "some time " with requestedCourse.getCourseTimeSlot().
+
+
+

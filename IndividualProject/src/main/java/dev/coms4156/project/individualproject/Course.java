@@ -58,6 +58,11 @@ public class Course implements Serializable {
   }
 
 
+  public int getEnrolledStudentCount() {
+    return this.enrolledStudentCount;
+  }
+
+
   public String getInstructorName() {
     return this.instructorName;
   }
