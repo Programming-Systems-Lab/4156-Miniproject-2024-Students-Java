@@ -1,6 +1,15 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
+
+/**
+ * This class represents a course within an educational institution.
+ * The information stored includes the instructor teaching the course,
+ * the location of the course, the time slot of the course, the maximum
+ * number of students that can enroll in the course, and the number of
+ * students currently enrolled in the course.
+ */
 
 public class Course implements Serializable {
 
@@ -20,17 +29,17 @@ public class Course implements Serializable {
     this.enrolledStudentCount = 500;
   }
 
- /**
+  /**
    * Enrolls a student in the course if there is space available.
    *
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-   enrolledStudentCount++;
+    enrolledStudentCount++;
     return false;
   }
 
- /**
+  /**
    * Drops a student from the course if a student is enrolled.
    *
    * @return true if the student is successfully dropped, false otherwise.
@@ -57,7 +66,8 @@ public class Course implements Serializable {
 
 
   public String toString() {
-    return "\nInstructor: " + instructorName +  "; Location: "  + courseLocation +  "; Time: " + courseTimeSlot;
+    return "\nInstructor: " + instructorName +  "; Location: "  
+      + courseLocation +  "; Time: " + courseTimeSlot;
   }
 
 
