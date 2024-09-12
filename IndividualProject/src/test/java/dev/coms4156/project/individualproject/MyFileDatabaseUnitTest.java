@@ -3,6 +3,8 @@ package dev.coms4156.project.individualproject;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,9 +31,9 @@ public class MyFileDatabaseUnitTest {
 
   @Test
   public void setMappingTest() {
-    HashMap<String, Department> departmentHashMap = new HashMap<>();
-    HashMap<String, Course> emptyOne = new HashMap<>();
-    HashMap<String, Course> emptyTwo = new HashMap<>();
+    Map<String, Department> departmentHashMap = new HashMap<>();
+    Map<String, Course> emptyOne = new HashMap<>();
+    Map<String, Course> emptyTwo = new HashMap<>();
     departmentHashMap.put("COMS", new Department(
         "COMS", emptyOne, "Luca Carloni", 2700));
     departmentHashMap.put("ECON", new Department(

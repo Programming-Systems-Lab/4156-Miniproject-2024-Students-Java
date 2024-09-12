@@ -61,7 +61,7 @@ public class Course implements Serializable {
     return this.courseTimeSlot;
   }
 
-
+  @Override
   public String toString() {
     return "\nInstructor: " + instructorName +  "; Location: "  + courseLocation
         +  "; Time: " + courseTimeSlot;

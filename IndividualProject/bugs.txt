@@ -1,0 +1,63 @@
+Bugs that I found using PMD:
+------------------------------------------------------------------------------------------------------------------------
+    LooseCoupling
+        - Where: 30+ instances of this error
+        - Why: Interface preferred over specified declaration
+        - Example: HashMap deptMap = new HashMap... -> Map deptMap = new HashMap...
+        - Fixed: Yes, all instances where refactored to Map type instead of HashMap for functionality
+
+    UnnecessaryAnnotationValueElement
+        - Where: 17 individual instances
+        - Why: syntactically used "value=" where only a single argument presides
+        - Example: (@RequestParam(value = "deptCode") String deptCode) -> (@RequestParam("deptCode") String deptCode)
+        - Fixed: Yes, all 17 instances have been corrected to ensure convention
+
+    UseLocaleWithCaseConversions
+        - Where: RouteController.java:48,RouteController.java:45
+        - Why: When doing a String.toLowerCase()/toUpperCase() call, we use a Locale to insure consistency
+        - Example: deptCode.toUpperCase() -> deptCode.toUpperCase(Locale.ENGLISH)
+        - Fixed: Yes, both instances have been corrected
+
+    Missing Override
+        - Where: Department.java:102, Course.java:65
+        - Why: Overrides the default toString() that would not suffice for either case do to specific needs outlined
+        - Example: @Override toString() {...
+        - Fixed: Yes, both refracted, no complications
+
+    LiteralsFirstComparison
+        - Where: IndividualProjectApplication.java:41
+        - Why: Prevents a null pointer from occurring
+        - Example: arg.equals("setup") -> "setup".equals(arg)
+        - Fixed: Yes, single instance was corrected
+
+    UnusedLocalVariable:
+        - Where: RouteController.java:291
+        - Why: This whole method is a mess and the error only begins to explain why. Yes, the variable is
+        unused but it actually needs to be in the code. We need this to get the correct timeSlot which wasn't
+        being called either (see next error).
+        - Example: The absence of requestedCourse.somethingCalledUpon() in this case:
+                String courseTime = requestedCourse.getCourseTimeSlot();
+        - Fixed: Yes, but only after acknowledgment of the next issue as well
+
+     Logical Error:
+        - Where: ""
+        - Why: It looks as though someone might have pseudo-coded this method and neglected to replace the temp
+        string holding "some time " with real data from the requestedCourse. In this case, the placeholder string
+        was replaced with a call on the time slot method.
+        - Example: ("The course meets at: " + "some time "... -> "The course meets at: " + timeSlot ...
+        - Fixed: Yes, fully functional
+
+    ReturnEmptyCollectionRatherThanNull
+        - Where: MyFileDatabase.java:54
+        - Why: Incorrect return type
+        - Example: return null; -> return HashMap<>();
+        - Fixed: Yes, single instance was corrected
+
+    Note: There was one or two bugs I noticed all the way back to "Code Clean Up". These were conspicuous. This
+    includes things like returning: return "this.department"; instead of: return this.department; or things like:
+    return -this.capacity; instead of: return this.capacity; I have a general example with a specific error
+    within the code for all the undocumented changes, each of which fit into one of the several categories above.
+
+
+Bugs I found through assessment/analysis:
+------------------------------------------------------------------------------------------------------------------------

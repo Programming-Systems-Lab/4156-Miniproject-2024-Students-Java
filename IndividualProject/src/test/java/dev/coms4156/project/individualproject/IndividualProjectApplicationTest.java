@@ -6,6 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,12 +43,12 @@ public class IndividualProjectApplicationTest {
   public void overrideDatabaseTest() {
     MyFileDatabase empty = new MyFileDatabase(1, "nothingOnPurpose.txt");
     IndividualProjectApplication.overrideDatabase(empty);
-    HashMap<String, Department> myFileDatabaseMap =
+    Map<String, Department> myFileDatabaseMap =
         IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-    HashMap<String, Department> emptyMap =
+    Map<String, Department> emptyMap =
         IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
     assertTrue((myFileDatabaseMap == null && emptyMap == null) ||
-        (myFileDatabaseMap.isEmpty() && emptyMap.isEmpty()));
+        (Objects.requireNonNull(myFileDatabaseMap).isEmpty() && emptyMap.isEmpty()));
   }
 
   @Test
@@ -65,11 +67,11 @@ public class IndividualProjectApplicationTest {
     Course sam1234 = new Course(
         "Sam Edwards", "600 SAM", "1:00-11:45", 1);
     sam1234.setEnrolledStudentCount(420);
-    HashMap<String, Course> courses = new HashMap<>();
+    Map<String, Course> courses = new HashMap<>();
     courses.put("1234", sam1234);
     Department compSci = new Department(
         "SAM", courses, "Jon Snow", 1);
-    HashMap<String, Department> mapping = new HashMap<>();
+    Map<String, Department> mapping = new HashMap<>();
     mapping.put("SAM", compSci);
     myFileDatabase.setMapping(mapping);
     return myFileDatabase;

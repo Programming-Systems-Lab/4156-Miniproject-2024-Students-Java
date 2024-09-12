@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -73,7 +75,7 @@ public class DepartmentUnitTest {
   public void addCourseTest() {
     Course newCourse = addCourseTestHelper();
     testDepartment.addCourse("3157", newCourse);
-    HashMap<String, Course> newMap = testDepartment.getCourseSelection();
+    Map<String, Course> newMap = testDepartment.getCourseSelection();
     assertTrue(newMap.containsKey("3157"));
     assertEquals(newCourse, newMap.get("3157"));
   }
@@ -82,7 +84,7 @@ public class DepartmentUnitTest {
   public void createCourseTest() {
     testDepartment.createCourse("3203", "Ansaf Salleb-Aouissi", "301 URIS",
         "2:40-3:55", 250);
-    HashMap<String, Course> newMap = testDepartment.getCourseSelection();
+    Map<String, Course> newMap = testDepartment.getCourseSelection();
     assertTrue(newMap.containsKey("3203"));
   }
 
@@ -108,7 +110,7 @@ public class DepartmentUnitTest {
    * The test department instance and test data used for unit testing.
    */
   public Department testDepartment;
-  public HashMap<String, Course> courses;
+  public Map<String, Course> courses;
   public Course coms3251;
   public Course coms3827;
   public Course coms4156;
