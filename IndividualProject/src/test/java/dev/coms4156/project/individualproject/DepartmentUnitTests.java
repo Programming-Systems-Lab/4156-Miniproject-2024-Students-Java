@@ -74,6 +74,8 @@ public class DepartmentUnitTests {
   public void addPersonToMajorTest() {
     testDepartment.addPersonToMajor();
     assertEquals(51, testDepartment.getNumberOfMajors());
+    testDepartment.dropPersonFromMajor();
+
   }
 
   /**
@@ -83,6 +85,7 @@ public class DepartmentUnitTests {
   public void dropPersonFromMajorTest() {
     testDepartment.dropPersonFromMajor();
     assertEquals(49, testDepartment.getNumberOfMajors());
+    testDepartment.addPersonToMajor();
   }
 
   /**
