@@ -7,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -14,18 +16,36 @@ import java.util.Map;
  */
 public class MyFileDatabase {
 
+  private static final Logger LOGGER = Logger.getLogger(MyFileDatabase.class.getName());
+
+  /** The path to the file containing the database entries. */
+  private String filePath;
+
+  /** The mapping of department names to Department objects. */
+  private HashMap<String, Department> departmentMapping;
+
   /**
-   * Constructs a MyFileDatabase object and loads up the data structure with
-   * the contents of the file.
+   * Private constructor for MyFileDatabase.
+   *
+   * @param filePath the path to the file containing the entries of the database
+   */
+  private MyFileDatabase(String filePath) {
+    this.filePath = filePath;
+  }
+
+  /**
+   * Factory method for creating and initializing the MyFileDatabase object.
    *
    * @param flag     used to distinguish mode of database
    * @param filePath the path to the file containing the entries of the database
+   * @return a new MyFileDatabase object
    */
-  public MyFileDatabase(int flag, String filePath) {
-    this.filePath = filePath;
+  public static MyFileDatabase create(int flag, String filePath) {
+    MyFileDatabase db = new MyFileDatabase(filePath);
     if (flag == 0) {
-      this.departmentMapping = deSerializeObjectFromFile();
+      db.departmentMapping = db.deSerializeObjectFromFile();
     }
+    return db;
   }
 
   /**
@@ -42,7 +62,7 @@ public class MyFileDatabase {
    *
    * @return the deserialized department mapping
    */
-  public HashMap<String, Department> deSerializeObjectFromFile() {
+  protected HashMap<String, Department> deSerializeObjectFromFile() {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
       Object obj = in.readObject();
       if (obj instanceof HashMap) {
@@ -51,8 +71,8 @@ public class MyFileDatabase {
         throw new IllegalArgumentException("Invalid object type in file.");
       }
     } catch (IOException | ClassNotFoundException e) {
-      e.printStackTrace();
-      return null;
+      LOGGER.log(Level.SEVERE, "Failed to deserialize object from file: " + e.getMessage(), e);
+      return new HashMap<>(); // Return an empty HashMap instead of null
     }
   }
 
@@ -63,9 +83,9 @@ public class MyFileDatabase {
   public void saveContentsToFile() {
     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
       out.writeObject(departmentMapping);
-      System.out.println("Object serialized successfully.");
+      LOGGER.info("Object serialized successfully.");
     } catch (IOException e) {
-      e.printStackTrace();
+      LOGGER.log(Level.SEVERE, "Failed to serialize object: " + e.getMessage(), e);
     }
   }
 
@@ -93,10 +113,4 @@ public class MyFileDatabase {
     }
     return result.toString();
   }
-
-  /** The path to the file containing the database entries. */
-  private String filePath;
-
-  /** The mapping of department names to Department objects. */
-  private HashMap<String, Department> departmentMapping;
 }

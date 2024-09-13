@@ -10,8 +10,14 @@ PMD Identified
 
 
 File Name -- Department.java
-1.
+1. getNumberOfMajors() - Negative value is returned 
+2. getDepartmentChair() - String of the variable is returned 
+3. dropPersonFromMajor() - Checking if majors are > 0 , before reducing 
+4. 
 
 PMD Identified
+1. LooseCoupling - 
+2. Override toString() - Missing override
+3. AvoidLiteralsInIfCondition - Declaring the Minimum Major Count and then using it in function dropPersonFromMajor()
 
 
