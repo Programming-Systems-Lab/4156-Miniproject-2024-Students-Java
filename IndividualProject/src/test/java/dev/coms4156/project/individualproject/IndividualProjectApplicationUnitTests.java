@@ -9,7 +9,6 @@ import static org.mockito.Mockito.verify;
 
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import java.util.logging.StreamHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
