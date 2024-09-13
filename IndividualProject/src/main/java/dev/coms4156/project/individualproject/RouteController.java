@@ -43,11 +43,11 @@ public class RouteController {
       HashMap<String, Department> departmentMapping;
       departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
 
-      if (!departmentMapping.containsKey(deptCode.toUpperCase())) {
-        return new ResponseEntity<>("Department Not Found", HttpStatus.OK);
-      } else {
+      if (departmentMapping.containsKey(deptCode.toUpperCase())) {
         return new ResponseEntity<>(departmentMapping.get(deptCode.toUpperCase()).toString(),
-            HttpStatus.NOT_FOUND);
+        HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
       }
 
     } catch (Exception e) {
@@ -285,7 +285,6 @@ public class RouteController {
         HashMap<String, Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
-        Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         return new ResponseEntity<>("The course meets at: " + "some time ",
             HttpStatus.OK);
       } else {
