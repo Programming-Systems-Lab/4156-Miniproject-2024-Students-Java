@@ -1,0 +1,7 @@
+https://pmd.github.io/pmd/index.html
+https://stackoverflow.com/questions/69486116/checkstyle-warning-eclipse-javadoc-tag-should-be-preceded-with-an-empty-line-e
+https://stackoverflow.com/questions/7322705/finding-import-static-statements-for-mockito-constructs
+https://docs.pmd-code.org/latest/
+https://stackoverflow.com/questions/56702412/how-do-i-check-if-a-number-is-bigger-than-all-other-numbers-to-the-right-of-it-i
+https://stackoverflow.com/questions/2968010/javadoc-in-junit-test-classes
+https://stackoverflow.com/questions/69486116/checkstyle-warning-eclipse-javadoc-tag-should-be-preceded-with-an-empty-line-e
