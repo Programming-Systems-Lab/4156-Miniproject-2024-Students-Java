@@ -25,6 +25,9 @@ public class MyFileDatabase {
     if (flag == 0) {
       this.departmentMapping = deSerializeObjectFromFile();
     }
+    // if (flag == 1) {
+    //   saveContentsToFile();
+    // }
   }
 
   /**

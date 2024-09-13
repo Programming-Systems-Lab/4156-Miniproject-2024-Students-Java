@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.lang.Override;
+
 
 /**
  * Represents a department within an educational institution.
@@ -109,6 +111,26 @@ public class Department implements Serializable {
           .append("\n");
     }
     return result.toString();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+
+    if (obj == this) {
+      return true;
+    }
+    
+    if (obj == null || !(obj instanceof Department)) {
+      return false;
+    }
+
+    Department department = (Department) obj;
+   
+    if (this.toString().equals(department.toString())) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Serial

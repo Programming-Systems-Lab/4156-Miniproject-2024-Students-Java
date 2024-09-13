@@ -3,6 +3,8 @@ package dev.coms4156.project.individualproject;
 import java.io.Serial;
 import java.io.Serializable;
 
+import java.lang.Override;
+
 /**
  * Represents a course within an educational institution.
  * This class stores information about the course, including its
@@ -72,6 +74,10 @@ public class Course implements Serializable {
     return this.enrolledStudentCount;
   }
 
+  public int getEnrollmentCapacity() {
+    return this.enrollmentCapacity;
+  }
+
   public String toString() {
     return "\nInstructor: " + instructorName + "; Location: "
         + courseLocation + "; Time: " + courseTimeSlot;
@@ -95,6 +101,32 @@ public class Course implements Serializable {
 
   public boolean isCourseFull() {
     return enrollmentCapacity < enrolledStudentCount;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+
+    if (obj == this) {
+      return true;
+    }
+    
+    if (obj == null || !(obj instanceof Course)) {
+      return false;
+    }
+
+    Course course = (Course) obj;
+
+    if(this.enrollmentCapacity == course.getEnrollmentCapacity() && 
+        this.enrolledStudentCount == course.getEnrolledStudentCount() &&
+        this.courseLocation.equals(course.getCourseLocation()) &&
+        this.instructorName.equals(course.getInstructorName()) &&
+        this.courseTimeSlot.equals(course.getCourseTimeSlot())
+        ) {
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
   @Serial

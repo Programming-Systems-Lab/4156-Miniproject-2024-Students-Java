@@ -35,7 +35,243 @@ public class RouteController {
    *
    * @return A {@code ResponseEntity} object containing either the details of the
    *         Department and
-   *         an HTTP 200 response or, an appropriate message indicating the proper
+   *         an HTTP 200 response or, an appropriate messageELEN=ELEN 3082:
+   *         Instructor: Kenneth Shepard; Location: 1205 MUDD; Time: 4:10-6:40
+   *         ELEN 1201:
+   *         Instructor: David G Vallancourt; Location: 301 PUP; Time: 4:10-5:25
+   *         ELEN 3401:
+   *         Instructor: Keren Bergman; Location: 829 MUDD; Time: 2:40-3:55
+   *         ELEN 4510:
+   *         Instructor: Mohamed Kamaludeen; Location: 903 SSW; Time: 7:00-9:30
+   *         ELEN 3331:
+   *         Instructor: David G Vallancourt; Location: 203 MATH; Time:
+   *         11:40-12:55
+   *         ELEN 4830:
+   *         Instructor: Christine P Hendon; Location: 633 MUDD; Time: 10:10-12:40
+   *         ELEN 3701:
+   *         Instructor: Irving Kalet; Location: 333 URIS; Time: 2:40-3:55
+   *         ELEN 4702:
+   *         Instructor: Alexei Ashikhmin; Location: 332 URIS; Time: 7:00-9:30
+   *         , CHEM=CHEM 1403:
+   *         Instructor: Ruben M Savizky; Location: 309 HAV; Time: 6:10-7:25
+   *         CHEM 3080:
+   *         Instructor: Milan Delor; Location: 209 HAV; Time: 10:10-11:25
+   *         CHEM 1500:
+   *         Instructor: Joseph C Ulichny; Location: 302 HAV; Time: 6:10-9:50
+   *         CHEM 2444:
+   *         Instructor: Christopher Eckdahl; Location: 309 HAV; Time: 11:40-12:55
+   *         CHEM 4102:
+   *         Instructor: Dalibor Sames; Location: 320 HAV; Time: 10:10-11:25
+   *         CHEM 2045:
+   *         Instructor: Luis M Campos; Location: 209 HAV; Time: 1:10-2:25
+   *         CHEM 2494:
+   *         Instructor: Talha Siddiqui; Location: 202 HAV; Time: 1:10-5:00
+   *         CHEM 4071:
+   *         Instructor: Jonathan S Owen; Location: 320 HAV; Time: 8:40-9:55
+   *         , PHYS=PHYS 4040:
+   *         Instructor: James C Hill; Location: 214 PUP; Time: 4:10-5:25
+   *         PHYS 1602:
+   *         Instructor: Kerstin M Perez; Location: 428 PUP; Time: 10:10-11:25
+   *         PHYS 3008:
+   *         Instructor: William A Zajc; Location: 329 PUP; Time: 10:10-11:25
+   *         PHYS 1201:
+   *         Instructor: Eric Raymer; Location: 428 PUP; Time: 2:40-3:55
+   *         PHYS 4003:
+   *         Instructor: Frederik Denef; Location: 214 PUP; Time: 4:10-5:25
+   *         PHYS 1001:
+   *         Instructor: Szabolcs Marka; Location: 301 PUP; Time: 2:40-3:55
+   *         PHYS 4018:
+   *         Instructor: James W McIver; Location: 307 PUP; Time: 2:40-3:55
+   *         PHYS 2802:
+   *         Instructor: Yury Levin; Location: 329 PUP; Time: 10:10-12:00
+   *         , PSYC=PSYC 4493:
+   *         Instructor: Jennifer Blaze; Location: 200 SCH; Time: 2:10-4:00
+   *         PSYC 1610:
+   *         Instructor: Christopher Baldassano; Location: 200 SCH; Time:
+   *         10:10-11:25
+   *         PSYC 2235:
+   *         Instructor: Katherine T Fox-Glassman; Location: 501 SCH; Time:
+   *         11:40-12:55
+   *         PSYC 2620:
+   *         Instructor: Jeffrey M Cohen; Location: 303 URIS; Time: 1:10-3:40
+   *         PSYC 3445:
+   *         Instructor: Mariam Aly; Location: 405 SCH; Time: 2:10-4:00
+   *         PSYC 1001:
+   *         Instructor: Patricia G Lindemann; Location: 501 SCH; Time: 1:10-2:25
+   *         PSYC 3212:
+   *         Instructor: Mayron Piccolo; Location: 200 SCH; Time: 2:10-4:00
+   *         PSYC 4236:
+   *         Instructor: Trenton Jerde; Location: 405 SCH; Time: 6:10-8:00
+   *         , COMS=COMS 3827:
+   *         Instructor: Daniel Rubenstein; Location: 207 Math; Time: 10:10-11:25
+   *         COMS 1004:
+   *         Instructor: Adam Cannon; Location: 417 IAB; Time: 11:40-12:55
+   *         COMS 3203:
+   *         Instructor: Ansaf Salleb-Aouissi; Location: 301 URIS; Time:
+   *         10:10-11:25
+   *         COMS 4156:
+   *         Instructor: Gail Kaiser; Location: 501 NWC; Time: 10:10-11:25
+   *         COMS 3157:
+   *         Instructor: Jae Lee; Location: 417 IAB; Time: 4:10-5:25
+   *         COMS 3134:
+   *         Instructor: Brian Borowski; Location: 301 URIS; Time: 4:10-5:25
+   *         COMS 3251:
+   *         Instructor: Tony Dear; Location: 402 CHANDLER; Time: 1:10-3:40
+   *         COMS 3261:
+   *         Instructor: Josh Alman; Location: 417 IAB; Time: 2:40-3:55
+   *         , ECON=ECON 1105:
+   *         Instructor: Waseem Noor; Location: 309 HAV; Time: 2:40-3:55
+   *         ECON 2257:
+   *         Instructor: Tamrat Gashaw; Location: 428 PUP; Time: 10:10-11:25
+   *         ECON 3412:
+   *         Instructor: Thomas Piskula; Location: 702 HAM; Time: 11:40-12:55
+   *         ECON 3213:
+   *         Instructor: Miles Leahey; Location: 702 HAM; Time: 4:10-5:25
+   *         ECON 3211:
+   *         Instructor: Murat Yilmaz; Location: 310 FAY; Time: 4:10-5:25
+   *         ECON 4840:
+   *         Instructor: Mark Dean; Location: 142 URIS; Time: 2:40-3:55
+   *         ECON 4710:
+   *         Instructor: Matthieu Gomez; Location: 517 HAM; Time: 8:40-9:55
+   *         ECON 4415:
+   *         Instructor: Evan D Sadler; Location: 309 HAV; Time: 10:10-11:25
+   *         , IEOR=IEOR 3404:
+   *         Instructor: Christopher J Dolan; Location: 303 MUDD; Time:
+   *         10:10-11:25
+   *         IEOR 2500:
+   *         Instructor: Uday Menon; Location: 627 MUDD; Time: 11:40-12:55
+   *         IEOR 4540:
+   *         Instructor: Krzysztof M Choromanski; Location: 633 MUDD; Time:
+   *         7:10-9:40
+   *         IEOR 4102:
+   *         Instructor: Antonius B Dieker; Location: 209 HAM; Time: 10:10-11:25
+   *         IEOR 4511:
+   *         Instructor: Michael Robbins; Location: 633 MUDD; Time: 9:00-11:30
+   *         IEOR 4106:
+   *         Instructor: Kaizheng Wang; Location: 501 NWC; Time: 10:10-11:25
+   *         IEOR 4405:
+   *         Instructor: Yuri Faenza; Location: 517 HAV; Time: 11:40-12:55
+   *         IEOR 3658:
+   *         Instructor: Daniel Lacker; Location: 310 FAY; Time: 10:10-11:25
+   *         }> but was: java.util.HashMap@1e0bae92<{ELEN=ELEN 3082:
+   *         Instructor: Kenneth Shepard; Location: 1205 MUDD; Time: 4:10-6:40
+   *         ELEN 1201:
+   *         Instructor: David G Vallancourt; Location: 301 PUP; Time: 4:10-5:25
+   *         ELEN 3401:
+   *         Instructor: Keren Bergman; Location: 829 MUDD; Time: 2:40-3:55
+   *         ELEN 4510:
+   *         Instructor: Mohamed Kamaludeen; Location: 903 SSW; Time: 7:00-9:30
+   *         ELEN 3331:
+   *         Instructor: David G Vallancourt; Location: 203 MATH; Time:
+   *         11:40-12:55
+   *         ELEN 4830:
+   *         Instructor: Christine P Hendon; Location: 633 MUDD; Time: 10:10-12:40
+   *         ELEN 3701:
+   *         Instructor: Irving Kalet; Location: 333 URIS; Time: 2:40-3:55
+   *         ELEN 4702:
+   *         Instructor: Alexei Ashikhmin; Location: 332 URIS; Time: 7:00-9:30
+   *         , CHEM=CHEM 1403:
+   *         Instructor: Ruben M Savizky; Location: 309 HAV; Time: 6:10-7:25
+   *         CHEM 3080:
+   *         Instructor: Milan Delor; Location: 209 HAV; Time: 10:10-11:25
+   *         CHEM 1500:
+   *         Instructor: Joseph C Ulichny; Location: 302 HAV; Time: 6:10-9:50
+   *         CHEM 2444:
+   *         Instructor: Christopher Eckdahl; Location: 309 HAV; Time: 11:40-12:55
+   *         CHEM 4102:
+   *         Instructor: Dalibor Sames; Location: 320 HAV; Time: 10:10-11:25
+   *         CHEM 2045:
+   *         Instructor: Luis M Campos; Location: 209 HAV; Time: 1:10-2:25
+   *         CHEM 2494:
+   *         Instructor: Talha Siddiqui; Location: 202 HAV; Time: 1:10-5:00
+   *         CHEM 4071:
+   *         Instructor: Jonathan S Owen; Location: 320 HAV; Time: 8:40-9:55
+   *         , PHYS=PHYS 4040:
+   *         Instructor: James C Hill; Location: 214 PUP; Time: 4:10-5:25
+   *         PHYS 1602:
+   *         Instructor: Kerstin M Perez; Location: 428 PUP; Time: 10:10-11:25
+   *         PHYS 3008:
+   *         Instructor: William A Zajc; Location: 329 PUP; Time: 10:10-11:25
+   *         PHYS 1201:
+   *         Instructor: Eric Raymer; Location: 428 PUP; Time: 2:40-3:55
+   *         PHYS 4003:
+   *         Instructor: Frederik Denef; Location: 214 PUP; Time: 4:10-5:25
+   *         PHYS 1001:
+   *         Instructor: Szabolcs Marka; Location: 301 PUP; Time: 2:40-3:55
+   *         PHYS 4018:
+   *         Instructor: James W McIver; Location: 307 PUP; Time: 2:40-3:55
+   *         PHYS 2802:
+   *         Instructor: Yury Levin; Location: 329 PUP; Time: 10:10-12:00
+   *         , PSYC=PSYC 4493:
+   *         Instructor: Jennifer Blaze; Location: 200 SCH; Time: 2:10-4:00
+   *         PSYC 1610:
+   *         Instructor: Christopher Baldassano; Location: 200 SCH; Time:
+   *         10:10-11:25
+   *         PSYC 2235:
+   *         Instructor: Katherine T Fox-Glassman; Location: 501 SCH; Time:
+   *         11:40-12:55
+   *         PSYC 2620:
+   *         Instructor: Jeffrey M Cohen; Location: 303 URIS; Time: 1:10-3:40
+   *         PSYC 3445:
+   *         Instructor: Mariam Aly; Location: 405 SCH; Time: 2:10-4:00
+   *         PSYC 1001:
+   *         Instructor: Patricia G Lindemann; Location: 501 SCH; Time: 1:10-2:25
+   *         PSYC 3212:
+   *         Instructor: Mayron Piccolo; Location: 200 SCH; Time: 2:10-4:00
+   *         PSYC 4236:
+   *         Instructor: Trenton Jerde; Location: 405 SCH; Time: 6:10-8:00
+   *         , COMS=COMS 3827:
+   *         Instructor: Daniel Rubenstein; Location: 207 Math; Time: 10:10-11:25
+   *         COMS 1004:
+   *         Instructor: Adam Cannon; Location: 417 IAB; Time: 11:40-12:55
+   *         COMS 3203:
+   *         Instructor: Ansaf Salleb-Aouissi; Location: 301 URIS; Time:
+   *         10:10-11:25
+   *         COMS 4156:
+   *         Instructor: Gail Kaiser; Location: 501 NWC; Time: 10:10-11:25
+   *         COMS 3157:
+   *         Instructor: Jae Lee; Location: 417 IAB; Time: 4:10-5:25
+   *         COMS 3134:
+   *         Instructor: Brian Borowski; Location: 301 URIS; Time: 4:10-5:25
+   *         COMS 3251:
+   *         Instructor: Tony Dear; Location: 402 CHANDLER; Time: 1:10-3:40
+   *         COMS 3261:
+   *         Instructor: Josh Alman; Location: 417 IAB; Time: 2:40-3:55
+   *         , ECON=ECON 1105:
+   *         Instructor: Waseem Noor; Location: 309 HAV; Time: 2:40-3:55
+   *         ECON 2257:
+   *         Instructor: Tamrat Gashaw; Location: 428 PUP; Time: 10:10-11:25
+   *         ECON 3412:
+   *         Instructor: Thomas Piskula; Location: 702 HAM; Time: 11:40-12:55
+   *         ECON 3213:
+   *         Instructor: Miles Leahey; Location: 702 HAM; Time: 4:10-5:25
+   *         ECON 3211:
+   *         Instructor: Murat Yilmaz; Location: 310 FAY; Time: 4:10-5:25
+   *         ECON 4840:
+   *         Instructor: Mark Dean; Location: 142 URIS; Time: 2:40-3:55
+   *         ECON 4710:
+   *         Instructor: Matthieu Gomez; Location: 517 HAM; Time: 8:40-9:55
+   *         ECON 4415:
+   *         Instructor: Evan D Sadler; Location: 309 HAV; Time: 10:10-11:25
+   *         , IEOR=IEOR 3404:
+   *         Instructor: Christopher J Dolan; Location: 303 MUDD; Time:
+   *         10:10-11:25
+   *         IEOR 2500:
+   *         Instructor: Uday Menon; Location: 627 MUDD; Time: 11:40-12:55
+   *         IEOR 4540:
+   *         Instructor: Krzysztof M Choromanski; Location: 633 MUDD; Time:
+   *         7:10-9:40
+   *         IEOR 4102:
+   *         Instructor: Antonius B Dieker; Location: 209 HAM; Time: 10:10-11:25
+   *         IEOR 4511:
+   *         Instructor: Michael Robbins; Location: 633 MUDD; Time: 9:00-11:30
+   *         IEOR 4106:
+   *         Instructor: Kaizheng Wang; Location: 501 NWC; Time: 10:10-11:25
+   *         IEOR 4405:
+   *         Instructor: Yuri Faenza; Location: 517 HAV; Time: 11:40-12:55
+   *         IEOR 3658:
+   *         Instructor: Daniel Lacker; Location: 310 FAY; Time: 10:10-11:25
+   *         indicating the proper
    *         response.
    */
   @GetMapping(value = "/retrieveDept", produces = MediaType.APPLICATION_JSON_VALUE)

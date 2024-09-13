@@ -95,6 +95,11 @@ public class CourseUnitTests {
   }
 
   @Test
+  public void getEnrollmentCapacityTest() {
+    assertEquals(250, testCourse.getEnrollmentCapacity());
+  }
+
+  @Test
   public void toStringTest() {
     String expectedResult = "\nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55";
     assertEquals(expectedResult, testCourse.toString());
@@ -127,6 +132,70 @@ public class CourseUnitTests {
     testCourseNewStudentCount.setEnrolledStudentCount(newCount);
     assertEquals(newCount, testCourseNewStudentCount.getEnrolledStudentCount());
   }
+
+  @Test
+  public void equalsFalse1Test() {
+    Course testCourseDiff1 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    Course testCourseDiff2 = new Course("Brian Borowski", "301 URIS", "4:10-5:25", 250);
+    assertFalse(testCourseDiff1.equals(testCourseDiff2));
+  }
+
+  @Test
+  public void equalsFalse2Test() {
+    Course testCourseDiff1 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    Course testCourseDiff2 = null;
+    assertFalse(testCourseDiff1.equals(testCourseDiff2));
+  }
+
+  @Test
+  public void equalsFalse3Test() {
+    Course testCourseDiff1 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    Object obj = new Object();
+    assertFalse(testCourseDiff1.equals(obj));
+  }
+
+  @Test
+  public void equalsFalse4Test() {
+    Course testCourseDiff1 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    Course testCourseDiff2 = new Course("Brian Borowski", "417 IAB", "11:40-12:55", 250);
+    assertFalse(testCourseDiff1.equals(testCourseDiff2));
+  }
+
+  @Test
+  public void equalsFalse5Test() {
+    Course testCourseDiff1 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    Course testCourseDiff2 = new Course("Griffin Newbold", "417 IAB", "13:40-15:55", 250);
+    assertFalse(testCourseDiff1.equals(testCourseDiff2));
+  }
+
+  @Test
+  public void equalsFalse6Test() {
+    Course testCourseDiff1 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    Course testCourseDiff2 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 500);
+    assertFalse(testCourseDiff1.equals(testCourseDiff2));
+  }
+
+  @Test
+  public void equalsFalse7Test() {
+    Course testCourseDiff1 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    Course testCourseDiff2 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    testCourseDiff2.setEnrolledStudentCount(100);
+    assertFalse(testCourseDiff1.equals(testCourseDiff2));
+  }
+
+  @Test
+  public void equalsTrue1Test() {
+    Course testCourseDiff1 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    assertTrue(testCourseDiff1.equals(testCourseDiff1));
+  }
+
+  @Test
+  public void equalsTrue2Test() {
+    Course testCourseDiff1 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    Course testCourseDiff2 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    assertTrue(testCourseDiff1.equals(testCourseDiff2));
+  }
+  
 
   /** The test course instance used for testing. */
   public static Course testCourse;

@@ -1,6 +1,7 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -20,7 +21,7 @@ public class DepartmentUnitTests {
    * Initialize some department objects used for unit tests.
    */
   @BeforeAll
-  public static void setupCourseForTesting() {
+  public static void setupDepartmentForTesting() {
     String[] times = { "11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55" };
     String[] locations = { "417 IAB", "309 HAV", "301 URIS" };
     // data for coms dept
@@ -67,6 +68,11 @@ public class DepartmentUnitTests {
     testDepartExtraCourse = new Department("COMS", testCoursesNone3, "Luca Carloni", 2700);
     testDepartCreateCourse = new Department("PSYC", testCoursesNone2, "Nim Tottenham", 437);
     testDepartToString = new Department("COMS", testCoursesOne, "Luca Carloni", 2700);
+    
+
+    HashMap<String, Course> coursesShort = new HashMap<>();
+    coursesShort.put("4156", coms4156);
+    testDepartShort = new Department("COMS", coursesShort, "Luca Carloni", 2700);
   }
 
   @Test
@@ -141,9 +147,31 @@ public class DepartmentUnitTests {
     assertEquals(expectedResult, testDepartToString.toString());
   }
 
+  @Test
+  public void equalsFalse1Test() {
+    assertFalse(testDepart.equals(testDepartShort));
+  }
+
+  @Test
+  public void equalsFalse2Test() {
+    Department testDepartDiff = null;
+    assertFalse(testDepart.equals(testDepartDiff));
+  }
+
+  @Test
+  public void equalsFalse3Test() {
+    Object testDepartDiff = new Object();
+    assertFalse(testDepart.equals(testDepartDiff));
+  }
+
+  @Test
+  public void equalsTrueTest() {
+    assertTrue(testDepart.equals(testDepart));
+  }
 
 
   public static Department testDepart;
+  public static Department testDepartShort;
   public static Department testDepartMoreMajor;
   public static Department testDepartLessMajor;
   public static Department testDepartAddCourse;
