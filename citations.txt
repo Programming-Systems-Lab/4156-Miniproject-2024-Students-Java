@@ -8,12 +8,20 @@ https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html
 How to write commit messages
 https://www.freecodecamp.org/news/how-to-write-better-git-commit-messages/
 
-RouteController
+RouteController & Test
 https://spring.io/guides/gs/testing-web
 https://stackoverflow.com/questions/65681244/how-to-create-unit-tests-with-mockmvc-for-your-rest-controller
+https://stackoverflow.com/questions/66321376/why-my-org-springframework-test-web-servlet-mockmvc-framework-is-failing-to-reso
+https://stackoverflow.com/questions/65939134/how-to-use-correctly-mockmvc-to-test-post-method-in-junit
+https://stackoverflow.com/questions/49956208/spring-controller-testing-with-mockmvc-post-method
+https://stackoverflow.com/questions/43999517/what-is-difference-between-spybean-and-mockbean-in-mockito
+https://stackoverflow.com/questions/46269598/springboottest-with-mockmvcbuilders-stand-alone-setup-is-not-loading-my-controll
 
 How to get PMD into Intellij
 https://sachinsf.com/how-to-use-pmd-code-analyzer-with-intellij/
+
+Ruleset taken from
+https://maven.apache.org/plugins/maven-pmd-plugin/examples/usingRuleSets.html
 
 How to make patch requests
 https://stackoverflow.com/questions/71833261/spring-boot-patch-request-on-controller-with-map-parameter-test-with-mockmvc
