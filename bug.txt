@@ -4,4 +4,7 @@ enroll and drop operations lack border check.
 isCourseFull condition is wrong.
 
 Department:
-toString: return "result.toString()"->return result.toString()
+toString: return "result.toString()"->return result.toString().
+getNumberOfMajors: delete -
+getDepartmentChair: “return this.departmentChair"->return this.departmentChair
+
