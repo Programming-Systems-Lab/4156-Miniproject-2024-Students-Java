@@ -1,3 +1,9 @@
+/*
+ * run "mvn checkstyle:check", "mvn test" and "mvn jacoco:report" you will get result.
+ * if you run pmd, you will see most bug is about HashMap, I try to correct it but it give
+ * me real error, so I remain it.
+ */
+
 Course.java:
 1. getCourseLocation() and getInstructorName() return incorrectly.
 2. enroll and drop should return True

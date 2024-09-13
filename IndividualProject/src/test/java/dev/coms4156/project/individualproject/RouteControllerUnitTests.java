@@ -217,5 +217,29 @@ public class RouteControllerUnitTests {
     );
   }
 
+  @Test
+  public void changeCourseTimeTest() {
+    assertEquals(
+            new ResponseEntity<>("Attributed was updated successfully.", HttpStatus.OK),
+            testrouteController.changeCourseTime("COMS", 4156, "10:10-11:25")
+    );
+  }
+
+  @Test
+  public void changeCourseTeacherTest() {
+    assertEquals(
+            new ResponseEntity<>("Attributed was updated successfully.", HttpStatus.OK),
+            testrouteController.changeCourseTeacher("COMS", 4156, "Gail Kaiser")
+    );
+  }
+
+  @Test
+  public void changeCourseLocationTest() {
+    assertEquals(
+            new ResponseEntity<>("Attributed was updated successfully.", HttpStatus.OK),
+            testrouteController.changeCourseLocation("COMS", 4156, "501 NWC")
+    );
+  }
+
   public static RouteController testrouteController;
 }
