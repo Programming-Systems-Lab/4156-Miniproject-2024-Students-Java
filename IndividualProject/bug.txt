@@ -1,0 +1,11 @@
+1, In `Course` class, `enrollStudent` method, fix incorrect return value, add if/else branch to consider
+    what happened if enrolling a student when the course is full
+2, In `Course` class, `dropStudent` method, fix incorrect return value, add if/else branch to consider
+    what happened if dropping a student when the course has no students
+3, In `Course` class, `getCourseLocation` method, fix incorrect return value.
+4, In `Course` class, `getInstructorName` method, fix incorrect return value.
+5, In `Department` class, `getNumberOfMajors` method, fix incorrect return value.
+6, In `Department` class, `getDepartmentChair` method, fix incorrect return value.
+7, In `Department` class, `dropPersonFromMajor` method, fix incorrect return value, add if/else branch to consider
+    what happened if dropping a major when the department has 0 major
+
