@@ -1,10 +1,10 @@
 Bugs that I found using PMD:
 ------------------------------------------------------------------------------------------------------------------------
     LooseCoupling
-        - Where: 30+ instances of this error
+        - Where: 20+ instances of this error
         - Why: Interface preferred over specified declaration
         - Example: HashMap deptMap = new HashMap... -> Map deptMap = new HashMap...
-        - Fixed: Yes, all instances where refactored to Map type instead of HashMap for functionality
+        - Fixed: Yes, however this seems more like preference than anything
 
     UnnecessaryAnnotationValueElement
         - Where: 17 individual instances
@@ -44,7 +44,7 @@ Bugs that I found using PMD:
         - Why: It looks as though someone might have pseudo-coded this method and neglected to replace the temp
         string holding "some time " with real data from the requestedCourse. In this case, the placeholder string
         was replaced with a call on the time slot method.
-        - Example: ("The course meets at: " + "some time "... -> "The course meets at: " + timeSlot ...
+        - Example: ("The course meets at: " + "some time "... -> ("The course meets at: " + timeSlot ...
         - Fixed: Yes, fully functional
 
     ReturnEmptyCollectionRatherThanNull
@@ -53,7 +53,8 @@ Bugs that I found using PMD:
         - Example: return null; -> return HashMap<>();
         - Fixed: Yes, single instance was corrected
 
-    Note: There was one or two bugs I noticed all the way back to "Code Clean Up". These were conspicuous. This
+    Note:
+    There was one or two bugs I noticed all the way back to "Code Clean Up". These were conspicuous. This
     includes things like returning: return "this.department"; instead of: return this.department; or things like:
     return -this.capacity; instead of: return this.capacity; I have a general example with a specific error
     within the code for all the undocumented changes, each of which fit into one of the several categories above.
@@ -61,3 +62,34 @@ Bugs that I found using PMD:
 
 Bugs I found through assessment/analysis:
 ------------------------------------------------------------------------------------------------------------------------
+    Casting Error
+        - Where: MyFileDatabase.java:48
+        - Why: The cast was unchecked, I'm not really sure why this is giving me a warning though, as the 'if
+        statement' insures that the type is indeed checked beforehand
+        - Example: Added @SuppressWarnings("unchecked")
+        - Fixed: Not confident
+
+    Random Minus Sign
+        - Where: RouteController.java:152
+        - Why: This just looks like a typo
+        - Example: Self explanatory
+        - Fixed: Yes
+
+    Incorrect HTTPStatus Call
+        - Where: RouteController.java:553
+        - Why: It was returning OK even though it wasn't 'ok'
+        - Example: HttpStatus.OK -> HttpStatus.NOT_FOUND
+        - Fixed: Fixed
+
+    Note:
+    IndividualProjectApplication.java has logic errors. There are several instances where the enrollment is
+    higher that the course capacity at conception of the course/department. However, this was left as is and
+    ignored due to the instructions in the file.
+
+    Final Note:
+    There were several errors that I might have automatically fixed without even noticing while trying to
+    understand the code that I have neglected to put here. This is because I did not know originally that this
+    text file would be required and that the bug fixing was much more structured. If this is a problem in the
+    future I will make sure to log all my changes as I go and/or go through my old commits to look for my changes.
+
+
