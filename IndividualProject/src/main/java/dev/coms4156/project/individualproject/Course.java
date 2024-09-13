@@ -137,17 +137,17 @@ public class Course implements Serializable {
   private final int enrollmentCapacity;
 
   /**
-   * The current number of students enrolled in the course.
+   * The number of students enrolled in the course.
    */
   private int enrolledStudentCount;
 
   /**
-   * The location where the course is held.
+   * The location of the course.
    */
   private String courseLocation;
 
   /**
-   * The name of the instructor teaching the course.
+   * The name of the instructor of the course.
    */
   private String instructorName;
 
