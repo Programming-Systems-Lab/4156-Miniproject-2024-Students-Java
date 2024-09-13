@@ -1,0 +1,55 @@
+Please document any bugs you fix in a file called bugs.txt and include this in your repo. In this txt you should indicate what the issue you fixed was, where it was, and if it has a proper name identified by a static analyzer what that name was.
+
+(1) <Function>
+  - Issue:
+  - Where: 
+  - Static analyzer name:
+
+
+
+______________________________________________________________________________________________________
+Course.java:
+
+(1) <Function>
+  - Issue:
+  - Where: 
+  - Static analyzer name:
+
+
+
+
+______________________________________________________________________________________________________
+Department.java:
+
+(1) <Function>
+  - Issue:
+  - Where: 
+  - Static analyzer name:
+
+
+
+______________________________________________________________________________________________________
+IndividualProject.java:
+
+(1) <Function>
+  - Issue:
+  - Where: 
+  - Static analyzer name:
+
+
+______________________________________________________________________________________________________
+MyFileDatabase.java:
+
+(1) <Function>
+  - Issue:
+  - Where: 
+  - Static analyzer name:
+
+______________________________________________________________________________________________________
+RouteController.java:
+
+(1) <Function>
+  - Issue:
+  - Where: 
+  - Static analyzer name:
+

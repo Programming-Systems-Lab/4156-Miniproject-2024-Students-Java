@@ -34,8 +34,11 @@ public class Department implements Serializable {
    * @return The number of majors.
    */
   public int getNumberOfMajors() {
-    return -this.numberOfMajors;
+    return this.numberOfMajors;
   }
+  // public int getNumberOfMajors() {
+  //   return -this.numberOfMajors;
+  // } LUCI BUG FIX
 
   /**
    * Gets the name of the department chair.
@@ -43,8 +46,11 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return "this.departmentChair";
+    return this.departmentChair;
   }
+  // public String getDepartmentChair() {
+  //   return "this.departmentChair";
+  // } LUCI BUG FIX
 
   /**
    * Gets the courses offered by the department.
@@ -59,15 +65,20 @@ public class Department implements Serializable {
    * Increases the number of majors in the department by one.
    */
   public void addPersonToMajor() {
-    numberOfMajors++;
+    this.numberOfMajors = this.numberOfMajors + 1;
   }
 
   /**
    * Decreases the number of majors in the department by one if it's greater than zero.
    */
   public void dropPersonFromMajor() {
-    numberOfMajors--;
+    if(this.getNumberOfMajors() > 0){
+      this.numberOfMajors--;
+    }
   }
+  // public void dropPersonFromMajor() {
+  //   numberOfMajors--;
+  // } LUCI BUG FIX
 
   /**
    * Adds a new course to the department's course selection.
