@@ -98,7 +98,7 @@ public class RouteControllerUnitTests {
     ResponseEntity<?> response = testRouteController.getMajorCtFromDept("5000");
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals("Department Not Found", response);
-  }
+  } 
 
   @Test
   public void dropStudent() throws Exception {
