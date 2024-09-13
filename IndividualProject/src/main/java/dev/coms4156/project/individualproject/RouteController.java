@@ -1,7 +1,6 @@
 package dev.coms4156.project.individualproject;
 
 import java.util.HashMap;
-
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -219,8 +218,9 @@ public class RouteController {
    *     response.
    */
   @GetMapping(value = "/findCourseInstructor", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> findCourseInstructor(@RequestParam(value = "deptCode") String deptCode
-      , @RequestParam(value = "courseCode") int courseCode) {
+  public ResponseEntity<?> findCourseInstructor(@RequestParam(value = "deptCode") String deptCode,
+                                                @RequestParam(value = "courseCode")
+                                                int courseCode) {
     try {
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
@@ -444,8 +444,8 @@ public class RouteController {
    */
   @PatchMapping(value = "/changeCourseTeacher", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> changeCourseTeacher(@RequestParam(value = "deptCode") String deptCode,
-                                               @RequestParam(value = "courseCode") int courseCode
-      , @RequestParam(value = "teacher") String teacher) {
+                                               @RequestParam(value = "courseCode") int courseCode,
+                                               @RequestParam(value = "teacher") String teacher) {
     try {
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
@@ -469,8 +469,8 @@ public class RouteController {
 
 
   @PatchMapping(value = "/changeCourseLocation", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> changeCourseLocation(@RequestParam(value = "deptCode") String deptCode
-      , @RequestParam(value = "courseCode") int courseCode,
+  public ResponseEntity<?> changeCourseLocation(@RequestParam(value = "deptCode") String deptCode,
+                                                @RequestParam(value = "courseCode") int courseCode,
                                                 @RequestParam(value = "location") String location) {
     try {
       boolean doesCourseExists;
