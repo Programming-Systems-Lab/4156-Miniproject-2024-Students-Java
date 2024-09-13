@@ -1,9 +1,12 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
+/**
+ * Class Course for all kinds of actions.
+ */
 
 public class Course implements Serializable {
-
   /**
    * Constructs a new Course object with the given parameters. Initial count starts at 0.
    *
@@ -20,34 +23,34 @@ public class Course implements Serializable {
     this.enrolledStudentCount = 500;
   }
 
- /**
+  /**
    * Enrolls a student in the course if there is space available.
    *
-   * @return true if the student is successfully enrolled, false otherwise.
+   * @return                  true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-   enrolledStudentCount++;
-    return false;
+    enrolledStudentCount++;
+    return true;
   }
 
- /**
+  /**
    * Drops a student from the course if a student is enrolled.
    *
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
     enrolledStudentCount--;
-    return false;
+    return true;
   }
 
 
   public String getCourseLocation() {
-    return this.instructorName;
+    return this.courseLocation;
   }
 
 
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
 
@@ -55,9 +58,15 @@ public class Course implements Serializable {
     return this.courseTimeSlot;
   }
 
-
+  /**
+   * Return prompt words and string information. 
+   *
+   * @return      the information of instructor, location and time.
+   */
   public String toString() {
-    return "\nInstructor: " + instructorName +  "; Location: "  + courseLocation +  "; Time: " + courseTimeSlot;
+    return "\nInstructor: " + instructorName 
+        +  "; Location: "  + courseLocation 
+        +  "; Time: " + courseTimeSlot;
   }
 
 

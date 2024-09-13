@@ -1,0 +1,3 @@
+https://www.concretepage.com/questions/757    The solution of dealing with the plugin "spring-boot" issue.
+https://google.github.io/styleguide/javaguide.html    Java guide document.
+https://www.baeldung.com/jacoco   Jacoco introduction document.
