@@ -1,15 +1,21 @@
 Courses.java
-[PMD]    75:	MissingOverride:	The method 'toString()' is missing an @Override annotation.
-    -> add @Override above function
 getCourseLocation() and getInstructorName() functions are swapped 
     -> swap them
 isCourseFull() should return true when the number of enrolled students is equal to or greater than the capacity
     -> make ">" into "<="
 enrolledStudentCount initialized to 500
     -> initialize to 0
+[PMD]    75:	MissingOverride:	The method 'toString()' is missing an @Override annotation.
+    -> add @Override above function
 
 
 Department.java
+toString method returns the literal string "result.toString()" instead of result.toString()
+    -> remove quotes around return value
+getNumberOfMajors() returns negative of number of majors
+    -> remove "-"
+dropPersonFromMajor() could lead to negative number of majors
+    -> add a check to ensure numberOfMajors doesn't go below zero
 [PMD]    23:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
 [PMD]    54:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
 [PMD]    102:	MissingOverride:	The method 'toString()' is missing an @Override annotation.
@@ -17,12 +23,6 @@ Department.java
 [PMD]    115:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
 [PMD]    116:	UnusedPrivateField:	Avoid unused private fields such as 'departmentChair'.
     -> remove quotes from return value in getDepartmentChair()
-toString method returns the literal string "result.toString()" instead of result.toString()
-    -> remove quotes around return value
-getNumberOfMajors() returns negative of number of majors
-    -> remove "-"
-dropPersonFromMajor() could lead to negative number of majors
-    -> add a check to ensure numberOfMajors doesn't go below zero
 
 
 IndividualProjectApplication.java
@@ -39,6 +39,16 @@ MyFileDatabase.java
 [PMD]    100:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
 
 RouteController.java
+retrieveDepartment() HTTP status was flipped
+    -> flipped HTTP.NOT_FOUND and HTTP.OK
+retrieveCourse() HTTP.FORBIDDEN should be HTTP.OK
+    -> changed from FORBIDDEN to OK
+getMajorCtFromDept() was printing a negative number for major count in the response body and the HTTP status should be NOT NOT_FOUND
+    -> remove "-" and change HTTP.FORBIDDEN to HTTP.NOT_FOUND
+findCourseTime() response body was hardcoded as "some time" and should be a time slot
+    -> use getCourseTimeSlot() to dynamically populate the response body
+removeMajorFromDept() response was OK even if the number of majors went negative
+    -> added if condition to make sure that the number of major is not 0
 [PMD]    40:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
 [PMD]    42:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
 [PMD]    45:	UseLocaleWithCaseConversions:	When doing a String.toLowerCase()/toUpperCase() call, use a Locale
@@ -99,17 +109,7 @@ RouteController.java
 [PMD]    540:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
 [PMD]    547:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
 [PMD]    549:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
-retrieveDepartment() HTTP status was flipped
-    -> flipped HTTP.NOT_FOUND and HTTP.OK
-retrieveCourse() HTTP.FORBIDDEN should be HTTP.OK
-    -> changed from FORBIDDEN to OK
-getMajorCtFromDept() was printing a negative number for major count in the response body and the HTTP status should be NOT NOT_FOUND
-    -> remove "-" and change HTTP.FORBIDDEN to HTTP.NOT_FOUND
-findCourseTime() response body was hardcoded as "some time" and should be a time slot
-    -> use getCourseTimeSlot() to dynamically populate the response body
-removeMajorFromDept() response was OK even if the number of majors went negative
-    -> added if condition to make sure that the number of major is not 0
 
-General Fixes:
+General Fixes for [PMD]:
 1. For all "LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead," I replaced HashMap with Map
-1. For all "UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element," I removed "value =" in all @RequestParam()
+2. For all "UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element," I removed "value =" in all @RequestParam()

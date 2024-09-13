@@ -1,0 +1,4 @@
+1. https://www.baeldung.com/mockito-annotations overview of mockito library's annotations including examples
+2. https://www.arhohuttunen.com/junit-5-mockito/#:~:text=))%3B%20%7D%20%7D-,The%20MockitoAnnotations.,initialize%20those%20fields%20as%20mocks. how to use mockito with JUnit5. I mostly referenced this for code examples, specifically for the MockitoAnnotations.openMocks(this) call
+3. https://stackoverflow.com/questions/16467685/difference-between-mock-and-injectmocks explains the difference between mock and injectmock
+4. https://stackoverflow.com/questions/11063102/using-locales-with-javas-tolowercase-and-touppercase explains how to fix the UseLocaleWithCaseConversions PMD warning
