@@ -1,11 +1,15 @@
 package dev.coms4156.project.individualproject;
 
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Class is a unit test class designed to test the behavior of the Course class using JUnit.
+ */
 @SpringBootTest
 @ContextConfiguration
 public class CourseUnitTests {
