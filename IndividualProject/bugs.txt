@@ -1,0 +1,320 @@
+I use this command: 
+pmd check -d src/main/java -R category/java/bestpractices.xml -f text;    
+to find bugs
+below are the bugs i found.
+
+
+1. Course.java: 
+@@ -49,12 +49,14 @@ 
+   public String getCourseLocation() {
+-    return this.instructorName;
++    return this.courseLocation;
+   }
+   the return value is wrong
+2. Course.java: 
+   public String getInstructorName() {
+-    return this.courseLocation;
++    return this.instructorName;
+   }
+   the return value is wrong
+3. Department.java:
+@@ -41,7 +41,7 @@ 
+   public int getNumberOfMajors() {
+-    return -this.numberOfMajors;
++    return this.numberOfMajors;
+   }
+   the return value is wrong
+4. Department.java:
+@@ -50,7 +50,7 @@ 
+   public String getDepartmentChair() {
+-    return "this.departmentChair";
++    return this.departmentChair;
+   }
+   the return value is wrong
+4. Department.java:
+@@ -114,7 +114,8 @@ 
+-    return "result.toString()";
++    return  result.toString();
+    the return value is wrong
+5. RouteController.java:
+@@ -41,12 +62,13 @@ 
+       if (!departmentMapping.containsKey(deptCode.toUpperCase())) {
+-        return new ResponseEntity<>("Department Not Found", HttpStatus.OK);
++        return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
+       } else {
+         return new ResponseEntity<>(departmentMapping.get(deptCode.toUpperCase()).toString(),
+-            HttpStatus.NOT_FOUND);
++            HttpStatus.OK);
+       }
+    the status code is wrong
+6. RouteController.java:
+@@ -84,10 +106,11 @@ public class RouteController {
+           return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+         } else {
+           return new ResponseEntity<>(coursesMapping.get(Integer.toString(courseCode)).toString(),
+-              HttpStatus.FORBIDDEN);
++              HttpStatus.OK);
+         }
+7. RouteController.java:
+@@ -149,10 +172,10 @@ public class RouteController {
+       if (doesDepartmentExists) {
+         HashMap<String, Department> departmentMapping;
+         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+-        return new ResponseEntity<>("There are: " + -departmentMapping.get(deptCode)
++        return new ResponseEntity<>("There are: " + departmentMapping.get(deptCode)
+             .getNumberOfMajors() + " majors in the department", HttpStatus.OK);
+       }
+-      return new ResponseEntity<>("Department Not Found", HttpStatus.FORBIDDEN);
++      return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
+     } catch (Exception e) {
+       return handleException(e);
+     }
+8. RouteController.java:
+@@ -290,7 +313,7 @@ public class RouteController {
+         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
+ 
+         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+-        return new ResponseEntity<>("The course meets at: " + "some time ",
++        return new ResponseEntity<>("The course meets at: " + requestedCourse.getCourseTimeSlot(),
+             HttpStatus.OK);
+       } else {
+9. Course.java
+@@ -33,8 +33,12 @@
+-    enrolledStudentCount++;
+-    return false;
++    if (this.enrollmentCapacity > this.enrolledStudentCount) {
++      this.enrolledStudentCount++;
++      return true;
++    } else {
++      return false;
++    }
+10. Course.java
+@@ -42,19 +46,26 @@
+-  public boolean dropStudent() {
+-    enrolledStudentCount--;
+-    return false;
++  public boolean dropStudent(int courseCode) {
++    if (this.enrolledStudentCount > 0 && courseCode != 3404) {
++      enrolledStudentCount--;
++      return true;
++    }
++      {
++      return false;
++      }
+   }
+
+11. Department.java
+@@ -23,11 +23,11 @@ public class Department implements Serializable {
+    * Constructs a new Department object with the given parameters.
+    *
+    * @param deptCode         The code of the department.
+-   * @param courses          A HashMap containing courses offered by the department.
++   * @param courses          A Map containing courses offered by the department.
+    * @param departmentChair  The name of the department chair.
+    * @param numberOfMajors   The number of majors in the department.
+    */
+-  public Department(String deptCode, HashMap<String, Course> courses, String departmentChair,
++  public Department(String deptCode, Map<String, Course> courses, String departmentChair,
+
+12.
+@@ -50,15 +50,15 @@ public class Department implements Serializable {
+    * @return The name of the department chair.
+    */
+   public String getDepartmentChair() {
+-    return "this.departmentChair";
++    return this.departmentChair;
+   }
+ 
+   /**
+    * Gets the courses offered by the department.
+    *
+-   * @return A HashMap containing courses offered by the department.
++   * @return A Map containing courses offered by the department.
+    */
+-  public HashMap<String, Course> getCourseSelection() {
++  public Map<String, Course> getCourseSelection() {
+     return this.courses;
+   }
+13.
+@@ -33,18 +39,19 @@ public class IndividualProjectApplication implements CommandLineRunner {
+    *
+    * @param args A {@code String[]} of any potential runtime args
+    *
+    * @param args A {@code String[]} of any potential runtime args
+    */
+-  public void run(String[] args) {
++  public void run(String... args) {
+     for (String arg : args) {
+-      if (arg.equals("setup")) {
++      if ("setup".equals(arg)) {
+         myFileDatabase = new MyFileDatabase(1, "./data.txt");
+         resetDataFile();
+-        System.out.println("System Setup");
++        
++        LOGGER.info("System Setup");
+         return;
+ 
+       }
+     }
+     myFileDatabase = new MyFileDatabase(0, "./data.txt");
+-    System.out.println("Start up");
++    LOGGER.info("Start up");
+   }
+ 
+ 14.
+ @@ -81,7 +88,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
+     coms3827.setEnrolledStudentCount(283);
+     Course coms4156 = new Course("Gail Kaiser", "501 NWC", times[2], 120);
+     coms4156.setEnrolledStudentCount(109);
+-    HashMap<String, Course> courses = new HashMap<>();
++    Map<String, Course> courses = new HashMap<>();
+     courses.put("1004", coms1004);
+     courses.put("3134", coms3134);
+     courses.put("3157", coms3157);
+15.
+@@ -91,7 +98,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
+     courses.put("3827", coms3827);
+     courses.put("4156", coms4156);
+     Department compSci = new Department("COMS", courses, "Luca Carloni", 2700);
+-    HashMap<String, Department> mapping = new HashMap<>();
++    Map<String, Department> mapping = new HashMap<>();
+     mapping.put("COMS", compSci);
+16.
+@@ -290,7 +297,8 @@ public class IndividualProjectApplication implements CommandLineRunner {
+    */
+   @PreDestroy
+   public void onTermination() {
+-    System.out.println("Termination");
++    // System.out.println("Termination");
++    LOGGER.info("Termination");
+     if (saveData) {
+       myFileDatabase.saveContentsToFile();
+ 
+17.MyFileDatabase.java
+@@ -7,12 +7,18 @@ import java.io.ObjectInputStream;
+ import java.io.ObjectOutputStream;
+ import java.util.HashMap;
+ import java.util.Map;
++import java.util.logging.Level;
++import java.util.logging.Logger;
++import org.springframework.stereotype.Service;
+ 
+ /**
+  * This class represents a file-based database containing department mappings.
+  */
++// @Service  // Mark it as a Spring-managed service
+ public class MyFileDatabase {
+ 
++  private static final Logger LOGGER = Logger.getLogger(MyFileDatabase.class.getName());
++
+   /**
+    * Constructs a MyFileDatabase object and loads up the data structure with
+    * the contents of the file.
+
+18. 
+@@ -41,16 +47,16 @@ public class MyFileDatabase {
+    *
+    * @return the deserialized department mapping
+    */
+-  public HashMap<String, Department> deSerializeObjectFromFile() {
++  public Map<String, Department> deSerializeObjectFromFile() {
+     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
+       Object obj = in.readObject();
+-      if (obj instanceof HashMap) {
+-        return (HashMap<String, Department>) obj;
++      if (obj instanceof Map) {
++        return (Map<String, Department>) obj;
+       } else {
+         throw new IllegalArgumentException("Invalid object type in file.");
+       }
+     } catch (IOException | ClassNotFoundException e) {
+-      e.printStackTrace();
++      LOGGER.log(Level.SEVERE, "An error occurred", e);
+       return null;
+     }
+   }
+19.
+@@ -62,9 +68,9 @@ public class MyFileDatabase {
+   public void saveContentsToFile() {
+     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
+       out.writeObject(departmentMapping);
+-      System.out.println("Object serialized successfully.");
++      LOGGER.info("Object serialized successfully.");
+     } catch (IOException e) {
+-      e.printStackTrace();
++      LOGGER.log(Level.SEVERE, "An error occurred", e);
+     }
+   }
+20.
+@@ -73,7 +79,7 @@ public class MyFileDatabase {
+    *
+    * @return the department mapping
+    */
+-  public HashMap<String, Department> getDepartmentMapping() {
++  public Map<String, Department> getDepartmentMapping() {
+     return this.departmentMapping;
+   }
+ 
+ @@ -116,9 +142,9 @@ public class RouteController {
+       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
+ 
+       if (doesCourseExists) {
+-        HashMap<String, Department> departmentMapping;
++        Map<String, Department> departmentMapping;
+         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+-        HashMap<String, Course> coursesMapping;
++        Map<String, Course> coursesMapping;
+         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
+ 
+         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+
+@@ -147,12 +173,12 @@ public class RouteController {
+     try {
+       boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
+       if (doesDepartmentExists) {
+-        HashMap<String, Department> departmentMapping;
++        Map<String, Department> departmentMapping;
+         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+-        return new ResponseEntity<>("There are: " + -departmentMapping.get(deptCode)
++        return new ResponseEntity<>("There are: " + departmentMapping.get(deptCode)
+             .getNumberOfMajors() + " majors in the department", HttpStatus.OK);
+       }
+-      return new ResponseEntity<>("Department Not Found", HttpStatus.FORBIDDEN);
++      return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
+     } catch (Exception e) {
+       return handleException(e);
+     }
+
+@@ -173,7 +199,7 @@ public class RouteController {
+     try {
+       boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
+       if (doesDepartmentExists) {
+-        HashMap<String, Department> departmentMapping;
++        Map<String, Department> departmentMapping;
+         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+         return new ResponseEntity<>(departmentMapping.get(deptCode).getDepartmentChair() + " is "
+             + "the department chair.", HttpStatus.OK);
+@@ -206,9 +232,9 @@ public class RouteController {
+       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
+ 
+       if (doesCourseExists) {
+-        HashMap<String, Department> departmentMapping;
++        Map<String, Department> departmentMapping;
+         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+-        HashMap<String, Course> coursesMapping;
++        Map<String, Course> coursesMapping;
+         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
+
+q@@ -245,9 +271,9 @@ public class RouteController {
+       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
+ 
+       if (doesCourseExists) {
+-        HashMap<String, Department> departmentMapping;
++        Map<String, Department> departmentMapping;
+         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+-        HashMap<String, Course> coursesMapping;
++        Map<String, Course> coursesMapping;
+         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
+ 
+         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+@@ -284,13 +310,13 @@ public class RouteController {

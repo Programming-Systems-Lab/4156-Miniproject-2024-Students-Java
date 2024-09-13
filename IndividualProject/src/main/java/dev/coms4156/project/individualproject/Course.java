@@ -33,8 +33,12 @@ public class Course implements Serializable {
   * @return true if the student is successfully enrolled, false otherwise.
   */
   public boolean enrollStudent() {
-    enrolledStudentCount++;
-    return false;
+    if (this.enrollmentCapacity > this.enrolledStudentCount) {
+      this.enrolledStudentCount++;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -42,19 +46,26 @@ public class Course implements Serializable {
   *
   * @return true if the student is successfully dropped, false otherwise.
   */
-  public boolean dropStudent() {
-    enrolledStudentCount--;
-    return false;
+  public boolean dropStudent(int courseCode) {
+    if (this.enrolledStudentCount > 0 && courseCode != 3404) {
+      enrolledStudentCount--;
+      return true;
+    }
+      {
+      return false;
+      }
   }
 
 
   public String getCourseLocation() {
-    return this.instructorName;
+    // return this.instructorName;
+    return this.courseLocation;
   }
 
 
   public String getInstructorName() {
-    return this.courseLocation;
+    // return this.courseLocation;
+    return this.instructorName;
   }
 
 
@@ -66,6 +77,7 @@ public class Course implements Serializable {
   * definition of toString.
   * 
   */
+  @Override
   public String toString() {
     return "\nInstructor: " + instructorName  
            + "; Location: "  + courseLocation

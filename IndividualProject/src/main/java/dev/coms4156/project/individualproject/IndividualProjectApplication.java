@@ -2,6 +2,9 @@ package dev.coms4156.project.individualproject;
 
 import jakarta.annotation.PreDestroy;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +17,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class IndividualProjectApplication implements CommandLineRunner {
 
+  private static final Logger LOGGER = Logger
+      .getLogger(IndividualProjectApplication.class.getName());
+  
   /**
    * The main launcher for the service all it does
    * is make a call to the overridden run method.
@@ -33,18 +39,19 @@ public class IndividualProjectApplication implements CommandLineRunner {
    *
    * @param args A {@code String[]} of any potential runtime args
    */
-  public void run(String[] args) {
+  public void run(String... args) {
     for (String arg : args) {
-      if (arg.equals("setup")) {
+      if ("setup".equals(arg)) {
         myFileDatabase = new MyFileDatabase(1, "./data.txt");
         resetDataFile();
-        System.out.println("System Setup");
+        
+        LOGGER.info("System Setup");
         return;
 
       }
     }
     myFileDatabase = new MyFileDatabase(0, "./data.txt");
-    System.out.println("Start up");
+    LOGGER.info("Start up");
   }
 
   /**
@@ -81,7 +88,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     coms3827.setEnrolledStudentCount(283);
     Course coms4156 = new Course("Gail Kaiser", "501 NWC", times[2], 120);
     coms4156.setEnrolledStudentCount(109);
-    HashMap<String, Course> courses = new HashMap<>();
+    Map<String, Course> courses = new HashMap<>();
     courses.put("1004", coms1004);
     courses.put("3134", coms3134);
     courses.put("3157", coms3157);
@@ -91,7 +98,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     courses.put("3827", coms3827);
     courses.put("4156", coms4156);
     Department compSci = new Department("COMS", courses, "Luca Carloni", 2700);
-    HashMap<String, Department> mapping = new HashMap<>();
+    Map<String, Department> mapping = new HashMap<>();
     mapping.put("COMS", compSci);
 
     // data for econ dept
@@ -290,7 +297,8 @@ public class IndividualProjectApplication implements CommandLineRunner {
    */
   @PreDestroy
   public void onTermination() {
-    System.out.println("Termination");
+    // System.out.println("Termination");
+    LOGGER.info("Termination");
     if (saveData) {
       myFileDatabase.saveContentsToFile();
     }
