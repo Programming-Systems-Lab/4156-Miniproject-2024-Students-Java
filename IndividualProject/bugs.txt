@@ -1,0 +1,44 @@
+1. Incorrect Initial Value Assignment
+Location: Course.java, constructor
+Issue: enrolledStudentCount was initialized to 500 instead of 0.
+Resolution: Changed the initialization of enrolledStudentCount to 0 to correctly start with no students enrolled in the course.
+
+2. Incorrect Return Values in enrollStudent() and dropStudent() Methods
+Location: Course.java, enrollStudent() and dropStudent() methods
+Issue: Both methods always returned false instead of indicating the actual success of the operation.
+Resolution: Updated enrollStudent() to return true when enrollment is successful (if there is space) and false otherwise. Similarly, dropStudent() was updated to return true when a student is successfully dropped and false if no students are enrolled.
+
+3. Incorrect Return Values in Getter Methods
+Location: Course.java, getCourseLocation() and getInstructorName() methods
+Issue: getCourseLocation() returned the instructorName, and getInstructorName() returned the courseLocation.
+Resolution: Swapped the return values in getCourseLocation() and getInstructorName() to return the correct attributes.
+
+4. Incorrect Condition Check in isCourseFull()
+Location: Course.java, isCourseFull() method
+Issue: The method returned true when enrollmentCapacity was greater than enrolledStudentCount, which is logically incorrect.
+Resolution: Changed the condition to return true when enrolledStudentCount >= enrollmentCapacity, indicating that the course is full.
+
+5. Incorrect Field Reference in getNumberOfMajors()
+Location: Department.java, getNumberOfMajors() method
+Issue: The method returned -this.numberOfMajors instead of this.numberOfMajors, resulting in a negative count.
+Resolution: Changed the return value to this.numberOfMajors to return the correct number of majors.
+
+6. Literal String Return in getDepartmentChair()
+Location: Department.java, getDepartmentChair() method
+Issue: The method incorrectly returned "this.departmentChair" instead of the actual value of the departmentChair field.
+Resolution: Fixed the return value to return this.departmentChair.
+
+7. Incorrect Return Value in toString() Method
+Location: Department.java, toString() method
+Issue: The method returned a literal "result.toString()" instead of the concatenated StringBuilder result.
+Resolution: Changed the return statement to return result.toString(); to return the correctly formatted string representation.
+
+8. Incorrect Response Status in RouteController
+Location: RouteController.java, testRetrieveDepartmentFound() and testRetrieveCourseFound()
+Issue: The test methods had incorrect expected HTTP status codes in the assertions.
+Resolution: Updated the assertions to use the correct expected status codes (HttpStatus.OK for a successful response).
+
+9. Unused Local Variable in findCourseTime()
+Location: RouteController.java, findCourseTime() method
+Issue: The variable `requestedCourse` was declared but never used, causing an "UnusedLocalVariable" warning in PMD.
+Resolution: Removed the redundant `requestedCourse` variable and updated the logic to use the result from `retrieveCourse()` directly.

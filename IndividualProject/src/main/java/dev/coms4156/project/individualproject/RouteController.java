@@ -18,8 +18,8 @@ public class RouteController {
   @GetMapping({"/", "/index", "/home"})
   public String index() {
     return "Welcome, in order to make an API call direct your browser or Postman to an endpoint "
-        + "\n\n This can be done using the following format: \n\n http:127.0.0"
-        + ".1:8080/endpoint?arg=value";
+            + "\n\n This can be done using the following format: \n\n http:127.0.0"
+            + ".1:8080/endpoint?arg=value";
   }
 
   /**
@@ -41,7 +41,7 @@ public class RouteController {
         return new ResponseEntity<>("Department Not Found", HttpStatus.OK);
       } else {
         return new ResponseEntity<>(departmentMapping.get(deptCode.toUpperCase()).toString(),
-            HttpStatus.NOT_FOUND);
+                HttpStatus.NOT_FOUND);
       }
 
     } catch (Exception e) {
@@ -77,7 +77,7 @@ public class RouteController {
           return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
         } else {
           return new ResponseEntity<>(coursesMapping.get(Integer.toString(courseCode)).toString(),
-              HttpStatus.FORBIDDEN);
+                  HttpStatus.FORBIDDEN);
         }
 
       }
@@ -141,7 +141,7 @@ public class RouteController {
         HashMap<String, Department> departmentMapping;
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
         return new ResponseEntity<>("There are: " + -departmentMapping.get(deptCode)
-            .getNumberOfMajors() + " majors in the department", HttpStatus.OK);
+                .getNumberOfMajors() + " majors in the department", HttpStatus.OK);
       }
       return new ResponseEntity<>("Department Not Found", HttpStatus.FORBIDDEN);
     } catch (Exception e) {
@@ -167,7 +167,7 @@ public class RouteController {
         HashMap<String, Department> departmentMapping;
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
         return new ResponseEntity<>(departmentMapping.get(deptCode).getDepartmentChair() + " is "
-            + "the department chair.", HttpStatus.OK);
+                + "the department chair.", HttpStatus.OK);
       }
       return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
     } catch (Exception e) {
@@ -202,7 +202,7 @@ public class RouteController {
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         return new ResponseEntity<>(requestedCourse.getCourseLocation() + " is where the course "
-            + "is located.", HttpStatus.OK);
+                + "is located.", HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
       }
@@ -239,7 +239,7 @@ public class RouteController {
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         return new ResponseEntity<>(requestedCourse.getInstructorName() + " is the instructor for"
-            + " the course.", HttpStatus.OK);
+                + " the course.", HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
       }
@@ -254,10 +254,8 @@ public class RouteController {
    *
    * @param deptCode   A {@code String} representing the department the user wishes
    *                   to find the course in.
-   *
    * @param courseCode A {@code int} representing the course the user wishes
    *                   to find information about.
-   *
    * @return           A {@code ResponseEntity} object containing either the details of the
    *                   course timeslot and an HTTP 200 response or, an appropriate message
    *                   indicating the proper response.
@@ -274,9 +272,13 @@ public class RouteController {
         HashMap<String, Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
+        // Use the requestedCourse variable properly to get course time slot
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
-        return new ResponseEntity<>("The course meets at: " + "some time ",
-            HttpStatus.OK);
+        if (requestedCourse != null) {
+          return new ResponseEntity<>("The course meets at: " + requestedCourse.getCourseTimeSlot(), HttpStatus.OK);
+        } else {
+          return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+        }
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
       }
