@@ -21,3 +21,29 @@ PMD Identified
 3. AvoidLiteralsInIfCondition - Declaring the Minimum Major Count and then using it in function dropPersonFromMajor()
 
 
+File Name -- MyFileDatabase.java
+
+PMD Identified 
+1. MyFileDatabase.deSerializeObjectFromFile() - Overridable method called during object construction
+2.  System.out/err - Using LOGGER instead of System.out.println in  saveContentsToFile
+3. Returning empty collection rather than null in deSerializeObjectFromFile() 
+4. LooseCoupling - Avoid using HashMap
+
+
+File Name -- RouteController.java
+1. findCourseTime() - Changing the return, basically changing time slot.
+2. retrieveCourse() - Changing return status
+3. retrieveDepartment() - swapping the return status
+4. getMajorCtFromDept() - Negative value returning
+5. handleException() - Wrong return status it should be INTERNAL_SERVER_ERROR
+6. Changing courseCode to COURSE_CODE_PARAM
+7. Changing deptCode to DEPT_CODE_PARAM
+8. "Course not found" literal occuring many times
+9. "Department Not found" literal occuring many times 
+10. retrieveDepartment() calling upper case function more than once
+
+
+PMD Identified
+1. AvoidDuplicateLiterals
+2. Unused local variale 
+
