@@ -54,3 +54,29 @@ DEPARTMENT BUG FIXES:
     - PMD Error: N/A
     - Problems: method returns negative number of majors.
     - Solution: return positive number of majors.
+
+MYFILEDATABASE BUG FIXES:
+
+1. deSerializeObjectFromFile() Method:
+    - PMD Error: ReturnEmptyCollectionRatherThanNull,
+    - Problem: We return a Null value rather than an empty hashmap
+    - Solution: we return an empty map.
+
+    - PMD Error: ConstructorCallsOverridableMethod
+    - Problem: This risks calling methods on an incompletely constructed object
+    - Make the deSerializeObjectFromFile() final
+
+2. saveContentsToFile() method:
+    - PMD Error: SystemPrintln
+    - Problem: Should be using System.out.println()
+    - Solution: remove System.out.println()
+
+3. deSerializeObjectFromFile() method:
+    - PMD Error: AvoidFileStream
+    - Problem: File stream is inefficient and can cause garbage collection problems.
+    - Solution: Utilize Files.newInputStream and Files.newBufferedReader
+
+4. saveContentsToFile() method:
+    - PMD Error: AvoidFileStream
+    - Problem: File stream is inefficient and can cause garbage collection problems.
+    - Solution: Utilize Files.newOutputStream and Files.newBufferedWriter

@@ -129,8 +129,7 @@ public class Department implements Serializable {
    * manipulated to change conditions of specific unit tests in
    * the {{@code @class} Department} class.
    *
-   * @return a {@code Department} object that represents a deep copy of
-   * current instance of Department.
+   * @return a {@code Department} object that represents a deep copy of current instance.
    */
   public Department cloneDepartment() {
     HashMap<String, Course> clonedCourses = new HashMap<>();

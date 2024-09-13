@@ -1,10 +1,12 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,8 +43,9 @@ public class MyFileDatabase {
    *
    * @return the deserialized department mapping
    */
-  public HashMap<String, Department> deSerializeObjectFromFile() {
-    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
+  public final HashMap<String, Department> deSerializeObjectFromFile() {
+    try (ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(
+        Files.newInputStream(Paths.get(filePath))))) {
       Object obj = in.readObject();
       if (obj instanceof HashMap) {
         return (HashMap<String, Department>) obj;
@@ -51,7 +54,7 @@ public class MyFileDatabase {
       }
     } catch (IOException | ClassNotFoundException e) {
       e.printStackTrace();
-      return null;
+      return new HashMap<>();
     }
   }
 
@@ -60,9 +63,9 @@ public class MyFileDatabase {
    * overwritten with this operation.
    */
   public void saveContentsToFile() {
-    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
+    try (ObjectOutputStream out = new ObjectOutputStream(
+        new BufferedOutputStream(Files.newOutputStream(Paths.get(filePath))))) {
       out.writeObject(departmentMapping);
-      System.out.println("Object serialized successfully.");
     } catch (IOException e) {
       e.printStackTrace();
     }

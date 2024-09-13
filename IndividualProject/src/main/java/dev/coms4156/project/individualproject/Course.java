@@ -75,6 +75,11 @@ public class Course implements Serializable {
     return this.enrolledStudentCount;
   }
 
+  /**
+   * toString() method represents a Course as a String.
+   *
+   * <p>@return a String representing the information in a Course.
+   */
   public String toString() {
     return "\nInstructor: " + this.instructorName +  "; Location: "
       + this.courseLocation +  "; Time: " + this.courseTimeSlot
@@ -114,12 +119,13 @@ public class Course implements Serializable {
    * manipulated to change conditions of specific unit tests in
    * the {{@code @class} CourseUnitTests} class.
    *
-   * @return a {@code Course} object that represents a deep copy of
+   * <p>@return a {@code Course} object that represents a deep copy of\
    * current instance of Cource.
    */
   public Course cloneCourse() {
-      return new Course(this.instructorName, this.courseLocation, this.courseTimeSlot, this.enrollmentCapacity);
-    }
+    return new Course(this.instructorName, this.courseLocation,
+      this.courseTimeSlot, this.enrollmentCapacity);
+  }
 
 
   @Serial

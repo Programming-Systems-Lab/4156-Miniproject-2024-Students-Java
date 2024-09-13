@@ -21,10 +21,17 @@ public class CourseUnitTests {
 
   private Course testCourse;
 
+  /**
+   * Retrieves course information from the data.txt
+   * In this instance, the {@code setupCourseForTesting()} method retrieves
+   * the course "1004" from the COMS department to use as an example in
+   * testing.
+   */
   @BeforeAll
   public static void setupCourseForTesting() {
     myFileDatabase = new MyFileDatabase(0, "./data.txt"); // Adjust the path if needed
-    originalTestCourse = myFileDatabase.getDepartmentMapping().get("COMS").getCourseSelection().get("1004");
+    originalTestCourse = myFileDatabase.getDepartmentMapping()
+      .get("COMS").getCourseSelection().get("1004");
   }
 
   /**
@@ -40,7 +47,8 @@ public class CourseUnitTests {
   @Test
   public void toStringTest() {
     testCourse = myFileDatabase.getDepartmentMapping().get("COMS").getCourseSelection().get("1004");
-    String expectedResult = "\nInstructor: Adam Cannon; Location: 417 IAB; Time: 11:40-12:55; Capacity: 400";
+    String expectedResult = "\nInstructor: Adam Cannon; Location: "
+        + "417 IAB; Time: 11:40-12:55; Capacity: 400";
     System.out.println(expectedResult);
     System.out.println(testCourse.toString());
     assertEquals(expectedResult, testCourse.toString());
@@ -49,21 +57,24 @@ public class CourseUnitTests {
   /**
    * This function tests the {@code enrollStudentSuccess()} method.
    *
-   * <p>If the course student enrollment is less than the capacity of the class, this method should return true.
+   * <p>If the course student enrollment is less than the capacity of the class,
+   * this method should return true.
    */
   @Test
-  public void enrollStudentSuccess() { assertTrue(testCourse.enrollStudent());
+  public void enrollStudentSuccess() {
+    assertTrue(testCourse.enrollStudent());
   }
 
   /**
    * This function tests the {@code enrollStudentSuccess()} method.
    *
-   * <p>If the course student enrollment is greater than the capacity of the class, this method should return false.
+   * <p>If the course student enrollment is greater than the capacity of the class,
+   * this method should return false.
    */
   @Test
   public void enrollStudentFailure() {
 
-    testCourse.setEnrolledStudentCount(testCourse.getCourseCapacity()+1);
+    testCourse.setEnrolledStudentCount(testCourse.getCourseCapacity() + 1);
     assertFalse(testCourse.enrollStudent());
   }
 
@@ -175,7 +186,7 @@ public class CourseUnitTests {
    */
   @Test
   public void testIsCourseFullFailure() {
-    testCourse.setEnrolledStudentCount(testCourse.getCourseCapacity()-1);
+    testCourse.setEnrolledStudentCount(testCourse.getCourseCapacity() - 1);
     assertFalse(testCourse.isCourseFull());
   }
 

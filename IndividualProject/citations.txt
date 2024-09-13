@@ -5,3 +5,8 @@ Running Intellij code with Coverage: https://www.jetbrains.com/help/idea/code-co
 How to run Jacoco: https://stackoverflow.com/questions/22836455/jacoco-report-generation-using-maven
 How to convert StringBuilder to String: https://www.geeksforgeeks.org/stringbuilder-tostring-method-in-java-with-examples/
 How to check type of var in Java: https://stackoverflow.com/questions/3993982/how-to-check-type-of-variable-in-java
+How to assert a throw: https://stackoverflow.com/questions/40268446/junit-5-how-to-assert-an-exception-is-thrown
+ConstructorCallsOverridableMethod: https://docs.pmd-code.org/pmd-doc-6.55.0/pmd_rules_java_errorprone.html#constructorcallsoverridablemethod
+Resolution to ConstructorCallsOverridableMethod: https://wiki.sei.cmu.edu/confluence/display/java/MET05-J.%2BEnsure%2Bthat%2Bconstructors%2Bdo%2Bnot%2Bcall%2Boverridable%2Bmethods
+Explanation of AvoidFileStream & solution: https://pmd.github.io/pmd/pmd_rules_java_performance.html#avoidfilestream
+Catching IllegalArgumentException (using lambda function): https://howtodoinjava.com/junit5/expected-exception-example/
