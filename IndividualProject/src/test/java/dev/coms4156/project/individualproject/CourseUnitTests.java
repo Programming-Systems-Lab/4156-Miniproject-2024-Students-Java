@@ -236,9 +236,17 @@ public class CourseUnitTests {
   public void changeCourseTimeTest() throws Exception {
     String expectedResult = "Attributed was updated successfully.";
     String temp = testRC.changeCourseTime("IEOR", 3404, "6:10 - 8:00").toString();
-    //System.out.println(temp);
     assertTrue(temp.contains(expectedResult));
   }
+
+  @Test
+  public void removeMajorFromDeptTest() throws Exception {
+    String expectedResult = "Attribute was updated or is at minimum";
+    String temp = testRC.removeMajorFromDept("IEOR").toString();
+    assertTrue(temp.contains(expectedResult));
+  }
+
+
 
 
 
