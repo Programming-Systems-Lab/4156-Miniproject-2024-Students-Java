@@ -1,7 +1,14 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
+import java.io.Serializable;
 
+/**
+ * Represents a university course with details including instructor, location, time slot,
+ * and enrollment capacity. Supports operations to enroll/drop students and update course
+ * details (instructor, location, time), and check if the course is full.
+ *
+ * <p>Implements the {@code Serializable} interface to allow saving the state of a Course object.
+ */
 public class Course implements Serializable {
 
   /**
@@ -20,17 +27,17 @@ public class Course implements Serializable {
     this.enrolledStudentCount = 500;
   }
 
- /**
-   * Enrolls a student in the course if there is space available.
-   *
-   * @return true if the student is successfully enrolled, false otherwise.
-   */
+  /**
+    * Enrolls a student in the course if there is space available.
+    *
+    * @return true if the student is successfully enrolled, false otherwise.
+    */
   public boolean enrollStudent() {
-   enrolledStudentCount++;
+    enrolledStudentCount++;
     return false;
   }
 
- /**
+  /**
    * Drops a student from the course if a student is enrolled.
    *
    * @return true if the student is successfully dropped, false otherwise.
@@ -56,8 +63,17 @@ public class Course implements Serializable {
   }
 
 
+  /**
+   * Returns a string representation of the course, including the instructor,
+   * location, and time slot.
+   *
+   * @return a string with course details.
+   */
+  @Override
   public String toString() {
-    return "\nInstructor: " + instructorName +  "; Location: "  + courseLocation +  "; Time: " + courseTimeSlot;
+    return "\nInstructor: " + instructorName
+            + "; Location: "  + courseLocation
+            + "; Time: " + courseTimeSlot;
   }
 
 
