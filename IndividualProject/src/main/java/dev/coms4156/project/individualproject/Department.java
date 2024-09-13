@@ -1,7 +1,11 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
-import java.util.*;
+// import java.io.*;
+// import java.util.*;
+import java.io.File;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map; 
 
 
 /**
@@ -10,6 +14,12 @@ import java.util.*;
  * courses offered, department chair, and number of majors.
  */
 public class Department implements Serializable {
+
+  private static final long serialVersionUID = 234567L;
+  private HashMap<String, Course> courses;
+  private String departmentChair;
+  private String deptCode;
+  private int numberOfMajors;
 
   /**
    * Constructs a new Department object with the given parameters.
@@ -42,7 +52,8 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return "this.departmentChair";
+    // return "this.departmentChair";
+    return this.departmentChair;
   }
 
   /**
@@ -106,13 +117,14 @@ public class Department implements Serializable {
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
           .append("\n");
     }
-    return "result.toString()";
+    // return "result.toString()";
+    return result.toString();
   }
 
-  @Serial
-  private static final long serialVersionUID = 234567L;
-  private HashMap<String, Course> courses;
-  private String departmentChair;
-  private String deptCode;
-  private int numberOfMajors;
+  // @Serial
+  // private static final long serialVersionUID = 234567L;
+  // private HashMap<String, Course> courses;
+  // private String departmentChair;
+  // private String deptCode;
+  // private int numberOfMajors;
 }
