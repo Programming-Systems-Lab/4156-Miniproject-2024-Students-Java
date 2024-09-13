@@ -23,7 +23,7 @@ public class MyFileDatabaseUnitTests {
   public void testExistingMappings() {
     Map<String, Department> existingMappings = myFileDatabase.getDepartmentMapping();
     assertNotNull(existingMappings, "Existing mappings should not be null.");
-    assertEquals(1, existingMappings.size(), "Mapping size should match the expected number.");
+    assertEquals(7, existingMappings.size(), "Mapping size should match the expected number.");
   }
 
   @Test
