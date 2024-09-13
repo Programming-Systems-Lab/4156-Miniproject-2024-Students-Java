@@ -59,21 +59,19 @@ public class RouteControllerUnitTests {
 
     @Test
     public void testCorrectRetrieveDepartment() throws Exception {
-        performGetRequestTest("/retrieveDept", "deptCode=COMS", status().isOk(), "Luca Carloni");
+        performGetRequestTest("/retrieveDept", "deptCode=COMS", status().isOk(), "COMS 1004: \nInstructor: Adam Cannon; "
+                + "Location: 417 IAB; Time: 11:40-12:55\n");
     }
 
     @Test
     public void testWrongRetrieveDepartment() throws Exception {
-        performGetRequestTest("/retrieveDept", "deptCode=electrical", status().isNotFound(), null);
+        performGetRequestTest("/retrieveDept", "deptCode=electrical", status().isNotFound(), "Department Not Found");
     }
 
     @Test
     public void testNullRetrieveDepartment() throws Exception {
-        performGetRequestTest("/retrieveDept", "deptCode=null", status().isNotFound(), null);
+        performGetRequestTest("/retrieveDept", "deptCode=null", status().isNotFound(), "Department Not Found");
     }
-
-
-
 
     /**
      * Retrieval Courses
@@ -82,13 +80,13 @@ public class RouteControllerUnitTests {
 
     @Test
     public void testCorrectRetrieveCourse() throws Exception {
-        performGetRequestTest("/retrieveCourse", "deptCode=COMS&courseCode=3261", status().isOk(),"3261");
+        performGetRequestTest("/retrieveCourse", "deptCode=COMS&courseCode=3261", status().isOk(),"Instructor: Josh Alman; Location: 417 IAB; Time: 20:10-21:25");
 
     }
 
    @Test
    public void testWrongRetrieveCourse() throws Exception {
-       performGetRequestTest("/retrieveCourse", "deptCode=electrical&courseCode=3261", status().isNotFound(),"Course Not Found");
+       performGetRequestTest("/retrieveCourse", "deptCode=electrical&courseCode=3261", status().isNotFound(),"Department Not Found");
 
    }
 
@@ -99,12 +97,12 @@ public class RouteControllerUnitTests {
 
     @Test
     public void testCourseFull() throws Exception {
-        performGetRequestTest("/isCourseFull", "deptCode=COMS&courseCode=3261", status().isOk(),"false");
+        performGetRequestTest("/isCourseFull", "deptCode=COMS&courseCode=3261", status().isOk(),"true");
     }
 
     @Test
     public void testCourseNotAvailable() throws Exception {
-        performGetRequestTest("/isCourseFull", "deptCode=COMS&courseCode=1234", status().isNotFound(),"false");
+        performGetRequestTest("/isCourseFull", "deptCode=COMS&courseCode=1234", status().isNotFound(),"Course Not Found");
     }
 
 
@@ -114,7 +112,7 @@ public class RouteControllerUnitTests {
 
     @Test
     public void testValidMajorsInDepartment() throws Exception {
-        performGetRequestTest("/getMajorCountFromDept","deptCode=COMS", status().isOk(),"There are: 2700 majors in department");
+        performGetRequestTest("/getMajorCountFromDept","deptCode=COMS", status().isOk(),"There are: 2700 majors in the department");
     }
 
     @Test
@@ -156,7 +154,7 @@ public class RouteControllerUnitTests {
      */
     @Test
     public void testValidCourseInstructor() throws Exception{
-        performGetRequestTest("/findCourseInstructor", "deptCode=COMS&courseCode=3261", status().isOk(), "Luca Carloni is the instructor for the course.");
+        performGetRequestTest("/findCourseInstructor", "deptCode=COMS&courseCode=3261", status().isOk(), "Josh Alman is the instructor for the course.");
     }
 
     @Test
@@ -170,7 +168,7 @@ public class RouteControllerUnitTests {
 
     @Test
     public void testValidCourseTime() throws Exception {
-        performGetRequestTest("/findCourseTime","deptCode=COMS&courseCode=3261", status().isOk(), "The course meets at ");
+        performGetRequestTest("/findCourseTime","deptCode=COMS&courseCode=3261", status().isOk(), "The course meets at: 20:10-21:25");
     }
 
     @Test
@@ -218,7 +216,7 @@ public class RouteControllerUnitTests {
 
     @Test
     public void testDropStudentFromCourse2() throws Exception {
-        performPatchRequestTest("/dropStudentFromCourse","deptCode=electrical?courseCode=1234", status().isNotFound(), "Course Not Found");
+        performPatchRequestTest("/dropStudentFromCourse","deptCode=electrical?courseCode=1234", status().isBadRequest(), "");
     }
 
     /**
@@ -227,7 +225,7 @@ public class RouteControllerUnitTests {
 
     @Test
     public void testEnrollmentCount() throws Exception {
-        performPatchRequestTest("/setEnrollmentCount","deptCode=COMS&courseCode=3261&count=350", status().isOk(), "Attributed was updated successfully.");
+        performPatchRequestTest("/setEnrollmentCount","deptCode=COMS&courseCode=3261&count=350", status().isOk(), "Attribute was updated successfully.");
     }
 
     @Test
@@ -242,7 +240,7 @@ public class RouteControllerUnitTests {
 
     @Test
     public void testChangeCourseTime() throws Exception {
-        performPatchRequestTest("/changeCourseTime","deptCode=COMS&courseCode=3261&time=20:10-21:25",status().isOk(),"Attributed was updated successfully.");
+        performPatchRequestTest("/changeCourseTime","deptCode=COMS&courseCode=3261&time=20:10-21:25",status().isOk(),"Attribute was updated successfully.");
     }
 
     /**
@@ -251,7 +249,7 @@ public class RouteControllerUnitTests {
 
     @Test
     public void testChangeInstructor() throws Exception {
-        performPatchRequestTest("/changeCourseTeacher","deptCode=COMS&courseCode=3261&teacher=Josh Alman",status().isOk(),"Attributed was updated successfully.");
+        performPatchRequestTest("/changeCourseTeacher","deptCode=COMS&courseCode=3261&teacher=Josh Alman",status().isOk(),"Attribute was updated successfully.");
     }
 
 
@@ -260,7 +258,7 @@ public class RouteControllerUnitTests {
      */
     @Test
     public void testUpdateCourse() throws Exception {
-        performPatchRequestTest("/changeCourseLocation", "deptCode=COMS&courseCode=4156&location=VIT",status().isOk(), "Attributed was updated successfully.");
+        performPatchRequestTest("/changeCourseLocation", "deptCode=COMS&courseCode=4156&location=VIT",status().isOk(), "Attribute was updated successfully.");
     }
 
 
