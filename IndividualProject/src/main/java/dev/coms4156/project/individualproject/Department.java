@@ -1,12 +1,14 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Hashmap;
+import java.util.Map;
 
 
 /**
  * Represents a department within an educational institution.
- * This class stores information about the department, including its code,
+ *
+ * <p>This class stores information about the department, including its code,
  * courses offered, department chair, and number of majors.
  */
 public class Department implements Serializable {
