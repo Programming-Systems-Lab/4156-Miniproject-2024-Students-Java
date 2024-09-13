@@ -1,13 +1,21 @@
 package dev.coms4156.project.individualproject;
 
+import java.util.HashMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-import java.util.HashMap;
 
 
+/**
+ * Unit test for Department class.
+ * <p>
+ * The unit test below define the unit test for
+ * Department.java class using Spring
+ * Boots testing support.
+ * </p>
+ */
 @SpringBootTest
 @ContextConfiguration
 public class DepartmentUnitTests {
@@ -15,18 +23,17 @@ public class DepartmentUnitTests {
   public static Department department;
   private Course testCourse;
 
+  /**
+   * Setting up the test course and random department with it.
+   */
   @BeforeEach
   public void setUp() {
-    // Create courses to be used in the department
     testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
 
-    // Create a HashMap to hold courses
     HashMap<String, Course> courses = new HashMap<>();
 
-    // Add course to the HashMap
-    courses.put("4156", testCourse); // This should work now
+    courses.put("4156", testCourse);
 
-    // Initialize the Department object with the HashMap of courses
     department = new Department("Meche", courses, "Dr. Smith", 100);
   }
 
