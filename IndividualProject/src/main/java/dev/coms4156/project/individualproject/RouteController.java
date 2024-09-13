@@ -494,7 +494,8 @@ public class RouteController {
    */
   @PatchMapping(value = "/changeCourseTeacher", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> changeCourseTeacher(@RequestParam(value = "deptCode") String deptCode,
-      @RequestParam(value = "courseCode") int courseCode, @RequestParam(value = "teacher") String teacher) {
+      @RequestParam(value = "courseCode") int courseCode,
+      @RequestParam(value = "teacher") String teacher) {
     try {
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
@@ -527,7 +528,8 @@ public class RouteController {
 
   @PatchMapping(value = "/changeCourseLocation", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> changeCourseLocation(@RequestParam(value = "deptCode") String deptCode,
-      @RequestParam(value = "courseCode") int courseCode, @RequestParam(value = "location") String location) {
+      @RequestParam(value = "courseCode") int courseCode, 
+      @RequestParam(value = "location") String location) {
     try {
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
