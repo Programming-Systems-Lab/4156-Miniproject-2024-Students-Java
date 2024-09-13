@@ -27,26 +27,30 @@ public class IndividualProjectApplication implements CommandLineRunner {
 		SpringApplication.run(IndividualProjectApplication.class, args);
 	}
 
-    /**
-     * This contains all the setup logic, it will mainly be focused
-     * on loading up and creating an instance of the database based
-     * off a saved file or will create a fresh database if the file
-     * is not present.
-     *
-     * @param args A {@code String[]} of any potential runtime args
-     */
-    public void run(String[] args) {
-	  for (String arg : args) {
-	    if (arg.equals("setup")) {
-	    myFileDatabase = new MyFileDatabase(1, "./data.txt");
-	    resetDataFile();
-	    System.out.println("System Setup");
-	    return;
+	/**
+	 * This contains all the setup logic, it will mainly be focused
+	 * on loading up and creating an instance of the database based
+	 * off a saved file or will create a fresh database if the file
+	 * is not present.
+	 *
+	 * @param args A {@code String[]} of any potential runtime args
+	 */
+	public void run(String[] args) {
+		for (String arg : args) {
+            if (arg.equals("setup")) {
+            myFileDatabase = new MyFileDatabase(1, "./data.txt");
+            resetDataFile();
+            System.out.println("System Setup");
+            return;
 	  }
+	  	}
+		myFileDatabase = new MyFileDatabase(0, "./data.txt");
+		System.out.println("Start up");
 	}
 	myFileDatabase = new MyFileDatabase(0, "./data.txt");
     System.out.println("Start up");
   }
+
 
   /**
    * Overrides the database reference, used when testing.
@@ -273,8 +277,8 @@ public class IndividualProjectApplication implements CommandLineRunner {
 				"6:10-8:00", 18);
 		psyc4236.setEnrolledStudentCount(17);
 		Course psyc4493 = new Course("Jennifer Blaze", "200 SCH",
-              "2:10-4:00", 15);
-        psyc4493.setEnrolledStudentCount(9);
+				"2:10-4:00", 15);
+		psyc4493.setEnrolledStudentCount(9);
 
         courses = new HashMap<>();
         courses.put("1001", psyc1001);
