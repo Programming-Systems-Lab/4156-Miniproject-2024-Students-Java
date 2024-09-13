@@ -1,0 +1,17 @@
+File Name -- Course.java
+1. enrollStudent() - Adding a check for checking capacity of the course.
+2. dropStudent() - Dropping student by checking if enrolled count is not < 0
+3. getCourseLocation() - Returning courseLocation instead of instructorName
+4. getInstructorName() - Returning instructorName instead of courseLocation
+5. isCourseFull() - Returning the opposite
+ 
+PMD Identified 
+1. MissingOverride - The method 'toString()' is missing an @Override annotation.
+
+
+File Name -- Department.java
+1.
+
+PMD Identified
+
+
