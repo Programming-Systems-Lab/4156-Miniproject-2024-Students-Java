@@ -1,0 +1,7 @@
+Course:
+enrolledStudentCount initial number is not 0.
+enroll and drop operations lack border check.
+isCourseFull condition is wrong.
+
+Department:
+toString: return "result.toString()"->return result.toString()
