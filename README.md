@@ -3,6 +3,7 @@
 This project is done using Java.
 
 To set up the project, I navigated to the IndividualProject folder and ran the following command:
+
 ```mvn spring-boot:run -Dspring-boot.run.arguments="setup"```
 
 ## Part 1
