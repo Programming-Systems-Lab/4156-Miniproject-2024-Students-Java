@@ -26,3 +26,4 @@ replay_pid*
 .vscode
 .DS_Store
 data.txt
+.idea
