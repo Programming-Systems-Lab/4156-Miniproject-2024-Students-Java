@@ -8,7 +8,6 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * This class represents a file-basedßß database containing department mappings.
  */
