@@ -88,9 +88,13 @@ public class MyFileDatabase {
     return result.toString();
   }
 
-  /** The path to the file containing the database entries. */
+  /**
+   * The path to the file containing the database entries.
+   */
   private String filePath;
 
-  /** The mapping of department names to Department objects. */
+  /**
+   * The mapping of department names to Department objects.
+   */
   private HashMap<String, Department> departmentMapping;
 }
