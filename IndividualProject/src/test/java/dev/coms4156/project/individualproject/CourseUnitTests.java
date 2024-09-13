@@ -6,6 +6,9 @@ import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+/**
+ * This class contains unit tests for the course class.
+ */
 @SpringBootTest
 @ContextConfiguration
 public class CourseUnitTests {

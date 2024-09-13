@@ -368,7 +368,19 @@ public class RouteController {
     }
   }
 
-
+  /**
+   * Endpoint for setting the enrollment count for a specified course.
+   * This method handles PATCH requests to change the enrollment count of a course identified by
+   * department code and course code. If the course exists, its enrollment count is updated to the
+   * provided enrollment count (if valid).
+   *
+   * @param deptCode   A {@code String} representing the department.
+   * @param courseCode A {@code int} representing the course within the department.
+   * @param count      A {@code int} representing the enrollment count to be set for this course.
+   * @return A {@code ResponseEntity} object containing an HTTP 200
+   *     response with an appropriate message or the proper status
+   *     code in tune with what has happened.
+   */
   @PatchMapping(value = "/setEnrollmentCount", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> setEnrollmentCount(@RequestParam(value = "deptCode") String deptCode,
                                               @RequestParam(value = "courseCode") int courseCode,
@@ -467,7 +479,18 @@ public class RouteController {
     }
   }
 
-
+  /**
+   * Endpoint for changing the location of a course.
+   * This method handles PATCH requests to change the location of a course identified by
+   * department code and course code. If the course exists, its location is updated to the
+   * provided location.
+   *
+   * @param deptCode   the code of the department containing the course
+   * @param courseCode the code of the course to change the instructor for
+   * @param location   the new location for the course
+   * @return a ResponseEntity with a success message if the operation is
+   *     successful, or an error message if the course is not found
+   */
   @PatchMapping(value = "/changeCourseLocation", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> changeCourseLocation(@RequestParam(value = "deptCode") String deptCode,
                                                 @RequestParam(value = "courseCode") int courseCode,
