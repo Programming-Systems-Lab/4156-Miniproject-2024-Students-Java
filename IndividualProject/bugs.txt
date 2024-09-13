@@ -36,6 +36,7 @@ fix: {return this.numberOfMajors}
 issue: "this.departmentChair" is returned. The value stored in this variable should be returned.
 method: getDepartmentChair()
 location: line 45
+PMD: Avoid unused private fields such as 'departmentChair'.
 fix: {return this.departmentChair}
 
 --Bug #3
@@ -84,6 +85,7 @@ fix: HttpStatus.NOT_FOUND
 issue: The time returned is hard coded "some time".
 method:  retrieveDepartment()
 location: line 290 - line 292
+Pmd: Avoid unused local variables such as 'requestedCourse'.
 fix: requestedCourse.getCourseTimeSlot()
 
 
