@@ -1,13 +1,14 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 /**
- * Provides unit test for testing implementations in the Course class
+ * Provides unit test for testing implementations in the Course class.
  */
 @SpringBootTest
 @ContextConfiguration
@@ -75,13 +76,13 @@ public class CourseUnitTests {
   }
 
   @Test 
-  public void isCourseFullTest(){
+  public void isCourseFullTest() {
     testSmallCourse.enrollStudent();
     assertEquals(true, testSmallCourse.isCourseFull());
     testSmallCourse.dropStudent();
     assertEquals(false, testSmallCourse.isCourseFull());
   }
-  
+
   /** The test course instance used for testing. */
   public static Course testCourse;
   public static Course testSmallCourse;
