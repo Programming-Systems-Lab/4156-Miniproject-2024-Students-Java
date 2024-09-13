@@ -3,7 +3,6 @@ package dev.coms4156.project.individualproject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Map;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +14,10 @@ import org.springframework.test.context.ContextConfiguration;
 @SpringBootTest
 @ContextConfiguration
 public class DepartmentUnitTests {
-    
+  
+  /**
+  * The department set up to be tested.
+  */
   @BeforeEach
   public void setupDepartmentForTesting() {
     MyFileDatabase myFileDatabase = new MyFileDatabase(0, "./data.txt");
@@ -36,26 +38,27 @@ public class DepartmentUnitTests {
   }
 
   @Test
-  public void addPersonToMajorTest(){
+  public void addPersonToMajorTest() {
     testCSDepartment.addPersonToMajor();
     int expectedResult = 2701;
     assertEquals(expectedResult, testCSDepartment.getNumberOfMajors());
   }
 
   @Test
-  public void dropPersonFromMajorTest(){
+  public void dropPersonFromMajorTest() {
     testCSDepartment.dropPersonFromMajor();
     int expectedResult = 2699;
     assertEquals(expectedResult, testCSDepartment.getNumberOfMajors());
   }
 
   @Test
-  public void addCourseTest(){
+  public void addCourseTest() {
     Course coms1234 = new Course("Gail Kaiser", "501 NWC", "10:10-11:25", 120);
     testCSDepartment.addCourse("coms1234", coms1234);
     assertEquals(coms1234, testCSDepartment.getCourseSelection().get("coms1234"));
   }
 
+  public static MyFileDatabase myFileDatabase;
   public static Department testCSDepartment;
 
 }

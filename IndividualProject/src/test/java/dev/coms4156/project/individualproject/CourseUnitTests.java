@@ -14,6 +14,9 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration
 public class CourseUnitTests {
 
+  /**
+   *  The course set up to be tested.
+   */
   @BeforeEach
   public void setupCourseForTesting() {
     testCourse = new Course("Tony Dear", "402 CHANDLER", "1:10-3:40", 125);

@@ -57,6 +57,10 @@ In the function deSerializeObjectFromFile, if an exception is thrown, the functi
 
 7.  UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
 For each parameter, I removed the unnecessary "value =" such as @RequestParam(value = "deptCode") String deptCode is now @RequestParam("deptCode") String deptCode
+
+8. UseLocaleWithCaseConversions:   When doing a String.toLowerCase()/toUpperCase() call, use a Locale 
+I changed the toUpperCase() to toUpperCase(Locale.ROOT) to avoid any locale issues.
+
 IndividualProjectApplication.java
 1. LiteralsFirstInComparisons:     Position literals first in String comparisons
 In the if statement of "if (arg.equals("setup")) {", I changed the the order of comparison to "setup".equals(arg);
