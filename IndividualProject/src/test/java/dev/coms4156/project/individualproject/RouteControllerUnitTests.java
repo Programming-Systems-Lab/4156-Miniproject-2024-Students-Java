@@ -1,5 +1,6 @@
 package dev.coms4156.project.individualproject;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -9,34 +10,49 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.HashMap;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.Map;
+import static org.mockito.BDDMockito.given;
 
-@WebMvcTest(RouteController.class) // This will only test the RouteController
+@SpringBootTest
+@AutoConfigureMockMvc
 public class RouteControllerUnitTests {
 
   @Autowired
   private MockMvc mockMvc;
 
-  @BeforeAll
-  public static void setUpRouteControllerTests() {
-    testRouteController = new RouteController();
-    HashMap <String, Department> departmentMapping = new HashMap<>();
-    HashMap <String, Course> courseMapping = new HashMap<>();
+  @MockBean
+  private MyFileDatabase myFileDatabase;
 
+  private Map<String, Department> departmentMapping;
+
+  // ...
+
+  public static RouteController testRouteController = new RouteController();
+  public static Department testDepartment;
+  public static Course testCourse;
+
+  @BeforeEach
+  public void setUp() {
+    departmentMapping = new HashMap<>();
+    testDepartment = new Department("4995", new HashMap<>(), "Christian Lim", 2);
     testCourse = new Course("Ben", "451 CSB", "4:10-5:40", 50);
-    courseMapping.put("451", testCourse);
-
-    testDepartment = new Department("4995", courseMapping, "Christian Lim", 2);
     departmentMapping.put("4995", testDepartment);
-    
-    MyFileDatabase mockDatabase = mock(MyFileDatabase.class);
-    IndividualProjectApplication.myFileDatabase = mockDatabase;
-    when(mockDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
+
+    given(myFileDatabase.getDepartmentMapping()).willReturn((HashMap<String, Department>) departmentMapping);
+
+    testDepartment.addCourse(null, testCourse);
   }
 
   @Test
@@ -58,118 +74,116 @@ public class RouteControllerUnitTests {
 
   @Test
   public void retrieveDepartment() throws Exception {
-    this.mockMvc.perform(get("/retrieveDept?deptCode=4995"))
-        .andExpect(status().isOk())
-        .andExpect(content()
-            .string("Department{deptCode='4995', courses={}, departmentChair='Christian Lim', numberOfMajors=2}"));
+    ResponseEntity<?> response = testRouteController.retrieveDepartment("4995");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Department{departmentChair='Christian Lim', numberOfMajors=2, deptCode='4995'}", response);
   }
 
   @Test
   public void retrieveDepartmentFail() throws Exception {
-    this.mockMvc.perform(get("/retrieveDept?deptCode=4990"))
-        .andExpect(status().isOk())
-        .andExpect(content().string("Department Not Found"));
+    ResponseEntity<?> response = testRouteController.retrieveDepartment("5000");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Department Not Found", response);
   }
 
   @Test
   public void getMajorCtFromDept() throws Exception {
-    this.mockMvc.perform(get("/getMajorCountFromDept?deptCode=4995"))
-        .andExpect(status().isOk())
-        .andExpect(content().string("There are: 2 majors in the department"));
+    ResponseEntity<?> response = testRouteController.getMajorCtFromDept("4995");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("There are: 2 majors in the department", response);
+  }
+
+  @Test
+  public void getMajorCtFromDeptFail() throws Exception {
+    ResponseEntity<?> response = testRouteController.getMajorCtFromDept("5000");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Department Not Found", response);
   }
 
   @Test
   public void dropStudent() throws Exception {
-    this.mockMvc.perform(get("/dropStudentFromCourse?deptCode=4995&courseCode=451&studentCount=1"))
-        .andExpect(status().isOk())
-        .andExpect(content().string("Student has been dropped."));
+    ResponseEntity<?> response = testRouteController.dropStudent("4995", 451);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Student has been dropped.", response);
   }
 
   @Test
   public void retrieveCourse() throws Exception {
-    this.mockMvc.perform(get("/retrieveCourse?deptCode=4995&courseCode=451"))
-        .andExpect(status().isOk())
-        .andExpect(content().string(
-            "Course{instructorName='Ben', courseLocation='451 CSB', courseTimeSlot='4:10-5:40', enrolledStudentCount=50}"));
+    ResponseEntity<?> response = testRouteController.retrieveCourse("4995", 451);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(
+        "Course{instructorName='Ben', courseLocation='451 CSB', courseTimeSlot='4:10-5:40', enrolledStudentCount=50}",
+        response);
   }
 
   @Test
   public void setEnrollmentCount() throws Exception {
-    this.mockMvc.perform(get("/setEnrollmentCount?deptCode=4995&enrollmentCount=2"))
-        .andExpect(status().isOk())
-        .andExpect(content().string("Attributed was updated successfully."));
+    ResponseEntity<?> response = testRouteController.setEnrollmentCount("4995", 451, 3);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attributed was updated successfully.", response);
   }
 
   @Test
   public void changeCourseTime() throws Exception {
-    this.mockMvc.perform(get("/changeCourseTime?deptCode=4995&courseCode=451&time=5:00-6:00"))
-        .andExpect(status().isOk())
-        .andExpect(content().string("Attributed was updated successfully."));
+    ResponseEntity<?> response = testRouteController.changeCourseTime("4995", 451, "3:10-5:40");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attributed was updated successfully.", response);
   }
 
   @Test
   public void changeCourseTeacher() throws Exception {
-    this.mockMvc.perform(get("/changeCourseTeacher?deptCode=4995&courseCode=451&teacher=John"))
-        .andExpect(status().isOk())
-        .andExpect(content().string("Attributed was updated successfully."));
+    ResponseEntity<?> response = testRouteController.changeCourseTeacher("4995", 451, "James");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attributed was updated successfully.", response);
   }
 
   @Test
   public void changeCourseLocation() throws Exception {
-    this.mockMvc.perform(get("/changeCourseLocation?deptCode=4995&courseCode=451&location=301 Pupin"))
-        .andExpect(status().isOk())
-        .andExpect(content().string("Attributed was updated successfully."));
+    ResponseEntity<?> response = testRouteController.changeCourseLocation("4995", 451, "Pupin 301");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attributed was updated successfully.", response);
   }
 
   @Test
   public void isCourseFull() throws Exception {
-    MvcResult result = this.mockMvc.perform(get("/isCourseFull?deptCode=4995&courseCode=451"))
-        .andExpect(status().isOk())
-        .andReturn();
-
-    String content = result.getResponse().getContentAsString();
-    boolean isFull = Boolean.parseBoolean(content); // Convert response to boolean
-
-    assertTrue(isFull);
+    ResponseEntity<?> response = testRouteController.isCourseFull("4995", 451);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(true, response);
   }
 
   @Test
   public void findCourseLocation() throws Exception {
-    this.mockMvc.perform(get("/isCourseFull?deptCode=4995&courseCode=451"))
-        .andExpect(status().isOk())
-        .andExpect(content().string("The course is full."));
+    ResponseEntity<?> response = testRouteController.findCourseLocation("4995", 451);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("CSB 541", response);
   }
 
   @Test
   public void findCourseInstructor() throws Exception {
-    this.mockMvc.perform(get("/findCourseLocation?deptCode=4995&courseCode=451"))
-        .andExpect(status().isOk())
-        .andExpect(content().string("CSB 541 is where the course is located."));
+    ResponseEntity<?> response = testRouteController.findCourseInstructor("4995", 451);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Ben", response);
   }
+
 
   @Test
   public void findCourseTime() throws Exception {
-    this.mockMvc.perform(get("/findCourseTime?deptCode=4995&courseCode=451"))
-        .andExpect(status().isOk())
-        .andExpect(content().string("The course meets at: 4:10-5:40"));
+    ResponseEntity<?> response = testRouteController.findCourseTime("4995", 451);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("4:10-5:40", response);
   }
 
   @Test
   public void addMajorToDept() throws Exception {
-    this.mockMvc.perform(get("/addMajorToDept?deptCode=4995"))
-        .andExpect(status().isOk())
-        .andExpect(content().string("Major has been added."));
+    ResponseEntity<?> response = testRouteController.addMajorToDept("4995");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attribute was updated successfully", response);
   }
 
   @Test
   public void removeMajorFromDept() throws Exception {
-    this.mockMvc.perform(get("/removeMajorFromDept?deptCode=4995"))
-        .andExpect(status().isOk())
-        .andExpect(content().string("Attribute was updated or is at minimum"));
+    ResponseEntity<?> response = testRouteController.removeMajorFromDept("4995");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attribute was updated successfully", response);
   }
-
-  public static RouteController testRouteController;
-  public static Department testDepartment;
-  public static Course testCourse;
-
 }
