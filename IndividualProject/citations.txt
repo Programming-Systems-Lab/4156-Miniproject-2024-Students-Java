@@ -1,0 +1,6 @@
+1. https://www.youtube.com/watch?v=jqwZthuBmZY&list=PL82C6-O4XrHcg8sNwpoDDhcxUCbFy855E
+Was helpful for gaining some intuition for how to write the unit tests.
+2. Mockmvc that was recommend by one of the TAs (may have been mentioned in class too oops) was very helpful in testing the Routecontroller class
+3. https://google.github.io/styleguide/javaguide.html
+4. https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html
+Both 3 and 4 for Javadocs formatting
