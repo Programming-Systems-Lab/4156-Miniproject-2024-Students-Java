@@ -2,30 +2,12 @@ package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 
 /** 
@@ -36,6 +18,10 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration
 public class IndividualProjectApplicationUnitTests {
 
+  /** 
+   * This @BeforeAll function does the initial populating of testMapping
+   * variables used to verify correctness of unit tests.
+   */
   @BeforeAll
   public static void setupTest() {
     testMapping = new HashMap<>();
@@ -267,9 +253,10 @@ public class IndividualProjectApplicationUnitTests {
 
   @Test
   public void runTest() {
-    IndividualProjectApplication testIPA = new IndividualProjectApplication();
+    IndividualProjectApplication testIndividualProjectApplication = 
+        new IndividualProjectApplication();
     String[] setup = { "start" };
-    testIPA.run(setup);
+    testIndividualProjectApplication.run(setup);
 
     StringBuilder result = new StringBuilder();
     for (Map.Entry<String, Department> entry : testMapping.entrySet()) {
@@ -279,14 +266,15 @@ public class IndividualProjectApplicationUnitTests {
     }
 
     assertEquals(IndividualProjectApplication.myFileDatabase.toString(), 
-      result.toString());
+        result.toString());
   }
 
   @Test
   public void resetDataFileTest() {
     String[] setup = { "setup" };
-    IndividualProjectApplication testIPA = new IndividualProjectApplication();
-    testIPA.run(setup);
+    IndividualProjectApplication testIndividualProjectApplication 
+        = new IndividualProjectApplication();
+    testIndividualProjectApplication.run(setup);
 
     StringBuilder result = new StringBuilder();
     for (Map.Entry<String, Department> entry : testMapping.entrySet()) {
@@ -295,41 +283,35 @@ public class IndividualProjectApplicationUnitTests {
       result.append("For the ").append(key).append(" department: \n").append(value.toString());
     }
 
-    assertEquals(IndividualProjectApplication.myFileDatabase.toString(), 
-      result.toString());
+    assertEquals(IndividualProjectApplication.myFileDatabase.toString(), result.toString());
   }
 
   @Test
   public void onTerminationTest() {
     String[] setup = { "setup" };
-    IndividualProjectApplication testIPA = new IndividualProjectApplication();
-    testIPA.run(setup);
+    IndividualProjectApplication testIndividualProjectApplication 
+        = new IndividualProjectApplication();
+    testIndividualProjectApplication.run(setup);
 
-    testIPA.onTermination();
+    testIndividualProjectApplication.onTermination();
     assertNotNull(IndividualProjectApplication.myFileDatabase.getDepartmentMapping());
   }
 
   @Test
   public void onTerminationSaveDataTest() {
     String[] setup = { "setup" };
-    IndividualProjectApplication testIPA = new IndividualProjectApplication();
-    testIPA.run(setup);
+    IndividualProjectApplication testIndividualProjectApplication 
+        = new IndividualProjectApplication();
+    testIndividualProjectApplication.run(setup);
     
-    testIPA.setSaveData(true);
-    testIPA.onTermination();
+    testIndividualProjectApplication.setSaveData(true);
+    testIndividualProjectApplication.onTermination();
     assertNotNull(IndividualProjectApplication.myFileDatabase.getDepartmentMapping());
 
   }
  
-
-
-
-
-
   /** The test Database instance used for testing. */
-  public static MyFileDatabase testDB;
   public static HashMap<String, Department> testMapping;
-  public static String testFilepath;
 }
 
 

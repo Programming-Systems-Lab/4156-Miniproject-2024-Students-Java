@@ -1,47 +1,17 @@
 package dev.coms4156.project.individualproject;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
+import java.util.HashMap;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.MockedStatic;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.test.context.ContextConfiguration;
-import static org.hamcrest.Matchers.containsString;
-import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 /** 
@@ -55,11 +25,15 @@ public class RouteControllerUnitTests {
   private MockMvc mockMvc;
 
   @MockBean
-  private IndividualProjectApplication testIPA;
+  private IndividualProjectApplication testIndividualProjectApplication;
 
   @MockBean
-  private MyFileDatabase testDB;
+  private MyFileDatabase testMyFileDatabase;
 
+  /**
+   * This @BeforeAll function initializes the testCOMS and testMapping variables
+   * for verifying the correctness within @Test unit test functions.
+   */
   @BeforeAll
   public static void setupTest() {
     testMapping = new HashMap<>();
@@ -316,203 +290,197 @@ public class RouteControllerUnitTests {
 
   @Test
   public void retrieveDeptSuccessTest() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/retrieveDept")
-      .param("deptCode", "COMS")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().string(testCOMS.toString()));
+        .param("deptCode", "COMS")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(content().string(testCOMS.toString()));
   }
 
   @Test
   public void retrieveDeptFailureTest() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/retrieveDept")
-      .param("deptCode", "TRASH")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isNotFound())
-      .andExpect(content().string("Department Not Found"));
+        .param("deptCode", "TRASH")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Department Not Found"));
   }
   
   @Test
   public void retrieveCourseExists_DeptNoneTest() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/retrieveCourse")
-      .param("deptCode", "TRASH")
-      .param("courseCode", "1004")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isNotFound())
-      .andExpect(content().string("Department Not Found"));
+        .param("deptCode", "TRASH")
+        .param("courseCode", "1004")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Department Not Found"));
   }
 
   @Test
   public void retrieveCourseExists_DeptExistsTest() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/retrieveCourse")
-      .param("deptCode", "COMS")
-      .param("courseCode", "1004")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().string(testCOMS.getCourseSelection().get("1004").toString()));
+        .param("deptCode", "COMS")
+        .param("courseCode", "1004")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(content().string(testCOMS.getCourseSelection().get("1004").toString()));
   }
 
   @Test
   public void retrieveDeptExists_CourseNoneTest() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/retrieveCourse")
-      .param("deptCode", "COMS")
-      .param("courseCode", "1005")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isNotFound())
-      .andExpect(content().string("Course Not Found"));
+        .param("deptCode", "COMS")
+        .param("courseCode", "1005")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Course Not Found"));
   }
 
   @Test
   public void isCourseFull_CourseExistsTest() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/isCourseFull")
-      .param("deptCode", "COMS")
-      .param("courseCode", "1004")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().string("false"));
+        .param("deptCode", "COMS")
+        .param("courseCode", "1004")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(content().string("false"));
   }
 
   @Test
   public void isCourseFull_CourseNoneTest() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/isCourseFull")
-      .param("deptCode", "COMS")
-      .param("courseCode", "1005")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isNotFound())
-      .andExpect(content().string("Course Not Found"));
+        .param("deptCode", "COMS")
+        .param("courseCode", "1005")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Course Not Found"));
   }
 
   @Test
   public void getMajorCountFromDept_DeptNoneTest() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/getMajorCountFromDept")
-      .param("deptCode", "TRASHasdf")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isNotFound())
-      .andExpect(content().string("Department Not Found"));
+        .param("deptCode", "TRASHasdf")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Department Not Found"));
   }
 
   @Test
   public void getMajorCountFromDept_DeptExistsTest() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/getMajorCountFromDept")
-      .param("deptCode", "COMS")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().string("There are: " + 
-        testMapping.get("COMS").getNumberOfMajors()  + 
-        " majors in the department"));
+        .param("deptCode", "COMS")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(content().string("There are: " 
+        + testMapping.get("COMS").getNumberOfMajors() 
+        + " majors in the department"));
   }
 
   @Test
   public void idDeptChair_DeptExistsTest() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/idDeptChair")
-      .param("deptCode", "COMS")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().string(testMapping.get("COMS").getDepartmentChair() +
-        " is the department chair."));
+        .param("deptCode", "COMS")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(content().string(testMapping.get("COMS").getDepartmentChair()
+        + " is the department chair."));
   }
 
   @Test
   public void idDeptChair_DeptNoneTest() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/idDeptChair")
-      .param("deptCode", "TRASH")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isNotFound())
-      .andExpect(content().string("Department Not Found"));
+        .param("deptCode", "TRASH")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Department Not Found"));
   }
 
   @Test
   public void findCourseLocation_CourseNone() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/findCourseLocation")
-      .param("deptCode", "TRASH")
-      .param("courseCode", "1004")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isNotFound())
-      .andExpect(content().string("Course Not Found"));
+        .param("deptCode", "TRASH")
+        .param("courseCode", "1004")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Course Not Found"));
   }
 
   @Test
   public void findCourseLocation_CourseExists() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/findCourseLocation")
-      .param("deptCode", "COMS")
-      .param("courseCode", "1004")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().string(testMapping.get("COMS")
-        .getCourseSelection().get("1004").getCourseLocation() +
-        " is where the course is located."));
+        .param("deptCode", "COMS")
+        .param("courseCode", "1004")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(content().string(testMapping.get("COMS")
+        .getCourseSelection().get("1004").getCourseLocation()
+        + " is where the course is located."));
   }
 
   @Test
   public void findCourseInstructor_CourseExists() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/findCourseInstructor")
-      .param("deptCode", "COMS")
-      .param("courseCode", "1004")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().string(testMapping.get("COMS")
-        .getCourseSelection().get("1004").getInstructorName() +
-        " is the instructor for the course."));
+        .param("deptCode", "COMS")
+        .param("courseCode", "1004")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(content().string(testMapping.get("COMS")
+        .getCourseSelection().get("1004").getInstructorName()
+        + " is the instructor for the course."));
   }
 
   @Test
   public void findCourseInstructor_CourseNone() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/findCourseInstructor")
-      .param("deptCode", "TRASH")
-      .param("courseCode", "1004")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isNotFound())
-      .andExpect(content().string("Course Not Found"));
+        .param("deptCode", "TRASH")
+        .param("courseCode", "1004")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Course Not Found"));
   }
 
   @Test
   public void findCourseTime_CourseNone() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/findCourseTime")
-      .param("deptCode", "TRASH")
-      .param("courseCode", "1004")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isNotFound())
-      .andExpect(content().string("Course Not Found"));
+        .param("deptCode", "TRASH")
+        .param("courseCode", "1004")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Course Not Found"));
   }
 
   @Test
   public void findCourseTime_CourseExists() throws Exception {
-    when(testDB.getDepartmentMapping()).thenReturn(testMapping);
+    when(testMyFileDatabase.getDepartmentMapping()).thenReturn(testMapping);
     mockMvc.perform(get("/findCourseTime")
-      .param("deptCode", "COMS")
-      .param("courseCode", "1004")
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().string("The course meets at: " +
-        testMapping.get("COMS").getCourseSelection().get("1004")
+        .param("deptCode", "COMS")
+        .param("courseCode", "1004")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(content().string("The course meets at: "
+        + testMapping.get("COMS").getCourseSelection().get("1004")
         .getCourseTimeSlot() + "."));
   }
 
 
-
-
-
-
-
   /** The test Database instance used for testing. */
   public static HashMap<String, Department> testMapping;
-  public static String testFilepath;
   public static Department testCOMS;
 }
 

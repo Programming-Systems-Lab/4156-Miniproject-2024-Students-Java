@@ -2,9 +2,7 @@ package dev.coms4156.project.individualproject;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +16,10 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration
 public class DepartmentUnitTests {
 
+  /**
+   * This function does the initial @BeforeEach setup before 
+   * each @Test function is run.
+   */
   @BeforeEach
   public void setupDepartmentForTesting() {
     testCourses = new HashMap<String, Course>();
@@ -57,7 +59,7 @@ public class DepartmentUnitTests {
 
   @Test
   public void dropPersonFromMajorWhenEmptyTest() {
-    for(int i = 0; i < defaultMajors; i++){
+    for (int i = 0; i < defaultMajors; i++) {
       testDep.dropPersonFromMajor();
     }
     Assertions.assertEquals(0, testDep.getNumberOfMajors());

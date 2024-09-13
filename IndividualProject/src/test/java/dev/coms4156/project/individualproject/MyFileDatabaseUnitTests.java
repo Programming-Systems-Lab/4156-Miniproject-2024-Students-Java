@@ -12,10 +12,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,16 +26,24 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration
 public class MyFileDatabaseUnitTests {
 
+  /** 
+   * This @BeforeEach function sets up the testFilepath for unit
+   * testing in the remainder of the @Test functions.
+   */
   @BeforeEach
   public void setupTest() {
     testFilepath = "./testData.txt";
   
   }
 
+  /** 
+   * This @AfterEach function makes sure to delete the generated
+   * file if it exists after each @Test functions.
+   */
   @AfterEach
   public void deleteTestFile() {
     File testFile = new File(testFilepath);
-    if(testFile.exists()) {
+    if (testFile.exists()) {
       testFile.delete();
     }
   }
