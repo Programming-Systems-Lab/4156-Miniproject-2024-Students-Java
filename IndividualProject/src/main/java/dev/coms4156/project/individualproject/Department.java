@@ -23,14 +23,14 @@ public class Department implements Serializable {
    */
   public Department(String deptCode, Map<String, Course> courses, String departmentChair,
                     int numberOfMajors) {
+    this.deptCode = deptCode;
     this.courses = (courses != null) ? courses : new HashMap<>();
     this.departmentChair = departmentChair;
     this.numberOfMajors = numberOfMajors;
-    this.deptCode = deptCode;
   }
 
   /**
-   * Gets the department code
+   * Gets the department code.
    *
    * @return The department code
    */
@@ -66,7 +66,8 @@ public class Department implements Serializable {
   }
 
   /**
-   * Increases the number of majors in the department by one.
+   * Increases the number of majors in the department by one if original
+   * number of majors is non-negative; otherwise throws an IllegalStateException.
    */
   public void addPersonToMajor() {
     if (numberOfMajors < 0) {
@@ -76,7 +77,8 @@ public class Department implements Serializable {
   }
 
   /**
-   * Decreases the number of majors in the department by one if it's greater than zero.
+   * Decreases the number of majors in the department by one if original
+   * number of majors is positive; otherwise throws an IllegalStateException.
    */
   public void dropPersonFromMajor() {
     if (numberOfMajors <= 0) {

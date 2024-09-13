@@ -295,22 +295,20 @@ public class IndividualProjectApplication implements CommandLineRunner {
   }
 
   /**
-   * Set the value of saveData to the input value
-   *
+   * Sets the value of saveData to the input value.
    */
   public static void setSaveData(boolean inputSaveData) {
     saveData = inputSaveData;
   }
 
   /**
-   * Get the value of savaData
+   * Gets the value of savaData.
    *
-   * @return the value of savaData
+   * @return the value of savaData.
    */
   public boolean getSaveData() {
     return saveData;
   }
-
 
   /**
    * This contains all the overheading teardown logic, it will
@@ -324,7 +322,6 @@ public class IndividualProjectApplication implements CommandLineRunner {
       myFileDatabase.saveContentsToFile();
     }
   }
-
 
   //Database Instance
   public static MyFileDatabase myFileDatabase;

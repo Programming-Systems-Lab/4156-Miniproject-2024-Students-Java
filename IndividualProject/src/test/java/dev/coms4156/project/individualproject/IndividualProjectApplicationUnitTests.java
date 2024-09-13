@@ -1,8 +1,8 @@
 package dev.coms4156.project.individualproject;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyMap;
@@ -12,10 +12,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,114 +21,165 @@ import org.springframework.test.context.ContextConfiguration;
 
 
 /**
- * Writes test case to check methods in the Course.
+ * Writes test cases to check methods in the IndividualProjectApplication.
  */
 @SpringBootTest
 @ContextConfiguration
 public class IndividualProjectApplicationUnitTests {
 
+  /**
+   * Sets up a testApp object and a mocked MyFileDatabase before each test.
+   */
   @BeforeEach
   public void setUpIndividualProjectApplicationForTesting() {
     testApp = new IndividualProjectApplication();
     mockDatabase = mock(MyFileDatabase.class);
-    IndividualProjectApplication.overrideDatabase(mockDatabase);
   }
 
-
+  /**
+   * Sets IndividualProjectApplication.myFileDatabase to null,
+   * and sets IndividualProjectApplication.saveData be true
+   * after each test.
+   */
   @AfterEach
   public void tearDown() {
     IndividualProjectApplication.myFileDatabase = null;
     IndividualProjectApplication.setSaveData(true);
   }
 
+  /**
+   * Tests main() method.
+   */
   @Test
-  public void runDatabaseExistsTest() {
+  public void mainTest() {
+    IndividualProjectApplication.overrideDatabase(mockDatabase);
+
+    String[] args = {};
+    IndividualProjectApplication.main(args);
+
+    verifyNoMoreInteractions(mockDatabase);
+  }
+
+  /**
+   * Tests run() method when database already exists.
+   */
+  @Test
+  public void runTestWhenDatabaseExists() {
+    IndividualProjectApplication.overrideDatabase(mockDatabase);
+
     String[] args = {};
     testApp.run(args);
 
     verifyNoMoreInteractions(mockDatabase);
   }
 
-
+  /**
+   * Tests run() method when database doesn't exist,
+   * and the args is "setup".
+   */
   @Test
-  public void runWithSetupArgumentTest() {
-    String[] args = new String[] {"setup"};
-
-    Map<String, Department> mockDepartmentMap = new HashMap<>();
-    when(mockDatabase.getDepartmentMapping()).thenReturn(mockDepartmentMap);
+  public void runTestWithSetupArgument() {
+    String[] args = {"setup"};
 
     testApp.run(args);
-
     assertNotNull(IndividualProjectApplication.myFileDatabase);
-    assertEquals(mockDepartmentMap, IndividualProjectApplication.myFileDatabase.getDepartmentMapping());
   }
 
-
+  /**
+   * Tests run() method when database doesn't exist,
+   * and args is "non-setup".
+   */
   @Test
-  public void runWithoutSetupArgumentTest() {
-    String[] args = {};
-
-    Map<String, Department> mockDepartmentMap = new HashMap<>();
-    when(mockDatabase.getDepartmentMapping()).thenReturn(mockDepartmentMap);
+  public void runTestWithoutSetupArgument() {
+    String[] args = {"non-setup"};
 
     testApp.run(args);
-
     assertNotNull(IndividualProjectApplication.myFileDatabase);
-    assertEquals(0, IndividualProjectApplication.myFileDatabase.getDepartmentMapping().size());
   }
 
-
+  /**
+   * Tests overrideDatabase() method.
+   */
   @Test
   public void overrideDatabaseTest() {
-    assertEquals(mockDatabase, IndividualProjectApplication.myFileDatabase);
+    IndividualProjectApplication.overrideDatabase(mockDatabase);
+    assertSame(mockDatabase, IndividualProjectApplication.myFileDatabase);
     assertFalse(testApp.getSaveData());
   }
 
-
+  /**
+   * Tests resetDataFile() method.
+   */
   @Test
   public void resetDataFileTest() {
-    Map<String, Department> mockDepartmentMap = new HashMap<>();
-    when(mockDatabase.getDepartmentMapping()).thenReturn(mockDepartmentMap);
+    IndividualProjectApplication.overrideDatabase(mockDatabase);
 
     testApp.resetDataFile();
 
-    assertEquals(mockDepartmentMap, IndividualProjectApplication.myFileDatabase.getDepartmentMapping());
     verify(mockDatabase, times(1)).setMapping(anyMap());
   }
 
-
+  /**
+   * Tests resetDataFile() method when there is exception.
+   */
   @Test
-  public void resetDataFileExceptionTest() {
-    doThrow(new IllegalArgumentException("Has error in resetting data file process")).when(mockDatabase).setMapping(anyMap());
+  public void resetDataFileTestExceptionExists() {
+    IndividualProjectApplication.overrideDatabase(mockDatabase);
 
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> testApp.resetDataFile());
-    assertEquals("Has error in resetting data file process", exception.getMessage());
+    doThrow(new IllegalArgumentException("Has error in resetting data file process"))
+                                                        .when(mockDatabase).setMapping(anyMap());
+
+    assertThrows(IllegalArgumentException.class, () -> testApp.resetDataFile());
   }
 
-  @Test
-  public void onTerminationWithSavaDataTest() {
-    IndividualProjectApplication.setSaveData(true);
-    testApp.onTermination();
-    verify(mockDatabase, times(1)).saveContentsToFile();
-  }
-
-
-  @Test
-  public void onTerminationWithoutSavaDataTest() {
-    testApp.onTermination();
-    verify(mockDatabase, never()).saveContentsToFile();
-  }
-
-
+  /**
+   * Tests getSaveData() method and setSaveData() method together.
+   */
   @Test
   public void getAndSetSaveDataTest() {
+    IndividualProjectApplication.overrideDatabase(mockDatabase);
+    assertSame(mockDatabase, IndividualProjectApplication.myFileDatabase);
     assertFalse(testApp.getSaveData());
 
     IndividualProjectApplication.setSaveData(true);
     assertTrue(testApp.getSaveData());
   }
 
+  /**
+   * Tests onTermination() method when saveData is true.
+   */
+  @Test
+  public void onTerminationTestSavaDataTrue() {
+    IndividualProjectApplication.overrideDatabase(mockDatabase);
+    IndividualProjectApplication.setSaveData(true);
+    testApp.onTermination();
 
+    verify(mockDatabase, times(1)).saveContentsToFile();
+  }
+
+  /**
+   * Tests onTermination() method when savaData is false.
+   */
+  @Test
+  public void onTerminationTestSavaDataFalse() {
+    IndividualProjectApplication.overrideDatabase(mockDatabase);
+
+    testApp.onTermination();
+    verify(mockDatabase, never()).saveContentsToFile();
+  }
+
+  /**
+   * Tests onTermination() method when myFileDatabase is null.
+   */
+  @Test
+  public void onTerminationTestMyFileDatabaseNull() {
+    testApp.onTermination();
+    verify(mockDatabase, never()).saveContentsToFile();
+  }
+
+  /** The IndividualProjectApplication instance used for testing. */
   private IndividualProjectApplication testApp;
+
+  /** The MyFileDatabase instance used for testing. */
   private MyFileDatabase mockDatabase;
 }

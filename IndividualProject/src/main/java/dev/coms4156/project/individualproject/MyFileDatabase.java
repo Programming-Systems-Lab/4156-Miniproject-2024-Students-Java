@@ -40,7 +40,7 @@ public class MyFileDatabase {
   /**
    * Deserializes the object from the file and returns the department mapping.
    *
-   * @return the deserialized department mapping
+   * @return the deserialized department mapping.
    */
   public synchronized Map<String, Department> deSerializeObjectFromFile() {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
@@ -78,16 +78,16 @@ public class MyFileDatabase {
   /**
    * Gets the department mapping of the database.
    *
-   * @return the department mapping
+   * @return the department mapping.
    */
   public Map<String, Department> getDepartmentMapping() {
     return this.departmentMapping;
   }
 
   /**
-   * Gets the file path of the database
+   * Gets the file path of the database.
    *
-   * @return the file path
+   * @return the file path.
    */
   public String getFilePath() {
     return this.filePath;
@@ -96,7 +96,7 @@ public class MyFileDatabase {
   /**
    * Returns a string representation of the database.
    *
-   * @return a string representation of the database
+   * @return a string representation of the database.
    */
   @Override
   public String toString() {
