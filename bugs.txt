@@ -1,0 +1,16 @@
+Here I will list all the bugs that I found in the project and how I solve it.
+
+1. `return enrollmentCapacity > enrolledStudentCount;`
+    - Address: In isCourseFull() method in Course class.
+    - Solution: Change the > to <.
+    - Reason: The mothod should return false when the enrolledStudentCount is greater than or equal to the enrollmentCapacity.
+
+2. `return this.instructorName;`
+    - Address: In getCourseLocation() method in Course class.
+    - Solution: Change instructorName to courseLocation.
+    - Reason: The method should return the courseLocation, not the instructorName.
+
+3. `return this.courseLocation;`
+    - Address: In getInstructorName() method in Course class.
+    - Solution: Change courseLocation to instructorName.
+    - Reason: The method should return the instructorName, not the courseLocation.
