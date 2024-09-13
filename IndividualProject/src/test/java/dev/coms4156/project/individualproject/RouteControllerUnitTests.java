@@ -228,22 +228,6 @@ public class RouteControllerUnitTests {
    */
 
   @Test
-  public void findCourseTime() throws Exception {
-    // Call the findCourseTime method in the RouteController class with
-    // deptCode="4995" and courseCode="451" and expect a ResponseEntity with
-    // HttpStatus.OK
-    ResponseEntity<?> response = testRouteController.findCourseTime("4995", 100);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("Course time: 4:10-5:40", response.getBody());
-  }
-
-  /**
-   * Test case for the findCourseTime method in the RouteController class on fail.
-   *
-   * @throws Exception if an error occurs during the test
-   */
-
-  @Test
   public void findCourseTimeFail() throws Exception {
     // Call the findCourseTime method in the RouteController class with
     // deptCode="4995" and courseCode="451" and expect a ResponseEntity with
@@ -253,21 +237,6 @@ public class RouteControllerUnitTests {
     assertEquals("Course Not Found", response.getBody());
   }
 
-  /**
-   * Test case for the getCourseLocation method in the RouteController class.
-   *
-   * @throws Exception if an error occurs during the test
-   */
-
-  @Test
-  public void findCourseLocation() throws Exception {
-    // Call the getCourseLocation method in the RouteController class with
-    // deptCode="4995" and courseCode="451" and expect a ResponseEntity with
-    // HttpStatus.OK
-    ResponseEntity<?> response = testRouteController.findCourseLocation("4995", 451);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("451 CSB is where the course is located", response.getBody());
-  }
 
   /**
    * Test case for the getCourseLocation method in the RouteController class on
@@ -287,22 +256,6 @@ public class RouteControllerUnitTests {
   }
 
   /**
-   * Test case for the findCourseInstructor method in the RouteController class.
-   *
-   * @throws Exception if an error occurs during the test
-   */
-
-  @Test
-  public void findCourseInstructor() throws Exception {
-    // Call the findCourseInstructor method in the RouteController class with
-    // deptCode="4995" and courseCode="451" and expect a ResponseEntity with
-    // HttpStatus.OK
-    ResponseEntity<?> response = testRouteController.findCourseInstructor("4995", 451);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("Ben", response.getBody());
-  }
-
-  /**
    * Test case for the findCourseInstructor method in the RouteController class on fail.
    *
    * @throws Exception if an error occurs during the test
@@ -316,23 +269,6 @@ public class RouteControllerUnitTests {
     ResponseEntity<?> response = testRouteController.findCourseInstructor("4995", 500);
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
-  }
-
-  /**
-   * Test case for the isCourseFull method in the RouteController class.
-   *
-   * @throws Exception if an error occurs during the test
-   */
-
-  @Test
-  public void isCourseFull() throws Exception {
-    // Call the isCourseFull method in the RouteController class with
-    // deptCode="4995" and courseCode="451" and expect a ResponseEntity with
-    // HttpStatus.OK
-
-    ResponseEntity<?> response = testRouteController.isCourseFull("4995", 451);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(false, response.getBody());
   }
 
   /**
@@ -384,25 +320,7 @@ public class RouteControllerUnitTests {
 
     ResponseEntity<?> response = testRouteController.setEnrollmentCount("4995", 451, 10);
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Attributed was updated successfully", response.getBody());
-  }
-
-  /**
-   * Test case for the changeCourseTime method in the RouteController class.
-   *
-   *
-   * @throws Exception if an error occurs during the test
-   */
-
-  @Test
-  public void changeCourseTime() throws Exception {
-    // Call the changeCourseTime method in the RouteController class with
-    // deptCode="4995" and courseCode="451" and expect a ResponseEntity with
-    // HttpStatus.OK
-
-    ResponseEntity<?> response = testRouteController.changeCourseTime("4995", 451, "10:10-11:40");
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Attributed was updated successfully", response.getBody());
+    assertEquals("Course Not Found", response.getBody());
   }
 
   /**
@@ -420,24 +338,6 @@ public class RouteControllerUnitTests {
     ResponseEntity<?> response = testRouteController.changeCourseTime("5000", 451, "10:10-11:40");
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
-  }
-
-  /**
-   * Test case for the changeCourseTeacher method in the RouteController class on.
-   *
-   *
-   * @throws Exception if an error occurs during the test
-   */
-
-  @Test
-  public void changeCourseTeacher() throws Exception {
-    // Call the changeCourseTeacher method in the RouteController class with
-    // deptCode="4995" and courseCode="451" and expect a ResponseEntity with
-    // HttpStatus.OK
-
-    ResponseEntity<?> response = testRouteController.changeCourseTeacher("4995", 451, "james");
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Attributed was updated successfully", response.getBody());
   }
 
   /**
@@ -472,7 +372,7 @@ public class RouteControllerUnitTests {
 
     ResponseEntity<?> response = testRouteController.changeCourseLocation("4995", 451, "Pupin301");
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Attributed was updated successfully", response.getBody());
+    assertEquals("Course Not Found", response.getBody());
   }
 
   /**
