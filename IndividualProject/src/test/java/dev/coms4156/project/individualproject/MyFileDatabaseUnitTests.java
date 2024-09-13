@@ -10,9 +10,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.String;
 import java.nio.file.Files;
 import java.util.HashMap;
-import java.lang.String;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -92,21 +92,25 @@ public class MyFileDatabaseUnitTests {
 
 
   @Test
-  public void testToString(){
+  public void testToString() {
     System.out.print("hahahahah execueted");
 
     String expectedResult = "For the CS department: \nCS 2500: \nInstructor: "
             + "Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n";
     assertEquals(expectedResult, databaseTest.toString());
   }
+  /**
+   * create a file.
+   *  write data to the file.
+   *  read from the file and valid it.*/
 
   @Test
-  public void testSaveContentToFile(){
+  public void testSaveContentToFile() {
 
-    /** create a file*/
+
     File tempFile = new File(tempFolder, "testFile.ser");
     putContent = new MyFileDatabase(0, tempFile.getAbsolutePath());
-    /** write data to the file*/
+
     courses = new HashMap<>();
     courses.put("2500", new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250));
     departmentMapping = new HashMap<>();
@@ -114,7 +118,6 @@ public class MyFileDatabaseUnitTests {
     putContent.setMapping(departmentMapping);
     putContent.saveContentsToFile();
 
-    /** read from the file and valid it*/
     HashMap<String, Department> deserializedMapping = putContent.deSerializeObjectFromFile();
     for (String key : departmentMapping.keySet()) {
       Department originalDepartment = departmentMapping.get(key);

@@ -49,20 +49,20 @@ public class RouteControllerUnitTests {
 
 
   private HashMap<String, Department> departmentMapping;
-  private HashMap<String, Course> coursesOffered_byDept;
+  private HashMap<String, Course> coursesOfferedByDept;
 
   /** This is the pre-set up for each test cases.*/
   @BeforeEach
   public void setupRouteControllerTesting() {
     departmentMapping = new HashMap<>();
-    coursesOffered_byDept = new HashMap<>();
-    coursesOffered_byDept.put("2500", new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 600));
-    coursesOffered_byDept.put("3000", new Course("David", "Room 102", "11:00-12:00", 40));
-    course2500 = coursesOffered_byDept.get("2500");
+    coursesOfferedByDept = new HashMap<>();
+    coursesOfferedByDept.put("2500", new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 600));
+    coursesOfferedByDept.put("3000", new Course("David", "Room 102", "11:00-12:00", 40));
+    course2500 = coursesOfferedByDept.get("2500");
 
     Department departmentcs = mock(Department.class);
 
-    departmentMapping.put("CS", new Department("CS", coursesOffered_byDept, "Nim Tottenham", 437));
+    departmentMapping.put("CS", new Department("CS", coursesOfferedByDept, "Nim Tottenham", 437));
     departmentcs = departmentMapping.get("CS");
 
     // Mock the behavior of myFileDatabase to return the departmentMapping
@@ -117,7 +117,7 @@ public class RouteControllerUnitTests {
 
     when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
 
-    when(departmentcs.getCourseSelection()).thenReturn(coursesOffered_byDept);
+    when(departmentcs.getCourseSelection()).thenReturn(coursesOfferedByDept);
 
     this.mockMvc.perform(get("/retrieveCourse")
                     .param("deptCode", deptCode)
@@ -134,7 +134,7 @@ public class RouteControllerUnitTests {
 
     when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
 
-    when(departmentcs.getCourseSelection()).thenReturn(coursesOffered_byDept);
+    when(departmentcs.getCourseSelection()).thenReturn(coursesOfferedByDept);
 
     this.mockMvc.perform(get("/retrieveCourse")
                     .param("deptCode", deptCode)
@@ -149,7 +149,7 @@ public class RouteControllerUnitTests {
     String deptCode = "Math";
     int  courseCode = 2500;
     when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(departmentcs.getCourseSelection()).thenReturn(coursesOffered_byDept);
+    when(departmentcs.getCourseSelection()).thenReturn(coursesOfferedByDept);
     this.mockMvc.perform(get("/retrieveCourse")
                     .param("deptCode", deptCode)
                     .param("courseCode", String.valueOf(courseCode)))
@@ -162,7 +162,7 @@ public class RouteControllerUnitTests {
     String deptCode = "CS";
     int  courseCode = 22222;
     when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(departmentcs.getCourseSelection()).thenReturn(coursesOffered_byDept);
+    when(departmentcs.getCourseSelection()).thenReturn(coursesOfferedByDept);
 
     this.mockMvc.perform(get("/isCourseFull")
                     .param("deptCode", deptCode)
@@ -176,7 +176,7 @@ public class RouteControllerUnitTests {
     String deptCode = "CS";
     int  courseCode = 2500;
     when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(departmentcs.getCourseSelection()).thenReturn(coursesOffered_byDept);
+    when(departmentcs.getCourseSelection()).thenReturn(coursesOfferedByDept);
 
     this.mockMvc.perform(get("/isCourseFull")
                     .param("deptCode", deptCode)
@@ -190,7 +190,7 @@ public class RouteControllerUnitTests {
     String deptCode = "CS";
     int  courseCode = 3000;
     when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    when(departmentcs.getCourseSelection()).thenReturn(coursesOffered_byDept);
+    when(departmentcs.getCourseSelection()).thenReturn(coursesOfferedByDept);
 
     this.mockMvc.perform(get("/isCourseFull")
                     .param("deptCode", deptCode)
@@ -343,7 +343,7 @@ public class RouteControllerUnitTests {
   public void testRemoveMajorFromDept_MajorDroppedSuccessfully() throws Exception {
     String deptCode = "CS";
 
-    Department departmentcs = new Department("CS", coursesOffered_byDept, "David", 100);
+    Department departmentcs = new Department("CS", coursesOfferedByDept, "David", 100);
     HashMap<String, Department> departmentMapping = new HashMap<>();
     departmentMapping.put("CS", departmentcs);
 
@@ -359,7 +359,7 @@ public class RouteControllerUnitTests {
   @Test
   public void testRemoveMajorFromDept_NoMajorsToDrop() throws Exception {
     String deptCode = "CS";
-    Department departmentcs = new Department("CS", coursesOffered_byDept, "David", 0);
+    Department departmentcs = new Department("CS", coursesOfferedByDept, "David", 0);
     HashMap<String, Department> departmentMapping = new HashMap<>();
     departmentMapping.put("CS", departmentcs);
 
@@ -449,8 +449,6 @@ public class RouteControllerUnitTests {
   public void testSetEnrollmentCount_SuccessfulSet() throws Exception {
     String deptCode = "CS";
     int courseCode = 2500;
-    int count = 40;
-
     HashMap<String, Course> coursesMapping = new HashMap<>();
     Course mockCourse = mock(Course.class);
     coursesMapping.put(Integer.toString(courseCode), mockCourse);
@@ -459,7 +457,7 @@ public class RouteControllerUnitTests {
     HashMap<String, Department> departmentMapping = new HashMap<>();
     departmentMapping.put(deptCode, mockDepartment);
     when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-
+    int count = 40;
     this.mockMvc.perform(patch("/setEnrollmentCount")
                     .param("deptCode", deptCode)
                     .param("courseCode", String.valueOf(courseCode))
