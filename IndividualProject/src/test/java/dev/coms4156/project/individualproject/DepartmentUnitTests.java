@@ -4,12 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.HashMap;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-
-import java.util.HashMap;
 
 /**
  * Unit tests for methods of Department class.
@@ -32,7 +31,7 @@ public class DepartmentUnitTests {
     Course coms3157 = new Course("Jae Lee", locations[0], times[1], 400);
     coms3157.setEnrolledStudentCount(311);
     Course coms3203 = new Course("Ansaf Salleb-Aouissi", locations[2], times[2],
-    250);
+        250);
     coms3203.setEnrolledStudentCount(215);
     Course coms3261 = new Course("Josh Alman", locations[0], times[3], 150);
     coms3261.setEnrolledStudentCount(140);
@@ -143,7 +142,8 @@ public class DepartmentUnitTests {
 
   @Test
   public void toStringTest() {
-    String expectedResult = "COMS 4156: \nInstructor: Gail Kaiser; Location: 501 NWC; Time: 10:10-11:25\n";
+    String expectedResult 
+        = "COMS 4156: \nInstructor: Gail Kaiser; Location: 501 NWC; Time: 10:10-11:25\n";
     assertEquals(expectedResult, testDepartToString.toString());
   }
 

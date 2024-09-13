@@ -1,20 +1,12 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.HashMap;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-
-import java.util.HashMap;
 
 /**
  * Unit tests for methods of IndividualProjectApplicaion class.
@@ -310,8 +302,6 @@ public class IndividualProjectApplicationUnitTests {
     assertEquals(
         IndividualProjectApplication.myFileDatabase.getDepartmentMapping(), mapping);
     // MyFileDatabase testMyFile2 = new MyFileDatabase(0, "./data_test_onTermination.txt");
-    // assertEquals(
-    //     IndividualProjectApplication.myFileDatabase.getDepartmentMapping(), testMyFile2.getDepartmentMapping());
   }
 
   public static HashMap<String, Department> mapping;

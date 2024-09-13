@@ -2,7 +2,6 @@ package dev.coms4156.project.individualproject;
 
 import java.io.Serial;
 import java.io.Serializable;
-
 import java.lang.Override;
 
 /**
@@ -116,11 +115,11 @@ public class Course implements Serializable {
 
     Course course = (Course) obj;
 
-    if(this.enrollmentCapacity == course.getEnrollmentCapacity() && 
-        this.enrolledStudentCount == course.getEnrolledStudentCount() &&
-        this.courseLocation.equals(course.getCourseLocation()) &&
-        this.instructorName.equals(course.getInstructorName()) &&
-        this.courseTimeSlot.equals(course.getCourseTimeSlot())
+    if (this.enrollmentCapacity == course.getEnrollmentCapacity()
+        && this.enrolledStudentCount == course.getEnrolledStudentCount()
+        && this.courseLocation.equals(course.getCourseLocation())
+        && this.instructorName.equals(course.getInstructorName())
+        && this.courseTimeSlot.equals(course.getCourseTimeSlot())
         ) {
       return true;
     } else {

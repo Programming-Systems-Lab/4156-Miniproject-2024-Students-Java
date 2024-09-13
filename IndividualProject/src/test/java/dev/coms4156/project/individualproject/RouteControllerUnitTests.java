@@ -1,5 +1,12 @@
 package dev.coms4156.project.individualproject;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.HashMap;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +15,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import jakarta.el.ELException;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.HashMap;
 
 /**
  * This class contains tests for all the API routes for the system.
@@ -37,10 +34,9 @@ public class RouteControllerUnitTests {
   @MockBean
   private MyFileDatabase myFileDatabase;
 
-  // @MockBean
-  // private Department departMock;
-  // private Department depart = Mockito.mock(send)
-
+  /**
+   * Initialize some course and Department objects used for unit tests.
+   */
   @BeforeAll
   public static void setupCourseForTesting() {
     String[] times = { "11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55" };
@@ -386,8 +382,8 @@ public class RouteControllerUnitTests {
         .param("deptCode", "ELEN")
         .accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk())
-        .andExpect(content().string("There are: " + elen.getNumberOfMajors() +
-            " majors in the department"));
+        .andExpect(content().string("There are: " + elen.getNumberOfMajors()
+            + " majors in the department"));
   }
 
   @Test
@@ -407,8 +403,8 @@ public class RouteControllerUnitTests {
         .param("deptCode", "ELEN")
         .accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk())
-        .andExpect(content().string(elen.getDepartmentChair() +
-            " is the department chair."));
+        .andExpect(content().string(elen.getDepartmentChair()
+            + " is the department chair."));
   }
 
   @Test
@@ -429,8 +425,8 @@ public class RouteControllerUnitTests {
         .param("courseCode", "1201")
         .accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk())
-        .andExpect(content().string(elenCourses.get("1201").getCourseLocation() +
-            " is where the course is located."));
+        .andExpect(content().string(elenCourses.get("1201").getCourseLocation()
+            + " is where the course is located."));
   }
 
   @Test
@@ -452,8 +448,8 @@ public class RouteControllerUnitTests {
         .param("courseCode", "1201")
         .accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk())
-        .andExpect(content().string(elenCourses.get("1201").getInstructorName() +
-            " is the instructor for the course."));
+        .andExpect(content().string(elenCourses.get("1201").getInstructorName()
+            + " is the instructor for the course."));
   }
 
   @Test
@@ -476,8 +472,8 @@ public class RouteControllerUnitTests {
         .param("courseCode", "1201")
         .accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isOk())
-        .andExpect(content().string("The course meets at: " +
-        elenCourses.get("1201").getCourseTimeSlot()));
+        .andExpect(content().string("The course meets at: "
+        + elenCourses.get("1201").getCourseTimeSlot()));
   }
 
   @Test

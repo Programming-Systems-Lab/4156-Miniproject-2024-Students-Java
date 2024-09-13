@@ -1,14 +1,12 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.HashMap;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-
-import java.util.HashMap;
 
 /**
  * Unit tests for methods of MyFileDatabase class.
@@ -269,9 +267,12 @@ public class MyFileDatabaseUnitTests {
     mapping2.put("COMS", compSci);
     MyFileDatabase testMyFileShort = new MyFileDatabase(0, "./data.txt");
     testMyFileShort.setMapping(mapping2);
-    assertEquals("For the COMS department: \n" + //
-        "COMS 4156: \n" + //
-        "Instructor: Gail Kaiser; Location: 501 NWC; Time: 10:10-11:25\n", testMyFileShort.toString());
+    assertEquals("For the COMS department: \n"
+        + //
+        "COMS 4156: \n"
+        + //
+        "Instructor: Gail Kaiser; Location: 501 NWC; Time: 10:10-11:25\n",
+            testMyFileShort.toString());
   }
 
   public static MyFileDatabase testMyFile;

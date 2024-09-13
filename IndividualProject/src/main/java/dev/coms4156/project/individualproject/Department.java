@@ -2,11 +2,9 @@ package dev.coms4156.project.individualproject;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.lang.Override;
 import java.util.HashMap;
 import java.util.Map;
-
-import java.lang.Override;
-
 
 /**
  * Represents a department within an educational institution.
