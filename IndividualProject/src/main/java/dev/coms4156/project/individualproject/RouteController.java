@@ -396,6 +396,16 @@ public class RouteController {
   }
 
 
+  /**
+   * Updates the enrollment count for a specified course within a department.
+   *
+   * @param deptCode       A {@code String} representing the department.
+   * @param courseCode     A {@code int} representing the course within the department.
+   * @param count          A {@code int} representing the new enrollment count for the course.
+   *
+   * @return               A {@code ResponseEntity} object containing an HTTP response with
+   *                       a success message or an HTTP 404 response if the course is not found.
+   */
   @PatchMapping(value = "/setEnrollmentCount", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> setEnrollmentCount(
           @RequestParam(value = "deptCode") String deptCode,
@@ -500,6 +510,16 @@ public class RouteController {
   }
 
 
+  /**
+   * Updates the location of a specified course within a department.
+   *
+   * @param deptCode       A {@code String} representing the department the course belongs to.
+   * @param courseCode     A {@code int} representing the course whose location is to be updated.
+   * @param location       A {@code String} representing the new location for the course.
+   *
+   * @return               A {@code ResponseEntity} object containing an HTTP 200 response with a
+   *                       success message or an HTTP 400 response if the course is not found.
+   */
   @PatchMapping(value = "/changeCourseLocation", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> changeCourseLocation(
           @RequestParam(value = "deptCode") String deptCode,
