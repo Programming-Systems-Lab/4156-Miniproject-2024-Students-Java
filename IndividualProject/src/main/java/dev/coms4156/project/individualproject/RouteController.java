@@ -1,6 +1,7 @@
 package dev.coms4156.project.individualproject;
 
 import java.util.HashMap;
+import java.util.logging.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class RouteController {
+  Logger logger = Logger.getLogger(this.getClass().getName());
 
   /**
    * Redirects to the homepage.
@@ -554,7 +556,7 @@ public class RouteController {
    *                       response.
    */
   private ResponseEntity<?> handleException(Exception e) {
-    System.out.println(e.toString());
+    logger.fine(e.toString());
     return new ResponseEntity<>("An Error has occurred", HttpStatus.INTERNAL_SERVER_ERROR);
   }
 

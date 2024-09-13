@@ -32,3 +32,9 @@ Bugs Documented
 
 10. handleException() in RouteController.java returned HTTP OK, when it should be an error.
     Changed to INTERNAL SERVER ERROR.
+
+11. PMD Errorprone: Overridable method called during object construction: MyFileDatabase.deSerializeObjectFromFile()
+    Made the deSerializeObjectFromFile() method to a private method since PMD suggested it.
+
+12. PMD bestpractices: Usage of System.out/err in MyFileDatabase.java and RouteController.java
+    PMD Suggested I use logging instead of system.our/err, so I switched it to logging.
