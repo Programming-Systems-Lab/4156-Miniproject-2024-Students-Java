@@ -2,6 +2,8 @@ package dev.coms4156.project.individualproject;
 
 import jakarta.annotation.PreDestroy;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +17,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class IndividualProjectApplication implements CommandLineRunner {
+
+  private static final Logger logger = Logger.getLogger(
+      IndividualProjectApplication.class.getName()
+  );
 
   /**
   * The main launcher for the service all it does
@@ -35,17 +41,18 @@ public class IndividualProjectApplication implements CommandLineRunner {
   *
   * @param args A {@code String[]} of any potential runtime args
   */
-  public void run(String[] args) {
+  @Override
+  public void run(String... args) {
     for (String arg : args) {
-      if (arg.equals("setup")) {
+      if ("setup".equals(arg)) {
         myFileDatabase = new MyFileDatabase(1, "./data.txt");
         resetDataFile();
-        System.out.println("System Setup");
+        logger.log(Level.INFO, "System Setup");
         return;
       }
     }
     myFileDatabase = new MyFileDatabase(0, "./data.txt");
-    System.out.println("Start up");
+    logger.log(Level.INFO, "Start up");
   }
 
   /**
@@ -291,7 +298,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
   */
   @PreDestroy
   public void onTermination() {
-    System.out.println("Termination");
+    logger.log(Level.INFO, "Termination");
     if (saveData) {
       myFileDatabase.saveContentsToFile();
     }
