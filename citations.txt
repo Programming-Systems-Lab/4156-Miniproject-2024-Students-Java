@@ -7,3 +7,13 @@ https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html
 
 How to write commit messages
 https://www.freecodecamp.org/news/how-to-write-better-git-commit-messages/
+
+RouteController
+https://spring.io/guides/gs/testing-web
+https://stackoverflow.com/questions/65681244/how-to-create-unit-tests-with-mockmvc-for-your-rest-controller
+
+How to get PMD into Intellij
+https://sachinsf.com/how-to-use-pmd-code-analyzer-with-intellij/
+
+How to make patch requests
+https://stackoverflow.com/questions/71833261/spring-boot-patch-request-on-controller-with-map-parameter-test-with-mockmvc
