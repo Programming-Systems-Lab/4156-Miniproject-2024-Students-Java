@@ -3,7 +3,6 @@ package dev.coms4156.project.individualproject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashMap;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,8 +18,8 @@ public class DepartmentUnitTests {
   @BeforeAll
   public static void setupDepartmentForTesting() {
     testFileDatabase = new MyFileDatabase(0, "./data.txt");
-    HashMap<String, Department> departments = testFileDatabase.getDepartmentMapping();
-    testDepartment = departments.get("COMS");
+    testDepartments = testFileDatabase.getDepartmentMapping();
+    testDepartment = testDepartments.get("COMS");
   }
 
   @Test
@@ -58,7 +57,8 @@ public class DepartmentUnitTests {
     assertEquals(testCourse.toString(), course.toString());
   }
 
-  /** The test Department instance used for testing. */
-  public static Department testDepartment;
+  /** The test Department instances used for testing. */
   public static MyFileDatabase testFileDatabase;
+  public static Department testDepartment;
+  public static HashMap<String, Department> testDepartments;
 }
