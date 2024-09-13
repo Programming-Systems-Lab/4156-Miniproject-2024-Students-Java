@@ -1,14 +1,38 @@
 Part 1: Code Clean Up
-- https://docs.opendaylight.org/en/latest/contributor-guides/coding-guidelines/coding-guidelines-java.html
+
 - https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html
+I wasn't familiar with writing doc comments for javadoc so I used the link above as a guide.
+
 - https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716
+I used the link above as reference on how I should make meaningful commit messages.
+
+
+
 
 Part 2 & 3: Test Suite Creation & Debugging
+
 - https://mkyong.com/maven/maven-jacoco-code-coverage-example/
-- https://stackoverflow.com/questions/22836455/jacoco-report-generation-using-maven
+- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin/0.8.11
+I used the 2 links above to figure out how to modify my pom.xml file to integrate the correct
+version of jacoco that I can use for this project.
+
 - https://www.baeldung.com/junit-5-test-order
 - https://www.geeksforgeeks.org/junit-5-test-execution-order/
+I wanted to decide the order that the tests will be executed so I used this as reference.
+
+
 - https://www.baeldung.com/junit-5-nested-test-classes
+I wanted to make 2 separate nested classes in the unit tests to simulate different parameters
+and scenarios.
+
 - https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
-- https://www.baeldung.com/mockito-junit-5-extension
 - https://www.digitalocean.com/community/tutorials/logger-in-java-logging-example
+PMD didn't like the usage of System.out so I had to replace everything with java Logger and
+this was reference on how to use it. I also wanted to read from my logs so I created a 
+CustomLoggerHandler class to handle these scenarios, as shown in the second link above.
+
+- https://www.baeldung.com/mockito-junit-5-extension
+- https://www.digitalocean.com/community/tutorials/mockito-injectmocks-mocks-dependency-injection
+- https://www.baeldung.com/mockito-annotations
+I had to use mockito to test the IndividualProjectApplication.java and RouteController.java files
+so I used the links above as reference on how to use it.
