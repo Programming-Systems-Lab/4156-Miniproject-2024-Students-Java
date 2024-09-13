@@ -65,25 +65,34 @@ public class DepartmentUnitTests {
     }
 
     /**
-     * Test the addPersonToMajor method.
-     * Ensures that the number of majors increases correctly.
+     * Tests the addPersonToMajor() method to ensure the number of majors is incremented correctly.
+     * Includes additional edge cases for multiple additions.
      */
     @Test
     public void addPersonToMajorTest() {
-        int initialMajors = -200; // Initial incorrect value
+        int initialMajors = testDepartment.getNumberOfMajors();
         testDepartment.addPersonToMajor();
-        assertEquals(initialMajors + 1, testDepartment.getNumberOfMajors(), "addPersonToMajor() method failed to increase the number of majors");
+        assertEquals(initialMajors + 1, testDepartment.getNumberOfMajors(), "addPersonToMajor() should increase the number of majors by 1");
+
+        // Edge case: Adding another person
+        testDepartment.addPersonToMajor();
+        assertEquals(initialMajors + 2, testDepartment.getNumberOfMajors(), "addPersonToMajor() should increase the number of majors by 1 again");
     }
 
     /**
-     * Test the dropPersonFromMajor method.
-     * Ensures that the number of majors decreases correctly.
+     * Tests the dropPersonFromMajor() method to ensure the number of majors is decremented correctly.
+     * Includes edge cases to handle drops below zero if applicable.
      */
     @Test
     public void dropPersonFromMajorTest() {
-        int initialMajors = -200; // Initial incorrect value
+        int initialMajors = testDepartment.getNumberOfMajors();
         testDepartment.dropPersonFromMajor();
-        assertEquals(initialMajors - 1, testDepartment.getNumberOfMajors(), "dropPersonFromMajor() method failed to decrease the number of majors");
+        assertEquals(initialMajors - 1, testDepartment.getNumberOfMajors(), "dropPersonFromMajor() should decrease the number of majors by 1");
+
+        // Edge case: Trying to drop below zero majors (if applicable)
+        testDepartment.dropPersonFromMajor();
+        testDepartment.dropPersonFromMajor(); // Reduce below initial value
+        assertTrue(testDepartment.getNumberOfMajors() < 0, "Number of majors should be negative after multiple drops");
     }
 
     /**

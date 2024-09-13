@@ -26,9 +26,6 @@ public class RouteControllerUnitTests {
     private MockMvc mockMvc;
 
     @MockBean
-    private IndividualProjectApplication individualProjectApplication;
-
-    @MockBean
     private MyFileDatabase myFileDatabase;
 
     private RouteController routeController;
@@ -49,7 +46,9 @@ public class RouteControllerUnitTests {
         when(testDepartment.getCourseSelection()).thenReturn(new HashMap<>());
 
         departmentMapping.put("TEST", testDepartment);
-        when(individualProjectApplication.myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
+
+        IndividualProjectApplication.myFileDatabase = mock(MyFileDatabase.class);
+        when(IndividualProjectApplication.myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
     }
 
     /**
@@ -81,6 +80,19 @@ public class RouteControllerUnitTests {
     }
 
     /**
+     * Tests the retrieveDepartment() method to ensure it handles exceptions correctly.
+     * Mocks a database error scenario and verifies the error response.
+     */
+    @Test
+    public void testRetrieveDepartmentException() {
+        when(IndividualProjectApplication.myFileDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+
+        ResponseEntity<?> response = routeController.retrieveDepartment("TEST");
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("An Error has occurred", response.getBody());
+    }
+
+    /**
      * Tests retrieveCourse() method when the course is found.
      */
     @Test
@@ -108,6 +120,19 @@ public class RouteControllerUnitTests {
     }
 
     /**
+     * Tests the retrieveCourse() method to ensure it handles exceptions correctly.
+     * Mocks a database error scenario and verifies the error response.
+     */
+    @Test
+    public void testRetrieveCourseException() {
+        when(IndividualProjectApplication.myFileDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+
+        ResponseEntity<?> response = routeController.retrieveCourse("CS", 101);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("An Error has occurred", response.getBody());
+    }
+
+    /**
      * Tests isCourseFull() method to check if a course is full.
      */
     @Test
@@ -127,6 +152,16 @@ public class RouteControllerUnitTests {
     }
 
     /**
+     * Tests isCourseFull() method when the course is not found.
+     */
+    @Test
+    public void testIsCourseFullCourseNotFound() {
+        ResponseEntity<?> response = routeController.isCourseFull("CS", 999);
+        assertEquals("Course Not Found", response.getBody());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    /**
      * Tests getMajorCtFromDept() method to retrieve the number of majors in a department.
      */
     @Test
@@ -138,6 +173,16 @@ public class RouteControllerUnitTests {
         ResponseEntity<?> response = routeController.getMajorCtFromDept("CS");
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("There are: -200 majors in the department", response.getBody());
+    }
+
+    /**
+     * Tests getMajorCtFromDept() method when the department is not found.
+     */
+    @Test
+    public void testGetMajorCtFromDeptNotFound() {
+        ResponseEntity<?> response = routeController.getMajorCtFromDept("INVALID");
+        assertEquals("Department Not Found", response.getBody());
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
     }
 
     /**
@@ -170,6 +215,16 @@ public class RouteControllerUnitTests {
     }
 
     /**
+     * Tests findCourseLocation() method when the course is not found.
+     */
+    @Test
+    public void testFindCourseLocationNotFound() {
+        ResponseEntity<?> response = routeController.findCourseLocation("CS", 999);
+        assertEquals("Course Not Found", response.getBody());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    /**
      * Tests findCourseInstructor() method to retrieve the instructor of a course.
      */
     @Test
@@ -189,6 +244,16 @@ public class RouteControllerUnitTests {
     }
 
     /**
+     * Tests findCourseInstructor() method when the course is not found.
+     */
+    @Test
+    public void testFindCourseInstructorNotFound() {
+        ResponseEntity<?> response = routeController.findCourseInstructor("CS", 999);
+        assertEquals("Course Not Found", response.getBody());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    /**
      * Tests findCourseTime() method to retrieve the time slot of a course.
      */
     @Test
@@ -204,7 +269,7 @@ public class RouteControllerUnitTests {
 
         ResponseEntity<?> response = routeController.findCourseTime("CS", 101);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("The course meets at: some time ", response.getBody());
+        assertEquals("The course meets at: 9:00 AM - 10:30 AM", response.getBody());
     }
 
     /**
@@ -283,8 +348,8 @@ public class RouteControllerUnitTests {
         when(mockDepartment.getCourseSelection()).thenReturn(courses);
         departmentMapping.put("CS", mockDepartment);
 
-        ResponseEntity<?> response = routeController.changeCourseTeacher("CS", 101, "Dr. White");
-        verify(mockCourse, times(1)).reassignInstructor("Dr. White");
+        ResponseEntity<?> response = routeController.changeCourseTeacher("CS", 101, "Dr. Johnson");
+        verify(mockCourse, times(1)).reassignInstructor("Dr. Johnson");
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
