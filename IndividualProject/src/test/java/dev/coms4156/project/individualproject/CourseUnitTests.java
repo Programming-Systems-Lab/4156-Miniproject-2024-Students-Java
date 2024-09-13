@@ -85,14 +85,6 @@ public class CourseUnitTests {
             "Time slot should be '13:10-15:35'");
   }
 
-//  This test won't work --- no proper return value in the function
-//  @Test
-//  public void setEnrolledStudentCountTest() {
-//    // Test setting a specific enrolled student count
-//    testCourse.setEnrolledStudentCount(220);
-//    Assertions.assertEquals(220, testCourse.enrolledStudentCount, "Enrolled student count should be 220");
-//  }
-
   @Test
   public void isCourseFullTest() {
     boolean isFull = testCourse.isCourseFull();
@@ -102,5 +94,5 @@ public class CourseUnitTests {
     isFull = testCourse.isCourseFull();
     Assertions.assertTrue(isFull, "Course should be full with 250 students");
   }
-  
+
 }

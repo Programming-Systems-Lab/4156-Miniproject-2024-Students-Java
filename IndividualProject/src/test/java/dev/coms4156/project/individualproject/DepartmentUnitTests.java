@@ -33,16 +33,15 @@ public class DepartmentUnitTests {
 
   @Test
   public void toStringTest() {
-    // Fixing the toString test since there's only one course now
-    String expected = "4156 " + testCourse.toString() + "\n";
     String actual = department.toString();
-    System.out.println("actual " + expected);
-    Assertions.assertEquals("4156", actual);
+    String expected = "Meche 4156: \n"
+            + "Instructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n";
+    Assertions.assertEquals(expected, actual);
   }
 
   @Test
   public void getNumberOfMajorsTest() {
-    int expected = -100; // Based on the method implementation
+    int expected = 100;
     int actual = department.getNumberOfMajors();
     Assertions.assertEquals(expected, actual);
   }
@@ -50,13 +49,13 @@ public class DepartmentUnitTests {
   @Test
   public void addPersonToMajorTest() {
     department.addPersonToMajor();
-    Assertions.assertEquals(-101, department.getNumberOfMajors());
+    Assertions.assertEquals(101, department.getNumberOfMajors());
   }
 
   @Test
   public void dropPersonFromMajorTest() {
     department.dropPersonFromMajor();
-    Assertions.assertEquals(-99, department.getNumberOfMajors());
+    Assertions.assertEquals(99, department.getNumberOfMajors());
   }
 
   @Test
