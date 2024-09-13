@@ -1,0 +1,252 @@
+package dev.coms4156.project.individualproject;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+public class RouteControllerUnitTests {
+
+  @Mock
+  private MyFileDatabase mockFileDatabase;
+
+  @InjectMocks
+  private RouteController routeController;
+
+  private Map<String, Department> departmentMapping;
+
+  @BeforeEach
+  public void setup() {
+    MockitoAnnotations.openMocks(this);
+
+    Map<String, Course> comsCourses = new HashMap<>();
+    comsCourses.put("1004", new Course("Adam Cannon", "417 IAB", "11:40-12:55", 400));
+    comsCourses.put("3134", new Course("Brian Borowski", "301 URIS", "4:10-5:25", 250));
+    comsCourses.put("3157", new Course("Jae Lee", "417 IAB", "4:10-5:25", 400));
+
+    Map<String, Course> econCourses = new HashMap<>();
+    econCourses.put("1105", new Course("Abraham Lincoln", "309 HAV", "2:40-3:55", 200));
+    econCourses.put("2257", new Course("Thomas Jefferson", "428 PUP", "10:10-11:25", 125));
+    econCourses.put("3412", new Course("Taylor Swift", "702 HAM", "8:40-9:55", 100));
+
+    Map<String, Course> ieorCourses = new HashMap<>();
+    ieorCourses.put("2500", new Course("Selena Gomez", "627 MUDD", "11:40-12:55", 150));
+    ieorCourses.put("3404", new Course("Justin Bieber", "303 MUDD", "4:10-5:25", 100));
+    ieorCourses.put("4511", new Course("Michael Jordan", "633 MUDD", "2:40-3:55", 200));
+
+    Department comsDept = new Department("COMS", comsCourses, "Luca Carloni", 2700);
+    Department econDept = new Department("ECON", econCourses, "Alex Turner", 2500);
+    Department ieorDept = new Department("IEOR", ieorCourses, "Julian Casablancas", 1800);
+
+    departmentMapping = new HashMap<>();
+    departmentMapping.put("COMS", comsDept);
+    departmentMapping.put("ECON", econDept);
+    departmentMapping.put("IEOR", ieorDept);
+
+    when(mockFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
+
+    IndividualProjectApplication.myFileDatabase = mockFileDatabase;
+  }
+
+  @Test
+  public void testRetrieveDepartmentExists() {
+    ResponseEntity<?> response = routeController.retrieveDepartment("COMS");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(departmentMapping.get("COMS").toString(), response.getBody());
+  }
+
+  @Test
+  public void testRetrieveDepartmentNotExists() {
+    ResponseEntity<?> response = routeController.retrieveDepartment("MATH");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testRetrieveCourseDepartmentExists() {
+    ResponseEntity<?> response = routeController.retrieveCourse("ECON", 2257);
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testRetrieveCourseDepartmentNotExists() {
+    ResponseEntity<?> response = routeController.retrieveCourse("MATH", 2222);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testRetrieveCourseExistsDepartmentNotExist() {
+    ResponseEntity<?> response = routeController.retrieveCourse("MATH", 4511);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testRetrieveCourseNotExistsDepartmentExist() {
+    ResponseEntity<?> response = routeController.retrieveCourse("IEOR", 8888);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testIsCourseFullExists() {
+    ResponseEntity<?> response = routeController.isCourseFull("ECON", 3412);
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testIsCourseFullNotExists() {
+    ResponseEntity<?> response = routeController.isCourseFull("MATH", 3999);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testGetMajorCtFromDeptExist() {
+    ResponseEntity<?> response = routeController.getMajorCtFromDept("IEOR");
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testGetMajorCtFromDeptNotExist() {
+    ResponseEntity<?> response = routeController.getMajorCtFromDept("HIST");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testIdentifyDeptChairExists() {
+    ResponseEntity<?> response = routeController.identifyDeptChair("COMS");
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testIdentifyDeptChairNotExists() {
+    ResponseEntity<?> response = routeController.identifyDeptChair("ANTH");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testFindCourseLocationExist() {
+    ResponseEntity<?> response = routeController.findCourseLocation("COMS", 3134);
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testFindCourseLocationNotExist() {
+    ResponseEntity<?> response = routeController.findCourseLocation("SOCI", 3134);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testFindCourseInstructorExist() {
+    ResponseEntity<?> response = routeController.findCourseInstructor("IEOR", 2500);
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testFindCourseInstructorNotExist() {
+    ResponseEntity<?> response = routeController.findCourseInstructor("PHIL", 9999);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testFindCourseTimeExist() {
+    ResponseEntity<?> response = routeController.findCourseTime("IEOR", 2500);
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testFindCourseTimeNotExist() {
+    ResponseEntity<?> response = routeController.findCourseTime("PHIL", 9999);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testAddMajorToDeptExist() {
+    ResponseEntity<?> response = routeController.addMajorToDept("IEOR");
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testAddMajorToDeptNotExist() {
+    ResponseEntity<?> response = routeController.addMajorToDept("PHIL");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testRemoveMajorFromDeptExist() {
+    ResponseEntity<?> response = routeController.removeMajorFromDept("IEOR");
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testRemoveMajorFromDeptNotExist() {
+    ResponseEntity<?> response = routeController.removeMajorFromDept("PHIL");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testDropStudentExist() {
+    ResponseEntity<?> response = routeController.dropStudent("IEOR", 2500);
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testDropStudentNotExist() {
+    ResponseEntity<?> response = routeController.dropStudent("PHIL", 9999);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testSetEnrollmentCountExist() {
+    ResponseEntity<?> response = routeController.setEnrollmentCount("IEOR", 2500, 300);
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testSetEnrollmentCountNotExist() {
+    ResponseEntity<?> response = routeController.setEnrollmentCount("PHIL", 9999, 250);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testChangeCourseTimeExist() {
+    ResponseEntity<?> response = routeController.changeCourseTime("IEOR", 2500, "4:00-6:00");
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testChangeCourseTimeNotExist() {
+    ResponseEntity<?> response = routeController.changeCourseTime("PHIL", 9999, "4:00-6:00");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testChangeCourseTeacherExist() {
+    ResponseEntity<?> response = routeController.changeCourseTeacher("IEOR", 2500, "Kevin Parker");
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testChangeCourseTeacherNotExist() {
+    ResponseEntity<?> response = routeController.changeCourseTeacher("PHIL", 9999, "Jakob Ogawa");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testChangeCourseLocationExist() {
+    ResponseEntity<?> response = routeController.changeCourseTeacher("IEOR", 2500, "203 SCH");
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testChangeCourseLocationNotExist() {
+    ResponseEntity<?> response = routeController.changeCourseTeacher("PHIL", 9999, "701 HAM");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+}
