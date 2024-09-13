@@ -20,3 +20,6 @@ Unused local variable requestedCourse in routeController line 288, rule="UnusedL
 
 rule="UnusedLocalVariable" routeController courseMapping removed
 
+GetMajorCunt from department in routeController has a negative on return value
+
+getMajorCTFromDepartment on not found returns a forbidden error code

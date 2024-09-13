@@ -1,8 +1,8 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,7 +38,7 @@ public class RouteControllerUnitTests {
   public static RouteController testRouteController = new RouteController();
   public static Department testDepartment;
   public static Course testCourse;
-  public static MyFileDatabase testDatabase = mock(MyFileDatabase.class);
+  public static MyFileDatabase testDatabase;
 
   /**
    * Test case setup.
@@ -47,14 +47,21 @@ public class RouteControllerUnitTests {
   @BeforeEach
   public void setUp() {
     departmentMapping = new HashMap<>();
-    testDepartment = new Department("4995", new HashMap<>(), "Christian Lim", 2);
+    HashMap<String, Course> courseMapping = new HashMap<String, Course>();
+    courseMapping = new HashMap<String, Course>();
+
     testCourse = new Course("Ben", "451 CSB", "4:10-5:40", 50);
+    courseMapping.put("451", testCourse);
+
+    testDepartment = new Department("4995", courseMapping, "Christian Lim", 2);
     departmentMapping.put("4995", testDepartment);
-
-    given(testDatabase.getDepartmentMapping())
-        .willReturn((HashMap<String, Department>) departmentMapping);
-
     testDepartment.addCourse("451", testCourse);
+    MyFileDatabase mockDatabase = mock(MyFileDatabase.class);
+    IndividualProjectApplication.myFileDatabase = mockDatabase;
+
+    when(mockDatabase.getDepartmentMapping())
+        .thenReturn((HashMap<String, Department>) departmentMapping);
+
   }
 
   /**
@@ -88,7 +95,7 @@ public class RouteControllerUnitTests {
     // expect a 200 OK status
     this.mockMvc.perform(get("/idDeptChair?deptCode=4995"))
         .andExpect(status().isOk())
-        .andExpect(content().string("Christian Lim"));
+        .andExpect(content().string("Christian Lim is the department chair."));
   }
 
   /**
@@ -99,12 +106,10 @@ public class RouteControllerUnitTests {
 
   @Test
   public void retrieveDepartment() throws Exception {
-    // Call the retrieveDepartment method in the RouteController class with
-    // deptCode="4995" and expect a ResponseEntity with HttpStatus.OK
     ResponseEntity<?> response = testRouteController.retrieveDepartment("4995");
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("Department{departmentChair='Christian Lim', "
-        + "numberOfMajors=2, deptCode='4995'}", response);
+    assertEquals("4995 451: \nInstructor: Ben; Location: "
+      + "451 CSB; Time: 4:10-5:40\n", response.getBody());
   }
 
   /**
@@ -119,8 +124,8 @@ public class RouteControllerUnitTests {
     // Call the retrieveDepartment method in the RouteController class with
     // deptCode="5000" and expect a ResponseEntity with HttpStatus.OK
     ResponseEntity<?> response = testRouteController.retrieveDepartment("5000");
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("Department Not Found", response);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Department Not Found", response.getBody());
   }
 
   /**
@@ -135,7 +140,7 @@ public class RouteControllerUnitTests {
     // deptCode="4995" and expect a ResponseEntity with HttpStatus.OK
     ResponseEntity<?> response = testRouteController.getMajorCtFromDept("4995");
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("There are: 2 majors in the department", response);
+    assertEquals("There are: 2 majors in the department", response.getBody());
   }
 
   /**
@@ -150,8 +155,72 @@ public class RouteControllerUnitTests {
     // Call the getMajorCtFromDept method in the RouteController class with
     // deptCode="5000" and expect a ResponseEntity with HttpStatus.OK
     ResponseEntity<?> response = testRouteController.getMajorCtFromDept("5000");
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("Department Not Found", response);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Department Not Found", response.getBody());
   }
 
+
+   /**
+   * Test case for the removeMajorCtFromDept method in the RouteController class.
+   *
+   * @throws Exception if an error occurs during the test
+   */
+
+   @Test
+   public void removeMajorCtFromDept() throws Exception {
+     // Call the getMajorCtFromDept method in the RouteController class with
+     // deptCode="4995" and expect a ResponseEntity with HttpStatus.OK
+     ResponseEntity<?> response = testRouteController.removeMajorFromDept("4995");
+     assertEquals(HttpStatus.OK, response.getStatusCode());
+     assertEquals("Attribute was updated or is at minimum", response.getBody());
+   }
+    /**
+   * Test case for the removeMajorCtFromDept method in the RouteController class when
+   * the department is not found.
+   *
+   * @throws Exception if an error occurs during the test
+   */
+
+   @Test
+   public void removeMajorCtFromDeptFail() throws Exception {
+     // Call the getMajorCtFromDept method in the RouteController class with
+     // deptCode="5000" and expect a ResponseEntity with HttpStatus.OK
+     ResponseEntity<?> response = testRouteController.removeMajorFromDept("500");
+     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+     assertEquals("Department Not Found", response.getBody());
+   }
+ 
+
+   /**
+   * Test case for the addMajorToDept method in the RouteController class when
+   * the department is found.
+   *
+   * @throws Exception if an error occurs during the test
+   */
+
+  @Test
+  public void addMajoToDept() throws Exception {
+    // Call the getMajorCtFromDept method in the RouteController class with
+    // deptCode="5000" and expect a ResponseEntity with HttpStatus.OK
+    ResponseEntity<?> response = testRouteController.addMajorToDept("4995");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attribute was updated successfully", response.getBody());
+  }
+
+  /**
+   * Test case for the addMajorToDept method in the RouteController class when
+   * the department is not found.
+   *
+   * @throws Exception if an error occurs during the test
+   */
+
+   @Test
+   public void addMajoToDeptFail() throws Exception {
+     // Call the getMajorCtFromDept method in the RouteController class with
+     // deptCode="5000" and expect a ResponseEntity with HttpStatus.OK
+     ResponseEntity<?> response = testRouteController.addMajorToDept("5000");
+     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+     assertEquals("Department Not Found", response.getBody());
+   }
+ 
 }
