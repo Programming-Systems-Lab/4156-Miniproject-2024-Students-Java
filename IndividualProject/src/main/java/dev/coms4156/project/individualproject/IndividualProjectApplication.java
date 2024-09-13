@@ -16,14 +16,14 @@ import java.util.HashMap;
 @SpringBootApplication
 public class IndividualProjectApplication implements CommandLineRunner {
 
-	/**
-	 * The main launcher for the service all it does
-	 * is make a call to the overridden run method.
-	 *
-	 * @param args A {@code String[]} of any potential
-	 *             runtime arguments
-	 */
-	public static void main(String[] args) {
+  /**
+   * The main launcher for the service all it does
+   * is make a call to the overridden run method.
+   *
+   * @param args A {@code String[]} of any potential
+   *             runtime arguments
+   */
+  public static void main(String[] args) {
 		SpringApplication.run(IndividualProjectApplication.class, args);
 	}
 
@@ -47,16 +47,20 @@ public class IndividualProjectApplication implements CommandLineRunner {
 		myFileDatabase = new MyFileDatabase(0, "./data.txt");
 		System.out.println("Start up");
 	}
+	myFileDatabase = new MyFileDatabase(0, "./data.txt");
+    System.out.println("Start up");
+  }
 
-	/**
-	 * Overrides the database reference, used when testing.
-     *
-     * @param testData A {@code MyFileDatabase} object referencing test data.
-     */
-     public static void overrideDatabase(MyFileDatabase testData) {
-         myFileDatabase = testData;
-         saveData = false;
-     }
+
+  /**
+   * Overrides the database reference, used when testing.
+   *
+   * @param testData A {@code MyFileDatabase} object referencing test data.
+   */
+   public static void overrideDatabase(MyFileDatabase testData) {
+    myFileDatabase = testData;
+    saveData = false;
+   }
 
     /**
      * Allows for data to be reset in event of errors.
@@ -276,37 +280,36 @@ public class IndividualProjectApplication implements CommandLineRunner {
 				"2:10-4:00", 15);
 		psyc4493.setEnrolledStudentCount(9);
 
-		courses = new HashMap<>();
-		courses.put("1001", psyc1001);
-		courses.put("1610", psyc1610);
-		courses.put("2235", psyc2235);
-		courses.put("2620", psyc2620);
-		courses.put("3212", psyc3212);
-		courses.put("3445", psyc3445);
-		courses.put("4236", psyc4236);
-		courses.put("4493", psyc4493);
+        courses = new HashMap<>();
+        courses.put("1001", psyc1001);
+        courses.put("1610", psyc1610);
+        courses.put("2235", psyc2235);
+        courses.put("2620", psyc2620);
+        courses.put("3212", psyc3212);
+        courses.put("3445", psyc3445);
+        courses.put("4236", psyc4236);
+        courses.put("4493", psyc4493);
 
-		Department psyc = new Department("PSYC", courses, "Nim Tottenham", 437);
-		mapping.put("PSYC", psyc);
+        Department psyc = new Department("PSYC", courses, "Nim Tottenham", 437);
+        mapping.put("PSYC", psyc);
 
-		myFileDatabase.setMapping(mapping);
+        myFileDatabase.setMapping(mapping);
 	}
 
-	/**
-	 * This contains all the overheading teardown logic, it will
-	 * mainly be focused on saving all the created user data to a
-	 * file, so it will be ready for the next setup.
-	 */
-	@PreDestroy
-	public void onTermination() {
-		System.out.println("Termination");
-		if (saveData) {
-			myFileDatabase.saveContentsToFile();
-		}
-	}
+    /**
+     * This contains all the overheading teardown logic, it will
+     * mainly be focused on saving all the created user data to a
+     * file, so it will be ready for the next setup.
+     */
+    @PreDestroy
+    public void onTermination() {
+        System.out.println("Termination");
+        if (saveData) {
+            myFileDatabase.saveContentsToFile();
+        }
+    }
 
-
-	//Database Instance
-	public static MyFileDatabase myFileDatabase;
-	private static boolean saveData = true;
+    //Database Instance
+    public static MyFileDatabase myFileDatabase;
+    private static boolean saveData = true;
 }

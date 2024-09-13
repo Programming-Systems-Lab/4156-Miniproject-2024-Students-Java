@@ -70,7 +70,8 @@ public class RouteController {
    *                   proper response.
    */
   @GetMapping(value = "/retrieveCourse", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> retrieveCourse(@RequestParam(value = "deptCode") String deptCode, @RequestParam(value = "courseCode") int courseCode) {
+  public ResponseEntity<?> retrieveCourse(@RequestParam(value = "deptCode") String deptCode,
+                                          @RequestParam(value = "courseCode") int courseCode) {
     try {
       boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
       if (doesDepartmentExists) {
@@ -107,7 +108,8 @@ public class RouteController {
    *                   response.
    */
   @GetMapping(value = "/isCourseFull", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> isCourseFull(@RequestParam(value = "deptCode") String deptCode, @RequestParam(value = "courseCode") int courseCode) {
+  public ResponseEntity<?> isCourseFull(@RequestParam(value = "deptCode") String deptCode,
+                                        @RequestParam(value = "courseCode") int courseCode) {
     try {
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
@@ -195,7 +197,8 @@ public class RouteController {
    *                   proper response.
    */
   @GetMapping(value = "/findCourseLocation", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> findCourseLocation(@RequestParam(value = "deptCode") String deptCode, @RequestParam(value = "courseCode") int courseCode) {
+  public ResponseEntity<?> findCourseLocation(@RequestParam(value = "deptCode") String deptCode,
+                                              @RequestParam(value = "courseCode") int courseCode) {
     try {
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
