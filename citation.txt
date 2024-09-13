@@ -1,3 +1,6 @@
 https://www.concretepage.com/questions/757    The solution of dealing with the plugin "spring-boot" issue.
 https://google.github.io/styleguide/javaguide.html    Java guide document.
-https://www.baeldung.com/jacoco   Jacoco introduction document.
+https://www.baeldung.com/jacoco     Jacoco introduction document.
+https://aws.amazon.com/what-is/unit-testing/    Guidance for unit testing.
+https://groups.google.com/g/jacoco/c/aKGwrKNIin8    The solution of a specified problem that I encountered.
+https://www.lambdatest.com/blog/reporting-code-coverage-using-maven-and-jacoco-plugin/    Guidance on how to use Jacoco.

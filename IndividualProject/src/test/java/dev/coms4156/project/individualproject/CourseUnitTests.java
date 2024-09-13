@@ -148,7 +148,7 @@ public class CourseUnitTests {
   @Test
   public void deSerializeObjectFromFileTest() {
     // String expectedResult="[ELEN, CHEM, PHYS, PSYC, COMS, ECON, IEOR]";
-    // System.out.println(testFD.deSerializeObjectFromFile().keySet());
+    //System.out.println(testFD.deSerializeObjectFromFile().keySet());
     assertTrue(testFD.deSerializeObjectFromFile().containsKey("ELEN"));
       
   }
@@ -199,25 +199,44 @@ public class CourseUnitTests {
   @Test
   public void retrieveDepartmentTest() throws Exception {
     String deptCode = "IEOR";
-    String expectedResult = "200 OK OK,IEOR 3404";
+    String expectedResult = "200 OK OK,IEOR";
     String temp = testRC.retrieveDepartment(deptCode).toString();
-    System.out.println(temp);
     assertTrue(temp.contains(expectedResult));
   }
 
   @Test
   public void retrieveCourseTest() throws Exception {
-    String expectedResult = "Department Not Found";
-    String temp = testRC.retrieveCourse("IEOR", 1004).toString();
-    System.out.println(temp);
+    String expectedResult = "200 OK OK";
+    String temp = testRC.retrieveCourse("IEOR", 3404).toString();
     assertTrue(temp.contains(expectedResult));
   }
 
   @Test
   public void isCourseFullTestRc() throws Exception {
-    String expectedResult = "Course Not Found";
-    String temp = testRC.isCourseFull("IEOR", 1402).toString();
-    System.out.println(temp);
+    String expectedResult = "200 OK OK";
+    String temp = testRC.isCourseFull("IEOR", 3404).toString();
+    assertTrue(temp.contains(expectedResult));
+  }
+
+  @Test
+  public void changeCourseLocationTest() throws Exception {
+    String expectedResult = "Attributed was updated successfully.";
+    String temp = testRC.changeCourseLocation("IEOR", 3404, "115 URI").toString();
+    assertTrue(temp.contains(expectedResult));
+  }
+
+  @Test
+  public void changeCourseTeacherTest() throws Exception {
+    String expectedResult = "Attributed was updated successfully.";
+    String temp = testRC.changeCourseTeacher("IEOR", 3404, "Mary").toString();
+    assertTrue(temp.contains(expectedResult));
+  }
+
+  @Test
+  public void changeCourseTimeTest() throws Exception {
+    String expectedResult = "Attributed was updated successfully.";
+    String temp = testRC.changeCourseTime("IEOR", 3404, "6:10 - 8:00").toString();
+    //System.out.println(temp);
     assertTrue(temp.contains(expectedResult));
   }
 

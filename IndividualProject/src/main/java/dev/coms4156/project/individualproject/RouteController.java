@@ -80,6 +80,7 @@ public class RouteController {
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
         HashMap<String, Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
+        System.out.println(coursesMapping.keySet());
 
         if (!coursesMapping.containsKey(Integer.toString(courseCode))) {
           return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
@@ -291,7 +292,7 @@ public class RouteController {
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
-        return new ResponseEntity<>("The course meets at: " + "some time ",
+        return new ResponseEntity<>("The course meets at: " + requestedCourse,
             HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
@@ -386,7 +387,7 @@ public class RouteController {
         if (isStudentDropped) {
           return new ResponseEntity<>("Student has been dropped.", HttpStatus.OK);
         } else {
-          return new ResponseEntity<>("Student has not been dropped.", HttpStatus.BAD_REQUEST);
+          return new ResponseEntity<>("Student has not been dropped.", HttpStatus.NOT_FOUND);
         }
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);

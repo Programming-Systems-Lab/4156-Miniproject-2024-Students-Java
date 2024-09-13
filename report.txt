@@ -1,7 +1,0 @@
-bugs:
-1. getCourseLocation() method returns instructorName instead of course location.
-2. getInstructorName() method returns couselocation instead of instructor name.
-
-retrieveDepartment() method from RouteContrller class confused two conditions of outputs. When the program finds a given deptcode in the database, it should return HttpStatus.OK instead of HttpStatus.NOT_FOUND.
-
-retrieveCourse() method has similar bug. If the program found the course code, it should return HttpStatus.OK instead of HttpStatus.FORBIDDEN.

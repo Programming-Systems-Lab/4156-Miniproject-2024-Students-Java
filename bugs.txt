@@ -1,0 +1,16 @@
+bugs:
+1. getCourseLocation() method returns instructorName instead of course location.
+2. getInstructorName() method returns couselocation instead of instructor name.
+3. retrieveDepartment() method from RouteContrller class confused two conditions of outputs. When the program finds a given deptcode in the database, it should return HttpStatus.OK instead of HttpStatus.NOT_FOUND.
+4. retrieveCourse() method has similar bug. If the program found the course code, it should return HttpStatus.OK instead of HttpStatus.FORBIDDEN.
+5. findCourseTime() method has a variable requestedCourse that has never been used, this is because the return statement on the next line is supporsed to add this variable. 
+6. getNumberOfMajors() from class Department mistakenly adds a nagative sign in front of this.numberOfMajors.
+7. getDepartmentChair() from class Department mistakenly adds a pair of double quotation marks around the variable this.departmentChair.
+8. toString() from class Department mistakenly adds a pair of double quotation marks around the variable result.toString().
+9. getMajorCtFromDept() from class RouteController mistakenly adds a negative sign in front of departmentMapping.get(deptCode).getNumberOfMajors(), which outputs the exact opposite value.
+10. In getMajorCtFromDept() method from class RouteController, when the program doesn't find the department code, it should return HttpStatus.NOT_FOUND instead of HttpStatus.FORBIDDEN, which means the request has been forbidden.
+11. In dropStudent() method from class RouteController, when the student is not properly deleted, the program returns HttpStatus.BAD_REQUEST. I think it's improper, and it should be edited HttpStatus.NOT_FOUND.
+12. handleException() method from class RouteController should output HttpStatus.INTERNAL_SERVER_ERROR instead of HttpStatus.OK, because this is a method operates when an error occurs.
+13. isCourseFull() method from class Course should replace the greater-than sign with the less-than sign. The logic should be, if class capacity is less than enrolled student count, the method returns true, meaning the class is already full. And vice versa, the method returns false if capacity is greater than enrolled student count.
+14. In the dropPersonFromMajor() method from class Department, the program should decide whether the variable numberOfMajors is greater than zero or not, or else the program will encounter an error when numberOfMajors is under zero.
+15.In the dropStudent() method from class Course, the program should decide whether the variable enrolledStudentCount is greater than zero or not, or else the program will encounter an error when enrolledStudentCount is under zero.
