@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -46,7 +46,7 @@ public class RouteControllerUnitTests {
     }
 
     private void performPatchRequestTest(String route, String queryParams, ResultMatcher expectedStatus, String expectedContent) throws Exception {
-      mockMvc.perform(post(route + "?" + queryParams))
+      mockMvc.perform(patch(route + "?" + queryParams))
               .andDo(print())
               .andExpect(expectedStatus)
               .andExpect(expectedContent == null ? content().string("") : content().string(containsString(expectedContent)));
