@@ -1,0 +1,25 @@
+RetreiveDepartment function in routeController returning ok status but not the actual department
+
+Department, getNumberOfMajors returning a negative
+
+get departmentChair retuning a string instead of return value
+
+Department toString returning a string instead of return value 
+
+Course, drop student returns false if successgfully dropped a student, changed to true
+
+Course, enroll student returns false if successgfully enrolled a student, changed to true.
+
+GetCourseLocation returing instructor name 
+
+GetCourseInstructor returning location
+
+isCourseFull didn't have this keyword.
+
+Unused local variable requestedCourse in routeController line 288, rule="UnusedLocalVariable" 
+
+rule="UnusedLocalVariable" routeController courseMapping removed
+
+GetMajorCunt from department in routeController has a negative on return value
+
+getMajorCTFromDepartment on not found returns a forbidden error code
