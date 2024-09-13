@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Unit tests for the {@link Department} class.
@@ -16,39 +14,42 @@ import org.springframework.test.context.ContextConfiguration;
  * <p>This class contains test cases to validate the functionality of the {@link Department} class
  * methods.
  */
-@SpringBootTest
-@ContextConfiguration
 public class DepartmentUnitTests {
 
-  /** The test department instance used for testing. */
-  private Course testCourse;
-
-  private Department testDepartment;
+  private Department department;
+  private Course course1;
+  private Course course2;
+  private HashMap<String, Course> courses;
   private Department emptyDepartment;
 
-  /** Set up the Department unit tests by initializing a test Course and test Department */
+  /** Set up the Department unit tests by initializing a test Course and test Department. */
   @BeforeEach
   public void setUp() {
-    // course/department with majors
-    testCourse = new Course("Adam Cannon", "417 IAB", "11:40-12:55", 30);
-    HashMap<String, Course> courses = new HashMap<>();
-    courses.put("1004", testCourse);
-    testDepartment = new Department("COMS", courses, "Luca Carloni", 50);
+    course1 = new Course("Adam Cannon", "417 IAB", "11:40-12:55", 30);
+    course2 = new Course("Tony Dear", "402 CHANDLER", "1:10-3:40", 125);
+    courses = new HashMap<>();
+    courses.put("1004", course1);
+    courses.put("3251", course2);
+    department = new Department("COMS", courses, "Luca Carloni", 2700);
   }
 
   @Test
   public void constructorTestValidConstructor() {
-    Department department = new Department("ECON", new HashMap<>(), "Michael Woodford", 2345);
     assertNotNull(department, "Expected to identify a non-null department");
   }
 
   @Test
-  public void constructorTestInvalidDeptCode() {
+  public void constructorTestEmptyStringDeptCode() {
+    // test for empty-string department code
     assertThrows(
         IllegalArgumentException.class,
         () -> new Department("", new HashMap<>(), "Luca Carloni", 2345),
-        "Expected to throw IllegalArgumentException for null department code");
+        "Expected to throw IllegalArgumentException for department code==''");
+  }
 
+  @Test
+  public void constructorTestNullDeptCode() {
+    // test for null department code
     assertThrows(
         IllegalArgumentException.class,
         () -> new Department(null, new HashMap<>(), "Luca Carloni", 2345),
@@ -56,20 +57,49 @@ public class DepartmentUnitTests {
   }
 
   @Test
+  public void constructorTestNegativeNumberOfMajors() {
+    // test for negative number of majors
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new Department(null, new HashMap<>(), "Luca Carloni", -3),
+        "Expected to throw IllegalArgumentException for negative number of majors");
+  }
+
+  @Test
+  public void getNumberOfMajorsInputValidation() {
+    assertEquals(2700, department.getNumberOfMajors());
+  }
+
+  @Test
+  public void getDepartmentChairInputValidation() {
+    assertEquals("Luca Carloni", department.getDepartmentChair());
+  }
+
+  @Test
+  public void getDepartmentCodeInputValidation() {
+    assertEquals("COMS", department.getDepartmentCode());
+  }
+
+  @Test
+  public void getCourseSelectionInputValidation() {
+    assertEquals(courses, department.getCourseSelection());
+  }
+
+  @Test
   public void addPersonToMajorIncreasesNumberOfMajors() {
-    testDepartment.addPersonToMajor();
+    department.addPersonToMajor();
     assertEquals(
-        51,
-        testDepartment.getNumberOfMajors(),
+        2701,
+        department.getNumberOfMajors(),
         "Expected to successfully increment the number of majors by 1");
   }
 
   @Test
   public void dropPersonFromMajorDecreaseNumberOfMajors() {
-    testDepartment.dropPersonFromMajor();
+    department.dropPersonFromMajor();
     assertEquals(
-        49,
-        testDepartment.getNumberOfMajors(),
+        2699,
+        department.getNumberOfMajors(),
         "Expected to successfully decrement the number of majors by 1");
   }
 
@@ -88,21 +118,24 @@ public class DepartmentUnitTests {
   @Test
   public void addCourseValidCourseIdAddsCourse() {
     assertEquals(
-        testCourse,
-        testDepartment.getCourseSelection().get("1004"),
+        course1,
+        department.getCourseSelection().get("1004"),
         "Expected to get course selection associated with 1004 courseId");
   }
 
   @Test
-  public void addCourseInvalidCourseIdThrowsException() {
+  public void addCourseInvalidNullCourseIdThrowsException() {
     assertThrows(
         IllegalArgumentException.class,
-        () -> testDepartment.addCourse(null, testCourse),
+        () -> department.addCourse(null, course1),
         "Expected to throw IllegalArgumentException when null course id");
+  }
 
+  @Test
+  public void addCourseInvalidEmptyStringCourseIdThrowsException() {
     assertThrows(
         IllegalArgumentException.class,
-        () -> testDepartment.addCourse("", testCourse),
+        () -> department.addCourse("", course1),
         "Expected to throw IllegalArgumentException when empty string as course id");
   }
 
@@ -110,7 +143,7 @@ public class DepartmentUnitTests {
   public void addCourseNullCourseThrowsException() {
     assertThrows(
         IllegalArgumentException.class,
-        () -> testDepartment.addCourse("3445", null),
+        () -> department.addCourse("3445", null),
         "Expected to throw IllegalArgumentException when null course");
   }
 
@@ -124,10 +157,12 @@ public class DepartmentUnitTests {
     int capacity = 250;
 
     // create course to test against
-    testDepartment.createCourse(courseId, instructorName, courseLocation, courseTimeSlot, capacity);
-    Course newCourse = testDepartment.getCourseSelection().get(courseId);
+    department.createCourse(courseId, instructorName, courseLocation, courseTimeSlot, capacity);
+    Course newCourse = department.getCourseSelection().get(courseId);
 
     // ensure proper input validation
+    assertEquals(3, department.getCourseSelection().size());
+    assertNotNull(department.getCourseSelection().get("3134"));
     assertNotNull(newCourse);
     assertEquals(instructorName, newCourse.getInstructorName());
     assertEquals(courseLocation, newCourse.getCourseLocation());
@@ -137,10 +172,12 @@ public class DepartmentUnitTests {
 
   @Test
   public void toStringReturnsDepartmentRepresentation() {
-    String expectedResult = "COMS 1004: " + testCourse.toString() + "\n";
+    String course1ExpectedResult = "COMS 1004: " + course1.toString() + "\n";
+    String course2ExpectedResult = "COMS 3251: " + course2.toString() + "\n";
+    String expectedResult = course1ExpectedResult + course2ExpectedResult;
     assertEquals(
         expectedResult,
-        testDepartment.toString(),
+        department.toString(),
         """
             Expected to return...\
 

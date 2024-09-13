@@ -30,12 +30,17 @@ public class Department implements Serializable {
       String departmentChair,
       int numberOfMajors) {
 
+    // check department code for null/empty-string
     if (deptCode == null || deptCode.trim().isEmpty()) {
       throw new IllegalArgumentException("Department code cannot be null or empty.");
     }
+
+    // check department chair for null/empty-string
     if (departmentChair == null || departmentChair.trim().isEmpty()) {
       throw new IllegalArgumentException("Department chair cannot be null or empty.");
     }
+
+    // ensure number of majors is non-negative
     if (numberOfMajors < 0) {
       throw new IllegalArgumentException("Number of majors must be a positive number.");
     }
@@ -90,7 +95,6 @@ public class Department implements Serializable {
           "Can only remove a major from a department if there is at least 1 major in a"
               + "department.");
     }
-
     this.numberOfMajors--;
   }
 
@@ -101,9 +105,11 @@ public class Department implements Serializable {
    * @param course The Course object to add.
    */
   public void addCourse(String courseId, Course course) {
+    // ensure courseId is not null/empty-string
     if (courseId == null || courseId.trim().isEmpty()) {
       throw new IllegalArgumentException("courseId cannot be null or empty.");
     }
+    // ensure course is not null
     if (course == null) {
       throw new IllegalArgumentException("Course cannot be null.");
     }

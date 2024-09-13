@@ -37,14 +37,13 @@
             <goals>
               <goal>prepare-agent</goal>
             </goals>
-            <id>default-prepare-agent</id>
           </execution>
           <execution>
             <goals>
               <goal>report</goal>
             </goals>
-            <id>default-report</id>
-            <phase>prepare-package</phase>
+            <id>report</id>
+            <phase>verify</phase>
           </execution>
         </executions>
         <groupId>org.jacoco</groupId>
@@ -86,6 +85,17 @@
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
+        <configuration>
+          <linkXRef>false</linkXRef>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>verify</phase>
+          </execution>
+        </executions>
         <groupId>org.apache.maven.plugins</groupId>
         <version>3.25.0</version>
       </plugin>
@@ -96,7 +106,24 @@
       <artifactId>spring-boot-starter-web</artifactId>
       <groupId>org.springframework.boot</groupId>
     </dependency>
-
+    <dependency>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>5.10.1</version>
+    </dependency>
+    <dependency>
+      <artifactId>mockito-core</artifactId>
+      <groupId>org.mockito</groupId>
+      <scope>test</scope>
+      <version>5.11.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <groupId>org.mockito</groupId>
+      <scope>test</scope>
+      <version>5.12.0</version>
+    </dependency>
     <dependency>
       <artifactId>spring-boot-starter-test</artifactId>
       <groupId>org.springframework.boot</groupId>
@@ -116,6 +143,15 @@
   <properties>
     <java.version>17</java.version>
   </properties>
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.6.1</version>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <version>0.0.1-SNAPSHOT</version>
 

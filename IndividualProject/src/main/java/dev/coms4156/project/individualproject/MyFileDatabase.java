@@ -27,7 +27,13 @@ public class MyFileDatabase {
   public MyFileDatabase(int flag, String filePath) {
     this.filePath = filePath;
     if (flag == 0) {
+      // load database from file
       this.departmentMapping = deSerializeObjectFromFile();
+    } else if (flag == 1) {
+      // initialize with empty mapping
+      this.departmentMapping = new HashMap<>();
+    } else {
+      throw new IllegalArgumentException("Invalid flag value: " + flag);
     }
   }
 
@@ -45,6 +51,7 @@ public class MyFileDatabase {
    *
    * @return the deserialized department mapping
    */
+  @SuppressWarnings("unchecked")
   public HashMap<String, Department> deSerializeObjectFromFile() {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
       Object obj = in.readObject();

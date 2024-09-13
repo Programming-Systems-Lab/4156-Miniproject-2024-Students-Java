@@ -84,14 +84,14 @@
 ### Bugs/Updates in `MyFileDatabase`
 
 - **Variable Name**: `filePath`.
-    - **Type**: Bug-ish
+    - **Type**: Bug
     - **Description**: `filePath` variable should be final
     - **Fix**: `private final String filePath;`
 - **Method Name**: `MyFileDatabase constructor`
     - **Type**: Bug
-    - **Description**: If the flag is not `0`, the departmentMapping remains uninitialized (`null`),
-      which may lead to unexpected behavior.
-    - **Fix**: Initialize `departmentMapping` to an empty `HashMap` by default in the constructor.
+    - **Description**: We only perform an action when flag is set to `0`
+    - **Fix**: When `flag==1`, initialize `this.departmentMapping` to an empty `HashMap` by default
+      in the constructor; else throw `IllegalArgumentException`.
 - **Method Name**: `deSerializeObjectFromFile()`.
     - **Type**: Bug
     - **Description**: if we cannot get a valid object input stream, we return `null` which could

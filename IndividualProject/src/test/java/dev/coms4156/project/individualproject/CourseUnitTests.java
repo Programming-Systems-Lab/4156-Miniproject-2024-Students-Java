@@ -8,8 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Unit tests for the {@link Course} class.
@@ -17,8 +15,6 @@ import org.springframework.test.context.ContextConfiguration;
  * <p>This class contains test cases to validate the functionality of the {@link Course} class
  * methods.
  */
-@SpringBootTest
-@ContextConfiguration
 public class CourseUnitTests {
 
   /** The test course instance used for testing. */
@@ -88,7 +84,6 @@ public class CourseUnitTests {
 
   @Test
   public void setEnrollStudentCountNonNegative() {
-
     assertThrows(
         IllegalArgumentException.class,
         () -> testCourse.setEnrolledStudentCount(-1),
@@ -115,26 +110,31 @@ public class CourseUnitTests {
   }
 
   @Test
-  public void reassignInstructorCheckForValidInstructorName() {
-    String variableType = "instructor name";
+  public void reassignInstructorExceptionForEmptyStringInput() {
     assertThrows(
         IllegalArgumentException.class,
         () -> testCourse.reassignInstructor(""),
-        String.format("Expected an empty string for %s when validating input.", variableType));
-
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> testCourse.reassignInstructor(null),
-        String.format("Expected a null value for %s when validating input.", variableType));
+        "Expected a IllegalArgumentException due to empty string value for instructor name.");
   }
 
   @Test
-  public void reassignLocationCheckForValidLocationName() {
+  public void reassignInstructorExceptionForNullInput() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> testCourse.reassignInstructor(null),
+        "Expected a IllegalArgumentException due to null value for instructor name.");
+  }
+
+  @Test
+  public void reassignLocationExceptionForEmptyStringValue() {
     assertThrows(
         IllegalArgumentException.class,
         () -> testCourse.reassignLocation(""),
         "Expected a non-empty string for location name.");
+  }
 
+  @Test
+  public void reassignLocationExceptionForNullValue() {
     assertThrows(
         IllegalArgumentException.class,
         () -> testCourse.reassignLocation(null),

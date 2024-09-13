@@ -39,17 +39,24 @@ public class Course implements Serializable {
    * @param capacity The maximum number of students that can enroll in the course.
    */
   public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {
+    // check for null/empty-string instructor name
     if (instructorName == null || instructorName.trim().isEmpty()) {
       throw new IllegalArgumentException("Instructor name cannot be null or empty.");
     }
+
+    // check for null/empty-string course location
     if (courseLocation == null || courseLocation.trim().isEmpty()) {
       throw new IllegalArgumentException("Course location cannot be null or empty.");
     }
+
+    // ensure valid time slot based on format described in IllegalArgumentException()
     if (!isValidTimeSlot(timeSlot)) {
       throw new IllegalArgumentException(
           "Invalid time format. Expected format: 'H:MM-H:MM', 'H:MM-HH:MM', 'HH:MM-H:MM', or "
               + "'HH:MM-HH:MM'.");
     }
+
+    // ensure non-negative capacity
     if (capacity <= 0) {
       throw new IllegalArgumentException("Capacity must be a positive number.");
     }
