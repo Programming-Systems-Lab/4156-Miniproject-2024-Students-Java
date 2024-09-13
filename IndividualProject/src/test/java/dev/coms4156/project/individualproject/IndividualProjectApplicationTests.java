@@ -7,8 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-
-
 /**
  * This class contains unit tests for the IndividualProjectApplication class.
  */

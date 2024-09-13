@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.Map;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -21,24 +25,32 @@ public class RouteControllerTests {
   private RouteController routeController;
   private Department testDepartment;
   private Course coms3251;
+  private Course coms3827;
   private HashMap<String, Department> departmentMapping;
-  private HashMap<String, Course> courseMapping;
 
   @Mock
-  private MyFileDatabase myFileDatabase;
+  private MyFileDatabase mockDatabase;
+
+  private AutoCloseable closeMock;
 
   @BeforeEach
   public void setUpRouteControllerTests() {
+    closeMock = MockitoAnnotations.openMocks(this);
     routeController = new RouteController();
+    IndividualProjectApplication.myFileDatabase = mockDatabase;
     departmentMapping = new HashMap<>();
-    courseMapping = new HashMap<>();
-
+    Map<String,Course> courseMapping = new HashMap<>();
+    
     testDepartment = new Department("COMS", courseMapping, "Luca Carloni", 1);
     coms3251 = new Course("Tony Dear", "402 CHANDLER", "1:10-3:40", 125);
-    
-    MyFileDatabase mockDatabase = mock(MyFileDatabase.class);
-    IndividualProjectApplication.myFileDatabase = mockDatabase;
+    coms3827 = new Course("Daniel Rubenstein", "207 Math",
+    "10:10-11:25", 300);
     when(mockDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
+  }
+
+  @AfterEach
+  public void closeDownMock() throws Exception {
+    closeMock.close();
   }
 
   /** Tests for a not found department */
@@ -219,9 +231,28 @@ public class RouteControllerTests {
     coms3251.enrollStudent();
     ResponseEntity<?> response = routeController.dropStudent("COMS", 3251);
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("<Student has been dropped.", response.getBody());
+    assertEquals("Student has been dropped.", response.getBody());
   }
 
-  
+  /** Tests drop student from course, when the course doens't exist */
+  @Test
+  public void testDropStudentFromCourseCourseNotFound(){
+    ResponseEntity<?> response = routeController.dropStudent("COMS", 3251);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  /** Tests setting the enrollment count for a course if the course exists. */
+  @Test
+  public void testSetEnrollmentCountForCourse(){
+    departmentMapping.put("COMS", testDepartment);
+    testDepartment.addCourse("3827", coms3827);
+    ResponseEntity<?> response = routeController.setEnrollmentCount("COMS", 3827, 100);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attributed was updated successfully.", response.getBody());
+  }
+
+  /** Tests changing the time of the course if the course is found */
+
 }
 

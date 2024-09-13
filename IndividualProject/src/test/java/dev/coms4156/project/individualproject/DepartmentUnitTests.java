@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Order;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.util.HashMap; 
+import java.util.Map; 
+import java.util.HashMap;
 
 
 /**
@@ -22,7 +23,7 @@ public class DepartmentUnitTests {
   /** Sets up test Department instance used for testing. */
   @BeforeAll
   public static void setupDepartmentForTesting() {
-    HashMap<String, Course> courses = new HashMap<String, Course>(); // empty hashmap
+    Map<String, Course> courses = new HashMap<String, Course>(); 
     testDepartment = new Department("COMS", courses, "Luca Carloni", 1);
   }
 

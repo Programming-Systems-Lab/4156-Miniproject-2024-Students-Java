@@ -11,4 +11,6 @@ https://spring.io/guides/gs/testing-web
 https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/mock/mockito/package-summary.html
 https://www.youtube.com/watch?v=BZBFw6fBeIU&list=PL82C6-O4XrHcg8sNwpoDDhcxUCbFy855E&index=8
 https://spring.io/guides/gs/testing-web
+https://www.baeldung.com/java-spring-mockito-mock-mockbean
+https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html
 
