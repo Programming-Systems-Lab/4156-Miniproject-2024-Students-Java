@@ -29,7 +29,6 @@ public class CourseUnitTests {
     assertEquals(expectedResult, testCourse.toString());
   }
 
-  
   @Test
   public void constructorTest() {
     assertEquals("Griffin Newbold", testCourse.getInstructorName());
@@ -60,8 +59,8 @@ public class CourseUnitTests {
 
     @Test
     public void reassignLocationTest() {
-      testCourse.reassignTime("House");
-      assertEquals("House", testCourse.getCourseTimeSlot());
+      testCourse.reassignLocation("House");
+      assertEquals("House", testCourse.getCourseLocation());
     }
 
   @Test
