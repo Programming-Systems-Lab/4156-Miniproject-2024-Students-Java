@@ -67,6 +67,8 @@ public class CourseUnitTests {
   public void reassignInstructorTest() {
     testCourse.reassignInstructor("Ben");
     assertEquals("Ben", testCourse.getInstructorName());
+    testCourse.reassignInstructor("Griffin Newbold");
+
   }
 
   /**
@@ -76,6 +78,8 @@ public class CourseUnitTests {
   public void reassignLocationTest() {
     testCourse.reassignLocation("House");
     assertEquals("House", testCourse.getCourseLocation());
+    testCourse.reassignLocation("417 IAB");
+
   }
 
   /**
@@ -85,6 +89,8 @@ public class CourseUnitTests {
   public void reassignTimeTest() {
     testCourse.reassignTime("1:00pm");
     assertEquals("1:00pm", testCourse.getCourseTimeSlot());
+    testCourse.reassignTime("11:40-12:55");
+
   }
 
   /**
