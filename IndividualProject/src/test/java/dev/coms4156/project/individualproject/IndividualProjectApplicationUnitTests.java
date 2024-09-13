@@ -32,11 +32,9 @@ public class IndividualProjectApplicationUnitTests {
   * Sets up the test environment before each test.
   * 
   * <p>This method initializes a new instance of the {@code IndividualProjectApplication} 
-  * class and captures the logger output by redirecting to a 
-  * {@code ByteArrayOutputStream}. This allows the test to verify log messages 
+  * class and captures the logger output by using the {@code CustomLoggerHandler} class
+  * This allows the test to verify log messages 
   * generated during the execution of the application.
-  * 
-  * <p>Each test can access the logger output through the {@code logOutput} field.
   */
   @BeforeEach
   public void setup() {
@@ -80,7 +78,6 @@ public class IndividualProjectApplicationUnitTests {
   public void testResetDataFile() {
     IndividualProjectApplication.overrideDatabase(testDatabase);
     testApplication.resetDataFile();
-
     verify(testDatabase, times(1)).setMapping(anyMap());
   }
 

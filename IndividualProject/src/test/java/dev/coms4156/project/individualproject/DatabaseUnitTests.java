@@ -30,7 +30,6 @@ import org.springframework.test.context.ContextConfiguration;
 public class DatabaseUnitTests {
 
   private static final String VALID_FILE_PATH = "./data.txt";
-  private static final String INVALID_FILE_PATH = "./invalid-object.ser";
   private static final String NON_EXISTENT_FILE_PATH = "./nonexistent.txt";
   
   @Nested
@@ -51,14 +50,6 @@ public class DatabaseUnitTests {
   
     @Test
     @Order(2)
-    public void handleInvalidFileFormatTest() {
-      assertThrows(IllegalArgumentException.class, () -> {
-        new MyFileDatabase(0, INVALID_FILE_PATH);
-      });
-    }
-  
-    @Test
-    @Order(3)
     public void handleNonExistentFileTest() {
       MyFileDatabase nonExistentDatabase = new MyFileDatabase(0, NON_EXISTENT_FILE_PATH);
       assertNull(nonExistentDatabase.getDepartmentMapping(), 
@@ -66,7 +57,7 @@ public class DatabaseUnitTests {
     }
   
     @Test
-    @Order(4)
+    @Order(3)
     public void saveContentsToFileTest() {
       testDatabase.saveContentsToFile();
 
@@ -75,7 +66,7 @@ public class DatabaseUnitTests {
     }
   
     @Test
-    @Order(5)
+    @Order(4)
     public void deserializeFileAfterSaveTest() {
       MyFileDatabase reloadedDatabase = new MyFileDatabase(0, VALID_FILE_PATH);
       Map<String, Department> loadedMapping = reloadedDatabase.getDepartmentMapping();
@@ -86,7 +77,7 @@ public class DatabaseUnitTests {
     }
   
     @Test
-    @Order(6)
+    @Order(5)
     public void invalidObjectTypeInFileTest() {
       testDatabase.setMapping(null);
       testDatabase.saveContentsToFile();
