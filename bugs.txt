@@ -1,9 +1,9 @@
 Bugs Documented
 
-1. getCourseLocation method in Course.java used to return the instructor name.
+1. getCourseLocation() in Course.java used to return the instructor name.
     Now returns the correct course location.
 
-2. getInstructorName method in Course.java used to return the course location.
+2. getInstructorName() in Course.java used to return the course location.
     Now returns the correct instructor name.
 
 3. isCourseFull() method in Course.java used to incorrectly determine if the
@@ -12,5 +12,23 @@ Bugs Documented
 4. getNumberOfMajors() method in Department.java incorrectly returned the number of majors.
     Fixed to return the correct number of majors.
 
-5. getDepartmentChair() had quotes surrounding the return value.
+5. getDepartmentChair() in Department.java had quotes surrounding the return value.
     Removed the quotes to correctly return the return value.
+
+6. retrieveDepartment() in RouteController.java returned HTTP NOT FOUND
+    when a Department was found, and HTTP OK when a department was not found.
+    It now correctly returns the correct HTTP Codes.
+
+7. retrieveCourse() in RouteController.java returned HTTP FORBIDDEN
+    when a course was found. It now returns HTTP OK.
+
+8. In getMajorCtFromDept() in RouteController.java - Which I renamed to getMajorCountFromDept() - had a '-'
+    in the responde entity, which is an error. I removed the '-' from the message.
+    In addition, when the department was not found, an HTTP Forbidden code was returned. I fixed it so now it
+    returns HTTP Not Found.
+
+9. findCourseTime() in RouteController.java, did not return the course time slot, instead it had
+    a string that said "some time". I fixed the string, such that it returns the course time slot.
+
+10. handleException() in RouteController.java returned HTTP OK, when it should be an error.
+    Changed to INTERNAL SERVER ERROR.
