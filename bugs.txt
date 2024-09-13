@@ -1,0 +1,115 @@
+Courses.java
+[PMD]    75:	MissingOverride:	The method 'toString()' is missing an @Override annotation.
+    -> add @Override above function
+getCourseLocation() and getInstructorName() functions are swapped 
+    -> swap them
+isCourseFull() should return true when the number of enrolled students is equal to or greater than the capacity
+    -> make ">" into "<="
+enrolledStudentCount initialized to 500
+    -> initialize to 0
+
+
+Department.java
+[PMD]    23:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    54:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    102:	MissingOverride:	The method 'toString()' is missing an @Override annotation.
+    -> add @Override above function
+[PMD]    115:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    116:	UnusedPrivateField:	Avoid unused private fields such as 'departmentChair'.
+    -> remove quotes from return value in getDepartmentChair()
+toString method returns the literal string "result.toString()" instead of result.toString()
+    -> remove quotes around return value
+getNumberOfMajors() returns negative of number of majors
+    -> remove "-"
+dropPersonFromMajor() could lead to negative number of majors
+    -> add a check to ensure numberOfMajors doesn't go below zero
+
+
+IndividualProjectApplication.java
+[PMD]    39:	LiteralsFirstInComparisons:	Position literals first in String comparisons
+    -> change the order of the comparison
+[PMD]    84:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    94:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+
+MyFileDatabase.java
+[PMD]    35:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    44:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    54:	ReturnEmptyCollectionRatherThanNull:	Return an empty collection rather than null.
+[PMD]    76:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    100:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+
+RouteController.java
+[PMD]    40:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    42:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    45:	UseLocaleWithCaseConversions:	When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+    -> add Locale.ROOT to toUpperCase()
+[PMD]    48:	UseLocaleWithCaseConversions:	When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+    -> add Locale.ROOT to toUpperCase()
+[PMD]    73:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    74:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    79:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    81:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    113:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    114:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    121:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    123:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    148:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    152:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    174:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    178:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    204:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    205:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    212:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    214:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    244:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    245:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    252:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    254:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    284:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    285:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    292:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    294:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    297:	UnusedLocalVariable:	Avoid unused local variables such as 'requestedCourse'.
+    -> remove local variable
+[PMD]    318:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    322:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    345:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    349:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    375:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    376:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    383:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    385:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    419:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    420:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    421:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    428:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    430:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    458:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    459:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    460:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    467:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    469:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    498:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    499:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    500:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    507:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    509:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    538:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    539:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    540:	UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element
+[PMD]    547:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+[PMD]    549:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+retrieveDepartment() HTTP status was flipped
+    -> flipped HTTP.NOT_FOUND and HTTP.OK
+retrieveCourse() HTTP.FORBIDDEN should be HTTP.OK
+    -> changed from FORBIDDEN to OK
+getMajorCtFromDept() was printing a negative number for major count in the response body and the HTTP status should be NOT NOT_FOUND
+    -> remove "-" and change HTTP.FORBIDDEN to HTTP.NOT_FOUND
+findCourseTime() response body was hardcoded as "some time" and should be a time slot
+    -> use getCourseTimeSlot() to dynamically populate the response body
+removeMajorFromDept() response was OK even if the number of majors went negative
+    -> added if condition to make sure that the number of major is not 0
+
+General Fixes:
+1. For all "LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead," I replaced HashMap with Map
+1. For all "UnnecessaryAnnotationValueElement:	Avoid the use of value in annotations when its the only element," I removed "value =" in all @RequestParam()
