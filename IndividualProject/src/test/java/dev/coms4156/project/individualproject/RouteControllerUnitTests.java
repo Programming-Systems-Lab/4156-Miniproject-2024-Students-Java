@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -30,17 +31,13 @@ public class RouteControllerUnitTests {
   @Mock
   private Course mockCourse;
 
-  private HashMap<String, Department> mapping;
-  private HashMap<String, Course> courses;
-
   /**
    * Mocks COMS department data with courses.
    */
   @BeforeEach
   public void setUp() {
     MockitoAnnotations.openMocks(this);
-    mapping = new HashMap<>();
-    courses = new HashMap<>();
+    Map<String, Department> mapping = new HashMap<>();
 
     // Setup mock database responses
     when(mockDatabase.getDepartmentMapping()).thenReturn(mapping);
@@ -66,6 +63,8 @@ public class RouteControllerUnitTests {
     coms3827.setEnrolledStudentCount(283);
     Course coms4156 = new Course("Gail Kaiser", "501 NWC", times[2], 120);
     coms4156.setEnrolledStudentCount(109);
+
+    Map<String, Course> courses = new HashMap<>();
     courses.put("1004", coms1004);
     courses.put("3134", coms3134);
     courses.put("3157", coms3157);

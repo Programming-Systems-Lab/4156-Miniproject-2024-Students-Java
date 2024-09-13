@@ -2,9 +2,9 @@ package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +22,7 @@ public class DepartmentUnitTests {
    */
   @BeforeEach
   public void setupDepartmentForTesting() {
-    HashMap<String, Course> courses = new HashMap<>();
+    Map<String, Course> courses = new HashMap<>();
     d_test = new Department("TEST", courses, "test chair", 0);
 
     courses.put("4701", new Course("Ansaf Salleb-Aouissi", "501 SCH", "10:10-11:25", 189));

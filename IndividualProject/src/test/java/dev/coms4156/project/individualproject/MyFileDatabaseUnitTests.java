@@ -31,7 +31,7 @@ public class MyFileDatabaseUnitTests {
     Department department = new Department("TEST", new HashMap<>(), "TEST CHAIR", 1500);
     department.createCourse("4118", "Jason Nieh", "501 NWC", "4:10-5:25", 100);
 
-    HashMap<String, Department> newMapping = new HashMap<>();
+    Map<String, Department> newMapping = new HashMap<>();
     newMapping.put("TEST", department);
 
     testFileDatabase.setMapping(newMapping);
@@ -47,7 +47,7 @@ public class MyFileDatabaseUnitTests {
   @Test
   public void testToString() {
     Department department = new Department("NS", new HashMap<>(), "Nicole Lin", 1500);
-    HashMap<String, Department> departmentMapping = new HashMap<>();
+    Map<String, Department> departmentMapping = new HashMap<>();
     departmentMapping.put("Nicole Studies", department);
     testFileDatabase.setMapping(departmentMapping);
     String expectedString = "For the Nicole Studies department: \n" + department.toString();

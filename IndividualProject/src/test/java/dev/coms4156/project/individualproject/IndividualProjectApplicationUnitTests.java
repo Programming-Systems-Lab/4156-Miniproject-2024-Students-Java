@@ -14,8 +14,9 @@ public class IndividualProjectApplicationUnitTests {
     String[] args = {"setup"};
     IndividualProjectApplication.main(args);
 
-    int expectedResult = 7;
-    assertEquals(expectedResult,
-        IndividualProjectApplication.myFileDatabase.getDepartmentMapping().size());
+    assertEquals(
+        7,
+        IndividualProjectApplication.myFileDatabase.getDepartmentMapping().size()
+    );
   }
 }
