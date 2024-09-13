@@ -4,11 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -127,13 +130,15 @@ public class MyFileDatabaseUnitTests {
    */
   @Test
   public void testDeserializeInvalidObjectType() {
-    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(testFilePath))) {
-      out.writeObject("This is not a HashMap");
+    try (ObjectOutputStream out = new ObjectOutputStream(
+      new BufferedOutputStream(Files.newOutputStream(Paths.get(testFilePath))))) {
+      out.writeObject("This is not a HashMap");  // Writing an invalid object type
     } catch (IOException e) {
       e.printStackTrace();
+      fail("Failed to write invalid object type to file");
     }
 
-    // check if deSerializeObjectFromFile() throws an IllegalArgumentException.
+      // check if deSerializeObjectFromFile() throws an IllegalArgumentException.
     assertThrows(IllegalArgumentException.class, () -> myFileDatabase.deSerializeObjectFromFile());
   }
 
