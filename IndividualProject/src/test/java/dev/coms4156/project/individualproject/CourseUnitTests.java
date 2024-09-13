@@ -2,8 +2,9 @@ package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeAll;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,13 +16,16 @@ import org.springframework.test.context.ContextConfiguration;
 @SpringBootTest
 @ContextConfiguration
 public class CourseUnitTests {
+  /**
+   * Sets up testCourse for testing purposes.
+   */
   @BeforeEach
   public void setupCourseForTesting() {
     testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
   }
 
   @Test
-  public void getEnrolledStudentCountTest(){
+  public void getEnrolledStudentCountTest() {
     assertEquals(0, testCourse.getEnrolledStudentCount());
   }
 
@@ -39,15 +43,22 @@ public class CourseUnitTests {
   }
 
   @Test
-  public void setEnrolledStudentCountTest() {
-    testCourse.setEnrolledStudentCount(10);
-    assertEquals(10, testCourse.getEnrolledStudentCount());
+  public void dropStudentTest() {
+    testCourse.enrollStudent();
+    testCourse.dropStudent();
+    assertEquals(0, testCourse.getEnrolledStudentCount());
   }
 
   @Test
-  public void setEnrolledStudentCountFailTest() {
-    testCourse.setEnrolledStudentCount(251);
-    assertEquals(0, testCourse.getEnrolledStudentCount());
+  public void dropStudentFailTest() {
+    assertFalse(testCourse.dropStudent());
+  }
+
+
+  @Test
+  public void setEnrolledStudentCountTest() {
+    testCourse.setEnrolledStudentCount(10);
+    assertEquals(10, testCourse.getEnrolledStudentCount());
   }
 
   @Test
@@ -89,7 +100,7 @@ public class CourseUnitTests {
   @Test
   public void reassignTimeTest() {
     testCourse.reassignTime("11:50-1:05");
-    assertEquals("11:50-1.05", testCourse.getCourseTimeSlot());
+    assertEquals("11:50-1:05", testCourse.getCourseTimeSlot());
   }
 
   @Test
@@ -99,18 +110,34 @@ public class CourseUnitTests {
   }
 
   @Test
-  public void CourseNotFullTest() {
+  public void courseNotFullTest() {
     testCourse.setEnrolledStudentCount(0);
     assertFalse(testCourse.isCourseFull());
   }
 
   @Test
   public void equalsTest() {
-   Course testCourse_new = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
-   testCourse_new.setEnrolledStudentCount(1);
-   assertEquals(testCourse, testCourse_new);
+    Course testCourseNew = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    assertEquals(testCourse, testCourseNew);
+    testCourseNew.enrollStudent();
+    assertNotEquals(testCourse, testCourseNew);
+    testCourseNew = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 251);
+    assertNotEquals(testCourse, testCourseNew);
+    testCourseNew = new Course("Griffin", "417 IAB", "11:40-12:55", 250);
+    assertNotEquals(testCourse, testCourseNew);
+    int x = 10;
+    assertNotEquals(testCourse, x);
   }
-  /** The test course instance used for testing. */
+
+  @Test
+  public void hashCodeTest() {
+    Course testCourseNew = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    assertEquals(testCourse.hashCode(), testCourseNew.hashCode());
+  }
+
+  /**
+   * The test course instance used for testing.
+   */
   public static Course testCourse;
 }
 

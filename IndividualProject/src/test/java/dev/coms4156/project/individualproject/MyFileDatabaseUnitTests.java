@@ -1,18 +1,13 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.HashMap;
 import java.util.Map;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-
 
 /**
  * This class contains unit tests for the MyFileDatabase class.
@@ -20,6 +15,9 @@ import org.springframework.test.context.ContextConfiguration;
 @SpringBootTest
 @ContextConfiguration
 public class MyFileDatabaseUnitTests {
+  /**
+   * Sets up testDatabase for testing purposes.
+   */
   @BeforeEach
   public void setupDatabaseForTesting() {
     testDatabase = new MyFileDatabase(0, "./data.txt");
@@ -281,7 +279,9 @@ public class MyFileDatabaseUnitTests {
   }
 
 
-  /** The test department instance used for testing and reference mapping. */
+  /**
+   * The test department instance used for testing and reference mapping.
+   */
   public static MyFileDatabase testDatabase;
   public static HashMap<String, Department> mapping;
 }

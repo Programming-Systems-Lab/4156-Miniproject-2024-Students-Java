@@ -1,22 +1,16 @@
 package dev.coms4156.project.individualproject;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.web.WebAppConfiguration;
-
 
 /**
  * This class contains unit tests for the IndividualProjectApplication class.
@@ -24,7 +18,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @SpringBootTest
 @ContextConfiguration
 public class IndividualProjectApplicationUnitTests {
-
+  /**
+   * Sets up a reference mapping (and a smaller one) for testing purposes.
+   */
   @BeforeAll
   public static void setupBeforeTests() {
     String[] times = {"11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55"};
@@ -275,12 +271,9 @@ public class IndividualProjectApplicationUnitTests {
   @Test
   public void checkOnTerminate() {
     IndividualProjectApplication ipa = new IndividualProjectApplication();
-    Object obj = null;
-    MyFileDatabase testDatabase = new MyFileDatabase(1, "./temp.txt");
-    testDatabase.setMapping(mapping_small);
-    IndividualProjectApplication.overrideDatabase(testDatabase);
     ipa.onTermination();
-    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("./temp.txt"))) {
+    Object obj = null;
+    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("./data.txt"))) {
       obj = in.readObject();
       if (!(obj instanceof HashMap)) {
         fail();
@@ -288,7 +281,7 @@ public class IndividualProjectApplicationUnitTests {
     } catch (IOException | ClassNotFoundException e) {
       fail();
     }
-    assertEquals(IndividualProjectApplication.myFileDatabase.getDepartmentMapping(), obj);
+    assertEquals(mapping, obj);
   }
 
   public static HashMap<String, Department> mapping;

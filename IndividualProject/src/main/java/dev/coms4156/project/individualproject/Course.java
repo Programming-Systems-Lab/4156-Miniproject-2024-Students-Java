@@ -13,17 +13,17 @@ public class Course implements Serializable {
   /**
    * Constructs a new Course object with the given parameters. Initial count starts at 0.
    *
-   * @param instructorName     The name of the instructor teaching the course.
-   * @param courseLocation     The location where the course is held.
-   * @param timeSlot           The time slot of the course.
-   * @param capacity           The maximum number of students that can enroll in the course.
+   * @param instructorName The name of the instructor teaching the course.
+   * @param courseLocation The location where the course is held.
+   * @param timeSlot       The time slot of the course.
+   * @param capacity       The maximum number of students that can enroll in the course.
    */
   public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {
     this.courseLocation = courseLocation;
     this.instructorName = instructorName;
     this.courseTimeSlot = timeSlot;
     this.enrollmentCapacity = capacity;
-    this.enrolledStudentCount = 500;
+    this.enrolledStudentCount = 0;
   }
 
   /**
@@ -32,8 +32,11 @@ public class Course implements Serializable {
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
+    if (isCourseFull()) {
+      return false;
+    }
     enrolledStudentCount++;
-    return false;
+    return true;
   }
 
   /**
@@ -42,18 +45,21 @@ public class Course implements Serializable {
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
+    if (this.enrolledStudentCount == 0) {
+      return false;
+    }
     enrolledStudentCount--;
-    return false;
+    return true;
   }
 
 
   public String getCourseLocation() {
-    return this.instructorName;
+    return this.courseLocation;
   }
 
 
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
 
@@ -67,27 +73,29 @@ public class Course implements Serializable {
 
 
   public String toString() {
-    return "\nInstructor: " + instructorName +  "; Location: "
-        + courseLocation +  "; Time: " + courseTimeSlot;
+    return "\nInstructor: " + instructorName + "; Location: "
+        + courseLocation + "; Time: " + courseTimeSlot;
   }
 
- @Override
- public boolean equals(Object obj) {
-   if (this == obj) {
-     return true;
-   }
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Course course)) {
+      return false;
+    }
+    return this.toString().equals(course.toString())
+        && this.enrolledStudentCount == course.getEnrolledStudentCount()
+        && this.enrollmentCapacity == course.enrollmentCapacity;
+  }
 
-   if (obj == null || getClass() != obj.getClass()) {
-     return false;
-   }
-
-   Course course = (Course) obj;
-   return this.courseLocation.equals(course.getCourseLocation()) &&
-       this.courseTimeSlot.equals(course.getCourseTimeSlot()) &&
-       this.enrolledStudentCount == course.getEnrolledStudentCount() &&
-       this.instructorName.equals(course.getInstructorName()) &&
-       this.enrollmentCapacity == course.getEnrolledStudentCount();
- }
+  @Override
+  public int hashCode() {
+    int result = instructorName.hashCode();
+    result = 31 * result + courseLocation.hashCode();
+    result = 31 * result + courseTimeSlot.hashCode();
+    result = 31 * result + enrolledStudentCount;
+    result = 31 * result + enrollmentCapacity;
+    return result;
+  }
 
   public void reassignInstructor(String newInstructorName) {
     this.instructorName = newInstructorName;
@@ -109,7 +117,7 @@ public class Course implements Serializable {
   }
 
   public boolean isCourseFull() {
-    return enrollmentCapacity > enrolledStudentCount;
+    return enrollmentCapacity <= enrolledStudentCount;
   }
 
 

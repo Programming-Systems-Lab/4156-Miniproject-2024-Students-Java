@@ -15,10 +15,10 @@ public class Department implements Serializable {
   /**
    * Constructs a new Department object with the given parameters.
    *
-   * @param deptCode         The code of the department.
-   * @param courses          A HashMap containing courses offered by the department.
-   * @param departmentChair  The name of the department chair.
-   * @param numberOfMajors   The number of majors in the department.
+   * @param deptCode        The code of the department.
+   * @param courses         A HashMap containing courses offered by the department.
+   * @param departmentChair The name of the department chair.
+   * @param numberOfMajors  The number of majors in the department.
    */
   public Department(String deptCode, HashMap<String, Course> courses, String departmentChair,
                     int numberOfMajors) {
@@ -34,7 +34,7 @@ public class Department implements Serializable {
    * @return The number of majors.
    */
   public int getNumberOfMajors() {
-    return -this.numberOfMajors;
+    return this.numberOfMajors;
   }
 
   /**
@@ -43,7 +43,7 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return "this.departmentChair";
+    return this.departmentChair;
   }
 
   /**
@@ -66,7 +66,9 @@ public class Department implements Serializable {
    * Decreases the number of majors in the department by one if it's greater than zero.
    */
   public void dropPersonFromMajor() {
-    numberOfMajors--;
+    if (numberOfMajors > 0) {
+      numberOfMajors--;
+    }
   }
 
   /**
@@ -82,11 +84,11 @@ public class Department implements Serializable {
   /**
    * Creates and adds a new course to the department's course selection.
    *
-   * @param courseId           The ID of the new course.
-   * @param instructorName     The name of the instructor teaching the course.
-   * @param courseLocation     The location where the course is held.
-   * @param courseTimeSlot     The time slot of the course.
-   * @param capacity           The maximum number of students that can enroll in the course.
+   * @param courseId       The ID of the new course.
+   * @param instructorName The name of the instructor teaching the course.
+   * @param courseLocation The location where the course is held.
+   * @param courseTimeSlot The time slot of the course.
+   * @param capacity       The maximum number of students that can enroll in the course.
    */
   public void createCourse(String courseId, String instructorName, String courseLocation,
                            String courseTimeSlot, int capacity) {
@@ -107,22 +109,28 @@ public class Department implements Serializable {
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
           .append("\n");
     }
-    return "result.toString()";
+    return result.toString();
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-
-    if (obj == null || getClass() != obj.getClass()) {
+    if (!(obj instanceof Department dept)) {
       return false;
     }
-
-    Department dept = (Department) obj;
-    return this.toString().equals(dept.toString());
+    return numberOfMajors == dept.numberOfMajors
+        && departmentChair.equals(dept.departmentChair)
+        && this.toString().equals(dept.toString());
   }
+
+  @Override
+  public int hashCode() {
+    int result = deptCode.hashCode();
+    result = 31 * result + departmentChair.hashCode();
+    result = 31 * result + numberOfMajors;
+    result = 31 * result + courses.hashCode();
+    return result;
+  }
+
 
   @Serial
   private static final long serialVersionUID = 234567L;

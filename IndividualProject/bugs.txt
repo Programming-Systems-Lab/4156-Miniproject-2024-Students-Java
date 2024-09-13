@@ -1,0 +1,68 @@
+Issues in Course.java
+
+1. enrollStudent() only returns false
+Fix: Added conditional check to return statement based on whether or not student was enrolled successfully
+
+2. enrollStudent() always enrolls successfully
+Fix: Added conditional check to enroll based on whether or not the course was at capacity
+
+3. dropStudent() only returns false
+Fix: Added conditional check to return statement based on whether or not student was dropped successfully
+
+4. dropStudent() always drops successfully
+Fix: Added conditional check to drop only if student count > 0
+
+5. getCourseLocation() returns instructor name
+Fix: getCourseLocation() now returns location
+
+6. getInstructorName() returns location
+Fix: getInstructorName() now returns instructor name
+
+7. isCourseFull() did not perform the proper comparison between enrolledStudentCount and enrollmentCapacity
+Fix: isCourseFull() now checks if enrolledStudentCount is greater than or equal to enrollmentCapacity
+
+8. enrolledStudentCount initialized to 500
+Fix: enrolledStudentCount now initializes to 0
+
+Issues in Department.java
+
+9. getNumberOfMajors() returns -this.numberOfMajors
+Fix: getNumberOfMajors() now returns this.numberOfMajors
+
+10. getDepartmentChair() returns "this.getDepartmentChair"
+Fix: getDepartmentChair() now returns this.getDepartmentChair
+
+11. dropPersonFromMajor() did not check if numberOfMajors > 0
+Fix: dropPersonFromMajor() now check if numberOfMajors > 0
+
+12. toString() returns "result.toString()"
+Fix: toString() now returns result.toString()
+
+13. STATIC ANALYSIS BUG: departmentChair not used
+Fix: fixing getDepartmentChair() uses departmentChair
+Static Analysis name: UnusedPrivateField
+
+Issues in RouteController.java
+
+14. retrieveDepartment() returns HttpStatus.OK on not found and HttpStatus.NOT_FOUND on OK
+Fix: swapped output http codes
+
+15. retrieveCourse() returns HttpStatus.FORBIDDEN on OK
+Fix: now returns HttpStatus.OK
+
+16. getMajorCtFromDept() uses -departmentMapping.get(deptCode).getNumberOfMajors()
+Fix: now uses departmentMapping.get(deptCode).getNumberOfMajors()
+
+17. getMajorCtFromDept() returns HttpStatus.FORBIDDEN on not found
+Fix: now returns HttpStatus.NOT_FOUND
+
+18. findCourseTime() uses "some time " instead of the actual time
+Fix: now calls requestedCourse.getCourseTimeSlot()
+
+19. STATIC ANALYSIS BUG: requestedCourse not used in findCourseTime()
+Fix: fixing findCourseTime() uses requestedCourse
+Static Analysis name: UnusedLocalVariable
+
+
+
+
