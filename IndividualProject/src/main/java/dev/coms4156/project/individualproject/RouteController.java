@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RouteController {
 
   private static final Logger logger = Logger.getLogger(
-    RouteController.class.getName()
+      RouteController.class.getName()
   );
 
   /**

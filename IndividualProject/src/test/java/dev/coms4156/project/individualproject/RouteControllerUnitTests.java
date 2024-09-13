@@ -1,7 +1,7 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +13,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * Unit tests for the RouteController class.
+ * This class contains tests to verify the behavior and functionality of the 
+ * RouteController class.
+ * It uses Spring's testing framework to set up the environment and run the tests.
+ */
 public class RouteControllerUnitTests {
 
   @Mock
@@ -23,6 +29,12 @@ public class RouteControllerUnitTests {
 
   private Map<String, Department> departmentMapping;
 
+  /**
+ * Sets up the mock environment before each test.
+ * 
+ * <p>This method is executed before each test case to initialize mock data. 
+ * It sets up department and course data for three departments (COMS, ECON, and IEOR).
+ */
   @BeforeEach
   public void setup() {
     MockitoAnnotations.openMocks(this);
@@ -42,13 +54,15 @@ public class RouteControllerUnitTests {
     ieorCourses.put("3404", new Course("Justin Bieber", "303 MUDD", "4:10-5:25", 100));
     ieorCourses.put("4511", new Course("Michael Jordan", "633 MUDD", "2:40-3:55", 200));
 
-    Department comsDept = new Department("COMS", comsCourses, "Luca Carloni", 2700);
-    Department econDept = new Department("ECON", econCourses, "Alex Turner", 2500);
-    Department ieorDept = new Department("IEOR", ieorCourses, "Julian Casablancas", 1800);
-
     departmentMapping = new HashMap<>();
+    
+    Department comsDept = new Department("COMS", comsCourses, "Luca Carloni", 2700);
     departmentMapping.put("COMS", comsDept);
+    
+    Department econDept = new Department("ECON", econCourses, "Alex Turner", 2500);
     departmentMapping.put("ECON", econDept);
+    
+    Department ieorDept = new Department("IEOR", ieorCourses, "Julian Casablancas", 1800);
     departmentMapping.put("IEOR", ieorDept);
 
     when(mockFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
