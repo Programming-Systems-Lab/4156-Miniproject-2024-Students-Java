@@ -8,8 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 /** 
- * This test class verifies the functionality of the {@link Course} class by testing its methods.
- * It uses JUnit for testing and verifies the expected behavior of the course object.
+ * This test class verifies the functionality of the {@link Course} class 
+ * by testing its methods.
  */
 @SpringBootTest
 @ContextConfiguration

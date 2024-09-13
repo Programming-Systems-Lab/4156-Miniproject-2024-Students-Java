@@ -93,6 +93,16 @@ public class MyFileDatabase {
     return result.toString();
   }
 
+  public void setNewMapping() {
+    this.departmentMapping = deSerializeObjectFromFile();
+  }
+
+  public void setNewFilepath(String newPath) {
+    this.filePath = newPath;
+  }
+
+
+
   /** The path to the file containing the database entries. */
   private String filePath;
 

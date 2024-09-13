@@ -1,65 +1,44 @@
 package dev.coms4156.project.individualproject;
 
-import jakarta.annotation.PreDestroy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.Map;
 
-/**
- * Class contains all the startup logic for the application.
- * DO NOT MODIFY ANYTHING BELOW THIS POINT WITH REGARD TO FUNCTIONALITY
- * YOU MAY MAKE STYLE/REFACTOR MODIFICATIONS AS NEEDED
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
+
+/** 
+ * This test class verifies the functionality of the {@link IndividualProjectApplication} class 
+ * by testing its methods.
  */
+@SpringBootTest
+@ContextConfiguration
+public class IndividualProjectApplicationUnitTests {
 
-@SpringBootApplication
-public class IndividualProjectApplication implements CommandLineRunner {
-  /**
-   * The main launcher for the service all it does
-   * is make a call to the overridden run method.
-   *
-   * @param args A {@code String[]} of any potential
-   *             runtime arguments
-   */
-  public static void main(String[] args) {
-    SpringApplication.run(IndividualProjectApplication.class, args);
-  }
-
-  /**
-   * This contains all the setup logic, it will mainly be focused
-   * on loading up and creating an instance of the database based
-   * off a saved file or will create a fresh database if the file
-   * is not present.
-   *
-   * @param args A {@code String[]} of any potential runtime args
-   */
-  public void run(String[] args) {
-    for (String arg : args) {
-      if (arg.equals("setup")) {
-        myFileDatabase = new MyFileDatabase(1, "./data.txt");
-        resetDataFile();
-        System.out.println("System Setup");
-        return;
-      }
-    }
-    myFileDatabase = new MyFileDatabase(0, "./data.txt");
-    System.out.println("Start up");
-  }
-
-  /**
-   * Overrides the database reference, used when testing.
-   *
-   * @param testData A {@code MyFileDatabase} object referencing test data.
-   */
-  public static void overrideDatabase(MyFileDatabase testData) {
-    myFileDatabase = testData;
-    saveData = false;
-  }
-
-  /**
-   * Allows for data to be reset in event of errors.
-   */
-  public void resetDataFile() {
+  @BeforeAll
+  public static void setupTest() {
+    testMapping = new HashMap<>();
     String[] times = { "11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55" };
     String[] locations = { "417 IAB", "309 HAV", "301 URIS" };
 
@@ -90,8 +69,8 @@ public class IndividualProjectApplication implements CommandLineRunner {
     courses.put("3827", coms3827);
     courses.put("4156", coms4156);
     Department compSci = new Department("COMS", courses, "Luca Carloni", 2700);
-    HashMap<String, Department> mapping = new HashMap<>();
-    mapping.put("COMS", compSci);
+    
+    testMapping.put("COMS", compSci);
 
     // data for econ dept
     Course econ1105 = new Course("Waseem Noor", locations[1], times[3], 210);
@@ -122,7 +101,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     courses.put("4840", econ4840);
 
     Department econ = new Department("ECON", courses, "Michael Woodford", 2345);
-    mapping.put("ECON", econ);
+    testMapping.put("ECON", econ);
 
     // data for ieor dept
     Course ieor2500 = new Course("Uday Menon", "627 MUDD", times[0], 50);
@@ -153,7 +132,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     courses.put("4540", ieor4540);
 
     Department ieor = new Department("IEOR", courses, "Jay Sethuraman", 67);
-    mapping.put("IEOR", ieor);
+    testMapping.put("IEOR", ieor);
 
     // data for chem dept
     Course chem1403 = new Course("Ruben M Savizky", locations[1], "6:10-7:25", 120);
@@ -184,7 +163,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     courses.put("4102", chem4102);
 
     Department chem = new Department("CHEM", courses, "Laura J. Kaufman", 250);
-    mapping.put("CHEM", chem);
+    testMapping.put("CHEM", chem);
 
     // data for phys dept
     Course phys1001 = new Course("Szabolcs Marka", "301 PUP", times[3], 150);
@@ -215,7 +194,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     courses.put("1201", phys1201);
 
     Department phys = new Department("PHYS", courses, "Dmitri N. Basov", 43);
-    mapping.put("PHYS", phys);
+    testMapping.put("PHYS", phys);
 
     // data for elen dept
     Course elen1201 = new Course("David G Vallancourt", "301 PUP", times[1], 120);
@@ -246,7 +225,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     courses.put("4830", elen4830);
 
     Department elen = new Department("ELEN", courses, "Ioannis Kymissis", 250);
-    mapping.put("ELEN", elen);
+    testMapping.put("ELEN", elen);
 
     // data for psyc dept
     Course psyc1001 = new Course("Patricia G Lindemann", "501 SCH", "1:10-2:25", 200);
@@ -277,29 +256,83 @@ public class IndividualProjectApplication implements CommandLineRunner {
     courses.put("4493", psyc4493);
 
     Department psyc = new Department("PSYC", courses, "Nim Tottenham", 437);
-    mapping.put("PSYC", psyc);
-
-    myFileDatabase.setMapping(mapping);
+    testMapping.put("PSYC", psyc);
   }
 
-  /**
-   * This contains all the overheading teardown logic, it will
-   * mainly be focused on saving all the created user data to a
-   * file, so it will be ready for the next setup.
-   */
-  @PreDestroy
-  public void onTermination() {
-    System.out.println("Termination");
-    if (saveData) {
-      myFileDatabase.saveContentsToFile();
+  @Test
+  public void mainTest() {
+    String[] setup = { "setup" };
+    IndividualProjectApplication.main(setup);
+  }
+
+  @Test
+  public void runTest() {
+    IndividualProjectApplication testIPA = new IndividualProjectApplication();
+    String[] setup = { "start" };
+    testIPA.run(setup);
+
+    StringBuilder result = new StringBuilder();
+    for (Map.Entry<String, Department> entry : testMapping.entrySet()) {
+      String key = entry.getKey();
+      Department value = entry.getValue();
+      result.append("For the ").append(key).append(" department: \n").append(value.toString());
     }
+
+    assertEquals(IndividualProjectApplication.myFileDatabase.toString(), 
+      result.toString());
   }
 
-  public void setSaveData(boolean save) {
-    saveData = save;
+  @Test
+  public void resetDataFileTest() {
+    String[] setup = { "setup" };
+    IndividualProjectApplication testIPA = new IndividualProjectApplication();
+    testIPA.run(setup);
+
+    StringBuilder result = new StringBuilder();
+    for (Map.Entry<String, Department> entry : testMapping.entrySet()) {
+      String key = entry.getKey();
+      Department value = entry.getValue();
+      result.append("For the ").append(key).append(" department: \n").append(value.toString());
+    }
+
+    assertEquals(IndividualProjectApplication.myFileDatabase.toString(), 
+      result.toString());
   }
 
-  // Database Instance
-  public static MyFileDatabase myFileDatabase;
-  private static boolean saveData = true;
+  @Test
+  public void onTerminationTest() {
+    String[] setup = { "setup" };
+    IndividualProjectApplication testIPA = new IndividualProjectApplication();
+    testIPA.run(setup);
+
+    testIPA.onTermination();
+    assertNotNull(IndividualProjectApplication.myFileDatabase.getDepartmentMapping());
+  }
+
+  @Test
+  public void onTerminationSaveDataTest() {
+    String[] setup = { "setup" };
+    IndividualProjectApplication testIPA = new IndividualProjectApplication();
+    testIPA.run(setup);
+    
+    testIPA.setSaveData(true);
+    testIPA.onTermination();
+    assertNotNull(IndividualProjectApplication.myFileDatabase.getDepartmentMapping());
+
+  }
+ 
+
+
+
+
+
+  /** The test Database instance used for testing. */
+  public static MyFileDatabase testDB;
+  public static HashMap<String, Department> testMapping;
+  public static String testFilepath;
 }
+
+
+
+  
+

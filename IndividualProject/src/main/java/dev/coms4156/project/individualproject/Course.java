@@ -38,7 +38,7 @@ public class Course implements Serializable {
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-    if(this.isCourseFull()){
+    if (this.isCourseFull()) {
       return false;
     }
     enrolledStudentCount++;
@@ -51,7 +51,7 @@ public class Course implements Serializable {
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
-    if(this.enrolledStudentCount <= 0){
+    if (this.enrolledStudentCount <= 0) {
       return false;
     }
     enrolledStudentCount--;
@@ -88,8 +88,12 @@ public class Course implements Serializable {
     this.courseTimeSlot = newTime;
   }
 
+  /**
+   * Sets the new enrolled student count based on @param count and
+   * making sure new student count is not negative.
+   */
   public void setEnrolledStudentCount(int count) {
-    if(count < 0){
+    if (count < 0) {
       return;
     }
     this.enrolledStudentCount = count;

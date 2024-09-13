@@ -11,17 +11,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 /**
- * This test class verifies the functionality of the {@link Department} class by
- * testing its methods.
- * It uses JUnit for testing and verifies the expected behavior of the course
- * object.
+ * This test class verifies the functionality of the {@link Department} class
+ * by testing its methods.
  */
 @SpringBootTest
 @ContextConfiguration
 public class DepartmentUnitTests {
 
   @BeforeEach
-  public void setupCourseForTesting() {
+  public void setupDepartmentForTesting() {
     testCourses = new HashMap<String, Course>();
     Course coms1004 = new Course("Adam Cannon", "417 IAB", "11:40-12:55", 400);
     testCourses.put("1004", coms1004);
@@ -99,7 +97,7 @@ public class DepartmentUnitTests {
     Assertions.assertEquals(testDep.getCourseSelection(), testCourses);
   }
 
-  /** The test department instance used for testing. */
+  /** The test Department instance used for testing. */
   public static HashMap<String, Course> testCourses;
   public static int defaultMajors = 2700;
   public static Department testDep;
