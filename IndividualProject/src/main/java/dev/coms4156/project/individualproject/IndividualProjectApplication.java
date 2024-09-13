@@ -16,47 +16,47 @@ import java.util.HashMap;
 @SpringBootApplication
 public class IndividualProjectApplication implements CommandLineRunner {
 
-	/**
-	 * The main launcher for the service all it does
-	 * is make a call to the overridden run method.
-	 *
-	 * @param args A {@code String[]} of any potential
-	 *             runtime arguments
-	 */
-	public static void main(String[] args) {
+  /**
+   * The main launcher for the service all it does
+   * is make a call to the overridden run method.
+   *
+   * @param args A {@code String[]} of any potential
+   *             runtime arguments
+   */
+  public static void main(String[] args) {
 		SpringApplication.run(IndividualProjectApplication.class, args);
 	}
 
-	/**
-	 * This contains all the setup logic, it will mainly be focused
-	 * on loading up and creating an instance of the database based
-	 * off a saved file or will create a fresh database if the file
-	 * is not present.
-	 *
-	 * @param args A {@code String[]} of any potential runtime args
-	 */
-	public void run(String[] args) {
-		for (String arg : args) {
-            if (arg.equals("setup")) {
-            myFileDatabase = new MyFileDatabase(1, "./data.txt");
-            resetDataFile();
-            System.out.println("System Setup");
-            return;
-	  }
-	  	}
-		myFileDatabase = new MyFileDatabase(0, "./data.txt");
-		System.out.println("Start up");
-	}
-
-	/**
-	 * Overrides the database reference, used when testing.
+    /**
+     * This contains all the setup logic, it will mainly be focused
+     * on loading up and creating an instance of the database based
+     * off a saved file or will create a fresh database if the file
+     * is not present.
      *
-     * @param testData A {@code MyFileDatabase} object referencing test data.
+     * @param args A {@code String[]} of any potential runtime args
      */
-     public static void overrideDatabase(MyFileDatabase testData) {
-         myFileDatabase = testData;
-         saveData = false;
-     }
+    public void run(String[] args) {
+	  for (String arg : args) {
+	    if (arg.equals("setup")) {
+	    myFileDatabase = new MyFileDatabase(1, "./data.txt");
+	    resetDataFile();
+	    System.out.println("System Setup");
+	    return;
+	  }
+	}
+	myFileDatabase = new MyFileDatabase(0, "./data.txt");
+    System.out.println("Start up");
+  }
+
+  /**
+   * Overrides the database reference, used when testing.
+   *
+   * @param testData A {@code MyFileDatabase} object referencing test data.
+   */
+   public static void overrideDatabase(MyFileDatabase testData) {
+    myFileDatabase = testData;
+    saveData = false;
+   }
 
     /**
      * Allows for data to be reset in event of errors.
@@ -273,40 +273,39 @@ public class IndividualProjectApplication implements CommandLineRunner {
 				"6:10-8:00", 18);
 		psyc4236.setEnrolledStudentCount(17);
 		Course psyc4493 = new Course("Jennifer Blaze", "200 SCH",
-				"2:10-4:00", 15);
-		psyc4493.setEnrolledStudentCount(9);
+              "2:10-4:00", 15);
+        psyc4493.setEnrolledStudentCount(9);
 
-		courses = new HashMap<>();
-		courses.put("1001", psyc1001);
-		courses.put("1610", psyc1610);
-		courses.put("2235", psyc2235);
-		courses.put("2620", psyc2620);
-		courses.put("3212", psyc3212);
-		courses.put("3445", psyc3445);
-		courses.put("4236", psyc4236);
-		courses.put("4493", psyc4493);
+        courses = new HashMap<>();
+        courses.put("1001", psyc1001);
+        courses.put("1610", psyc1610);
+        courses.put("2235", psyc2235);
+        courses.put("2620", psyc2620);
+        courses.put("3212", psyc3212);
+        courses.put("3445", psyc3445);
+        courses.put("4236", psyc4236);
+        courses.put("4493", psyc4493);
 
-		Department psyc = new Department("PSYC", courses, "Nim Tottenham", 437);
-		mapping.put("PSYC", psyc);
+        Department psyc = new Department("PSYC", courses, "Nim Tottenham", 437);
+        mapping.put("PSYC", psyc);
 
-		myFileDatabase.setMapping(mapping);
+        myFileDatabase.setMapping(mapping);
 	}
 
-	/**
-	 * This contains all the overheading teardown logic, it will
-	 * mainly be focused on saving all the created user data to a
-	 * file, so it will be ready for the next setup.
-	 */
-	@PreDestroy
-	public void onTermination() {
-		System.out.println("Termination");
-		if (saveData) {
-			myFileDatabase.saveContentsToFile();
-		}
-	}
+    /**
+     * This contains all the overheading teardown logic, it will
+     * mainly be focused on saving all the created user data to a
+     * file, so it will be ready for the next setup.
+     */
+    @PreDestroy
+    public void onTermination() {
+        System.out.println("Termination");
+        if (saveData) {
+            myFileDatabase.saveContentsToFile();
+        }
+    }
 
-
-	//Database Instance
-	public static MyFileDatabase myFileDatabase;
-	private static boolean saveData = true;
+    //Database Instance
+    public static MyFileDatabase myFileDatabase;
+    private static boolean saveData = true;
 }
