@@ -1,9 +1,11 @@
 package dev.coms4156.project.individualproject;
 
 import jakarta.annotation.PreDestroy;
-import java.util.*;
-import org.springframework.boot.*;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.HashMap;
 
 /**
  * Class contains all the startup logic for the application.
@@ -34,13 +36,13 @@ public class IndividualProjectApplication implements CommandLineRunner {
 	 * @param args A {@code String[]} of any potential runtime args
 	 */
 	public void run(String[] args) {
-	  	for (String arg : args) {
-			  if (arg.equals("setup")) {
-				  myFileDatabase = new MyFileDatabase(1, "./data.txt");
-				  resetDataFile();
-				  System.out.println("System Setup");
-				  return;
-			  }
+		for (String arg : args) {
+            if (arg.equals("setup")) {
+            myFileDatabase = new MyFileDatabase(1, "./data.txt");
+            resetDataFile();
+            System.out.println("System Setup");
+            return;
+	  }
 	  	}
 		myFileDatabase = new MyFileDatabase(0, "./data.txt");
 		System.out.println("Start up");
@@ -48,20 +50,20 @@ public class IndividualProjectApplication implements CommandLineRunner {
 
 	/**
 	 * Overrides the database reference, used when testing.
-	 *
-	 * @param testData A {@code MyFileDatabase} object referencing test data.
-	 */
-	public static void overrideDatabase(MyFileDatabase testData) {
-		myFileDatabase = testData;
-		saveData = false;
-	}
+     *
+     * @param testData A {@code MyFileDatabase} object referencing test data.
+     */
+     public static void overrideDatabase(MyFileDatabase testData) {
+         myFileDatabase = testData;
+         saveData = false;
+     }
 
-	/**
-	 * Allows for data to be reset in event of errors.
-	 */
-	public void resetDataFile() {
-		String[] times = {"11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55"};
-		String[] locations = {"417 IAB", "309 HAV", "301 URIS"};
+    /**
+     * Allows for data to be reset in event of errors.
+     */
+    public void resetDataFile() {
+        String[] times = {"11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55"};
+        String[] locations = {"417 IAB", "309 HAV", "301 URIS"};
 
 		//data for coms dept
 		Course coms1004 = new Course("Adam Cannon", locations[0], times[0], 400);
@@ -129,20 +131,20 @@ public class IndividualProjectApplication implements CommandLineRunner {
 		ieor2500.setEnrolledStudentCount(52);
 		Course ieor3404 = new Course("Christopher J Dolan", "303 MUDD", times[2], 73);
 		ieor3404.setEnrolledStudentCount(80);
-		Course ieor3658 = new Course("Daniel Lacker", "310 FAY", times[2], 96);
-		ieor3658.setEnrolledStudentCount(87);
-		Course ieor4102 = new Course("Antonius B Dieker", "209 HAM", times[2], 110);
-		ieor4102.setEnrolledStudentCount(92);
-		Course ieor4106 = new Course("Kaizheng Wang", "501 NWC", times[2], 150);
-		ieor4106.setEnrolledStudentCount(161);
+        Course ieor3658 = new Course("Daniel Lacker", "310 FAY", times[2], 96);
+        ieor3658.setEnrolledStudentCount(87);
+        Course ieor4102 = new Course("Antonius B Dieker", "209 HAM", times[2], 110);
+        ieor4102.setEnrolledStudentCount(92);
+        Course ieor4106 = new Course("Kaizheng Wang", "501 NWC", times[2], 150);
+        ieor4106.setEnrolledStudentCount(161);
 		Course ieor4405 = new Course("Yuri Faenza", "517 HAV", times[0], 80);
-		ieor4405.setEnrolledStudentCount(19);
-		Course ieor4511 = new Course("Michael Robbins", "633 MUDD", "9:00-11:30", 150);
-		ieor4511.setEnrolledStudentCount(50);
-		Course ieor4540 = new Course("Krzysztof M Choromanski", "633 MUDD", "7:10-9:40", 60);
-		ieor4540.setEnrolledStudentCount(33);
+        ieor4405.setEnrolledStudentCount(19);
+        Course ieor4511 = new Course("Michael Robbins", "633 MUDD", "9:00-11:30", 150);
+        ieor4511.setEnrolledStudentCount(50);
+        Course ieor4540 = new Course("Krzysztof M Choromanski", "633 MUDD", "7:10-9:40", 60);
+        ieor4540.setEnrolledStudentCount(33);
 
-		courses = new HashMap<>();
+        courses = new HashMap<>();
 		courses.put("2500", ieor2500);
 		courses.put("3404", ieor3404);
 		courses.put("3658", ieor3658);
@@ -249,21 +251,29 @@ public class IndividualProjectApplication implements CommandLineRunner {
 		mapping.put("ELEN", elen);
 
 		//data for psyc dept
-		Course psyc1001 = new Course("Patricia G Lindemann", "501 SCH", "1:10-2:25", 200);
+		Course psyc1001 = new Course("Patricia G Lindemann", "501 SCH",
+				"1:10-2:25", 200);
 		psyc1001.setEnrolledStudentCount(191);
-		Course psyc1610 = new Course("Christopher Baldassano", "200 SCH", times[2], 45);
+		Course psyc1610 = new Course("Christopher Baldassano", "200 SCH",
+				times[2], 45);
 		psyc1610.setEnrolledStudentCount(42);
-		Course psyc2235 = new Course("Katherine T Fox-Glassman", "501 SCH", times[0], 125);
+		Course psyc2235 = new Course("Katherine T Fox-Glassman", "501 SCH",
+				times[0], 125);
 		psyc2235.setEnrolledStudentCount(128);
-		Course psyc2620 = new Course("Jeffrey M Cohen", "303 URIS", "1:10-3:40", 60);
+		Course psyc2620 = new Course("Jeffrey M Cohen", "303 URIS",
+				"1:10-3:40", 60);
 		psyc2620.setEnrolledStudentCount(55);
-		Course psyc3212 = new Course("Mayron Piccolo", "200 SCH", "2:10-4:00", 15);
+		Course psyc3212 = new Course("Mayron Piccolo", "200 SCH",
+				"2:10-4:00", 15);
 		psyc3212.setEnrolledStudentCount(15);
-		Course psyc3445 = new Course("Mariam Aly", "405 SCH", "2:10-4:00", 12);
+		Course psyc3445 = new Course("Mariam Aly", "405 SCH",
+				"2:10-4:00", 12);
 		psyc3445.setEnrolledStudentCount(12);
-		Course psyc4236 = new Course("Trenton Jerde", "405 SCH", "6:10-8:00", 18);
+		Course psyc4236 = new Course("Trenton Jerde", "405 SCH",
+				"6:10-8:00", 18);
 		psyc4236.setEnrolledStudentCount(17);
-		Course psyc4493 = new Course("Jennifer Blaze", "200 SCH", "2:10-4:00", 15);
+		Course psyc4493 = new Course("Jennifer Blaze", "200 SCH",
+				"2:10-4:00", 15);
 		psyc4493.setEnrolledStudentCount(9);
 
 		courses = new HashMap<>();
