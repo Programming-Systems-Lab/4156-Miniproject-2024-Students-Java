@@ -1,0 +1,16 @@
+Course.java:
+
+1. In the Course constructor, enrolledStudentCount() should be initialized to 0, according to comment
+2. enrollStudent() should return true instead of false upon success.
+3. dropStudent() should return true instead of false upon success.
+4. getCourseLocation() should return location, not instructor name.
+5. getInstructorName() should return instructor name, not location
+6. isCourseFull() should return true when enrolledStudentCount >= enrollmentCapacity, instead of
+enrollmentCapacity > enrolledStudentCount
+
+Department.java:
+
+1. dropPersonFromMajor() should check whether the number of majors drop below zero before decreasing numberOfMajors.
+2. getNumberOfMajors() should not return negative of this.numberOfMajors.
+3. getDepartmentChair() should not have "" around this.departmentChair. Otherwise it returns a string
+4. toString() should not have "" around this.toString.

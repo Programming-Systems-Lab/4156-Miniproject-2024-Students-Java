@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Course implements Serializable {
 
   /**
-   * Constructs a new Course object with the given parameters. Initial count starts at 500.
+   * Constructs a new Course object with the given parameters. Initial count starts at 0.
    *
    * @param instructorName The name of the instructor teaching the course.
    * @param courseLocation The location where the course is held.
@@ -22,27 +22,42 @@ public class Course implements Serializable {
     this.instructorName = instructorName;
     this.courseTimeSlot = timeSlot;
     this.enrollmentCapacity = capacity;
-    this.enrolledStudentCount = 500;
+    this.enrolledStudentCount = 0;
   }
 
   /**
-   * Enrolls a student in the course. Increments the enrolled student count.
+   * Enrolls a student in the course if there is space available.
    *
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-    enrolledStudentCount++;
+    if (enrollmentCapacity > enrolledStudentCount) {
+      enrolledStudentCount++;
+      return true;
+    }
     return false;
   }
 
   /**
-   * Drops a student from the course. Decrements the enrolled student count.
+   * Drops a student from the course if a student is enrolled.
    *
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
-    enrolledStudentCount--;
+    if (enrolledStudentCount > 0) {
+      enrolledStudentCount--;
+      return true;
+    }
     return false;
+  }
+
+  /**
+   * Returns the location of the course.
+   *
+   * @return The course's location.
+   */
+  public String getCourseLocation() {
+    return this.courseLocation;
   }
 
   /**
@@ -50,17 +65,8 @@ public class Course implements Serializable {
    *
    * @return The instructor's name.
    */
-  public String getCourseLocation() {
-    return this.instructorName;
-  }
-
-  /**
-   * Returns the location of the course.
-   *
-   * @return The course location.
-   */
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
   /**
@@ -125,7 +131,7 @@ public class Course implements Serializable {
    * @return true if the course is full, false otherwise.
    */
   public boolean isCourseFull() {
-    return enrollmentCapacity > enrolledStudentCount;
+    return enrolledStudentCount >= enrollmentCapacity;
   }
 
   @Serial
