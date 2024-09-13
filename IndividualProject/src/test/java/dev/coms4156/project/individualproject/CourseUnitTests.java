@@ -70,19 +70,19 @@ public class CourseUnitTests {
   }
 
   @Test
-  public void isCourseFull_whenNotFull() {
+  public void isCourseFullWhenNotFull() {
     testCourse.setEnrolledStudentCount(249);
     assertFalse(testCourse.isCourseFull());
   }
 
   @Test
-  public void isCourseFull_whenFull() {
+  public void isCourseFullWhenFull() {
     testCourse.setEnrolledStudentCount(250);
     assertTrue(testCourse.isCourseFull());
   }
 
   @Test
-  public void isCourseFull_whenOverEnrolled() {
+  public void isCourseFullWhenOverEnrolled() {
     testCourse.setEnrolledStudentCount(251);
     assertTrue(testCourse.isCourseFull());
   }

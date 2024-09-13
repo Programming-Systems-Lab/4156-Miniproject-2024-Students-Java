@@ -1,0 +1,60 @@
+COURSE
+Constructors
+- UnusedFormalParameter: Did not initialize the provided instructor name in the parameter.
+- UnusedFormalParameter: Did not initialize the provided time slot in the parameter.
+- Initialized the enrolled student count to 500 when it should be 0.
+
+Methods
+- enrollStudent() would always increase the enrolledStudentCount and always return false instead of only enrolling a student if space was available.
+- dropStudent() would always decrease the enrolledStudentCount and always return false instead of only dropping a student if a student was enrolled.
+- getInstructorName() returned courseLocation instead of instructorName.
+- getCourseLocation() returned instructorName instead of courseLocation.
+- isCourseFull() would return true if class was not full.
+- MissingOverride: toString() was missing an @Override annotation.
+
+
+DEPARTMENT CLASS
+Constructors
+- LooseCoupling: Parameters used 'HashMap' instead of the interface 'Map'.
+
+Methods
+- LooseCoupling: getCourseSelection() used 'HashMap' instead of the interface 'Map'.
+- UnusedPrivateField: getDepartmentChair() returned the string "this.departmentChair" instead of the actual value.
+- MissingOverride: toString() was missing an @Override annotation.
+- getNumberOfMajors() returned the negative value.
+- toString() returned the string "result.toString()" instead of the actual value.
+
+Instance Variables
+- LooseCoupling: 'courses' variable used 'HashMap' instead of the interface 'Map'.
+
+INDIVIDUAL PROJECT APPLICATION
+Run()
+- LiteralsFirstInComparisons: "setup" literal was positioned in the parameter instead of first.
+
+ResetDataFile()
+- LooseCoupling: courses and mapping variables used 'HashMap' instead of the interface 'Map'.
+
+
+MY FILE DATABASE
+Methods
+- LooseCoupling: setMapping(), deSerializeObjectFromFile(), and getDepartmentMapping() used 'HashMap' instead of the interface 'Map'.
+- ReturnEmptyCollectionRatherThanNull: setMapping() returns null instead of an empty collection.
+
+Instance Variables
+- LooseCoupling: 'departmentMapping' variable used 'HashMap' instead of the interface 'Map'.
+
+
+ROUTE CONTROLLER
+Methods
+- UnnecessaryAnnotationValueElement: Many methods used value in annotations when there was only one element.
+- LooseCoupling: Many methods used 'HashMap' instead of the interface 'Map'.
+- UseLocaleWithCaseConversions: retrieveDepartment() did not use a Locale with toUpperCase().
+- retrieveDepartment() returned 'NOT_FOUND' status on success and 'OK' status on fail.
+- retrieveCourse() returned 'FORBIDDEN' status on success.
+- UnusedLocalVariable: fineCourseTime() returned 'The course meets at: some time' instead of using the actual course time slot.
+- getMajorCtFromDept() returned the negative value.
+
+
+UNIT TESTS
+Methods:
+- MethodNamingConventions: Some methods used '_' when it doesn't match '[a-z][a-zA-Z0-9]*'

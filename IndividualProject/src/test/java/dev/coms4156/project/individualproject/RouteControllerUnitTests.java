@@ -26,7 +26,7 @@ public class RouteControllerUnitTests {
   }
 
   @Test
-  public void retrieveDeptTest_Exists() throws Exception {
+  public void retrieveDeptTestWhenExists() throws Exception {
     mvc.perform(MockMvcRequestBuilders
                     .get("/retrieveDept").param("deptCode", "COMS")
                     .accept(MediaType.APPLICATION_JSON))
@@ -37,7 +37,7 @@ public class RouteControllerUnitTests {
   }
 
   @Test
-  public void retrieveDeptTest_DoesNotExist() throws Exception {
+  public void retrieveDeptTestWhenDoesNotExist() throws Exception {
     mvc.perform(MockMvcRequestBuilders
                     .get("/retrieveDept").param("deptCode", "NONEXISTENT")
                     .accept(MediaType.APPLICATION_JSON))
@@ -47,7 +47,7 @@ public class RouteControllerUnitTests {
   }
 
   @Test
-  public void retrieveCourseTest_Exists() throws Exception {
+  public void retrieveCourseTestWhenExists() throws Exception {
     String expectedResult = "\nInstructor: Gail Kaiser; Location: 501 NWC; Time: 10:10-11:25";
     mvc.perform(MockMvcRequestBuilders
                     .get("/retrieveCourse")
@@ -59,7 +59,7 @@ public class RouteControllerUnitTests {
   }
 
   @Test
-  public void retrieveCourseTest_DepartmentDoesNotExist() throws Exception {
+  public void retrieveCourseTestWhenDepartmentDoesNotExist() throws Exception {
     mvc.perform(MockMvcRequestBuilders
                     .get("/retrieveCourse")
                     .param("deptCode", "NONEXISTENT")
@@ -70,7 +70,7 @@ public class RouteControllerUnitTests {
   }
 
   @Test
-  public void retrieveCourseTest_CourseDoesNotExist() throws Exception {
+  public void retrieveCourseTestWhenCourseDoesNotExist() throws Exception {
     mvc.perform(MockMvcRequestBuilders
                     .get("/retrieveCourse")
                     .param("deptCode", "COMS")
@@ -81,7 +81,7 @@ public class RouteControllerUnitTests {
   }
 
   @Test
-  public void isCourseFull_Full() throws Exception {
+  public void isCourseFullWhenFull() throws Exception {
     mvc.perform(MockMvcRequestBuilders
                     .get("/isCourseFull")
                     .param("deptCode", "IEOR")
@@ -92,7 +92,7 @@ public class RouteControllerUnitTests {
   }
 
   @Test
-  public void isCourseFull_NotFull() throws Exception {
+  public void isCourseFullWhenNotFull() throws Exception {
     mvc.perform(MockMvcRequestBuilders
                     .get("/isCourseFull")
                     .param("deptCode", "COMS")
