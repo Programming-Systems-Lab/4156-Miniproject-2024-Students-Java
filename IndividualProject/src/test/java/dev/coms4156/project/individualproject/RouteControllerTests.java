@@ -1,40 +1,35 @@
 package dev.coms4156.project.individualproject;
 
-import dev.coms4156.project.individualproject.RouteController;
-import dev.coms4156.project.individualproject.IndividualProjectApplication;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import dev.coms4156.project.individualproject.IndividualProjectApplication;
+import dev.coms4156.project.individualproject.RouteController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.http.MediaType;
 
 
-
-
+/**
+ * JUnit tests for some of the paths for routeController.
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 @ContextConfiguration
 public class RouteControllerTests {
 
   @InjectMocks
-  private RouteController routeController;
+  RouteController routeController;
 
   @Autowired
   private MockMvc mockMvc;
@@ -214,7 +209,8 @@ public class RouteControllerTests {
 
   @Test
   public void addInvalidMajorToDeptTest() throws Exception {
-    mockMvc.perform(patch("/addMajorToDept?deptCode=FakeCourse").contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(patch("/addMajorToDept?deptCode=FakeCourse")
+                    .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isNotFound());
 
   }

@@ -2,15 +2,14 @@ package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import dev.coms4156.project.individualproject.Course;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import dev.coms4156.project.individualproject.Course;
 
-//import static org.junit.jupiter.api.Assertions.*;
-//import org.junit.jupiter.api.*;
+
 /**
  * Unit test cases for Course class.
  */
@@ -88,8 +87,7 @@ public class CourseUnitTests {
 
     instructorName = "John Smith";
     courseLocation = "Remote";
-    courseTimeSlot="12:00-1:00";
-
+    courseTimeSlot = "12:00-1:00";
 
     testCourse.reassignInstructor(instructorName);
     testCourse.reassignLocation(courseLocation);
