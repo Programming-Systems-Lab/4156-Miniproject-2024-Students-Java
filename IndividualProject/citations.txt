@@ -6,3 +6,9 @@ https://stackoverflow.com/questions/6197370/should-unit-tests-be-written-for-get
 https://stackoverflow.com/questions/3258733/new-to-unit-testing-how-to-write-great-tests
 https://phauer.com/2019/modern-best-practices-testing-java/
 https://stackoverflow.com/questions/54517032/beforeall-vs-beforeeach-when-to-use-them
+
+https://spring.io/guides/gs/testing-web
+https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/mock/mockito/package-summary.html
+https://www.youtube.com/watch?v=BZBFw6fBeIU&list=PL82C6-O4XrHcg8sNwpoDDhcxUCbFy855E&index=8
+https://spring.io/guides/gs/testing-web
+

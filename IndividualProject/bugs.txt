@@ -4,8 +4,63 @@ Part 3 : Bugs
   and if it has a proper name identified by a static analyzer what that name was
 
 Course.java:
-  Issue:
-  Where:
-  Static Analyzer:
+1.Issue: Returns instructor's name instead of the course location (calls wrong variable)
+  Where: getCourseLocation() 
+  Static Analyzer: Found through unit testing
 
+2.Issue: Returns course location instead of instructor's name
+  Where: getInstructorName() 
+  Static Analyzer: Found through unit testing
+
+3.Issue: Returns false always, doesn't check if the course is full or not
+  Where: enrollStudent() 
+  Static Analyzer: Found through unit testing
+
+4.Issue: Returns false always, doesn't check if there are any students enrolled or not
+  Where: dropStudent() 
+  Static Analyzer: Found through unit testing 
+
+5.Issue: Enrolled student set to  
+
+Department.java
+1.Issue: Returns a negative number of majors instead of the positive number of majors
+  Where: getNumberOfMajors()
+  Static Analyzer: Found through unit testing
+
+2.Issue: Returns a string "this.departmentChair" instead of the actual departmentChair
+  Where: getDepartmentChair()
+  Static Analyzer: Found through unit testing
+
+3.Issue: Does not check if you can drop a majors
+  Where: dropPersonFromMajor() 
+  Static Analyzer: Found through unit testing
+
+4.Issue:  
+  Where:  
+  Static Analyzer: Found through unit testing
+
+Individual Project Application
+
+
+RouteControllerTests:
+1.Issue: The HTTP ok and not found are switched. 
+  Where: retrieveDepartment()
+  Static Analyzer: Found through unit testing
+
+2.Issue: HTTP was set to forbidden when the course was found
+  Where: retrieveCourse()
+  Static Analyzer: Found through unit testing
+
+3.Issue: HTTP set to forbidden instead of Notfound if a department is not found, the -departmentMapping.get(deptCode)
+  should be positive (departmentMapping.get(deptCode))
+  Where: getMajorCtFromDept()
+  Static Analyzer: Found through unit testing
+
+4.Issue: This returns string "some time ", instead of the requested course time, added a variable to get the course timeslot
+  Where: findCourseTime()
+  Static Analyzer: Found through unit testing
+
+5.Issue: handleException always returns a Https.ok HttpStatus
+  Where: handleException()
+  Static Analyzer: Found through unit testing
 

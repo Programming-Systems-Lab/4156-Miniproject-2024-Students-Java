@@ -34,7 +34,7 @@ public class Department implements Serializable {
    * @return The number of majors.
    */
   public int getNumberOfMajors() {
-    return -this.numberOfMajors;
+    return this.numberOfMajors; // bug, returning a negative value 
   }
 
   /**
@@ -43,7 +43,7 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return "this.departmentChair"; // this.departmentChair bug 
+    return this.departmentChair; // bug, should return the department chair's name 
   }
 
   /**
@@ -58,15 +58,17 @@ public class Department implements Serializable {
   /**
    * Increases the number of majors in the department by one.
    */
-  public void addPersonToMajor() {
-    numberOfMajors++;
+  public void addPersonToMajor() { // bug, missing this. before numberOfMajors
+    this.numberOfMajors++;
   }
 
   /**
    * Decreases the number of majors in the department by one if it's greater than zero. 
    */
   public void dropPersonFromMajor() { // it needs to check if the number of majors is greater than 0
-    numberOfMajors--;
+    if (getNumberOfMajors() > 0){ // Missing unit test for dropPersonFromMajor
+      this.numberOfMajors--;
+    }
   }
 
   /**
@@ -107,7 +109,7 @@ public class Department implements Serializable {
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
           .append("\n");
     }
-    return "result.toString()";
+    return result.toString(); // bug, should return result.toString() not "result.toString()"
   }
 
   @Serial
