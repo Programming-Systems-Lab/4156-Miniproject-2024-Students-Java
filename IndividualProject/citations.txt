@@ -14,3 +14,5 @@ https://spring.io/guides/gs/testing-web
 https://www.baeldung.com/java-spring-mockito-mock-mockbean
 https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html
 
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500
+

@@ -17,12 +17,10 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration
 public class CourseUnitTests {
 
-  @BeforeEach // should this be before each instead of before all?
+  @BeforeEach 
   public void setupCourseForTesting() {
     testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
   }
-
-  // remember to test invalid inputs
 
   @Test
   public void toStringTest() {
@@ -30,7 +28,7 @@ public class CourseUnitTests {
     assertEquals(expectedResult, testCourse.toString());
     assertNotEquals("Griffin Newbold", testCourse.toString());
   }
-  /// USE DATA PROVIDED IN THE COURSE OBJECT TO TEST THE METHODS
+
   @Test
   public void getCourseLocationTest() {
     assertEquals("417 IAB", testCourse.getCourseLocation());
@@ -49,9 +47,8 @@ public class CourseUnitTests {
   @Test
   public void enrollStudentTest() {
     testCourse.setEnrolledStudentCount(249);
-    // Enroll students up to the capacity? It doesn't seem like the capacity is being checked in the method 
     assertTrue(testCourse.enrollStudent());
-    assertFalse(testCourse.enrollStudent()); // check you can't go over capacity
+    assertFalse(testCourse.enrollStudent()); 
   }
   
   @Test

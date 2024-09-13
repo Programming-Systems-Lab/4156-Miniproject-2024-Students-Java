@@ -65,7 +65,7 @@ public class Department implements Serializable {
    * Decreases the number of majors in the department by one if it's greater than zero. 
    */
   public void dropPersonFromMajor() { // it needs to check if the number of majors is greater than 0
-    if (getNumberOfMajors() > 0){ // Missing unit test for dropPersonFromMajor
+    if (getNumberOfMajors() > 0) { // Missing unit test for dropPersonFromMajor
       this.numberOfMajors--;
     }
   }

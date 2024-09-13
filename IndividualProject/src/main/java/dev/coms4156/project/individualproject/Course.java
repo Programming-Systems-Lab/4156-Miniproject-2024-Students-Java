@@ -96,7 +96,7 @@ public class Course implements Serializable {
   }
 
   public boolean isCourseFull() {
-    return enrollmentCapacity <= enrolledStudentCount; // bug, should be <= then the course is full rather than >  
+    return enrollmentCapacity <= enrolledStudentCount;   
   }
 
   @Serial

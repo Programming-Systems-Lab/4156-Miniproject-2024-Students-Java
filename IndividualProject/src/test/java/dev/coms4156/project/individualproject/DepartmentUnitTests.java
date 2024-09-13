@@ -2,15 +2,12 @@ package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.BeforeAll; 
+import java.util.HashMap;
+import java.util.Map; 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Order;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-
-import java.util.Map; 
-import java.util.HashMap;
-
 
 /**
  * This class contains unit tests for the Department class.
@@ -21,42 +18,35 @@ import java.util.HashMap;
 public class DepartmentUnitTests {
   
   /** Sets up test Department instance used for testing. */
-  @BeforeAll
-  public static void setupDepartmentForTesting() {
+  @BeforeEach
+  public void setupDepartmentForTesting() {
     Map<String, Course> courses = new HashMap<String, Course>(); 
     testDepartment = new Department("COMS", courses, "Luca Carloni", 1);
   }
 
   @Test
-  @Order(1)
   public void getNumberOfMajorsTest() {
     assertEquals(1, testDepartment.getNumberOfMajors());
   }
 
   @Test
-  @Order(2)
   public void getDepartmentChairTest() {
     assertEquals("Luca Carloni", testDepartment.getDepartmentChair());
   }
 
   @Test
-  @Order(3)
-  public void getCourseSelectionTest() { // getCourseSelection returns a hashmap of courses
-    assertEquals(2, testDepartment.getCourseSelection().size());
+  public void getCourseSelectionTest() { 
+    assertEquals(0, testDepartment.getCourseSelection().size());
   }
 
   @Test
-  @Order(4)
   public void addPersonToMajorTest() {
     testDepartment.addPersonToMajor();
     assertEquals(2, testDepartment.getNumberOfMajors());
   }
 
   @Test
-  @Order(5)
   public void dropPersonFromMajorTest() {
-    testDepartment.dropPersonFromMajor();
-    assertEquals(1, testDepartment.getNumberOfMajors());
     testDepartment.dropPersonFromMajor();
     assertEquals(0, testDepartment.getNumberOfMajors());
     testDepartment.dropPersonFromMajor();
@@ -82,18 +72,15 @@ public class DepartmentUnitTests {
     
   }
 
-  //  public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {
-
   @Test
   public void toStringTest() {
-    String expectedResult = "COMS 3827:\n" +  
-                            "Instructor: Daniel Rubenstein; Location: 207 Math; Time: 10:10-11:25" + 
-                            "\nCOMS 3251:\n" +
+    Course coms3251 = new Course("Tony Dear", "402 CHANDLER", "1:10-3:40", 125);
+    testDepartment.addCourse("3251", coms3251);
+    String expectedResult = "COMS 3251: \n" 
+                            +
                             "Instructor: Tony Dear; Location: 402 CHANDLER; Time: 1:10-3:40\n";
-
-    assertEquals(expectedResult, testDepartment.toString());
+    assertEquals(expectedResult.trim(), testDepartment.toString().trim());
   }
-
 
   /** The test Department instance used for testing. */
   public static Department testDepartment;

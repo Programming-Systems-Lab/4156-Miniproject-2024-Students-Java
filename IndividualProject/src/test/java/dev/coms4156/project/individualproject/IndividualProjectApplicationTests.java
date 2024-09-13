@@ -1,11 +1,11 @@
 package dev.coms4156.project.individualproject;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * This class contains unit tests for the IndividualProjectApplication class.
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ContextConfiguration
 public class IndividualProjectApplicationTests {
 
-  /** Sets up a testing Application  */
+  /** Sets up a testing for Individual project Application. */
   @BeforeEach
   public void setForTesting() {
     testApplication = new IndividualProjectApplication();
@@ -33,9 +33,6 @@ public class IndividualProjectApplicationTests {
     assertNotNull(testDatabase);
   }
 
-
-
-
-    public static MyFileDatabase testDatabase;
-    public static IndividualProjectApplication testApplication;
+  public static MyFileDatabase testDatabase;
+  public static IndividualProjectApplication testApplication;
 }

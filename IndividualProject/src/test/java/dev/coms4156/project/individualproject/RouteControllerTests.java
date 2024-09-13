@@ -1,50 +1,57 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
-
+import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import java.util.Map;
-
+/**
+ * This class contains unit tests for the RouteController class.
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 public class RouteControllerTests {
 
   private RouteController routeController;
   private Department testDepartment;
+  private Department econTestDepartment;
   private Course coms3251;
   private Course coms3827;
-  private HashMap<String, Department> departmentMapping;
+  private Course econ4710;
+  private Map<String, Department> departmentMapping;
 
   @Mock
   private MyFileDatabase mockDatabase;
 
   private AutoCloseable closeMock;
 
+  /** Sets up the mock database and department/course mapping for route controller testing. */
   @BeforeEach
   public void setUpRouteControllerTests() {
     closeMock = MockitoAnnotations.openMocks(this);
     routeController = new RouteController();
     IndividualProjectApplication.myFileDatabase = mockDatabase;
     departmentMapping = new HashMap<>();
-    Map<String,Course> courseMapping = new HashMap<>();
+    Map<String, Course> courseMapping = new HashMap<>();
     
     testDepartment = new Department("COMS", courseMapping, "Luca Carloni", 1);
+    econTestDepartment = new Department("ECON", courseMapping, "Michael Woodford", 2345);
+
     coms3251 = new Course("Tony Dear", "402 CHANDLER", "1:10-3:40", 125);
     coms3827 = new Course("Daniel Rubenstein", "207 Math",
     "10:10-11:25", 300);
+    econ4710 = new Course("Matthieu Gomez", "517 HAM", "8:40-9:55", 86);
+
     when(mockDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
   }
 
@@ -53,7 +60,7 @@ public class RouteControllerTests {
     closeMock.close();
   }
 
-  /** Tests for a not found department */
+  /** Tests for a not found department. */
   @Test
   public void testRetrieveDepartmentNotFound() {
     ResponseEntity<?> response = routeController.retrieveDepartment("ECON");
@@ -61,7 +68,7 @@ public class RouteControllerTests {
     assertEquals("Department Not Found", response.getBody());
   }
 
-  /** Tests for a found department */
+  /** Tests for a found department. */
   @Test
   public void testRetrieveDepartmentFound() {
     String departmentCode = "COMS";
@@ -71,9 +78,7 @@ public class RouteControllerTests {
     assertEquals(testDepartment.toString(), response.getBody());
   }
 
-  /** Tests for department exception error??? */
-
-  /** Tests for a not found course */
+  /** Tests for a not found course. */
   @Test
   public void testRetrieveCourseNotFound() {
     departmentMapping.put("COMS", testDepartment);
@@ -82,7 +87,7 @@ public class RouteControllerTests {
     assertEquals("Course Not Found", response.getBody());
   }
 
-  /** Tests for a not found course department */
+  /** Tests for a not found course department. */
   @Test
   public void testRetrieveCourseDepartmentNotFound() {
     ResponseEntity<?> response = routeController.retrieveCourse("ECON", 101);
@@ -90,7 +95,7 @@ public class RouteControllerTests {
     assertEquals("Department Not Found", response.getBody());
   }
 
-  /** Tests for a found course */
+  /** Tests for a found course. */
   @Test
   public void testRetrieveCourseFound() {
     departmentMapping.put("COMS", testDepartment);
@@ -100,7 +105,7 @@ public class RouteControllerTests {
     assertEquals(coms3251.toString(), response.getBody());
   }
 
-  /** Tests for is Course full, course not found */
+  /** Tests for is Course full, course not found. */
   @Test
   public void testIsCourseFullNotFound() {
     ResponseEntity<?> response = routeController.isCourseFull("COMS", 3251);
@@ -108,9 +113,9 @@ public class RouteControllerTests {
     assertEquals("Course Not Found", response.getBody());
   }
 
-  /** Tests for is Course full, Course is not full */
+  /** Tests for is Course full, Course is not full. */
   @Test
-  public void testIsCourseFull(){
+  public void testIsCourseFull() {
     departmentMapping.put("COMS", testDepartment);
     testDepartment.addCourse("3251", coms3251);
     ResponseEntity<?> response = routeController.isCourseFull("COMS", 3251);
@@ -118,7 +123,7 @@ public class RouteControllerTests {
     assertEquals(false, response.getBody());
   }
 
-  /** getMajorCountFromDept, when the Department is not Found */
+  /** getMajorCountFromDept, when the Department is not Found. */
   @Test
   public void testGetMajorCountFromDeptNotFound() {
     ResponseEntity<?> response = routeController.getMajorCtFromDept("ECON");
@@ -126,7 +131,7 @@ public class RouteControllerTests {
     assertEquals("Department Not Found", response.getBody());
   }
 
-  /** getMajorCountFromDept, when the Department is Found */
+  /** getMajorCountFromDept, when the Department is Found. */
   @Test
   public void testGetMajorCountFromDept() {
     departmentMapping.put("COMS", testDepartment);
@@ -135,7 +140,7 @@ public class RouteControllerTests {
     assertEquals("There are: 1 majors in the department", response.getBody());
   }
 
-  /** Tests for identifyDeptChair, when the Department is not Found */
+  /** Tests for identifyDeptChair, when the Department is not Found. */
   @Test
   public void testIdentifyDeptChairDeptNotFound() {
     ResponseEntity<?> response = routeController.identifyDeptChair("ECON");
@@ -143,7 +148,7 @@ public class RouteControllerTests {
     assertEquals("Department Not Found", response.getBody());
   }
 
-  /** Tests for identifyDeptChair, when the Department is Found */
+  /** Tests for identifyDeptChair, when the Department is Found. */
   @Test
   public void testIdentifyDeptChairDeptFound() {
     departmentMapping.put("COMS", testDepartment);
@@ -152,26 +157,27 @@ public class RouteControllerTests {
     assertEquals("Luca Carloni is the department chair.", response.getBody());
   }
 
-  /** Tests for findCourseLocation, when the course is found */
+  /** Tests for findCourseLocation, when the course is found. */
   @Test
-  public void testFindCourseLocation(){
+  public void testFindCourseLocation() {
     departmentMapping.put("COMS", testDepartment);
     testDepartment.addCourse("3251", coms3251);
     ResponseEntity<?> response = routeController.findCourseLocation("COMS", 3251);
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals("402 CHANDLER is where the course is located.", response.getBody());
   }
-  /** Tests for findCourseLocation, when the course is not found */
+
+  /** Tests for findCourseLocation, when the course is not found. */
   @Test
-  public void testFindCourseLocationCourseNotFound(){
+  public void testFindCourseLocationCourseNotFound() {
     ResponseEntity<?> response = routeController.findCourseLocation("COMS", 3251);
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
   }
 
-  /** Tests for findCourseInstructor, when the course is found */
+  /** Tests for findCourseInstructor, when the course is found. */
   @Test
-  public void testFindCourseInstructor(){
+  public void testFindCourseInstructor() {
     departmentMapping.put("COMS", testDepartment);
     testDepartment.addCourse("3251", coms3251);
     ResponseEntity<?> response = routeController.findCourseInstructor("COMS", 3251);
@@ -179,17 +185,17 @@ public class RouteControllerTests {
     assertEquals("Tony Dear is the instructor for the course.", response.getBody());
   }
 
-  /** Tests for findCourseInstructor, when the course is not found */
+  /** Tests for findCourseInstructor, when the course is not found. */
   @Test
-  public void testFindCourseInstructorCourseNotFound(){
+  public void testFindCourseInstructorCourseNotFound() {
     ResponseEntity<?> response = routeController.findCourseInstructor("COMS", 3251);
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
   }
 
-  /** Tests for find Course time, when the course is found */
+  /** Tests for find Course time, when the course is found. */
   @Test
-  public void testFindCourseTime(){
+  public void testFindCourseTime() {
     departmentMapping.put("COMS", testDepartment);
     testDepartment.addCourse("3251", coms3251);
     ResponseEntity<?> response = routeController.findCourseTime("COMS", 3251);
@@ -197,35 +203,35 @@ public class RouteControllerTests {
     assertEquals("The course meets at: 1:10-3:40", response.getBody());
   }
 
-  /** Tests for find Course time, when the course is not found */
+  /** Tests for find Course time, when the course is not found. */
   @Test
-  public void testFindCourseTimeCourseNotFound(){
+  public void testFindCourseTimeCourseNotFound() {
     ResponseEntity<?> response = routeController.findCourseTime("COMS", 3251);
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
   }
 
-  /** Tests for addMajorToDept, when the department is found */
+  /** Tests for addMajorToDept, when the department is found. */
   @Test
-  public void testAddMajorToDept(){
+  public void testAddMajorToDept() {
     departmentMapping.put("COMS", testDepartment);
     ResponseEntity<?> response = routeController.addMajorToDept("COMS");
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals("Attribute was updated successfully", response.getBody());
   }
 
-  /** Remove Major from department, when the department is found */
+  /** Remove Major from department, when the department is found. */
   @Test
-  public void testRemoveMajorFromDept(){
+  public void testRemoveMajorFromDept() {
     departmentMapping.put("COMS", testDepartment);
     ResponseEntity<?> response = routeController.removeMajorFromDept("COMS");
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals("Attribute was updated or is at minimum", response.getBody());
   }
 
-  /** Tests dropStudentFromCourse, when course is found and student can be dropped */
+  /** Tests dropStudentFromCourse, when course is found and student can be dropped. */
   @Test
-  public void testDropStudentFromCourse(){
+  public void testDropStudentFromCourse() {
     departmentMapping.put("COMS", testDepartment);
     testDepartment.addCourse("3251", coms3251);
     coms3251.enrollStudent();
@@ -234,9 +240,9 @@ public class RouteControllerTests {
     assertEquals("Student has been dropped.", response.getBody());
   }
 
-  /** Tests drop student from course, when the course doens't exist */
+  /** Tests drop student from course, when the course doens't exist. */
   @Test
-  public void testDropStudentFromCourseCourseNotFound(){
+  public void testDropStudentFromCourseCourseNotFound() {
     ResponseEntity<?> response = routeController.dropStudent("COMS", 3251);
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
@@ -244,7 +250,7 @@ public class RouteControllerTests {
 
   /** Tests setting the enrollment count for a course if the course exists. */
   @Test
-  public void testSetEnrollmentCountForCourse(){
+  public void testSetEnrollmentCountForCourse() {
     departmentMapping.put("COMS", testDepartment);
     testDepartment.addCourse("3827", coms3827);
     ResponseEntity<?> response = routeController.setEnrollmentCount("COMS", 3827, 100);
@@ -252,7 +258,34 @@ public class RouteControllerTests {
     assertEquals("Attributed was updated successfully.", response.getBody());
   }
 
-  /** Tests changing the time of the course if the course is found */
+  /** Tests changing the time of the course if the course is found. */
+  @Test
+  public void testChangeCourseTime() {
+    departmentMapping.put("COMS", testDepartment);
+    testDepartment.addCourse("3827", coms3827);
+    ResponseEntity<?> response = routeController.changeCourseTime("COMS", 3827, "1:00-2:00");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attributed was updated successfully.", response.getBody());
+  }
 
+  /**  Tests changing the instructor of a course, if the course is found. */
+  @Test
+  public void testChangeCourseInstructor() {
+    departmentMapping.put("ECON", econTestDepartment);
+    econTestDepartment.addCourse("4710", econ4710);
+    ResponseEntity<?> response = routeController.changeCourseTeacher("ECON", 4710, "Uday Menon");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attributed was updated successfully.", response.getBody());
+  }
+
+  /** Tests changing the location of a specified course, if the course is found. */
+  @Test
+  public void testChangeCourseLocation() {
+    departmentMapping.put("ECON", econTestDepartment);
+    econTestDepartment.addCourse("4710", econ4710);
+    ResponseEntity<?> response = routeController.changeCourseLocation("ECON", 4710, "402 CHANDLER");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Attributed was updated successfully.", response.getBody());
+  }
 }
 
