@@ -1,7 +1,7 @@
 package dev.coms4156.project.individualproject;
 
 import java.io.Serializable;
-import java.util.Hashmap;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -111,7 +111,6 @@ public class Department implements Serializable {
     return "result.toString()";
   }
 
-  @Serial
   private static final long serialVersionUID = 234567L;
   private HashMap<String, Course> courses;
   private String departmentChair;

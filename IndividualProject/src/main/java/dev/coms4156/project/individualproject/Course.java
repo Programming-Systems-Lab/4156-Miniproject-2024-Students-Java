@@ -144,7 +144,6 @@ public class Course implements Serializable {
     return enrollmentCapacity > enrolledStudentCount;
   }
 
-  @Serial
   private static final long serialVersionUID = 123456L;
   private final int enrollmentCapacity;
   private int enrolledStudentCount;

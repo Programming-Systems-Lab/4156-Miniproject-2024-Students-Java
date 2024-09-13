@@ -2,7 +2,7 @@ package dev.coms4156.project.individualproject;
 
 import java.util.HashMap;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaTypes;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
