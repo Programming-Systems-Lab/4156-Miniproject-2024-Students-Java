@@ -63,6 +63,31 @@ Fix: now calls requestedCourse.getCourseTimeSlot()
 Fix: fixing findCourseTime() uses requestedCourse
 Static Analysis name: UnusedLocalVariable
 
+20. STATIC ANALYSIS BUG: Too many uses of string literals ("deptCode", "courseCode", "Department Not Found", "Course Not Found",
+"Attribute was updated successfully.")
+Fix: replaced string literals with variables
+Static Analysis name: AvoidDuplicateLiterals
+
+21. STATIC ANALYSIS BUG: retrieveDept() uses toUpperCase() without specifying a Locale
+Fix: Now does toUpperCase(Locale.ENGLISH)
+Static Analysis name: UseLocaleWithCaseConversions
+
+22. "Attributed was updated successfully." contains a typo
+Fix: changed literal to "Attribute was updated successfully."
+
+23. addMajorToDept() returned "Attribute was updated successfully" instead of "Attribute was updated successfully."
+Fix: changed to "Attribute was updated successfully." to be consistent with other methods
+
+Issues in MyFileDatabase.java
+
+24. STATIC ANALYSIS BUG: Overridable method called during object construction: MyFileDatabase.deSerializeObjectFromFile()
+Fix: deSerializeObjectFromFile() is now final
+Static Analysis name: ConstructorCallsOverridableMethod
+
+25. STATIC ANALYSIS BUG: deSerializeObjectFromFile() should return an empty collection rather than null
+Fix: Changed return from null to empty
+Static Analysis name: ReturnEmptyCollectionRatherThanNull
+
 
 
 

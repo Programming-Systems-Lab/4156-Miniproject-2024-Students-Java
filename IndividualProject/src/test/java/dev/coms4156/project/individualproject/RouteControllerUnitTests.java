@@ -305,7 +305,7 @@ public class RouteControllerUnitTests {
             .param("deptCode", "COMS")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(content().string("Attribute was updated successfully"));
+        .andExpect(content().string("Attribute was updated successfully."));
   }
 
   @Test
@@ -375,7 +375,7 @@ public class RouteControllerUnitTests {
             .param("count", "100")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(content().string("Attributed was updated successfully."));
+        .andExpect(content().string("Attribute was updated successfully."));
   }
 
   @Test
@@ -397,7 +397,7 @@ public class RouteControllerUnitTests {
             .param("teacher", "Suwei Ma")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(content().string("Attributed was updated successfully."));
+        .andExpect(content().string("Attribute was updated successfully."));
   }
 
   @Test
@@ -419,7 +419,7 @@ public class RouteControllerUnitTests {
             .param("location", "418 IAB")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(content().string("Attributed was updated successfully."));
+        .andExpect(content().string("Attribute was updated successfully."));
   }
 
   @Test
@@ -441,7 +441,7 @@ public class RouteControllerUnitTests {
             .param("time", "10:00-12:00")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(content().string("Attributed was updated successfully."));
+        .andExpect(content().string("Attribute was updated successfully."));
   }
 
   @Test
