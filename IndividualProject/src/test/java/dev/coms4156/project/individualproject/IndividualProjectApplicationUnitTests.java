@@ -3,20 +3,22 @@ package dev.coms4156.project.individualproject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
-import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -29,72 +31,107 @@ import org.springframework.test.context.ContextConfiguration;
 public class IndividualProjectApplicationUnitTests {
 
   @BeforeEach
-  public void setUp() {
-    testApp.overrideDatabase(mockDatabase);
+  public void setUpIndividualProjectApplicationForTesting() {
+    testApp = new IndividualProjectApplication();
+    mockDatabase = mock(MyFileDatabase.class);
+    IndividualProjectApplication.overrideDatabase(mockDatabase);
+  }
+
+
+  @AfterEach
+  public void tearDown() {
+    IndividualProjectApplication.myFileDatabase = null;
+    IndividualProjectApplication.setSaveData(true);
+  }
+
+  @Test
+  public void runDatabaseExistsTest() {
+    String[] args = {};
+    testApp.run(args);
+
+    verifyNoMoreInteractions(mockDatabase);
   }
 
 
   @Test
   public void runWithSetupArgumentTest() {
-    testApp.run(new String[] {"setup"});
+    String[] args = new String[] {"setup"};
+
+    Map<String, Department> mockDepartmentMap = new HashMap<>();
+    when(mockDatabase.getDepartmentMapping()).thenReturn(mockDepartmentMap);
+
+    testApp.run(args);
 
     assertNotNull(IndividualProjectApplication.myFileDatabase);
-    verify(mockDatabase, times(1)).setMapping(any(HashMap.class));
-    verify(mockDatabase, never()).deSerializeObjectFromFile();
+    assertEquals(mockDepartmentMap, IndividualProjectApplication.myFileDatabase.getDepartmentMapping());
   }
 
 
   @Test
   public void runWithoutSetupArgumentTest() {
-    testApp.run(new String[] {});
+    String[] args = {};
+
+    Map<String, Department> mockDepartmentMap = new HashMap<>();
+    when(mockDatabase.getDepartmentMapping()).thenReturn(mockDepartmentMap);
+
+    testApp.run(args);
 
     assertNotNull(IndividualProjectApplication.myFileDatabase);
-    verify(mockDatabase, times(1)).deSerializeObjectFromFile();
-    verify(mockDatabase, never()).setMapping(any(HashMap.class));
+    assertEquals(0, IndividualProjectApplication.myFileDatabase.getDepartmentMapping().size());
   }
 
 
   @Test
   public void overrideDatabaseTest() {
-    MyFileDatabase testDatabase = new MyFileDatabase(0, "./testData.txt");
-
-    testApp.overrideDatabase(testDatabase);
-
-    assertSame(testDatabase, IndividualProjectApplication.myFileDatabase);
+    assertEquals(mockDatabase, IndividualProjectApplication.myFileDatabase);
     assertFalse(testApp.getSaveData());
   }
 
 
   @Test
+  public void resetDataFileTest() {
+    Map<String, Department> mockDepartmentMap = new HashMap<>();
+    when(mockDatabase.getDepartmentMapping()).thenReturn(mockDepartmentMap);
+
+    testApp.resetDataFile();
+
+    assertEquals(mockDepartmentMap, IndividualProjectApplication.myFileDatabase.getDepartmentMapping());
+    verify(mockDatabase, times(1)).setMapping(anyMap());
+  }
+
+
+  @Test
+  public void resetDataFileExceptionTest() {
+    doThrow(new IllegalArgumentException("Has error in resetting data file process")).when(mockDatabase).setMapping(anyMap());
+
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> testApp.resetDataFile());
+    assertEquals("Has error in resetting data file process", exception.getMessage());
+  }
+
+  @Test
   public void onTerminationWithSavaDataTest() {
-    testApp.setSaveData(true);
-
+    IndividualProjectApplication.setSaveData(true);
     testApp.onTermination();
-
     verify(mockDatabase, times(1)).saveContentsToFile();
   }
 
 
   @Test
   public void onTerminationWithoutSavaDataTest() {
-    testApp.setSaveData(false);
-
     testApp.onTermination();
-
     verify(mockDatabase, never()).saveContentsToFile();
   }
 
 
   @Test
   public void getAndSetSaveDataTest() {
-    assertTrue(testApp.getSaveData());
-    testApp.setSaveData(false);
     assertFalse(testApp.getSaveData());
+
+    IndividualProjectApplication.setSaveData(true);
+    assertTrue(testApp.getSaveData());
   }
 
-  @Mock
-  public MyFileDatabase mockDatabase;
 
-  @InjectMocks
-  public IndividualProjectApplication testApp;
+  private IndividualProjectApplication testApp;
+  private MyFileDatabase mockDatabase;
 }

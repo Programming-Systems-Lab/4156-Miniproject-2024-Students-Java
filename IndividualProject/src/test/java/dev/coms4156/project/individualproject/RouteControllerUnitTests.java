@@ -2,12 +2,16 @@ package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import java.util.HashMap;
+import java.util.Map;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -27,14 +31,30 @@ import org.springframework.test.context.ContextConfiguration;
 public class RouteControllerUnitTests  {
 
   @BeforeEach
-  public void setUp() {
-    MockitoAnnotations.initMocks(this);
+  public void setUpRouteControllerForTesting() {
+    testRouteController = new RouteController();
 
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    departmentMapping.put("COMS", mockDepartment);
+    mockDatabase = mock(MyFileDatabase.class);
+    mockDepartment = mock(Department.class);
+    mockCourse = mock(Course.class);
 
-    when(mockDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    IndividualProjectApplication.myFileDatabase = mockDatabase;
+    IndividualProjectApplication.overrideDatabase(mockDatabase);
+
+    courseMap = new HashMap<>();
+    courseMap.put("1004", mockCourse);
+
+    departmentMap = new HashMap<>();
+    departmentMap.put("COMS", mockDepartment);
+
+    when(mockDepartment.getCourseSelection()).thenReturn(courseMap);
+    when(mockDatabase.getDepartmentMapping()).thenReturn(departmentMap);
+  }
+
+
+  @AfterEach
+  public void tearDown() {
+    IndividualProjectApplication.myFileDatabase = null;
+    IndividualProjectApplication.setSaveData(true);
   }
 
 
@@ -49,14 +69,12 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void retrieveDepartmentFoundTest() {
-    HashMap<String, Department> departmentMapping = new HashMap<>();
-    departmentMapping.put("COMS", mockDepartment);
-
-    when(mockDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
+    when(mockDepartment.toString()).thenReturn("COMS");
 
     ResponseEntity<?> response = testRouteController.retrieveDepartment("COMS");
-    assertEquals(mockDepartment.toString(), response.getBody());
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+    assertEquals("COMS", response.getBody());
+    assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
 
@@ -65,7 +83,7 @@ public class RouteControllerUnitTests  {
     ResponseEntity<?> response = testRouteController.retrieveDepartment("IEOR");
 
     assertEquals("Department Not Found", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
   }
 
 
@@ -76,28 +94,23 @@ public class RouteControllerUnitTests  {
     ResponseEntity<?> response = testRouteController.retrieveDepartment("COMS");
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
   @Test
   public void retrieveCourseFoundTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    courseMapping.put("1004", mockCourse);
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
+    when(mockCourse.toString()).thenReturn("1004");
 
     ResponseEntity<?> response = testRouteController.retrieveCourse("COMS", 1004);
 
-    assertEquals(mockCourse.toString(), response.getBody());
-    assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+    assertEquals("1004", response.getBody());
+    assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
 
   @Test
   public void retrieveCourseNotFoundTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = testRouteController.retrieveCourse("COMS", 1004);
+    ResponseEntity<?> response = testRouteController.retrieveCourse("COMS", 3134);
 
     assertEquals("Course Not Found", response.getBody());
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -115,21 +128,17 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void retrieveCourseExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    when(mockCourse.toString()).thenThrow(new RuntimeException("Database error"));
 
     ResponseEntity<?> response = testRouteController.retrieveCourse("COMS", 1004);
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
 
   @Test
   public void isCourseFullTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    courseMapping.put("1004", mockCourse);
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
     when(mockCourse.isCourseFull()).thenReturn(true);
 
     ResponseEntity<?> response = testRouteController.isCourseFull("COMS", 1004);
@@ -141,10 +150,7 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void isCourseNotFullCourseNotFoundTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = testRouteController.isCourseFull("COMS", 1004);
+    ResponseEntity<?> response = testRouteController.isCourseFull("COMS", 3134);
 
     assertEquals("Course Not Found", response.getBody());
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -153,12 +159,12 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void isCourseFullExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    when(mockCourse.isCourseFull()).thenThrow(new RuntimeException("Database error"));
 
     ResponseEntity<?> response = testRouteController.isCourseFull("COMS", 1004);
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
 
@@ -168,7 +174,7 @@ public class RouteControllerUnitTests  {
 
     ResponseEntity<?> response = testRouteController.getMajorCtFromDept("COMS");
 
-    assertEquals("There are 2700 majors in the department", response.getBody());
+    assertEquals("There are: 2700 majors in the department", response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
@@ -178,18 +184,18 @@ public class RouteControllerUnitTests  {
     ResponseEntity<?> response = testRouteController.getMajorCtFromDept("IEOR");
 
     assertEquals("Department Not Found", response.getBody());
-    assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
   }
 
 
   @Test
   public void getMajorCtFromDeptExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    when(mockDepartment.getNumberOfMajors()).thenThrow(new RuntimeException("Database error"));
 
     ResponseEntity<?> response = testRouteController.getMajorCtFromDept("COMS");
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
 
@@ -199,7 +205,7 @@ public class RouteControllerUnitTests  {
 
     ResponseEntity<?> response = testRouteController.identifyDeptChair("COMS");
 
-    assertEquals("Luca Carloni is the department chair", response.getBody());
+    assertEquals("Luca Carloni is the department chair.", response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
@@ -215,35 +221,29 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void identifyDeptChairExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    when(mockDepartment.getDepartmentChair()).thenThrow(new RuntimeException("Database error"));
 
     ResponseEntity<?> response = testRouteController.identifyDeptChair("COMS");
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
 
   @Test
   public void findCourseLocationTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    courseMapping.put("1004", mockCourse);
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
     when(mockCourse.getCourseLocation()).thenReturn("417 IAB");
 
     ResponseEntity<?> response = testRouteController.findCourseLocation("COMS", 1004);
 
-    assertEquals("417 IAB is where the course is located", response.getBody());
+    assertEquals("417 IAB is where the course is located.", response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
 
   @Test
   public void findCourseLocationCourseNotFoundTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = testRouteController.findCourseLocation("COMS", 1004);
+    ResponseEntity<?> response = testRouteController.findCourseLocation("COMS", 3134);
 
     assertEquals("Course Not Found", response.getBody());
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -252,35 +252,29 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void findCourseLocationExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    when(mockCourse.getCourseLocation()).thenThrow(new RuntimeException("Database error"));
 
     ResponseEntity<?> response = testRouteController.findCourseLocation("COMS", 1004);
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
 
   @Test
   public void findCourseInstructorTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    courseMapping.put("1004", mockCourse);
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
     when(mockCourse.getInstructorName()).thenReturn("Adam Cannon");
 
     ResponseEntity<?> response = testRouteController.findCourseInstructor("COMS", 1004);
 
-    assertEquals("Adam Cannon is the instructor for the coourse", response.getBody());
+    assertEquals("Adam Cannon is the instructor for the course.", response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
 
   @Test
   public void findCourseInstructorCourseNotFoundTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = testRouteController.findCourseInstructor("COMS", 1004);
+    ResponseEntity<?> response = testRouteController.findCourseInstructor("COMS", 3134);
 
     assertEquals("Course Not Found", response.getBody());
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -289,35 +283,29 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void findCourseInstructorExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    when(mockCourse.getInstructorName()).thenThrow(new RuntimeException("Database error"));
 
     ResponseEntity<?> response = testRouteController.findCourseInstructor("COMS", 1004);
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
 
   @Test
   public void findCourseTimeTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    courseMapping.put("1004", mockCourse);
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
     when(mockCourse.getCourseTimeSlot()).thenReturn("11:40-12:55");
 
     ResponseEntity<?> response = testRouteController.findCourseTime("COMS", 1004);
 
-    assertEquals("The course meets at: 11:40-12:55", response.getBody());
+    assertEquals("The course meets at: 11:40-12:55.", response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
 
   @Test
   public void findCourseTimeCourseNotFoundTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = testRouteController.findCourseTime("COMS", 1004);
+    ResponseEntity<?> response = testRouteController.findCourseTime("COMS", 3134);
 
     assertEquals("Course Not Found", response.getBody());
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -326,21 +314,20 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void findCourseTimeExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    when(mockCourse.getCourseTimeSlot()).thenThrow(new RuntimeException("Database error"));
 
     ResponseEntity<?> response = testRouteController.findCourseTime("COMS", 1004);
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
 
   @Test
   public void addMajorToDeptTest() {
-    doNothing().when(mockDepartment).addPersonToMajor();
-
     ResponseEntity<?> response = testRouteController.addMajorToDept("COMS");
 
+    verify(mockDepartment, times(1)).addPersonToMajor();
     assertEquals("Attribute was updated successfully", response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
@@ -357,21 +344,20 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void addMajorToDeptExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    doThrow(new RuntimeException("Database error")).when(mockDepartment).addPersonToMajor();
 
     ResponseEntity<?> response = testRouteController.addMajorToDept("COMS");
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
 
   @Test
   public void removeMajorFromDeptTest() {
-    doNothing().when(mockDepartment).dropPersonFromMajor();
-
     ResponseEntity<?> response = testRouteController.removeMajorFromDept("COMS");
 
+    verify(mockDepartment, times(1)).dropPersonFromMajor();
     assertEquals("Attribute was updated or is at minimum", response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
@@ -388,20 +374,17 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void removeMajorFromDeptExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    doThrow(new RuntimeException("Database error")).when(mockDepartment).dropPersonFromMajor();
 
     ResponseEntity<?> response = testRouteController.removeMajorFromDept("COMS");
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
 
   @Test
   public void dropStudentSuccessTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    courseMapping.put("1004", mockCourse);
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
     when(mockCourse.dropStudent()).thenReturn(true);
 
     ResponseEntity<?> response = testRouteController.dropStudent("COMS", 1004);
@@ -413,24 +396,18 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void dropStudentNotSuccessTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    courseMapping.put("1004", mockCourse);
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
     when(mockCourse.dropStudent()).thenReturn(false);
 
     ResponseEntity<?> response = testRouteController.dropStudent("COMS", 1004);
 
     assertEquals("Student has not been dropped.", response.getBody());
-    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
 
   @Test
-  public void dropStudentNotFoundTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = testRouteController.dropStudent("COMS", 1004);
+  public void dropStudentCourseNotFoundTest() {
+    ResponseEntity<?> response = testRouteController.dropStudent("COMS", 3134);
 
     assertEquals("Course Not Found", response.getBody());
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -439,35 +416,28 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void dropStudentExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    when(mockCourse.dropStudent()).thenThrow(new RuntimeException("Database error"));
 
     ResponseEntity<?> response = testRouteController.dropStudent("COMS", 1004);
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
 
   @Test
   public void setEnrollmentCountTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    courseMapping.put("1004", mockCourse);
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
     ResponseEntity<?> response = testRouteController.setEnrollmentCount("COMS", 1004, 249);
 
     verify(mockCourse, times(1)).setEnrolledStudentCount(249);
-    assertEquals("Attributed was updated successfully.", response.getBody());
+    assertEquals("Attribute was updated successfully.", response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
 
   @Test
   public void setEnrollmentCountCourseNotFoundTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = testRouteController.setEnrollmentCount("COMS", 1004, 249);
+    ResponseEntity<?> response = testRouteController.setEnrollmentCount("COMS", 3134, 249);
 
     assertEquals("Course Not Found", response.getBody());
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -476,35 +446,28 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void setEnrollmentCountExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    doThrow(new RuntimeException("Database error")).when(mockCourse).setEnrolledStudentCount(249);
 
     ResponseEntity<?> response = testRouteController.setEnrollmentCount("COMS", 1004, 249);
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
 
   @Test
   public void changeCourseTimeTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    courseMapping.put("1004", mockCourse);
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
     ResponseEntity<?> response = testRouteController.changeCourseTime("COMS", 1004, "4:10-5:25");
 
     verify(mockCourse, times(1)).reassignTime("4:10-5:25");
-    assertEquals("Attributed was updated successfully.", response.getBody());
+    assertEquals("Attribute was updated successfully.", response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
 
   @Test
   public void changeCourseTimeCourseNotFoundTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = testRouteController.changeCourseTime("COMS", 1004, "4:10-5:25");
+    ResponseEntity<?> response = testRouteController.changeCourseTime("COMS", 3134, "4:10-5:25");
 
     assertEquals("Course Not Found", response.getBody());
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -513,35 +476,28 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void changeCourseTimeExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    doThrow(new RuntimeException("Database error")).when(mockCourse).reassignTime("4:10-5:25");
 
     ResponseEntity<?> response = testRouteController.changeCourseTime("COMS", 1004, "4:10-5:25");
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
 
   @Test
   public void changeCourseTeacherTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    courseMapping.put("1004", mockCourse);
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
     ResponseEntity<?> response = testRouteController.changeCourseTeacher("COMS", 1004, "Brian Borowski");
 
     verify(mockCourse, times(1)).reassignInstructor("Brian Borowski");
-    assertEquals("Attributed was updated successfully.", response.getBody());
+    assertEquals("Attribute was updated successfully.", response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
 
   @Test
   public void changeCourseTeacherCourseNotFoundTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = testRouteController.changeCourseTeacher("COMS", 1004, "Brian Borowski");
+    ResponseEntity<?> response = testRouteController.changeCourseTeacher("COMS", 3134, "Brian Borowski");
 
     assertEquals("Course Not Found", response.getBody());
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -550,35 +506,28 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void changeCourseTeacherExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    doThrow(new RuntimeException("Database error")).when(mockCourse).reassignInstructor("Brian Borowski");
 
     ResponseEntity<?> response = testRouteController.changeCourseTeacher("COMS", 1004, "Brian Borowski");
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
 
   @Test
   public void changeCourseLocationTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    courseMapping.put("1004", mockCourse);
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
     ResponseEntity<?> response = testRouteController.changeCourseLocation("COMS", 1004, "301 URIS");
 
     verify(mockCourse, times(1)).reassignLocation("301 URIS");
-    assertEquals("Attributed was updated successfully.", response.getBody());
+    assertEquals("Attribute was updated successfully.", response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
 
   @Test
   public void changeCourseLocationCourseNotFoundTest() {
-    HashMap<String, Course> courseMapping = new HashMap<>();
-    when(mockDepartment.getCourseSelection()).thenReturn(courseMapping);
-
-    ResponseEntity<?> response = testRouteController.changeCourseLocation("COMS", 1004, "301 URIS");
+    ResponseEntity<?> response = testRouteController.changeCourseLocation("COMS", 3134, "301 URIS");
 
     assertEquals("Course Not Found", response.getBody());
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -587,23 +536,21 @@ public class RouteControllerUnitTests  {
 
   @Test
   public void changeCourseLocationExceptionTest() {
-    when(mockDatabase.getDepartmentMapping()).thenThrow(new RuntimeException("Database error"));
+    doThrow(new RuntimeException("Database error")).when(mockCourse).reassignLocation("301 URIS");
 
     ResponseEntity<?> response = testRouteController.changeCourseLocation("COMS", 1004, "301 URIS");
 
     assertEquals("An Error has occurred", response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
-  @InjectMocks
-  public RouteController testRouteController;
 
-  @Mock
-  public MyFileDatabase mockDatabase;
+  private MyFileDatabase mockDatabase;
 
-  @Mock
-  public Department mockDepartment;
+  private RouteController testRouteController;
 
-  @Mock
-  public Course mockCourse;
+  private Department mockDepartment;
+  private Course mockCourse;
+  private Map<String, Department> departmentMap;
+  private Map<String, Course> courseMap;
 }

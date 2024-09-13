@@ -33,7 +33,10 @@ public class Course implements Serializable {
    * @return true if the student is successfully enrolled. false otherwise.
    */
   public boolean enrollStudent() {
-    enrolledStudentCount++;
+    if (!isCourseFull()) {
+      enrolledStudentCount++;
+      return true;
+    }
     return false;
   }
 
@@ -43,7 +46,10 @@ public class Course implements Serializable {
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
-    enrolledStudentCount--;
+    if (enrolledStudentCount > 0) {
+      enrolledStudentCount--;
+      return true;
+    }
     return false;
   }
 
@@ -53,7 +59,7 @@ public class Course implements Serializable {
    * @return The course's location.
    */
   public String getCourseLocation() {
-    return this.instructorName;
+    return this.courseLocation;
   }
 
   /**
@@ -62,7 +68,7 @@ public class Course implements Serializable {
    * @return The instructor's name of the specified course.
    */
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
   /**
@@ -75,11 +81,30 @@ public class Course implements Serializable {
   }
 
   /**
+   * Gets the enrollment capacity of the specified course
+   *
+   * @return The enrollment capacity of the specified course
+   */
+  public int getEnrollmentCapacity() {
+    return this.enrollmentCapacity;
+  }
+
+  /**
+   * Gets the enrolled student count of the specified course
+   *
+   * @return The enrolled student count of the specified course
+   */
+  public int getEnrolledStudentCount() {
+    return this.enrolledStudentCount;
+  }
+
+  /**
    * Returns a string representation of the course, including its instructor name, location
    * and the courses offered.
    *
    * @return A string representation of the course.
    */
+  @Override
   public String toString() {
     return "\nInstructor: " + instructorName
            + "; Location: " + courseLocation
@@ -128,7 +153,7 @@ public class Course implements Serializable {
    * @return  True if the count of enrolled students is equal or greater than the capacity.
    */
   public boolean isCourseFull() {
-    return enrollmentCapacity > enrolledStudentCount;
+    return enrolledStudentCount >= enrollmentCapacity;
   }
 
   @Serial

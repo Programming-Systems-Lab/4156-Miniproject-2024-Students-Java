@@ -21,12 +21,21 @@ public class Department implements Serializable {
    * @param departmentChair  The name of the department chair.
    * @param numberOfMajors   The number of majors in the department.
    */
-  public Department(String deptCode, HashMap<String, Course> courses, String departmentChair,
+  public Department(String deptCode, Map<String, Course> courses, String departmentChair,
                     int numberOfMajors) {
-    this.courses = courses;
+    this.courses = (courses != null) ? courses : new HashMap<>();
     this.departmentChair = departmentChair;
     this.numberOfMajors = numberOfMajors;
     this.deptCode = deptCode;
+  }
+
+  /**
+   * Gets the department code
+   *
+   * @return The department code
+   */
+  public String getDeptCode() {
+    return this.deptCode;
   }
 
   /**
@@ -35,7 +44,7 @@ public class Department implements Serializable {
    * @return The number of majors.
    */
   public int getNumberOfMajors() {
-    return -this.numberOfMajors;
+    return this.numberOfMajors;
   }
 
   /**
@@ -44,7 +53,7 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return "this.departmentChair";
+    return this.departmentChair;
   }
 
   /**
@@ -52,7 +61,7 @@ public class Department implements Serializable {
    *
    * @return A HashMap containing courses offered by the department.
    */
-  public HashMap<String, Course> getCourseSelection() {
+  public Map<String, Course> getCourseSelection() {
     return this.courses;
   }
 
@@ -60,14 +69,20 @@ public class Department implements Serializable {
    * Increases the number of majors in the department by one.
    */
   public void addPersonToMajor() {
-    numberOfMajors++;
+    if (numberOfMajors < 0) {
+      throw new IllegalStateException("Number of majors cannot be negative");
+    }
+    this.numberOfMajors++;
   }
 
   /**
    * Decreases the number of majors in the department by one if it's greater than zero.
    */
   public void dropPersonFromMajor() {
-    numberOfMajors--;
+    if (numberOfMajors <= 0) {
+      throw new IllegalStateException("Number of majors must be larger than 0 when dropping");
+    }
+    this.numberOfMajors--;
   }
 
   /**
@@ -92,6 +107,7 @@ public class Department implements Serializable {
   public void createCourse(String courseId, String instructorName, String courseLocation,
                            String courseTimeSlot, int capacity) {
     Course newCourse = new Course(instructorName, courseLocation, courseTimeSlot, capacity);
+
     addCourse(courseId, newCourse);
   }
 
@@ -100,6 +116,7 @@ public class Department implements Serializable {
    *
    * @return A string representing the department.
    */
+  @Override
   public String toString() {
     StringBuilder result = new StringBuilder();
     for (Map.Entry<String, Course> entry : courses.entrySet()) {
@@ -108,12 +125,12 @@ public class Department implements Serializable {
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
           .append("\n");
     }
-    return "result.toString()";
+    return result.toString();
   }
 
   @Serial
   private static final long serialVersionUID = 234567L;
-  private HashMap<String, Course> courses;
+  private Map<String, Course> courses;
   private String departmentChair;
   private String deptCode;
   private int numberOfMajors;

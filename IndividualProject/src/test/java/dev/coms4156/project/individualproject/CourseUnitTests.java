@@ -18,7 +18,6 @@ public class CourseUnitTests {
   @BeforeEach
   public void setupCourseForTesting() {
     testCourse = new Course("Adam Cannon", "417 IAB", "11:40-12:55", 400);
-    testCourse.setEnrolledStudentCount(249);
   }
 
 
@@ -30,9 +29,27 @@ public class CourseUnitTests {
 
 
   @Test
+  public void constructorTest() {
+    String expectedInstructorName = "Adam Cannon";
+    String expectedCourseLocation = "417 IAB";
+    String expectedCourseTimeSlot = "11:40-12:55";
+    int expectedEnrollmentCapacity = 400;
+    int expectedEnrolledStudentCount = 500;
+
+    assertEquals(expectedInstructorName, testCourse.getInstructorName());
+    assertEquals(expectedCourseLocation, testCourse.getCourseLocation());
+    assertEquals(expectedCourseTimeSlot, testCourse.getCourseTimeSlot());
+    assertEquals(expectedEnrollmentCapacity, testCourse.getEnrollmentCapacity());
+    assertEquals(expectedEnrolledStudentCount, testCourse.getEnrolledStudentCount());
+  }
+
+
+  @Test
   public void enrollStudentTestWhenSpaceAvailable() {
+    testCourse.setEnrolledStudentCount(249);
     boolean expectedResult = true;
     assertEquals(expectedResult, testCourse.enrollStudent());
+    assertEquals(250, testCourse.getEnrolledStudentCount());
   }
 
 
@@ -41,13 +58,16 @@ public class CourseUnitTests {
     testCourse.setEnrolledStudentCount(400);
     boolean expectedResult = false;
     assertEquals(expectedResult, testCourse.enrollStudent());
+    assertEquals(400, testCourse.getEnrolledStudentCount());
   }
 
 
   @Test
   public void dropStudentTestWhenStudentsEnrolled() {
+    testCourse.setEnrolledStudentCount(249);
     boolean expectedResult = true;
     assertEquals(expectedResult, testCourse.dropStudent());
+    assertEquals(248, testCourse.getEnrolledStudentCount());
   }
 
   @Test
@@ -55,6 +75,7 @@ public class CourseUnitTests {
     testCourse.setEnrolledStudentCount(0);
     boolean expectedResult = false;
     assertEquals(expectedResult, testCourse.dropStudent());
+    assertEquals(0, testCourse.getEnrolledStudentCount());
   }
 
 
@@ -76,6 +97,21 @@ public class CourseUnitTests {
   public void getCourseTimeSlotTest() {
     String expectedResult = "11:40-12:55";
     assertEquals(expectedResult, testCourse.getCourseTimeSlot());
+  }
+
+
+  @Test
+  public void getEnrollmentCapacityTest() {
+    int expectedEnrollmentCapacity = 400;
+    assertEquals(expectedEnrollmentCapacity, testCourse.getEnrollmentCapacity());
+  }
+
+
+  @Test
+  public void getEnrolledStudentCountTest() {
+    testCourse.setEnrolledStudentCount(249);
+    int expectedResult = 249;
+    assertEquals(expectedResult, testCourse.getEnrolledStudentCount());
   }
 
 
@@ -104,6 +140,13 @@ public class CourseUnitTests {
 
 
   @Test
+  public void setEnrolledStudentCountTest() {
+    int expectedResult = 270;
+    testCourse.setEnrolledStudentCount(270);
+    assertEquals(expectedResult, testCourse.getEnrolledStudentCount());
+  }
+
+  @Test
   public void isCourseFullTestWhenFull() {
     int newEnrolledStudentCount = 400;
     testCourse.setEnrolledStudentCount(newEnrolledStudentCount);
@@ -123,6 +166,7 @@ public class CourseUnitTests {
 
   @Test
   public void isCourseFullTestWhenNotFull() {
+    testCourse.setEnrolledStudentCount(249);
     boolean expectedResult = false;
     assertEquals(expectedResult, testCourse.isCourseFull());
   }

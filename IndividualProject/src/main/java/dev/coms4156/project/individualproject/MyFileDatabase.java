@@ -22,6 +22,7 @@ public class MyFileDatabase {
    */
   public MyFileDatabase(int flag, String filePath) {
     this.filePath = filePath;
+    this.departmentMapping = new HashMap<>();
     if (flag == 0) {
       this.departmentMapping = deSerializeObjectFromFile();
     }
@@ -32,7 +33,7 @@ public class MyFileDatabase {
    *
    * @param mapping the mapping of department names to Department objects
    */
-  public void setMapping(HashMap<String, Department> mapping) {
+  public void setMapping(Map<String, Department> mapping) {
     this.departmentMapping = mapping;
   }
 
@@ -41,17 +42,23 @@ public class MyFileDatabase {
    *
    * @return the deserialized department mapping
    */
-  public HashMap<String, Department> deSerializeObjectFromFile() {
+  public synchronized Map<String, Department> deSerializeObjectFromFile() {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
       Object obj = in.readObject();
-      if (obj instanceof HashMap) {
+      if (obj instanceof HashMap<?, ?>) {
+        Map<?, ?> checkMap = (HashMap<?, ?>) obj;
+        for (Map.Entry<?, ?> entry : checkMap.entrySet()) {
+          if (!(entry.getKey() instanceof String) || !(entry.getValue() instanceof Department)) {
+            throw new IllegalArgumentException("Invalid entry in map.");
+          }
+        }
         return (HashMap<String, Department>) obj;
       } else {
         throw new IllegalArgumentException("Invalid object type in file.");
       }
     } catch (IOException | ClassNotFoundException e) {
       e.printStackTrace();
-      return null;
+      return new HashMap<>();
     }
   }
 
@@ -59,7 +66,7 @@ public class MyFileDatabase {
    * Saves the contents of the internal data structure to the file. Contents of the file are
    * overwritten with this operation.
    */
-  public void saveContentsToFile() {
+  public synchronized void saveContentsToFile() {
     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
       out.writeObject(departmentMapping);
       System.out.println("Object serialized successfully.");
@@ -73,8 +80,17 @@ public class MyFileDatabase {
    *
    * @return the department mapping
    */
-  public HashMap<String, Department> getDepartmentMapping() {
+  public Map<String, Department> getDepartmentMapping() {
     return this.departmentMapping;
+  }
+
+  /**
+   * Gets the file path of the database
+   *
+   * @return the file path
+   */
+  public String getFilePath() {
+    return this.filePath;
   }
 
   /**
@@ -97,5 +113,5 @@ public class MyFileDatabase {
   private String filePath;
 
   /** The mapping of department names to Department objects. */
-  private HashMap<String, Department> departmentMapping;
+  private Map<String, Department> departmentMapping;
 }
