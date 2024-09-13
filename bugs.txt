@@ -1,6 +1,100 @@
-what the issue you fixed was, where it was, 
-and if it has a proper name identified by a static analyzer what that name was
 
+Warnings from mvn checkstyle:check
 
-Course.java
-- 
+1. AvoidStarImport
+    - Course.java
+    - CourseUnitTests.java
+    - Department.java
+    - IndividualProjectApplication.java
+    - MyFileDatabase.java
+    - RouteController.java
+
+2. MissingJavadocType
+    - Course.java
+    - CourseUnitTests.java
+
+3. MissingJavadocMethod
+    - RouteController.java
+
+4. CommentsIndentation
+    - Course.java
+
+5. Indentation
+    - Course.java
+    - IndividualProjectApplication.java
+
+6. LineLength
+    - Course.java
+    - RouteController.java
+
+7. CustomImportOrder
+    - CourseUnitTests.java
+
+8. FileTabCharacter
+    - IndividualProjectApplication.java
+
+9. JavadocParagraph Formatting
+    - IndividualProjectApplication.java
+
+---
+
+PMD Errors
+
+1. Course.java:
+    - MissingOverride: The method toString() is missing an @Override annotation. (Line 59-61)
+
+2. Department.java:
+    - LooseCoupling: Avoid using implementation types like HashMap; use the interface instead. (Line 22)
+    - LooseCoupling: Avoid using implementation types like HashMap; use the interface instead. (Line 53)
+    - MissingOverride: The method toString() is missing an @Override annotation. (Line 101-110)
+    - LooseCoupling: Avoid using implementation types like HashMap; use the interface instead. (Line 114)
+    - UnusedPrivateField: Avoid unused private fields such as departmentChair. (Line 115)
+
+3. IndividualProjectApplication.java:
+    - UseVarargs: Consider using varargs for methods or constructors that take an array as the last parameter. (Line 36)
+    - MissingOverride: The method run(String) is missing an @Override annotation. (Line 36-47)
+    - PositionLiteralsFirstInComparisons: Position literals first in String comparisons. (Line 38)
+    - SystemPrintln: System.out.println is used, replace with logging. (Lines 41, 46, 292)
+
+4. MyFileDatabase.java:
+    - LooseCoupling: Avoid using implementation types like HashMap; use the interface instead. (Line 30)
+    - LooseCoupling: Avoid using implementation types like HashMap; use the interface instead. (Line 39)
+    - AvoidPrintStackTrace: Avoid printStackTrace(), use a logger instead. (Lines 48, 62)
+    - SystemPrintln: System.out.println is used, replace with logging. (Line 60)
+    - LooseCoupling: Avoid using implementation types like HashMap; use the interface instead. (Lines 71, 95)
+
+5. RouteController.java:
+    - UnusedLocalVariable: Avoid unused local variables such as requestedCourse. (Line 277)
+    - SystemPrintln: System.out.println is used, replace with logging. (Line 501)
+
+---
+
+Bugs found from unit testing (not listed from PMD violations above)
+
+1. Course.java
+    - Updated logic for enrollStudent(): return true if the student is successfully enrolled, false otherwise
+    - Updated logic for dropStudent(): return true if the student is successfully dropped, false otherwise
+    - Fixed return value for getCourseLocation(): return courseLocation not instructorName
+    - Fixed return value for getInstructorName(): return instructorName not courseLocation
+    - Changed the condition for isCourseFull(): now considers enrollmentStudentCount == enrollmentCapacity as full
+
+2. Department.java
+    - Fixed typo in return value for getNumberOfMajors()
+    - getDepartmentChair() initially returns the literal string "this.departmentChair" instead of its value
+    - Update logic for dropPersonFromMajor(): Decreases the number of majors in the department by one if it's greater than zero
+    - toString() initially returns the literal string "result.toString()" instead of its value
+
+3. IndividualProjectApplication.java
+    ** Changes made to this file doesn't modify any of the logic, only fixes the style to resolve PMD violations:
+    - Replaces all System.out statements with Logger
+    - Added @Override to run()
+    - Replace arg.equals("setup") to "setup".equals(arg) in run() because of PositionLiteralsFirstInComparisons violations
+
+4. MyFileDatabase.java
+    - deSerializeObjectFromFile(): Added catch statement for FileNotFoundException
+
+5. RouteController.java
+    - retrieveDepartment(): HttpStatus.OK and HttpStatus.NOT_FOUND was flipped
+    - retrieveCourse(): replace HttpStatus.FORBIDDEN with HttpStatus.OK
+    - getMajorCtFromDept(): replace HttpStatus.FORBIDDEN with HttpStatus.NOT_FOUND
+    - findCourseTime(): replace return value from "some time" to requestedCourse.getCourseTimeSlot()
