@@ -54,7 +54,8 @@ public class CourseUnitTests {
   @Test
   public void getInstructorNameTest() {
     String instructorName = testCourse.getInstructorName();
-    Assertions.assertEquals("Griffin Newbold", instructorName, "Instructor name is 'Griffin Newbold'");
+    Assertions.assertEquals("Griffin Newbold", instructorName,
+            "Instructor name is 'Griffin Newbold'");
   }
 
   @Test
@@ -66,19 +67,22 @@ public class CourseUnitTests {
   @Test
   public void reassignInstructorTest() {
     testCourse.reassignInstructor("Alok Mathur");
-    Assertions.assertEquals("Alok Mathur", testCourse.getInstructorName(), "Instructor should be 'Alok Mathur'");
+    Assertions.assertEquals("Alok Mathur", testCourse.getInstructorName(),
+            "Instructor should be 'Alok Mathur'");
   }
 
   @Test
   public void reassignLocationTest() {
     testCourse.reassignLocation("VIT SJT 503");
-    Assertions.assertEquals("VIT SJT 503", testCourse.getCourseLocation(), "Location should be 'VIT SJT 503'");
+    Assertions.assertEquals("VIT SJT 503", testCourse.getCourseLocation(),
+            "Location should be 'VIT SJT 503'");
   }
 
   @Test
   public void reassignTimeTest() {
     testCourse.reassignTime("13:10-15:35");
-    Assertions.assertEquals("13:10-15:35", testCourse.getCourseTimeSlot(), "Time slot should be '13:10-15:35'");
+    Assertions.assertEquals("13:10-15:35", testCourse.getCourseTimeSlot(),
+            "Time slot should be '13:10-15:35'");
   }
 
 //  This test won't work --- no proper return value in the function
