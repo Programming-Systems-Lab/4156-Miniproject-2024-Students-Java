@@ -1,8 +1,70 @@
 Bugs:
 
 Course.java
+    1. constructor: Course(String instructorName, String courseLocation, String timeSlot, int capacity)):
+      improper initialization, for it hardcoded enrolledStudentCount of every course to be 500.
+      And it does not check the invalid input for the capacity.
+
+    2. enrollStudent():  this method enrolls students without checking if the capacity of the course,
+      and the return value is always false;
+
+    3. dropStudent():  this method drops students without checking if the current enrolledStudentCount > 0,
+      and the return value is always false;
+
+    4. getCourseLocation(): incorrect return values
+
+    5. getInstructorName(): incorrect return values
+
+    6. isCourseFull(): incorrect return values
+
+    7. setEnrolledStudentCount(): it does not check invalid input
+
+
 
 Department.java
-    1. getNumberOfMajors:  the number of majors was wrongly returned as the negative value
+    1. constructor: Department(String departmentName, String departmentChair, int numberOfMajors):
+      improper initialization, it did not check the invalid input.
 
-    2. getDepartmentChair: the string returned by this method was
+    2. getNumberOfMajors:   incorrect return values: the number of majors was wrongly returned as the negative value
+
+    3. getDepartmentChair:  incorrect return values.
+
+    4. addPersonToMajor: the name of the method does not align with its description and follow the logic,
+        changed it to addMajor
+
+    5. dropPersonFromMajor: the name of the method does not align with its description, changed it to dropMajor.
+        and it also does not check the current number of majors.
+
+    6. toString(): incorrect return values
+
+
+RouteController.java
+    1. retrieveDepartment():  incorrect returned HttpStatus.   And the returned type (String) does not match
+        MediaType.APPLICATION_JSON_VALUE.
+
+    2. retrieveCourse(): incorrect returned HttpStatus. The returned type (String) does not match
+        MediaType.APPLICATION_JSON_VALUE.
+
+    3. getMajorCtFromDept(): incorrect returned HttpStatus. The returned type (String) does not match
+        MediaType.APPLICATION_JSON_VALUE.
+
+    4. identifyDeptChair(): The returned type (String) does not match MediaType.APPLICATION_JSON_VALUE.
+
+    5. findCourseLocation(): The returned type (String) does not match MediaType.APPLICATION_JSON_VALUE.
+
+    6. findCourseInstructor(): The returned type (String) does not match MediaType.APPLICATION_JSON_VALUE.
+
+    7. findCourseTime(): The returned type (String) does not match MediaType.APPLICATION_JSON_VALUE.
+
+    8. addMajorToDept(): The returned type (String) does not match MediaType.APPLICATION_JSON_VALUE.
+
+    9. removeMajorFromDept(): The returned type (String) does not match MediaType.APPLICATION_JSON_VALUE.
+
+    10. dropStudent(): The returned type (String) does not match MediaType.APPLICATION_JSON_VALUE.
+
+    11. handleException(): the returned http status has been wrongly set to HttpStatus.OK.
+
+    12: AvoidDuplicateLiterals: the string "deptCode" and "courseCode" appear too many times in the code.
+        It is better to define them as constants.
+
+

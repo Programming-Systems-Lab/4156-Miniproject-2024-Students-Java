@@ -23,8 +23,12 @@ public class Course implements Serializable {
     this.courseLocation = courseLocation;
     this.instructorName = instructorName;
     this.courseTimeSlot = timeSlot;
-    this.enrollmentCapacity = capacity;
-    this.enrolledStudentCount = 500;
+    this.enrolledStudentCount = 0;
+    if (capacity < 0) {
+      this.enrollmentCapacity = 0;
+    } else {
+      this.enrollmentCapacity = capacity;
+    }
   }
 
   /**
@@ -33,8 +37,12 @@ public class Course implements Serializable {
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-    enrolledStudentCount++;
-    return false;
+    if (enrollmentCapacity > enrolledStudentCount) {
+      enrolledStudentCount++;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -43,8 +51,12 @@ public class Course implements Serializable {
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
-    enrolledStudentCount--;
-    return false;
+    if (enrolledStudentCount > 0) {
+      enrolledStudentCount--;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public int getEnrolledStudentCount() {
@@ -53,17 +65,21 @@ public class Course implements Serializable {
 
 
   public String getCourseLocation() {
-    return this.instructorName;
+    return this.courseLocation;
   }
 
 
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
 
   public String getCourseTimeSlot() {
     return this.courseTimeSlot;
+  }
+
+  public int getCapacity() {
+    return this.enrollmentCapacity;
   }
 
 
@@ -98,14 +114,25 @@ public class Course implements Serializable {
     this.courseTimeSlot = newTime;
   }
 
-
+  /**
+   * Sets the number of students enrolled in the course. The argument(count) must be
+   * a non-negative number and should not exceed the course's enrollment capacity.
+   * If the provided count is invalid, an {@link IllegalArgumentException} is thrown.
+   *
+   * @param count the number of students to be set as enrolled in the course.
+   * @throws IllegalArgumentException if the count is negative or exceeds the enrollment capacity.
+   */
   public void setEnrolledStudentCount(int count) {
-    this.enrolledStudentCount = count;
+    if (count >= 0 && count <= enrollmentCapacity) {
+      this.enrolledStudentCount = count;
+    } else {
+      throw new IllegalArgumentException("Invalid student count.");
+    }
   }
 
 
   public boolean isCourseFull() {
-    return enrollmentCapacity > enrolledStudentCount;
+    return enrollmentCapacity <= enrolledStudentCount;
   }
 
   @Serial

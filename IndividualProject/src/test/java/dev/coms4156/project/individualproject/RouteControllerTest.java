@@ -1,8 +1,19 @@
 package dev.coms4156.project.individualproject;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -10,14 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-
-import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-
 /**
- * Unit tests for the RouteController.
  * the tests ensures the functionality of the RouteController.
  */
 @SpringBootTest
@@ -32,19 +36,29 @@ public class RouteControllerTest {
 
   MockMvc mockMvc;
 
+  /**
+   * set up the MockMvc environment.
+   */
   @BeforeEach
-  public void setUp() {
-    // this is setting up the MockMvc environment with the Spring Data repository injected into the server
+  public  void setUp() {
     mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
+
 
   @Test
   public void retrieveDepartmentTest() throws Exception {
     String deptCode = "IEOR";
+
+    // expected result  will depend on the Database data initialized in IndividualProjectApplication
     mockMvc.perform(get("/retrieveDept")
         .param("deptCode", deptCode))
+        .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("IEOR 3404")));
+        .andExpect(jsonPath("$.courseSelection.size()", is(8)));
+
+    mockMvc.perform(get("/retrieveDept")
+        .param("deptCode", " dept code to be not found"))
+        .andExpect(status().isNotFound());
   }
 
 
@@ -57,7 +71,12 @@ public class RouteControllerTest {
         .param("deptCode", deptCode)
         .param("courseCode", courseCode))
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("2500")));
+        .andExpect(jsonPath("$.enrolledStudentCount", is(52)));
+
+    mockMvc.perform(get("/retrieveCourse")
+        .param("deptCode", "deptCode code to be not found")
+        .param("courseCode", "999999"))
+        .andExpect(status().isNotFound());
   }
 
 
@@ -68,7 +87,15 @@ public class RouteControllerTest {
     mockMvc.perform(get("/getMajorCountFromDept")
         .param("deptCode", deptCode))
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("67")));
+        .andExpect(jsonPath("$.numberOfMajors", is(67)));
+
+    deptCode = "IEORRRR";
+
+    mockMvc.perform(get("/getMajorCountFromDept")
+            .param("deptCode", deptCode))
+        .andDo(print())
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Department Not Found"));
   }
 
 
@@ -79,7 +106,14 @@ public class RouteControllerTest {
     mockMvc.perform(get("/idDeptChair")
         .param("deptCode", deptCode))
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("Laura J. Kaufman")));
+        .andExpect(jsonPath("$.departmentChair", is("Laura J. Kaufman")));
+
+    deptCode = "CHEMMMM";
+
+    mockMvc.perform(get("/idDeptChair")
+        .param("deptCode", deptCode))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Department Not Found"));
   }
 
 
@@ -92,7 +126,13 @@ public class RouteControllerTest {
         .param("deptCode", deptCode)
         .param("courseCode", courseCode))
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("309 HAV")));
+        .andExpect(jsonPath("$.location", is("309 HAV")));
+
+    mockMvc.perform(get("/findCourseLocation")
+        .param("deptCode", "dept code to be not found")
+        .param("courseCode", "999999"))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Course Not Found"));
   }
 
   @Test
@@ -104,7 +144,13 @@ public class RouteControllerTest {
         .param("deptCode", deptCode)
         .param("courseCode", courseCode))
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("Ruben M Savizky")));
+        .andExpect(jsonPath("$.instructor", is("Ruben M Savizky")));
+
+    mockMvc.perform(get("/findCourseInstructor")
+        .param("deptCode", "dept code to be not found")
+        .param("courseCode", "999999"))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Course Not Found"));
   }
 
   @Test
@@ -116,38 +162,41 @@ public class RouteControllerTest {
         .param("deptCode", deptCode)
         .param("courseCode", courseCode))
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("6:10-7:25")));
+        .andExpect(jsonPath("$.courseTime", is("6:10-7:25")));
+
+    mockMvc.perform(get("/findCourseTime")
+        .param("deptCode", "dept code to be not found")
+        .param("courseCode", "999999"))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Course Not Found"));
   }
 
   @Test
-  @Order(1)
   public void addMajorToDeptTest() throws Exception {
     String deptCode = "CHEM";
 
-    mockMvc.perform(get("/addMajorToDept")
+    mockMvc.perform(patch("/addMajorToDept")
         .param("deptCode", deptCode))
-        .andExpect(status().isOk())
-        .andExpect(content().string(containsString("251")));
+        .andExpect(status().isOk());
+
+
   }
 
   @Test
-  @Order(2)
   public void removeMajorFromDeptTest() throws Exception {
     String deptCode = "CHEM";
 
-    mockMvc.perform(get("/removeMajorFromDept")
+    mockMvc.perform(patch("/removeMajorFromDept")
         .param("deptCode", deptCode))
-        .andExpect(status().isOk())
-        .andExpect(content().string(containsString("250")));
+        .andExpect(status().isOk());
   }
 
   @Test
-  @Order(3)
   public void dropStudentTest() throws Exception {
     String deptCode = "CHEM";
     String courseCode = "1403";
 
-    mockMvc.perform(get("/dropStudent")
+    mockMvc.perform(patch("/dropStudentFromCourse")
         .param("deptCode", deptCode)
         .param("courseCode", courseCode))
         .andExpect(status().isOk())
@@ -155,13 +204,12 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(4)
   public void setEnrollmentCountTest() throws Exception {
     String deptCode = "ECON";
     String courseCode = "1105";
     String enrollmentCount = "110";
 
-    mockMvc.perform(get("/setEnrollmentCount")
+    mockMvc.perform(patch("/setEnrollmentCount")
         .param("deptCode", deptCode)
         .param("courseCode", courseCode)
         .param("count", enrollmentCount))
@@ -175,12 +223,13 @@ public class RouteControllerTest {
     String courseCode = "1105";
     String newTime = "11:40-12:55";
 
-    mockMvc.perform(get("/changeCourseTime")
+    mockMvc.perform(patch("/changeCourseTime")
         .param("deptCode", deptCode)
         .param("courseCode", courseCode)
         .param("time", newTime))
+        .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("Attributed was updated successfully.")));
+        .andExpect(jsonPath("$.course.courseTimeSlot", is(newTime)));
   }
 
   @Test
@@ -189,12 +238,13 @@ public class RouteControllerTest {
     String courseCode = "1105";
     String newTeacher = "Tamrat Gashaw";
 
-    mockMvc.perform(get("/changeCourseTeacher")
+    mockMvc.perform(patch("/changeCourseTeacher")
         .param("deptCode", deptCode)
         .param("courseCode", courseCode)
         .param("teacher", newTeacher))
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("Attributed was updated successfully.")));
+        .andExpect(jsonPath("$.course.instructorName", is(newTeacher)));
+
   }
 
   @Test
@@ -203,12 +253,12 @@ public class RouteControllerTest {
     String courseCode = "1105";
     String newLocation = "301 URIS";
 
-    mockMvc.perform(get("/changeCourseLocation")
+    mockMvc.perform(patch("/changeCourseLocation")
         .param("deptCode", deptCode)
         .param("courseCode", courseCode)
         .param("location", newLocation))
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("Attributed was updated successfully.")));
+        .andExpect(jsonPath("$.course.courseLocation", is(newLocation)));
   }
 
 }

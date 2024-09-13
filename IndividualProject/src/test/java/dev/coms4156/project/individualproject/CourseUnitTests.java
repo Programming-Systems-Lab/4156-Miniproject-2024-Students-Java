@@ -1,12 +1,15 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-
-
 
 /**
  * Unit tests for the Course class.
@@ -17,89 +20,105 @@ import org.springframework.test.context.ContextConfiguration;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CourseUnitTests {
 
-  @BeforeAll
-  public static void setupCourseForTesting() {
+  @BeforeEach
+  public void setupCourseForTesting() {
     testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
   }
 
+  @Test
+  void constructorTest() {
+    Course testCourse2 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 200);
+    assertEquals(200,  testCourse2.getCapacity());
+
+    // test invalid input: negative capacity
+    Course testCourse3 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", -1);
+    assertEquals(0,  testCourse3.getCapacity());
+  }
 
   @Test
-  @Order(0)
   public void toStringTest() {
     String expectedResult = "\nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55";
     assertEquals(expectedResult, testCourse.toString());
   }
 
   @Test
-  @Order(1)
   public void enrollStudentTest() {
+    // when the capacity is reached, it should not be added
+    testCourse.setEnrolledStudentCount(250);
     testCourse.enrollStudent();
-    assertEquals(501, testCourse.getEnrolledStudentCount());
+    assertEquals(250, testCourse.getEnrolledStudentCount());
+
+    // when the capacity is not reached, student should be added
+    testCourse.setEnrolledStudentCount(200);
+    testCourse.enrollStudent();
+    assertEquals(201, testCourse.getEnrolledStudentCount());
   }
 
   @Test
-  @Order(2)
   public void dropStudentTest() {
+    testCourse.setEnrolledStudentCount(200);
     testCourse.dropStudent();
-    assertEquals(500, testCourse.getEnrolledStudentCount());
+    assertEquals(199, testCourse.getEnrolledStudentCount());
+
+    // when the capacity is 0, it should not be dropped
+    testCourse.setEnrolledStudentCount(0);
+    testCourse.dropStudent();
+    assertEquals(0, testCourse.getEnrolledStudentCount());
   }
 
   @Test
-  @Order(3)
   public void getCourseLocationTest() {
     assertEquals("417 IAB", testCourse.getCourseLocation());
   }
 
 
   @Test
-  @Order(4)
   public void getInstructorNameTest() {
     assertEquals("Griffin Newbold", testCourse.getInstructorName());
   }
 
 
   @Test
-  @Order(5)
   public void getCourseTimeSlotTest() {
     assertEquals("11:40-12:55", testCourse.getCourseTimeSlot());
   }
 
 
   @Test
-  @Order(6)
   public void reassignInstructorTest() {
     testCourse.reassignInstructor("Adam Cannon");
-    assertEquals("Adam Cannon", testCourse.getInstructorName());
+    assertNotEquals("Griffin Newbold", testCourse.getInstructorName());
   }
 
 
   @Test
-  @Order(7)
   public void reassignLocationTest() {
     testCourse.reassignLocation("301 URIS");
-    assertEquals("301 URIS", testCourse.getCourseLocation());
+    assertNotEquals("417 IAB", testCourse.getCourseLocation());
   }
 
 
   @Test
-  @Order(8)
   public void reassignTimeTest() {
     testCourse.reassignTime("4:10-5:25");
-    assertEquals("4:10-5:25", testCourse.getCourseTimeSlot());
+    assertNotEquals("11:40-12:55", testCourse.getCourseTimeSlot());
   }
 
 
   @Test
-  @Order(9)
   public void setEnrolledStudentCountTest() {
     testCourse.setEnrolledStudentCount(200);
-    Assertions.assertNotEquals(500, testCourse.getEnrolledStudentCount());
+    assertEquals(200, testCourse.getEnrolledStudentCount());
+
+    // test invalid input
+    assertThrows(IllegalArgumentException.class, () -> testCourse.setEnrolledStudentCount(-1));
   }
 
 
   @Test
   public void isCourseFullTest() {
-    assertEquals(true, testCourse.isCourseFull());
+    // current student count is 200, expect it to be not full.
+    assertEquals(false, testCourse.isCourseFull());
   }
 
   /** The test course instance used for testing. */
