@@ -58,3 +58,4 @@ Methods
 UNIT TESTS
 Methods:
 - MethodNamingConventions: Some methods used '_' when it doesn't match '[a-z][a-zA-Z0-9]*'
+- LooseCoupling: setupDepartmentForTesting() used 'HashMap' instead of the interface 'Map'.
