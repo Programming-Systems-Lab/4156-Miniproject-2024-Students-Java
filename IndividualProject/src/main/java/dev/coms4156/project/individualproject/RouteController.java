@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+// Spring unit testing
+// http://localhost:8080/retrieveCourse?deptCode=COMS&courseCode=4156
 
 //import org.springframework.http.*;
 //import org.springframework.web.bind.annotation.*;
@@ -43,14 +45,14 @@ public class RouteController {
   @GetMapping(value = "/retrieveDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> retrieveDepartment(@RequestParam(value = "deptCode") String deptCode) {
     try {
-      HashMap<String, Department> departmentMapping;
-      departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+      HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+      departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
 
       if (!departmentMapping.containsKey(deptCode.toUpperCase())) {
-        return new ResponseEntity<>("Department Not Found", HttpStatus.OK);
+        return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
       } else {
-        return new ResponseEntity<>(departmentMapping.get(deptCode.toUpperCase()).toString(),
-            HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(departmentMapping.get(deptCode.toUpperCase()).toString(), HttpStatus.OK
+            );
       }
 
     } catch (Exception e) {
@@ -76,19 +78,20 @@ public class RouteController {
   public ResponseEntity<?> retrieveCourse(@RequestParam(value = "deptCode") String deptCode,
                                           @RequestParam(value = "courseCode") int courseCode) {
     try {
+      deptCode = deptCode.toUpperCase();
       boolean doesDepartmentExists =
               retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
       if (doesDepartmentExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        HashMap<String, Course> coursesMapping;
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, dev.coms4156.project.individualproject.Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
         if (!coursesMapping.containsKey(Integer.toString(courseCode))) {
           return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
         } else {
           return new ResponseEntity<>(coursesMapping.get(Integer.toString(courseCode)).toString(),
-              HttpStatus.FORBIDDEN);
+              HttpStatus.OK);
         }
 
       }
@@ -116,15 +119,16 @@ public class RouteController {
                                         @RequestParam(value = "courseCode") int courseCode) {
     try {
       boolean doesCourseExists;
+      deptCode = deptCode.toUpperCase();
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
       if (doesCourseExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        HashMap<String, Course> coursesMapping;
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, dev.coms4156.project.individualproject.Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
-        Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+        dev.coms4156.project.individualproject.Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         return new ResponseEntity<>(requestedCourse.isCourseFull(), HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
@@ -136,7 +140,7 @@ public class RouteController {
   }
 
   /**
-   * Displays the number of majors in the specified department.
+   * Displays the number of people in a major in the specified department.
    *
    * @param deptCode     A {@code String} representing the department the user wishes
    *                     to find number of majors for.
@@ -148,14 +152,15 @@ public class RouteController {
   @GetMapping(value = "/getMajorCountFromDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> getMajorCtFromDept(@RequestParam(value = "deptCode") String deptCode) {
     try {
+      deptCode = deptCode.toUpperCase();
       boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
       if (doesDepartmentExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        return new ResponseEntity<>("There are: " + -departmentMapping.get(deptCode)
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        return new ResponseEntity<>("There are: " + departmentMapping.get(deptCode)
             .getNumberOfMajors() + " majors in the department", HttpStatus.OK);
       }
-      return new ResponseEntity<>("Department Not Found", HttpStatus.FORBIDDEN);
+      return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
     } catch (Exception e) {
       return handleException(e);
     }
@@ -174,10 +179,11 @@ public class RouteController {
   @GetMapping(value = "/idDeptChair", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> identifyDeptChair(@RequestParam(value = "deptCode") String deptCode) {
     try {
+      deptCode = deptCode.toUpperCase();
       boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
       if (doesDepartmentExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
         return new ResponseEntity<>(departmentMapping.get(deptCode).getDepartmentChair() + " is "
             + "the department chair.", HttpStatus.OK);
       }
@@ -205,17 +211,18 @@ public class RouteController {
                                               @RequestParam(value = "courseCode") int courseCode) {
     try {
       boolean doesCourseExists;
+      deptCode = deptCode.toUpperCase();
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
       if (doesCourseExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        HashMap<String, Course> coursesMapping;
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, dev.coms4156.project.individualproject.Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
-        Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
-        return new ResponseEntity<>(requestedCourse.getCourseLocation() + " is where the course "
-            + "is located.", HttpStatus.OK);
+        dev.coms4156.project.individualproject.Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+        return new ResponseEntity<>(requestedCourse.getCourseLocation() + " is where the course " + deptCode + " " + courseCode
+            + " is located.", HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
       }
@@ -244,15 +251,16 @@ public class RouteController {
           @RequestParam(value = "courseCode") int courseCode) {
     try {
       boolean doesCourseExists;
+      deptCode = deptCode.toUpperCase();
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
       if (doesCourseExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        HashMap<String, Course> coursesMapping;
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, dev.coms4156.project.individualproject.Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
-        Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+        dev.coms4156.project.individualproject.Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         return new ResponseEntity<>(requestedCourse.getInstructorName() + " is the instructor for"
             + " the course.", HttpStatus.OK);
       } else {
@@ -282,15 +290,16 @@ public class RouteController {
                                           @RequestParam(value = "courseCode") int courseCode) {
     try {
       boolean doesCourseExists;
+      deptCode = deptCode.toUpperCase();
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
       if (doesCourseExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        HashMap<String, Course> coursesMapping;
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, dev.coms4156.project.individualproject.Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
-        Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+        dev.coms4156.project.individualproject.Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         return new ResponseEntity<>("The course meets at: " + "some time ",
             HttpStatus.OK);
       } else {
@@ -313,12 +322,13 @@ public class RouteController {
   @PatchMapping(value = "/addMajorToDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> addMajorToDept(@RequestParam(value = "deptCode") String deptCode) {
     try {
+      deptCode = deptCode.toUpperCase();
       boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
       if (doesDepartmentExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
 
-        Department specifiedDept = departmentMapping.get(deptCode);
+        dev.coms4156.project.individualproject.Department specifiedDept = departmentMapping.get(deptCode);
         specifiedDept.addPersonToMajor();
         return new ResponseEntity<>("Attribute was updated successfully", HttpStatus.OK);
       }
@@ -340,12 +350,13 @@ public class RouteController {
   @PatchMapping(value = "/removeMajorFromDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> removeMajorFromDept(@RequestParam(value = "deptCode") String deptCode) {
     try {
+      deptCode = deptCode.toUpperCase();
       boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
       if (doesDepartmentExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
 
-        Department specifiedDept = departmentMapping.get(deptCode);
+        dev.coms4156.project.individualproject.Department specifiedDept = departmentMapping.get(deptCode);
         specifiedDept.dropPersonFromMajor();
         return new ResponseEntity<>("Attribute was updated or is at minimum", HttpStatus.OK);
       }
@@ -371,15 +382,16 @@ public class RouteController {
                                        @RequestParam(value = "courseCode") int courseCode) {
     try {
       boolean doesCourseExists;
+      deptCode = deptCode.toUpperCase();
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
       if (doesCourseExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        HashMap<String, Course> coursesMapping;
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, dev.coms4156.project.individualproject.Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
-        Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+        dev.coms4156.project.individualproject.Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         boolean isStudentDropped = requestedCourse.dropStudent();
 
         if (isStudentDropped) {
@@ -410,15 +422,16 @@ public class RouteController {
                                               @RequestParam(value = "count") int count) {
     try {
       boolean doesCourseExists;
+      deptCode = deptCode.toUpperCase();
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
       if (doesCourseExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        HashMap<String, Course> coursesMapping;
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, dev.coms4156.project.individualproject.Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
-        Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+        dev.coms4156.project.individualproject.Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         requestedCourse.setEnrolledStudentCount(count);
         return new ResponseEntity<>("Attributed was updated successfully.", HttpStatus.OK);
       } else {
@@ -447,15 +460,16 @@ public class RouteController {
                                             @RequestParam(value = "time") String time) {
     try {
       boolean doesCourseExists;
+      deptCode = deptCode.toUpperCase();
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
       if (doesCourseExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        HashMap<String, Course> coursesMapping;
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, dev.coms4156.project.individualproject.Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
-        Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+        dev.coms4156.project.individualproject.Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         requestedCourse.reassignTime(time);
         return new ResponseEntity<>("Attributed was updated successfully.", HttpStatus.OK);
       } else {
@@ -485,15 +499,16 @@ public class RouteController {
                                                @RequestParam(value = "teacher") String teacher) {
     try {
       boolean doesCourseExists;
+      deptCode = deptCode.toUpperCase();
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
       if (doesCourseExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        HashMap<String, Course> coursesMapping;
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, dev.coms4156.project.individualproject.Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
-        Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+        dev.coms4156.project.individualproject.Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         requestedCourse.reassignInstructor(teacher);
         return new ResponseEntity<>("Attributed was updated successfully.", HttpStatus.OK);
       } else {
@@ -519,15 +534,16 @@ public class RouteController {
                                                 @RequestParam(value = "location") String location) {
     try {
       boolean doesCourseExists;
+      deptCode = deptCode.toUpperCase();
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
       if (doesCourseExists) {
-        HashMap<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        HashMap<String, Course> coursesMapping;
+        HashMap<String, dev.coms4156.project.individualproject.Department> departmentMapping;
+        departmentMapping = dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, dev.coms4156.project.individualproject.Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
-        Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+        dev.coms4156.project.individualproject.Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         requestedCourse.reassignLocation(location);
         return new ResponseEntity<>("Attributed was updated successfully.", HttpStatus.OK);
       } else {
