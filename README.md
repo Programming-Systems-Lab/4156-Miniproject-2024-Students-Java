@@ -13,7 +13,7 @@ To generate the test report:
 mvn clean test
 mvn jacoco:report
 
-The unit tests have 79% coverage.
+The unit tests have 82% coverage.
 
 # Bug Fixing
 
