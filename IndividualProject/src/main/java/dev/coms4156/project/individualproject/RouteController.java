@@ -9,12 +9,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-// Spring unit testing
-// http://localhost:8080/retrieveCourse?deptCode=COMS&courseCode=4156
-
-//import org.springframework.http.*;
-//import org.springframework.web.bind.annotation.*;
-
 /**
  * This class contains all the API routes for the system.
  */
@@ -300,7 +294,7 @@ public class RouteController {
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
-        return new ResponseEntity<>("The course meets at: " + "some time ",
+        return new ResponseEntity<>("The course meets at: " + requestedCourse.getCourseTimeSlot(),
             HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);

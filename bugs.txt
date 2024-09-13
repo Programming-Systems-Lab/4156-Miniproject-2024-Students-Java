@@ -13,20 +13,15 @@ got rid of quotes
 dropPersonFromMajor function changed so only decreases number of majors if numberOfMajors is greater than 0
 "result.toString()" removed quotes
 
+
 RouteController
 if department not found returns not found error code. If department found returns ok error code
-retrieveCourse deptCode now accepts all dept codes regardless of capitalization to be aligned with functionality of retrieveDepartment
 retrieveCourse returns HttpStatus.OK instead of forbidden as per the comment at the top
-isCourseFull dept code now accepts all dept code
-
-/getMajorCountFromDept
 getMajorCountFromDept HttpStatus.FORBIDDEN changed to not found to align with other functions
 -departmentMapping.get(deptCode) changed to positive value
-changed so all deptCodes are accepted no matter capitalization
-
 findCourseLocation dept code capitalization doesn't matter
-
 findCourseLocation updated so return value is more comprehensive
+made all methods that take a deptCode not be case sensitive to maintain consistency
 
 
 

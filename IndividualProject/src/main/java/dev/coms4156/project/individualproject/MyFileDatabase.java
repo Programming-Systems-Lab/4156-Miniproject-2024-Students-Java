@@ -1,7 +1,5 @@
 package dev.coms4156.project.individualproject;
 
-//import java.io.*;
-//import java.util.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
