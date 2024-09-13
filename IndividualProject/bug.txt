@@ -1,0 +1,65 @@
+Course.java
+1. When initalizing Course, this.enrolledStudentCount = 500. There should be no students enrolled in a new course.
+I changed it from 500 to 0. 
+
+2. In the function enrollStudent(), it always returned false regardless if the enrollment was successful or not. 
+I changed it to return true if the enrollment was successful and false otherwise by checking if the enrollment count 
+is less than the course capacity.
+
+3. In the function dropStudent(), it always returned false regardless if the drop was successful or not.  I changed it
+to return true if the drop was success and false otherwise by checking if the enrolledStudentCount is more than 0. 
+
+4. getCourseLocation() was returning the instructor's name. I changed it to return the courseLocation for its intended use.
+
+5. getInstructorName() was returning the courseLocation's name. I changed it to return the instructorName for its intended use.
+
+6. isCourseFull() would return false if the course was full and true if the course was not full. I changed the return statement from
+enrollmentCapacity > enrolledStudentCount to enrollmentCapacity <= enrolledStudentCount. If the capcity is equal to or less than the enrolledStudentCount,
+then the course is full.
+
+7. src/main/java/dev/coms4156/project/individualproject/Course.java:88:    MissingOverride:        The method 'toString()' is missing an @Override annotation.
+I added the @Override annotation to the toString() method.
+
+Department.java
+1. The function getNumberOfMajors() returns a negative sign along with the number of majors. To fix this, i removed the negative sign from
+the return statement. 
+
+2. The function getDepartmentChair() returns the string stating this.departmentChair since it is surrounded by parentheses. I removed the parentheses, 
+therefore now it sends the actual string of this.departmentChair and not a string stating "this.departmentChair".
+
+3. the function toString was returning a string with "result.toString()" , instead of returning the actual statement called on result. I removed the parentheses 
+to fix the problem.
+
+4. src/main/java/dev/coms4156/project/individualproject/Department.java:23:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+I changed the HashMap to a Map interface for the constuctor of Department. 
+
+5. src/main/java/dev/coms4156/project/individualproject/Department.java:54:        LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+In the function, getCourseSelection() I changed the return value from HashMap to Map. 
+
+6.src/main/java/dev/coms4156/project/individualproject/Department.java:102:       MissingOverride:        The method 'toString()' is missing an @Override annotation.
+I added an @Override before the toString to fix. 
+
+RouteController.java
+1. In the retrieveCourse() function, if the course is found, a status of FORBIDDEN is being returned. I changed the status to OK when the course is found. 
+
+2. In the retrieveDepartment() function, if the department is found, then it returns the status of NOT_FOUND and vice versa. I switched the status around for the right behavior. 
+
+3. In the function getMajorCtFromDept(), there is a negative sign that returns with the ount of majors. I removed the negative sign for accurate behavior.
+
+4. In the function findCourseTime, if the course is found, the correct time is not being returned in the statment, "some time" is being returned. I changed it to the proper 
+course time being returned. 
+
+5. LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+I changed each HashMap of course to Map to avoid LooseCoupling. 
+
+6. ReturnEmptyCollectionRatherThanNull:    Return an empty collection rather than null.
+In the function deSerializeObjectFromFile, if an exception is thrown, the function returned null. To avoid null, I returned an empty map instead using Collections.emptyMap();
+
+7.  UnnecessaryAnnotationValueElement:      Avoid the use of value in annotations when its the only element
+For each parameter, I removed the unnecessary "value =" such as @RequestParam(value = "deptCode") String deptCode is now @RequestParam("deptCode") String deptCode
+IndividualProjectApplication.java
+1. LiteralsFirstInComparisons:     Position literals first in String comparisons
+In the if statement of "if (arg.equals("setup")) {", I changed the the order of comparison to "setup".equals(arg);
+
+2. LooseCoupling:  Avoid using implementation types like 'HashMap'; use the interface instead
+I changed each HashMap of course to Map to avoid LooseCoupling. 
