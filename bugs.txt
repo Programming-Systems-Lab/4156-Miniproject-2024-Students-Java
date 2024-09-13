@@ -1,0 +1,178 @@
+indicate what the issue you fixed was, 
+where it was, 
+if it has a proper name identified by a static analyzer what that name was.
+
+Course.java:35:        logic error:        The method ‘enrollStudent()’ has logical error. It always increments the enrolledStudentCount by 1 even if the course is full, and it always return false without considering if students are enrolled successfully or not;
+
+Course.java:48:        logic error:        The method ‘dropStudent()’ has logical error. It always decrements the enrolledStudentCount by 1 even if there is not student in the course, and it always return false without considering if students are dropped successfully or not;
+
+Course.java:61:        return wrong value:	        The method ‘getCourseLocation()’ returns instructor’s name instead of course location;
+
+Course.java:70:        return wrong value:        The method ‘getInstructorName()’ returns course location instead of instructor’s name;
+
+Course.java:89:        static bug: MissingOverride:        The method 'toString()' is missing an @Override annotation;
+
+Course.java: 137:        logic error and missing situation:        The method ‘isCourseFull()’ sets if enrollmentCapacity is greater than enrolledStudentCount, then the course is full. The logic is wrong and reversed, and doesn’t consider the situation when the enrolledStudentCount = enrollmentCapacity;
+
+Department.java:5:        static bug: UnnecessaryImport:	        Unused import 'java.util.HashMap’;
+
+Department.java:24:        static bug: LooseCoupling:        The constructor ‘Department()’ uses HashMap<String, Course> explicitly without using the more generic Map<String, Course> interface;
+
+Department.java:26:    in-comprehensive logic:        The constructor ‘Department()’ doesn’t consider the situation when the input courses is null;
+
+Department.java:36:        return wrong value:        The method ‘getNumberOfMajors()’ returns the negative number of this.numberOfMajors, instead of returning this.numberOfMajors; 
+
+Department.java:45:        return wrong value:        The method ‘getDepartmentChairs()’ returns the literal string “this.departmentChair” instead of the actual this.departmentChair content;
+
+Department.java:55:        static bug: LooseCoupling:        The method ‘getCourseSelection()’ sets the return type to HashMap<String, Course> explicitly without using the more generic Map<String, Course> interface;
+
+Department.java:61:        in-comprehensive logic:        The method ‘addPersonToMajor()’ will still increment the number of majors by 1 even if the number of majors is negative.
+
+Department.java:68:        logic error:        The method ‘dropPersonFromMajor()’ will still decrement the number of majors by 1 without considering the situation when the number of majors is equal or smaller than 0;
+
+Department.java:97:        missing behavior:        The method ‘createCourse()’ doesn’t set the new Course() object’s enrolledStudentCount before adding the course to the department.
+
+Department.java:103:        static bug: MissingOverride:        The method 'toString()' is missing an @Override annotation;
+
+Department.java:113:        return wrong value:        The method ‘toString()’ returns the literal string “result.toString()” instead of the actual result.toString() content;
+
+Department.java:117:        static bug: LooseCoupling:        The type of the variable ‘courses’ is HashMap<String, Course> explicitly instead of the more generic Map<String, Course> interface;
+
+Department.java:118:        static bug: UnusedPrivateField:        The private class variable ‘departmentChair' is unused;
+
+IndividualProjectApplication.java:40:        redundant initialization:        The method ‘run()’ doesn’t check if myFileDatabase has already been initialized, which could cause unintended reinitialization of the database instance;
+
+IndividualProjectApplication.java:40:        static bug: LiteralsFirstInComparisons:	Position literals first in String comparisons;
+
+IndividualProjectApplication.java:69:        No Error Handling:        The method ’resetDataFile()’ has no error handling. If there is something goes wrong, there is no way to handle or let the user know;
+
+IndividualProjectApplication.java:85:        static bug: LooseCoupling:        Avoid using implementation types like 'HashMap'; use the interface instead
+
+IndividualProjectApplication.java:95:        static bug: LooseCoupling:        Avoid using implementation types like 'HashMap'; use the interface instead
+
+IndividualProjectApplication.java:293:	PreserveStackTrace:	Thrown exception does not preserve the stack trace of exception 'e' on all code paths
+
+IndividualProjectApplication.java:303:        NullPointerException:        The method ‘onTermination()’ doesn’t consider the situation when myFileDatabase is null, which could lead too a NullPointerException when calling ‘myFileDatabase.saveContentsToFile()’;
+
+
+MyFileDatabase.java:23:        NullPointerException:        The constructor ‘MyFileDatabase()’ set the departmentMapping only in the constructor when flag == 0, but there’s no guarantee that it is properly initialized when flag is not 0, which causes departmentMapping might be null, leading to NullPointerException;
+
+MyFileDatabase.java:35:        static bug: LooseCoupling:        Avoid using implementation types like 'HashMap'; use the interface instead
+
+MyFileDatabase.java:45:        static bug: LooseCoupling:        Avoid using implementation types like 'HashMap'; use the interface instead
+
+MyFileDatabase.java:45:        potential race condition with file access:        The method ‘deSerializeObjectFromFile()’ doesn’t consider the situation when multiple threads attempt to read from the file simultaneously, which could cause data corruption or inconsistent reads;
+
+MyFileDatabase.java:45:        Unchecked type cast:        The method ‘deSerializeObjectFromFile()’ doesn’t check type cast for HashMap<String, Department>. If the file contents don’t match the expected structure, it will fail at runtime;
+
+MyFileDatabase.java:49:        static bug: LooseCoupling:        Avoid using implementation types like 'HashMap'; use the interface instead
+
+
+MyFileDatabase.java:54:        static bug: ReturnEmptyCollectionRatherThanNull:        Return an empty collection rather than null.
+
+MyFileDatabase.java:63:        potential race condition with file access:        The method ‘saveContentsToFile()’ doesn’t consider the situation when multiple threads attempt to write the file simultaneously, which could cause data corruption or inconsistent writes;
+
+MyFileDatabase.java:76:        static bug: LooseCoupling:        Avoid using implementation types like 'HashMap'; use the interface instead
+
+MyFileDatabase.java:100:        static bug: LooseCoupling:        Avoid using implementation types like 'HashMap'; use the interface instead
+
+
+RouteController.java:3:        static bug: UnnecessaryImport:        Unused import 'java.util.HashMap’;
+
+RouteController.java:41:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:41:        wrong status code:        The method ‘retrieveDepartment()’ returns wrong status code, ‘HttpStatus.OK’, when a department is not found;
+
+RouteController.java:41:        wrong status code:        The method ‘retrieveDepartment()’ returns wrong status code, ‘HttpStatus.NOT_FOUND’, when a department is found;
+
+RouteController.java:46:        static bug: UseLocaleWithCaseConversions:        When doing a String.toLowerCase()/toUpperCase() call, use a Locale;
+
+RouteController.java:49:        static bug: UseLocaleWithCaseConversions:        When doing a String.toLowerCase()/toUpperCase() call, use a Locale;
+
+RouteController.java:74:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:75:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:112:        wrong status code:        The method ‘retrieveCourse()’ returns wrong status code, ‘HttpStatus.FORBIDDEN’, when a course is found;
+
+RouteController.java:113:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:114:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:147:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:147:        logic error:        The method ‘getMajorCtFromDept()’ doesn’t return the correct number of number of majors in the department, these is a negative sign;
+
+RouteController.java:147:        wrong status code:        The method ‘getMajorCtFromDept()’ returns wrong status code, ‘HttpStatus.FORBIDDEN’, when a department is not found;
+
+RouteController.java:173:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:203:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:204:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:242:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:243:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java.280:        logic error:        The method ‘findCourseTime()’ doesn’t return the correct time slot of a course, it returns literal string “some time”;
+
+RouteController.java:281:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:282:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:293:        static bug: UnusedLocalVariable:        Avoid unused local variables such as 'requestedCourse’;
+
+RouteController.java:314:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:341:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:370:        wrong status code:        The method ‘dropStudent()’ returns wrong status code, ‘HttpStatus.BAD_REQUEST’, when the operation succeeds but the student isn’t dropped;
+
+RouteController.java:371:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:372:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:413:        misleading success messages:        The method ‘setEnrollmentCount()’ sets the success message as “Attributed was updated successfully”, which should be “Attribute was updated successfully”;
+
+RouteController.java:414:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:415:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:416:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:451:        misleading success messages:        The method ‘changeCourseTime()’ sets the success message as “Attributed was updated successfully”, which should be “Attribute was updated successfully”;
+
+RouteController.java:452:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:453:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:454:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:490:        misleading success messages:        The method ‘changeCourseTeacher()’ sets the success message as “Attributed was updated successfully”, which should be “Attribute was updated successfully”;
+
+
+RouteController.java:491:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:492:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:493:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:529:        misleading success messages:        The method ‘changeCourseLocation()’ sets the success message as “Attributed was updated successfully”, which should be “Attribute was updated successfully”;
+
+
+RouteController.java:530:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:531:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:532:        static bug: UnnecessaryAnnotationValueElement:        Avoid the use of value in annotations when its the only element;
+
+RouteController.java:554:        wrong status code:        The method ‘handleException()’ returns wrong HTTP status code, HttpStatus.OK, when an error has occurred;
+
+
+
+
+
+
+
+
