@@ -42,7 +42,10 @@ public class Course implements Serializable {
    * @return true if the student is successfully dropped, false otherwise.
   */
   public boolean dropStudent() {
-    enrolledStudentCount--;
+    if (enrolledStudentCount>0) {
+      enrolledStudentCount--;
+      return true;
+    }
     return false;
   }
 
@@ -89,7 +92,7 @@ public class Course implements Serializable {
 
 
   public boolean isCourseFull() {
-    return enrollmentCapacity > enrolledStudentCount;
+    return enrollmentCapacity <= enrolledStudentCount;
   }
 
   @Serial
