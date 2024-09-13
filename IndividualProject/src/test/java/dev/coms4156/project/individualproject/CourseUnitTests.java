@@ -43,5 +43,66 @@ public class CourseUnitTests {
     String expectedResult = "\nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55";
     assertEquals(expectedResult, testCourse.toString());
   }
+
+  /**
+   * Tests the {@link Course#reassignInstructor(String)} method.
+   */
+  @Test
+  public void reassignInstructorTest() {
+    testCourse.reassignInstructor("John Lennon");
+    assertEquals(testCourse.getInstructorName(), "John Lennon");
+  }
+
+  /**
+   * Tests the {@link Course#reassignLocation(String)} method.
+   */
+  @Test
+  public void reassignLocationTest() {
+    testCourse.reassignLocation("Butler Library");
+    assertEquals(testCourse.getCourseLocation(), "Butler Library");
+  }
+
+  /**
+   * Tests the {@link Course#reassignTime(String)} method.
+   */
+  @Test
+  public void reassignTimeTest() {
+    testCourse.reassignLocation("14:40-15:55");
+    assertEquals(testCourse.getCourseTimeSlot(), "14:40-15:55");
+  }
+
+  /**
+   * Tests the {@link Course#setEnrolledStudentCount(int)} method.
+   */
+  @Test
+  public void setEnrolledStudentCountTest() {
+    testCourse.setEnrolledStudentCount(500);
+    assertTrue(testCourse.isCourseFull());
+    testCourse.setEnrolledStudentCount(100);
+    assertFalse(testCourse.isCourseFull());
+  }
+
+  /**
+   * Tests the {@link Course#dropStudent()} method.
+   */
+  @Test
+  public void dropStudentTest() {
+    testCourse.setEnrolledStudentCount(250);
+    assertTrue(testCourse.dropStudent());
+    assertFalse(testCourse.isCourseFull());
+    testCourse.setEnrolledStudentCount(0);
+    assertFalse(testCourse.dropStudent());
+  }
+
+  /**
+   * Tests the {@link Course#enrollStudent()} method.
+   */
+  @Test
+  public void enrollStudentTest() {
+    testCourse.setEnrolledStudentCount(250);
+    assertFalse(testCourse.enrollStudent());
+    testCourse.setEnrolledStudentCount(0);
+    assertTrue(testCourse.enrollStudent());
+  }
 }
 
