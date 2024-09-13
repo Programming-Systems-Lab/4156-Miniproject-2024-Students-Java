@@ -105,6 +105,4 @@ public class CourseUnitTests {
     Assertions.assertTrue(isFull, "Course should be full with 250 students");
   }
 
-
-
 }
