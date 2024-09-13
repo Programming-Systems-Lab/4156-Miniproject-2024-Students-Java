@@ -25,6 +25,8 @@ public class IndividualProjectApplication implements CommandLineRunner {
 		SpringApplication.run(IndividualProjectApplication.class, args);
 	}
 
+	//THIS COMMENT IS A GIT PULL REQUEST TEST//
+	
 	/**
 	 * This contains all the setup logic, it will mainly be focused
 	 * on loading up and creating an instance of the database based
