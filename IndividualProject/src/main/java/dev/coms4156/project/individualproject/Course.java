@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 /**
  * Represents a course with an instructor, location, time slot,
- * capacity, and enrolled student count.
+ * capacity, and count of enrolled students.
  */
 public class Course implements Serializable {
 
@@ -75,7 +75,7 @@ public class Course implements Serializable {
   /**
    * Returns a string representation of the course.
    *
-   * @return A string containing instructor name, course location, and time slot.
+   * @return A string representing instructor name, course location, and time slot.
    */
   public String toString() {
     return "\nInstructor: " + instructorName
@@ -137,7 +137,7 @@ public class Course implements Serializable {
   private final int enrollmentCapacity;
 
   /**
-   * The number of students enrolled in the course.
+   * The number of students currently enrolled in the course.
    */
   private int enrolledStudentCount;
 
