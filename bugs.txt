@@ -1,5 +1,6 @@
 Here I will list all the bugs that I found in the project and how I solve it.
 
+# In Course class:
 1. `return enrollmentCapacity > enrolledStudentCount;`
     - Address: In isCourseFull() method in Course class.
     - Solution: Change the > to <.
@@ -14,3 +15,19 @@ Here I will list all the bugs that I found in the project and how I solve it.
     - Address: In getInstructorName() method in Course class.
     - Solution: Change courseLocation to instructorName.
     - Reason: The method should return the instructorName, not the courseLocation.
+
+# In Department class:
+1. `return -this.numberOfMajors;`
+    - Address: In getNumberOfMajors() method in Department class.
+    - Solution: Remove the - sign.
+    - Reason: The method should return the number of majors, not the negative number of majors.
+
+2. `return "result.toString()";`
+    - Address: In toString() method in Department class.
+    - Solution: change it to return result.toString();
+    - Reason: The method should return the result of the toString() method, not the string "result.toString()".
+
+3. `return "this.departmentChair";`
+    - Address: In getDepartmentChair() method in Department class.
+    - Solution: Change it to return this.departmentChair;
+    - Reason: The method should return the departmentChair, not the string "this.departmentChair".
