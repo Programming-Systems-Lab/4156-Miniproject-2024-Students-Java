@@ -20,7 +20,7 @@ public class Department implements Serializable {
    * @param departmentChair  The name of the department chair.
    * @param numberOfMajors   The number of majors in the department.
    */
-  public Department(String deptCode, HashMap<String, dev.coms4156.project.individualproject.Course> courses, String departmentChair,
+  public Department(String deptCode, HashMap<String, Course> courses, String departmentChair,
                     int numberOfMajors) {
     this.courses = courses;
     this.departmentChair = departmentChair;
@@ -51,7 +51,7 @@ public class Department implements Serializable {
    *
    * @return A HashMap containing courses offered by the department.
    */
-  public HashMap<String, dev.coms4156.project.individualproject.Course> getCourseSelection() {
+  public HashMap<String, Course> getCourseSelection() {
     return this.courses;
   }
 
@@ -77,7 +77,7 @@ public class Department implements Serializable {
    * @param courseId The ID of the course to add.
    * @param course   The Course object to add.
    */
-  public void addCourse(String courseId, dev.coms4156.project.individualproject.Course course) {
+  public void addCourse(String courseId, Course course) {
     courses.put(courseId, course);
   }
 
@@ -92,7 +92,7 @@ public class Department implements Serializable {
    */
   public void createCourse(String courseId, String instructorName, String courseLocation,
                            String courseTimeSlot, int capacity) {
-    dev.coms4156.project.individualproject.Course newCourse = new dev.coms4156.project.individualproject.Course(instructorName, courseLocation, courseTimeSlot, capacity);
+    Course newCourse = new Course(instructorName, courseLocation, courseTimeSlot, capacity);
     addCourse(courseId, newCourse);
   }
 
@@ -103,9 +103,9 @@ public class Department implements Serializable {
    */
   public String toString() {
     StringBuilder result = new StringBuilder();
-    for (Map.Entry<String, dev.coms4156.project.individualproject.Course> entry : courses.entrySet()) {
+    for (Map.Entry<String, Course> entry : courses.entrySet()) {
       String key = entry.getKey();
-      dev.coms4156.project.individualproject.Course value = entry.getValue();
+      Course value = entry.getValue();
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
           .append("\n");
     }
@@ -114,7 +114,7 @@ public class Department implements Serializable {
 
   @Serial
   private static final long serialVersionUID = 234567L;
-  private HashMap<String, dev.coms4156.project.individualproject.Course> courses;
+  private HashMap<String, Course> courses;
   private String departmentChair;
   private String deptCode;
   private int numberOfMajors;
