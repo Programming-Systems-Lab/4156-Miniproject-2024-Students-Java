@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.util.HashMap;
+import java.lang.String;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -33,37 +34,41 @@ public class MyFileDatabaseUnitTests {
   public void setupMyFileDatabaseForTesting() {
     testFile = new File(tempDir, "testDatabase.ser");
     databaseTest = new MyFileDatabase(1, testFile.getAbsolutePath());
+
     courses = new HashMap<>();
-    Course psyc1001 = new Course("Patricia G Lindemann", "501 SCH", "1:10-2:25", 200);
-    psyc1001.setEnrolledStudentCount(191);
-    Course psyc1610 = new Course("Christopher Baldassano", "200 SCH", "1:10-4:00", 45);
-    psyc1610.setEnrolledStudentCount(42);
-    courses.put("1001", psyc1001);
-    courses.put("1610", psyc1610);
-    mapping = new HashMap<>();
-    mapping.put("ECON", new Department("ECON", courses, "Michael Woodford", 2345));
-    mapping.put("CS", new Department("CS", courses, "David", 1111));
+    courses.put("2500", new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250));
+    departmentMapping = new HashMap<>();
+    departmentMapping.put("CS", new Department("CS", courses, "David", 1111));
+    databaseTest.setMapping(departmentMapping);
+
 
   }
 
 
   @Test
-  public void setMappingTest() {
-    databaseTest.setMapping(mapping);
-    assertEquals(mapping, databaseTest.getDepartmentMapping());
+  public void testSetMapping() {
+    departmentMapping = new HashMap<>();
+    departmentMapping.put("CS", new Department("CS", courses, "David", 1111));
+    databaseTest.setMapping(departmentMapping);
+    assertEquals(departmentMapping, databaseTest.getDepartmentMapping());
+  }
+
+  @Test
+  public void testGetDepartmentMapping() {
+    assertEquals(departmentMapping, databaseTest.getDepartmentMapping());
   }
 
   @Test
   public void deSerializeObjectFromFileWithValidDataTest() throws IOException,
           ClassNotFoundException {
     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(testFile))) {
-      out.writeObject(mapping);
+      out.writeObject(departmentMapping);
     }
 
     databaseSerValid = new MyFileDatabase(0, testFile.getAbsolutePath());
     HashMap<String, Department> deserializedMapping = databaseSerValid.deSerializeObjectFromFile();
-    for (String key : mapping.keySet()) {
-      Department originalDepartment = mapping.get(key);
+    for (String key : departmentMapping.keySet()) {
+      Department originalDepartment = departmentMapping.get(key);
       Department deserializedDepartment = deserializedMapping.get(key);
 
       assertEquals(originalDepartment.getDepartmentChair(),
@@ -85,33 +90,57 @@ public class MyFileDatabaseUnitTests {
     }
   }
 
-  /*
+
   @Test
-  public void deSerializeObjectFromFileInvalidTest() throws IOException, ClassNotFoundException {
-    File testInvalidFile = new File(tempDirInvalid, "testInvalid.ser");
-    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(testInvalidFile))) {
-      out.writeObject("Just String not a valid datatype.");
-    }
-    MyFileDatabase databaseInvalid = new MyFileDatabase(0, testInvalidFile.getAbsolutePath());
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-      databaseInvalid.deSerializeObjectFromFile();
-    });
-    assertEquals("Invalid object type in file.", exception.getMessage());
+  public void testToString(){
+    System.out.print("hahahahah execueted");
+
+    String expectedResult = "For the CS department: \nCS 2500: \nInstructor: "
+            + "Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n";
+    assertEquals(expectedResult, databaseTest.toString());
   }
-*/
+
+  @Test
+  public void testSaveContentToFile(){
+
+    /** create a file*/
+    File tempFile = new File(tempFolder, "testFile.ser");
+    putContent = new MyFileDatabase(0, tempFile.getAbsolutePath());
+    /** write data to the file*/
+    courses = new HashMap<>();
+    courses.put("2500", new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250));
+    departmentMapping = new HashMap<>();
+    departmentMapping.put("CS", new Department("CS", courses, "David", 1111));
+    putContent.setMapping(departmentMapping);
+    putContent.saveContentsToFile();
+
+    /** read from the file and valid it*/
+    HashMap<String, Department> deserializedMapping = putContent.deSerializeObjectFromFile();
+    for (String key : departmentMapping.keySet()) {
+      Department originalDepartment = departmentMapping.get(key);
+      Department deserializedDepartment = deserializedMapping.get(key);
+      assertEquals(originalDepartment.getDepartmentChair(),
+              deserializedDepartment.getDepartmentChair());
+    }
+
+
+
+
+  }
 
   /** The test course instance used for testing. */
   @TempDir
   private static File tempDir;
+  private static File tempFolder;
   @TempDir
   private static File tempDirInvalid;
   private static File testFile;
-  private static File testInvalidFile;
   private static MyFileDatabase databaseTest;
+  private static MyFileDatabase putContent;
   private static MyFileDatabase databaseSerValid;
   private static Course psyc1001;
   private static Course psyc1610;
   private static HashMap<String, Course> courses;
-  private static HashMap<String, Department> mapping;
+  private static HashMap<String, Department> departmentMapping;
 }
 

@@ -79,6 +79,8 @@ public class CourseUnitTests {
 
 
 
+
+
   /** The test course instance used for testing. */
   public static Course testCourse;
   public static Course testReassignInstructor;

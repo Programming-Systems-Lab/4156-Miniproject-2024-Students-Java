@@ -49,7 +49,7 @@ public class RouteControllerUnitTests {
 
 
   private HashMap<String, Department> departmentMapping;
-  private HashMap<String, Course> departmentcs;
+  private HashMap<String, Course> coursesOffered_byDept;
 
   /** This is the pre-set up for each test cases.*/
   @BeforeEach
@@ -447,18 +447,18 @@ public class RouteControllerUnitTests {
 
   @Test
   public void testSetEnrollmentCount_SuccessfulSet() throws Exception {
+    String deptCode = "CS";
     int courseCode = 2500;
+    int count = 40;
 
     HashMap<String, Course> coursesMapping = new HashMap<>();
     Course mockCourse = mock(Course.class);
     coursesMapping.put(Integer.toString(courseCode), mockCourse);
     Department mockDepartment = mock(Department.class);
     when(mockDepartment.getCourseSelection()).thenReturn(coursesMapping);
-    String deptCode = "CS";
-    departmentMapping.put(deptCode, mockDepartment);
     HashMap<String, Department> departmentMapping = new HashMap<>();
+    departmentMapping.put(deptCode, mockDepartment);
     when(myFileDatabase.getDepartmentMapping()).thenReturn(departmentMapping);
-    int count = 40;
 
     this.mockMvc.perform(patch("/setEnrollmentCount")
                     .param("deptCode", deptCode)

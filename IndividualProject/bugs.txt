@@ -1,29 +1,94 @@
-In Course.java file,
+### Course.java
 
-I added a getter method called getEnrolledStudentCount(). It is not a bug.
+--Bug #1
+issue: every time call enrollStudent() the enrolledStudentCount will increment. no matter full or not.
+method: enrollStudent()
+location: line 34 - line 39
+fix: apply a if condition. Only the count does not meet the capacity then increment enrolledStudentCount.
+
+--Bug #2
+issue: every time call dropStudent() the enrolledStudentCount will decrement. no matter less than 0 or not.
+method: dropStudent()
+location: line 47 - line 53
+fix: apply a if condition. Only the count is above 0 then it could decrement enrolledStudentCount.
+
+--Bug #3
+issue: course location gets returned
+method: getCourseLocation()
+location: line 56
+fix:  {return this.courseLocation}
+
+--Bug #4
+issue: enrollmentCapacity > enrolledStudentCount means the course is not full. It does not match the method name.
+method: isCourseFull()
+location: line 102
+fix:  {return enrollmentCapacity <= enrolledStudentCount}
+
+### Department.java
+
+--Bug #1
+issue: negative number is returned.
+method: getNumberOfMajors()
+location: line 36
+fix: {return this.numberOfMajors}
+
+--Bug #2
+issue: "this.departmentChair" is returned. The value stored in this variable should be returned.
+method: getDepartmentChair()
+location: line 45
+fix: {return this.departmentChair}
+
+--Bug #3
+issue: If number of majors is less than 0, it can still be decremented.
+method:  dropPersonFromMajor()
+location: line 68 - line 71
+fix: and the if condition, only number of majors is above 0, it could be decremented.
+
+--Bug #4
+issue: string of "result.toString()" is returned.
+method:  toString()
+location: line 104 - line 112
+fix: {result.toString()}
+
+### IndividualProjectApplication.java
+
+### MyFileDatabase.java
+
+### RouteController.java
+
+--Bug #1
+issue: the logic is not correct. Department does not exist, it returns Ok.
+method:  retrieveDepartment()
+location: line 48 - line 53
+fix: switch HttpStatus.OK and HttpStatus.NOT_FOUND
+
+--Bug #2
+issue: when Course queried exists, it returns HttpStatus.FORBIDDEN.
+method:  retrieveDepartment()
+location: line 87 - line 89
+fix: HttpStatus.OK
+
+--Bug #3
+issue: when Course queried exists, it returns HttpStatus.FORBIDDEN.
+method:  retrieveDepartment()
+location: line 87 - line 89
+fix: HttpStatus.OK
+
+--Bug #4
+issue: when specific department does not exist, it returns HttpStatus.FORBIDDEN.
+method:  retrieveDepartment()
+location: line 155 - line 157
+fix: HttpStatus.NOT_FOUND
+
+--Bug #5
+issue: The time returned is hard coded "some time".
+method:  retrieveDepartment()
+location: line 290 - line 292
+fix: requestedCourse.getCourseTimeSlot()
 
 
-In RouteController.java file,
 
-under method retrieveDepartment. (line 48 - line 54)
-In the if and else condition, the logic is wrong. It should be when deparmentMapping does not have the deptCode the user
-queried, HttpStatus should return NOT_FOUND else return HttpStatus.OK.
 
-under method retrieveCourse. (line 88 - line 90)
-In the else condition, which is when the coursesMapping contains the courseCode user queried, so we should return
-HttpStatus.ok not HttpStatus.Forbidden.
-
-under method getMajorCtFromDept. (line 155 - line 157)
-Same bug as above. When the specific department does not exist, it should be HttpStatus.NOT_FOUND instead of
-HttpStatus.FORBIDDEN.
-
-under method getMajorCtFromDept. (line 152 - line 154)
-When get the number of majors from specific department, it should be a positive number not negative. So there should not
-be a minus sign. Just delete it.
-
-under method findCourseTime. (line 290 - line 292)
-When return the response body if the course exists, we should return its time instead of hard coded "some time ".
-Replace hard coded "some time " with requestedCourse.getCourseTimeSlot().
 
 
 
