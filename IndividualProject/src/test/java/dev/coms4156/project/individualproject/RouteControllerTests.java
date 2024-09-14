@@ -324,6 +324,24 @@ public class RouteControllerTests {
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
   }
+  @Test
+  public void testRetrieveCoursesSuccess() {
+    // Test for a course code that exists
+    ResponseEntity<?> response = routeController.retrieveCourses(3082);
+    String responseBody = response.getBody().toString();
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertTrue(responseBody.contains("Kenneth Shepard"));
+    assertTrue(responseBody.contains("1205 MUDD"));
+    assertTrue(responseBody.contains("4:10-6:40"));
+  }
+
+  @Test
+  public void testRetrieveCoursesNotFound() {
+    // Test for a course code that does not exist
+    ResponseEntity<?> response = routeController.retrieveCourses(9999);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("No courses found with the specified course code.", response.getBody());
+  }
 
 
 }

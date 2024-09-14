@@ -556,6 +556,39 @@ public class RouteController {
     }
   }
 
+  /**
+   * Retrieves all courses with the specified course code across all departments.
+   *
+   * @param courseCode A {@code int} representing the course code to search for.
+   * @return           A {@code ResponseEntity} containing a list of courses with the specified course code,
+   *                   or an appropriate error message.
+   */
+  @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> retrieveCourses(@RequestParam(value = "courseCode") int courseCode) {
+    try {
+      HashMap<String, Department> departmentMapping;
+      departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+      StringBuilder result = new StringBuilder();
+
+      for (Department department : departmentMapping.values()) {
+        HashMap<String, Course> coursesMapping = department.getCourseSelection();
+        Course course = coursesMapping.get(Integer.toString(courseCode));
+        if (course != null) {
+          result.append(course.toString()).append("\n");
+        }
+      }
+
+      if (result.length() == 0) {
+        return new ResponseEntity<>("No courses found with the specified course code.", HttpStatus.NOT_FOUND);
+      } else {
+        return new ResponseEntity<>(result.toString(), HttpStatus.OK);
+      }
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
+
   private ResponseEntity<?> handleException(Exception e) {
     e.printStackTrace();
     return new ResponseEntity<>("An Error has occurred", HttpStatus.OK);
