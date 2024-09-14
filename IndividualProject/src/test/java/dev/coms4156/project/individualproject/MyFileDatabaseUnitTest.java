@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,14 +35,14 @@ public class MyFileDatabaseUnitTest {
 
   @Test
   public void setMappingTest() {
-    final HashMap<String, Department> currentMapping = testMyFileDatabase.getDepartmentMapping();
+    final Map<String, Department> currentMapping = testMyFileDatabase.getDepartmentMapping();
 
     Course testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
-    HashMap<String, Course> testCourses = new HashMap<String, Course>();
+    Map<String, Course> testCourses = new HashMap<String, Course>();
     testCourses.put("4156", testCourse);
 
     Department testDepartment = new Department("COMS", testCourses, "Griffin Newbold", 2700);
-    HashMap<String, Department> testDepartmentMapping = new HashMap<String, Department>();
+    Map<String, Department> testDepartmentMapping = new HashMap<String, Department>();
     testDepartmentMapping.put("COMS", testDepartment);
 
     testMyFileDatabase.setMapping(testDepartmentMapping);
@@ -54,14 +55,14 @@ public class MyFileDatabaseUnitTest {
 
   @Test
   public void toStringTest() {
-    final HashMap<String, Department> currentMapping = testMyFileDatabase.getDepartmentMapping();
+    final Map<String, Department> currentMapping = testMyFileDatabase.getDepartmentMapping();
 
     Course testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
-    HashMap<String, Course> testCourses = new HashMap<String, Course>();
+    Map<String, Course> testCourses = new HashMap<String, Course>();
     testCourses.put("4156", testCourse);
 
     Department testDepartment = new Department("COMS", testCourses, "Griffin Newbold", 2700);
-    HashMap<String, Department> testDepartmentMapping = new HashMap<String, Department>();
+    Map<String, Department> testDepartmentMapping = new HashMap<String, Department>();
     testDepartmentMapping.put("COMS", testDepartment);
 
     testMyFileDatabase.setMapping(testDepartmentMapping);
@@ -84,11 +85,11 @@ public class MyFileDatabaseUnitTest {
       MyFileDatabase writingMyFileDatabase = new MyFileDatabase(1, "writing_data.txt");
 
       Course testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
-      HashMap<String, Course> testCourses = new HashMap<String, Course>();
+      Map<String, Course> testCourses = new HashMap<String, Course>();
       testCourses.put("4156", testCourse);
 
       Department testDepartment = new Department("COMS", testCourses, "Griffin Newbold", 2700);
-      HashMap<String, Department> testDepartmentMapping = new HashMap<String, Department>();
+      Map<String, Department> testDepartmentMapping = new HashMap<String, Department>();
       testDepartmentMapping.put("COMS", testDepartment);
 
       writingMyFileDatabase.setMapping(testDepartmentMapping);

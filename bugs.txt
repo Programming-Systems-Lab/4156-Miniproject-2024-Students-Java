@@ -1,4 +1,4 @@
-Here I will list all the bugs that I found in the project and how I solve it.
+Here I will list all the bugs that I found in the project and how I solve it. I just use pmd for bug detection.
 
 # In Course class:
 1. `return enrollmentCapacity > enrolledStudentCount;`
@@ -127,3 +127,8 @@ Here I will list all the bugs that I found in the project and how I solve it.
     - Address: In retrieveDept() method in RouteController class.
     - Solution: Change it to deptCode.toUpperCase(Locale.ENGLISH)
     - Reason: The method should be ENGLISH.
+
+12. `import org.springframework.cglib.core.Local;`
+    - Address: In RouteController class.
+    - Solution: Deleted the import statement.
+    - Reason: The import statement is not used in the class.

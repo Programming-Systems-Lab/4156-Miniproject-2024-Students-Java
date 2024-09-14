@@ -3,6 +3,7 @@ package dev.coms4156.project.individualproject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,6 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration
 public class IndividualProjectApplicationUnitTest {
 
-
   /**
    * This method sets up the course for testing.
    */
@@ -31,27 +31,27 @@ public class IndividualProjectApplicationUnitTest {
 
   @Test
   public void runTest() {
-    myFileDatabase = IndividualProjectApplication.myFileDatabase;
+    MyFileDatabase myFileDatabase = IndividualProjectApplication.myFileDatabase;
     assertEquals(7, myFileDatabase.getDepartmentMapping().size());
   }
 
   @Test
   public void overrideDatabaseTest() {
-    testMyFileDatabase = new MyFileDatabase(0, "data.txt");
+    final MyFileDatabase testMyFileDatabase = new MyFileDatabase(0, "data.txt");
 
     Course testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
-    HashMap<String, Course> testCourses = new HashMap<String, Course>();
+    Map<String, Course> testCourses = new HashMap<>();
     testCourses.put("4156", testCourse);
 
     Department testDepartment = new Department("COMS", testCourses, "Griffin Newbold", 2700);
-    HashMap<String, Department> testDepartmentMapping = new HashMap<String, Department>();
+    Map<String, Department> testDepartmentMapping = new HashMap<>();
     testDepartmentMapping.put("COMS", testDepartment);
 
-    overideMyFileDatabase = new MyFileDatabase(1, "override_data.txt");
+    MyFileDatabase overideMyFileDatabase = new MyFileDatabase(1, "override_data.txt");
     overideMyFileDatabase.setMapping(testDepartmentMapping);
     IndividualProjectApplication.overrideDatabase(overideMyFileDatabase);
 
-    myFileDatabase = IndividualProjectApplication.myFileDatabase;
+    MyFileDatabase myFileDatabase = IndividualProjectApplication.myFileDatabase;
     assertEquals(1, myFileDatabase.getDepartmentMapping().size());
 
     // set the database back to the original value
@@ -61,12 +61,8 @@ public class IndividualProjectApplicationUnitTest {
   @Test
   public void onTerminationTest() {
     application.onTermination();
-    testMyFileDatabase = new MyFileDatabase(0, "data.txt");
     assertEquals(7, IndividualProjectApplication.myFileDatabase.getDepartmentMapping().size());
   }
   
-  private MyFileDatabase testMyFileDatabase;
-  private MyFileDatabase overideMyFileDatabase;
-  private MyFileDatabase myFileDatabase;
   private static IndividualProjectApplication application;
 }
