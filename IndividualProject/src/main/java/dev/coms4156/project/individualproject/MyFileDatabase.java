@@ -69,7 +69,6 @@ public class MyFileDatabase {
       e.printStackTrace();
     }
   }
-  
 
   /**
    * Gets the department mapping of the database.
