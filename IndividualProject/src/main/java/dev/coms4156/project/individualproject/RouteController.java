@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -582,6 +583,47 @@ public class RouteController {
         return new ResponseEntity<>("No courses found with the specified course code.", HttpStatus.NOT_FOUND);
       } else {
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
+      }
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
+  /**
+   * Attempts to enroll a student in a specified course.
+   *
+   * @param deptCode   A {@code String} representing the department code.
+   * @param courseCode An {@code int} representing the course code within the department.
+   * @return           A {@code ResponseEntity} object containing an appropriate message and status
+   *                   based on the outcome of the enrollment attempt.
+   */
+  @PostMapping(value = "/enrollStudentInCourse", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> enrollStudentInCourse(@RequestParam(value = "deptCode") String deptCode,
+                                                 @RequestParam(value = "courseCode") int courseCode) {
+    try {
+      // Check if the course exists using the existing method
+      ResponseEntity<?> courseResponse = retrieveCourse(deptCode, courseCode);
+      if (courseResponse.getStatusCode() != HttpStatus.OK) {
+        return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+      }
+
+      // Get the department and course details
+      HashMap<String, Department> departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+      HashMap<String, Course> coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
+      Course course = coursesMapping.get(Integer.toString(courseCode));
+
+      // Check if the course is already full
+      if (course.isCourseFull()) {
+        return new ResponseEntity<>("Cannot enroll student. Course is full.", HttpStatus.CONFLICT);
+      }
+
+      // Attempt to enroll the student
+      boolean enrollmentSuccess = course.enrollStudent();
+
+      if (enrollmentSuccess) {
+        return new ResponseEntity<>("Student has been successfully enrolled in the course.", HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>("Failed to enroll student in the course.", HttpStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
       return handleException(e);

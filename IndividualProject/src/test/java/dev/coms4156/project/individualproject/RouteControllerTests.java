@@ -343,5 +343,28 @@ public class RouteControllerTests {
     assertEquals("No courses found with the specified course code.", response.getBody());
   }
 
+  @Test
+  public void testEnrollStudentInCourseSuccess() {
+    // Test enrolling in a course that is not full
+    ResponseEntity<?> response = routeController.enrollStudentInCourse("ELEN", 1201);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Student has been successfully enrolled in the course.", response.getBody());
+  }
 
+  @Test
+  public void testEnrollStudentInCourseFull() {
+    // Test enrolling in a course that is full
+    ResponseEntity<?> response = routeController.enrollStudentInCourse("ELEN", 3082);
+    assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+    assertEquals("Cannot enroll student. Course is full.", response.getBody());
+  }
+
+  @Test
+  public void testEnrollStudentInCourseNotFound() {
+    // Test enrolling in a course that does not exist
+    ResponseEntity<?> response = routeController.enrollStudentInCourse("ELEN", 9999);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
 }
+
