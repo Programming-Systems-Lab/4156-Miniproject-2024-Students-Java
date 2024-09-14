@@ -27,7 +27,7 @@ public class MyFileDatabaseUnitTest {
    * Populates a Map with course identifiers and corresponding Course objects.
    * Creates a Department object with a mapping of courses, an instructor name, 
    * and a capacity.
-   * Initializes the {@link MyFileDatabase} instance with a file path used for testing.
+   * Initializes the MyFileDatabase instance with a file path used for testing.
    */
   @BeforeEach
   public void setup() {
