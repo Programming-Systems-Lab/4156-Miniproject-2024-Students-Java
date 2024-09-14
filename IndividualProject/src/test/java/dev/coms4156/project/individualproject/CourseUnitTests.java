@@ -4,26 +4,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 
 /**
  * Class that contains all of the tests for every method.c
  */
-@SpringBootTest
 @ContextConfiguration
 public class CourseUnitTests {
 
+  /**
+   * Set up the preliminary courses for setup that are used to test.
+   */
   @BeforeAll
   public static void setupCourseForTesting() {
     testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
     testCourse2 = new Course("Luci Feinberg", "417 IAB", "11:40-12:55", 1000);
     testCourse3 = new Course("Luci Feinberg", "417 IAB", "11:40-12:55", -10);
-
-
   }
-
 
   @Test
   public void toStringTest() {

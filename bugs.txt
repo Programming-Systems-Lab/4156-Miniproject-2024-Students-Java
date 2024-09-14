@@ -1,55 +1,197 @@
-Please document any bugs you fix in a file called bugs.txt and include this in your repo. In this txt you should indicate what the issue you fixed was, where it was, and if it has a proper name identified by a static analyzer what that name was.
-
+Please document any bugs you fix in a file called bugs.txt and include this in your repo. In this txt you should indicate what the issue you fixed was, where it was, and if it has a proper name identified by a static analyzer.
 (1) <Function>
   - Issue:
-  - Where: 
+  - Where:
   - Static analyzer name:
-
-
-
 ______________________________________________________________________________________________________
 Course.java:
+(1) enrollStudent()
+  - Issue: Always returns false, doesn’t check whether the course is full or not. 
+  - Where: enrollStudent()
+  - Static analyzer name: Changed before checked with pmd.
 
-(1) <Function>
-  - Issue:
-  - Where: 
-  - Static analyzer name:
+(2) dropStudent()
+  - Issue: Always returns false, doesn’t check enrollment count. 
+  - Where: dropStudent()
+  - Static analyzer name: Changed before checked with pmd.
 
+(3) toString()
+  - Issue: No @Override
+  - Where: toString()
+  - Static analyzer name: The method 'toString()' is missing an @Override annotation.
 
-
+(4) isCourseFull()
+  - Issue: Wrong logic
+  - Where: isCourseFull()
+  - Static analyzer name:  Changed before checked with pmd.
 
 ______________________________________________________________________________________________________
 Department.java:
+(1) toString()
+  - Issue: No @Override
+  - Where: toString()
+  - Static analyzer name: The method 'toString()' is missing an @Override annotation.
 
-(1) <Function>
-  - Issue:
-  - Where: 
-  - Static analyzer name:
+(2) getNumberOfMajors()
+  - Issue: Wrong sign
+  - Where: getNumberOfMajors()
+  - Static analyzer name: Method returns the negated version of the expected value.
 
+(3) getDepartmentChair()
+  - Issue: Quotes around return value converts to String
+  - Where: getDepartmentChair()
+  - Static analyzer name: Changed before checked with pmd.
 
+(4) dropPersonFromMajor()
+  - Issue: Doesn’t check whether there are any students in the major; cannot drop nonexistent student.
+  - Where: dropPersonFromMajor()
+  - Static analyzer name: Changed before checked with pmd.
+
+(5) Department()
+  - Issue: Used HashMap and not the interface Map, which led to warning/error
+  - Where: Department()
+  - Static analyzer name: LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+
+(6) GetCourseSelection()
+  - Issue: Used HashMap and not the interface Map, which led to warning/error
+  - Where: GetCourseSelection()
+  - Static analyzer name: LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+
+(7) courses declaration
+  - Issue: Used HashMap and not the interface Map, which led to warning/error
+  - Where: courses declaration
+  - Static analyzer name: LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
 
 ______________________________________________________________________________________________________
 IndividualProject.java:
+(1) run()
+  - Issue: String literals should come first to avoid null pointer.
+  - Where: run()
+  - Static analyzer name: LiteralsFirstInComparisons:	Position literals first in String comparisons
 
-(1) <Function>
-  - Issue:
-  - Where: 
-  - Static analyzer name:
+(2) ResetDataFile() – 82
+  - Issue: Used HashMap and not the interface Map, which led to warning/error
+  - Where: ResetDataFile()
+  - Static analyzer name: LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
 
+(3) ResetDataFile() - 92
+  - Issue: Used HashMap and not the interface Map, which led to warning/error
+  - Where: ResetDataFile()
+  - Static analyzer name: LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
 
 ______________________________________________________________________________________________________
 MyFileDatabase.java:
+(1) deserializeObjectFromFile()
+  - Issue: Returned null, but this may lead to an exception later
+  - Where: deserializeObjectFromFile()
+  - Static analyzer name: ReturnEmptyCollectionRatherThanNull:	Return an empty collection rather than null
 
-(1) <Function>
-  - Issue:
-  - Where: 
-  - Static analyzer name:
+(2) MyFileDatabase()
+  - Issue: The constructor does not initialize correctly, we did not account for when the flag is not zero.
+  - Where: MyFileDatabase()
+  - Static analyzer name: N/A.
+
+(3) MyFileDatabase()
+  - Issue: The constructor does not initialize correctly.
+  - Where: deserializeObjectFromFile()
+  - Static analyzer name: ReturnEmptyCollectionRatherThanNull:	Return an empty collection rather than null
+
+(4) import statements 
+  - Issue: There was an exception and import that was not used. 
+  - Where: import java.lang.ClassNotFoundException;
+  - Static analyzer name: UnnecessaryImport:	Unnecessary import from the java.lang package 'java.lang.ClassNotFoundException'
+
+(5) setMapping()
+  - Issue: Used HashMap and not the interface Map, which led to warning/error
+  - Where: setMapping()
+  - Static analyzer name: LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+
+(6) deSerializeObjectFromFile()
+  - Issue: Used HashMap and not the interface Map, which led to warning/error
+  - Where: deSerializeObjectFromFile()
+  - Static analyzer name: LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+
+(7) getDepartmentMapping()
+  - Issue: Used HashMap and not the interface Map, which led to warning/error
+  - Where: getDepartmentMapping()
+  - Static analyzer name: LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+
+
 
 ______________________________________________________________________________________________________
 RouteController.java:
+(1) import Map
+  - Issue: Map was not inserted to combat the looping error from PMD carried over from other files
+  - Where: import Map
+  - Static analyzer name: N/A
 
-(1) <Function>
-  - Issue:
-  - Where: 
-  - Static analyzer name:
+(2) RetrieveDepartment()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: RetrieveDepartment()
+  - Static analyzer name: N/A
+
+(3) RetrieveCourse()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: RetrieveCourse()
+  - Static analyzer name: N/A
+
+(4) isCourseFull()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: isCourseFull()
+  - Static analyzer name: N/A
+
+(5) identifyDeptChair()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: identifyDeptChair()
+  - Static analyzer name: N/A
+
+(6) findCourseLocation()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: findCourseLocation()
+  - Static analyzer name: N/A
+
+(7) findCourseInstructor()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: findCourseInstructor()
+  - Static analyzer name: N/A
+
+(8) findCourseTime()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: findCourseTime()
+  - Static analyzer name: N/A
+
+(9) addMajorToDept()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: addMajorToDept()
+  - Static analyzer name: N/A
+
+(10) removeMajorFromDept()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: removeMajorFromDept()
+  - Static analyzer name: N/A
+
+(11) dropStudent()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: dropStudent()
+  - Static analyzer name: N/A
+
+(12) setEnrollmentCount()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: setEnrollmentCount()
+  - Static analyzer name: N/A
+
+(13) changeCourseTime()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: changeCourseTime()
+  - Static analyzer name: N/A
+
+(14) changeCourseTeacher()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: changeCourseTeacher()
+  - Static analyzer name: N/A
+
+(15) changeCourseLocation()
+  - Issue: After using Map instead of Hashmap (for interface), we must convert to Map (Map → HashMap)
+  - Where: changeCourseTeacher()
+  - Static analyzer name: N/A
 

@@ -30,16 +30,12 @@ public class Course implements Serializable {
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-    if(!this.isCourseFull()){
+    if (!this.isCourseFull()) {
       this.setEnrolledStudentCount(this.enrolledStudentCount + 1);
       return true;
     }
     return false; //LUCI BUG HERE
   }
-  // public boolean enrollStudent() {
-  //   enrolledStudentCount++;
-  //   return false;
-  // }
 
   /**
    * Drops a student from the course if a student is enrolled.
@@ -47,16 +43,12 @@ public class Course implements Serializable {
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
-    if(this.enrolledStudentCount > 0){
+    if (this.enrolledStudentCount > 0) {
       enrolledStudentCount--;
       return true;
     } 
     return false;
   }
-  // public boolean dropStudent() {
-  //   enrolledStudentCount--;
-  //   return false;
-  // } LUCI BUG HERE
 
   public String getCourseLocation() {
     return this.instructorName;
@@ -72,12 +64,11 @@ public class Course implements Serializable {
     return this.courseTimeSlot;
   }
 
-
+  @Override
   public String toString() {
     return "\nInstructor: " + instructorName +  "; Location: "  
         + courseLocation +  "; Time: " + courseTimeSlot;
   }
-
 
   public void reassignInstructor(String newInstructorName) {
     this.instructorName = newInstructorName;
@@ -100,11 +91,8 @@ public class Course implements Serializable {
 
 
   public boolean isCourseFull() {
-    return !(enrollmentCapacity > enrolledStudentCount);
-  }// LUCI BUG
-  // public boolean isCourseFull() {
-  //   return enrollmentCapacity > enrolledStudentCount;
-  // }
+    return enrollmentCapacity <= enrolledStudentCount;
+  }
 
   @Serial
   private static final long serialVersionUID = 123456L;
