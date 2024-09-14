@@ -162,7 +162,7 @@ public class RouteController {
             .getNumberOfMajors() + " majors in the department", HttpStatus.OK
             );
       }
-      return new ResponseEntity<>("Department Not Found", HttpStatus.FORBIDDEN);
+      return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
     } catch (Exception e) {
       return handleException(e);
     }
@@ -200,7 +200,7 @@ public class RouteController {
    * @param deptCode   A {@code String} representing the department the user wishes
    *                   to find the course in.
    *
-   * @param courseCode A {@code int} representing the course the user wishes
+   * @param courseCode A {@code int} representing the course the uLuca Carloniser wishes
    *                   to find information about.
    *
    * @return           A {@code ResponseEntity} object containing either the location of the
@@ -251,27 +251,29 @@ public class RouteController {
       @RequestParam String deptCode, 
       @RequestParam int courseCode
   ) {
-    try {
-      boolean doesCourseExists;
-      doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
+      try {
+          // First, attempt to retrieve the course
+          ResponseEntity<?> courseResponse = retrieveCourse(deptCode, courseCode);
 
-      if (doesCourseExists) {
-        Map<String, Department> departmentMapping;
-        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        Map<String, Course> coursesMapping;
-        coursesMapping = departmentMapping.get(deptCode.toUpperCase(Locale.ROOT)).getCourseSelection();
+          // Check if the course exists based on the response
+          if (courseResponse.getStatusCode() == HttpStatus.OK) {
+              // Retrieve the department and course mappings
+              Map<String, Department> departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+              Department department = departmentMapping.get(deptCode.toUpperCase(Locale.ROOT));
+              Map<String, Course> coursesMapping = department.getCourseSelection();
 
-        Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
-        return new ResponseEntity<>(requestedCourse.getInstructorName() + " is the instructor for"
-            + " the course.", HttpStatus.OK);
-      } else {
-        return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+              Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+              // Return the instructor's name if course is found
+              return new ResponseEntity<>(requestedCourse.getInstructorName() + " is the instructor for the course.", HttpStatus.OK);
+          } else {
+              // Handle the case where the course does not exist
+              return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+          }
+      } catch (Exception e) {
+          return handleException(e);
       }
-
-    } catch (Exception e) {
-      return handleException(e);
-    }
   }
+
 
   /**
    * Displays the time the course meets at for the specified course.
@@ -313,7 +315,7 @@ public class RouteController {
   }
 
   /**
-   * Attempts to add a student to the specified department.
+   * Attempts to add a major to the specified department.
    *
    * @param deptCode       A {@code String} representing the department.
    *
@@ -340,7 +342,7 @@ public class RouteController {
   }
 
   /**
-   * Attempts to remove a student from the specified department.
+   * Attempts to remove a major from the specified department.
    *
    * @param deptCode       A {@code String} representing the department.
    *
