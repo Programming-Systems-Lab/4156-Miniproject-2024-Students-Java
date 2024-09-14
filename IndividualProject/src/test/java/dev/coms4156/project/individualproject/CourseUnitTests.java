@@ -28,7 +28,7 @@ public class CourseUnitTests {
    * To string test.
    */
   @Test
-  public void toStringTest_success() {
+  public void toStringTest() {
     testCourse.reassignInstructor("Griffin Newbold");
     testCourse.reassignLocation("417 IAB");
     testCourse.reassignTime("11:40-12:55");
@@ -40,7 +40,7 @@ public class CourseUnitTests {
    * Enroll student test zero students enrolled success.
    */
   @Test
-  public void enrollStudentTest_zeroStudentsEnrolled_success() {
+  public void enrollStudentTestZeroStudentsEnrolled() {
     assertTrue(testCourse.enrollStudent());
     assertEquals(testCourse.getEnrolledStudentCount(), 1);
   }
@@ -49,7 +49,7 @@ public class CourseUnitTests {
    * Drop student test one student enrolled success.
    */
   @Test
-  public void dropStudentTest_oneStudentEnrolled_success() {
+  public void dropStudentTestOneStudentEnrolled() {
     assertEquals(testCourse.getEnrolledStudentCount(), 1);
     assertTrue(testCourse.dropStudent());
   }
@@ -58,7 +58,7 @@ public class CourseUnitTests {
    * Drop student test zero students enrolled fail.
    */
   @Test
-  public void dropStudentTest_zeroStudentsEnrolled_fail() {
+  public void dropStudentTestZeroStudentsEnrolled() {
     testCourse.setEnrolledStudentCount(0);
     assertFalse(testCourse.dropStudent());
   }
@@ -67,7 +67,7 @@ public class CourseUnitTests {
    * Reassign instructor test success.
    */
   @Test
-  public void reassignInstructorTest_success() {
+  public void reassignInstructorTest() {
     testCourse.reassignInstructor("Gail Kaiser");
     assertEquals(testCourse.getInstructorName(), "Gail Kaiser");
   }
@@ -76,7 +76,7 @@ public class CourseUnitTests {
    * Reassign location reassign time test success.
    */
   @Test
-  public void reassignLocation_reassignTimeTest_success() {
+  public void reassignLocationReassignTimeTest() {
     testCourse.reassignLocation("717 HAM");
     testCourse.reassignTime("1:10-2:25");
     assertEquals(testCourse.getCourseLocation(), "717 HAM");
