@@ -1,12 +1,19 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
-import java.util.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * This class represents a file-based database containing department mappings.
  */
 public class MyFileDatabase {
+  Logger logger = Logger.getLogger(this.getClass().getName());
 
   /**
    * Constructs a MyFileDatabase object and loads up the data structure with
@@ -36,7 +43,7 @@ public class MyFileDatabase {
    *
    * @return the deserialized department mapping
    */
-  public HashMap<String, Department> deSerializeObjectFromFile() {
+  private HashMap<String, Department> deSerializeObjectFromFile() {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
       Object obj = in.readObject();
       if (obj instanceof HashMap) {
@@ -46,7 +53,7 @@ public class MyFileDatabase {
       }
     } catch (IOException | ClassNotFoundException e) {
       e.printStackTrace();
-      return null;
+      return new HashMap<>();
     }
   }
 
@@ -57,7 +64,7 @@ public class MyFileDatabase {
   public void saveContentsToFile() {
     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
       out.writeObject(departmentMapping);
-      System.out.println("Object serialized successfully.");
+      logger.fine("Object serialized successfully.");
     } catch (IOException e) {
       e.printStackTrace();
     }
