@@ -14,6 +14,7 @@ import java.util.logging.Logger;
  */
 public class MyFileDatabase {
   Logger logger = Logger.getLogger(this.getClass().getName());
+
   /**
    * Constructs a MyFileDatabase object and loads up the data structure with
    * the contents of the file.

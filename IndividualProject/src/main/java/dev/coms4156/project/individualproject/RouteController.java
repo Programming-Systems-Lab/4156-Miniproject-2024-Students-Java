@@ -560,5 +560,4 @@ public class RouteController {
     return new ResponseEntity<>("An Error has occurred", HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-
 }
