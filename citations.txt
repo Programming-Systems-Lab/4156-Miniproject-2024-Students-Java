@@ -1,0 +1,3 @@
+https://maven.apache.org/plugins/maven-checkstyle-plugin/
+https://www.baeldung.com/jacoco
+https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html
