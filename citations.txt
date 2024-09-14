@@ -1,0 +1,7 @@
+1. Stack Overflow. https://stackoverflow.com/questions/54517032/beforeall-vs-beforeeach-when-to-use-them
+
+2. Stack Overflow. https://stackoverflow.com/questions/14563489/how-to-test-a-spring-controller-method-by-using-mockmvc
+
+3. PMD Documentation. https://pmd.github.io/
+
+4. Baeldung. https://www.baeldung.com/spring-assert

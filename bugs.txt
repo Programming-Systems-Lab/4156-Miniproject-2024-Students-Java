@@ -26,6 +26,12 @@ Here I will list all the bugs that I found in the project and how I solve it.
     - Solution: Add a judgement to return false when course is full.
     - Reason: The method should return false when the course is full.
 
+6. `toString()`
+    - Address: In toString() method in Course class.
+    - Solution: Added a @Override annotation.
+    - Reason: The method overrided the toString() method in the Object class.
+    - Source: PMD
+
 # In Department class:
 1. `return -this.numberOfMajors;`
     - Address: In getNumberOfMajors() method in Department class.
@@ -41,6 +47,24 @@ Here I will list all the bugs that I found in the project and how I solve it.
     - Address: In getDepartmentChair() method in Department class.
     - Solution: Change it to return this.departmentChair;
     - Reason: The method should return the departmentChair, not the string "this.departmentChair".
+
+4. `public String toString()`
+    - Address: In toString() method in Department class.
+    - Solution: Added a @Override annotation.
+    - Reason: The method overrided the toString() method in the Object class.
+    - Source: PMD
+
+# IndividualProjectApplication class:
+1. `import java.util.Map;`
+    - Address: In IndividualProjectApplication class.
+    - Solution: Deleted the import statement.
+    - Reason: The import statement is not used in the class.
+
+2. `arg.equals("setup")`
+    - Address: In run() method in IndividualProjectApplication class.
+    - Solution: Change it to "setup".equals(arg)
+    - Reason: Position literals first in String comparisons
+    - Source: PMD
 
 # In RouteController class:
 1. `return new ResponseEntity<>("Department Not Found", HttpStatus.OK);`
@@ -99,3 +123,7 @@ Here I will list all the bugs that I found in the project and how I solve it.
     - Solution: Change it to a HashMap.
     - Reason: The returned response should be in JSON format.
 
+11. `deptCode.toUpperCase()`
+    - Address: In retrieveDept() method in RouteController class.
+    - Solution: Change it to deptCode.toUpperCase(Locale.ENGLISH)
+    - Reason: The method should be ENGLISH.

@@ -38,8 +38,7 @@ public class Course implements Serializable {
     if (enrolledStudentCount < enrollmentCapacity) {
       enrolledStudentCount++;
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -53,8 +52,7 @@ public class Course implements Serializable {
     if (enrolledStudentCount > 0) {
       enrolledStudentCount--;
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -74,7 +72,7 @@ public class Course implements Serializable {
     return this.courseTimeSlot;
   }
 
-
+  @Override
   public String toString() {
     return "\nInstructor: " + instructorName +  "; Location: "  
       + courseLocation +  "; Time: " + courseTimeSlot;

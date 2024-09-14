@@ -1,6 +1,8 @@
 package dev.coms4156.project.individualproject;
 
 import java.util.HashMap;
+import java.util.Locale;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,10 +44,10 @@ public class RouteController {
       HashMap<String, Department> departmentMapping;
       departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
 
-      if (!departmentMapping.containsKey(deptCode.toUpperCase())) {
+      if (!departmentMapping.containsKey(deptCode.toUpperCase(Locale.ENGLISH))) {
         return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
       } else {
-        return new ResponseEntity<>(departmentMapping.get(deptCode.toUpperCase()),
+        return new ResponseEntity<>(departmentMapping.get(deptCode.toUpperCase(Locale.ENGLISH)),
             HttpStatus.OK);
       }
 
@@ -157,8 +159,8 @@ public class RouteController {
         HashMap<String, Department> departmentMapping;
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
         
-        return new ResponseEntity<>("{\"majorCt\": " + 
-        departmentMapping.get(deptCode).getNumberOfMajors() + "}",
+        return new ResponseEntity<>("{\"majorCt\": " 
+        + departmentMapping.get(deptCode).getNumberOfMajors() + "}",
             HttpStatus.OK);
       }
       return new ResponseEntity<>("Department Not Found", HttpStatus.FORBIDDEN);
@@ -184,8 +186,8 @@ public class RouteController {
       if (doesDepartmentExists) {
         HashMap<String, Department> departmentMapping;
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        return new ResponseEntity<>("{\"departmentChair\": \"" + 
-        departmentMapping.get(deptCode).getDepartmentChair() + "\"}",
+        return new ResponseEntity<>("{\"departmentChair\": \""
+        + departmentMapping.get(deptCode).getDepartmentChair() + "\"}",
                  HttpStatus.OK);
       }
       return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
@@ -223,7 +225,8 @@ public class RouteController {
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
-        return new ResponseEntity<>("{\"location\": \"" + requestedCourse.getCourseLocation() + "\"}", 
+        return new ResponseEntity<>("{\"location\": \"" 
+        + requestedCourse.getCourseLocation() + "\"}", 
         HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
