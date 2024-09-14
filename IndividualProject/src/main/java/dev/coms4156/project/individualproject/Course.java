@@ -10,6 +10,15 @@ import java.io.Serializable;
  */
 public class Course implements Serializable {
 
+  @Serial
+  private static final long serialVersionUID = 123456L;
+  private final int enrollmentCapacity;
+  private int enrolledStudentCount;
+  private String courseLocation;
+  private String instructorName;
+  private String courseTimeSlot;
+
+
   /**
    * Constructs a new Course object with the given parameters. Initial count starts at 0.
    *
@@ -80,6 +89,7 @@ public class Course implements Serializable {
    *
    * <p>@return a String representing the information in a Course.
    */
+  @Override
   public String toString() {
     return "\nInstructor: " + this.instructorName +  "; Location: "
       + this.courseLocation +  "; Time: " + this.courseTimeSlot
@@ -128,11 +138,5 @@ public class Course implements Serializable {
   }
 
 
-  @Serial
-  private static final long serialVersionUID = 123456L;
-  private final int enrollmentCapacity;
-  private int enrolledStudentCount;
-  private String courseLocation;
-  private String instructorName;
-  private String courseTimeSlot;
+
 }

@@ -1,12 +1,32 @@
 Citations and resources used:
 
+Overview of hashmaps in java: https://builtin.com/articles/hashmap-in-java#:~:text=HashMap%20is%20a%20data%20structure,like%20adding%20or%20retrieving%20elements.
+An overview of serialization & deserialization: https://stackoverflow.com/questions/7568632/using-maven-how-do-i-run-specific-tests
+Principles for writing unit tests: https://www.code-intelligence.com/blog/11-tips-unit-testing-java
+How to clean and test files in java: https://stackoverflow.com/questions/7568632/using-maven-how-do-i-run-specific-tests
+How to write to JavaDocs: https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html
+How to run PMD: https://docs.pmd-code.org/pmd-doc-7.3.0/pmd_userdocs_installation.html
+How to run unit tests in intellij: https://www.jetbrains.com/help/idea/performing-tests.html
+How to push new branch and track in git: https://stackoverflow.com/questions/2765421/how-do-i-push-a-new-local-branch-to-a-remote-git-repository-and-track-it-too
 An introduction to Jacoco: https://www.baeldung.com/jacoco
 Running Intellij code with Coverage: https://www.jetbrains.com/help/idea/code-coverage.html#run_with_coverage
 How to run Jacoco: https://stackoverflow.com/questions/22836455/jacoco-report-generation-using-maven
 How to convert StringBuilder to String: https://www.geeksforgeeks.org/stringbuilder-tostring-method-in-java-with-examples/
 How to check type of var in Java: https://stackoverflow.com/questions/3993982/how-to-check-type-of-variable-in-java
+How to use assert for Junit Tests: https://coderpad.io/blog/development/how-to-use-assert-in-junit-with-examples/
 How to assert a throw: https://stackoverflow.com/questions/40268446/junit-5-how-to-assert-an-exception-is-thrown
+How to write to a file in Java: https://www.w3schools.com/java/java_files_create.asp
+How to use try catch: https://www.w3schools.com/java/java_try_catch.asp
 ConstructorCallsOverridableMethod: https://docs.pmd-code.org/pmd-doc-6.55.0/pmd_rules_java_errorprone.html#constructorcallsoverridablemethod
 Resolution to ConstructorCallsOverridableMethod: https://wiki.sei.cmu.edu/confluence/display/java/MET05-J.%2BEnsure%2Bthat%2Bconstructors%2Bdo%2Bnot%2Bcall%2Boverridable%2Bmethods
 Explanation of AvoidFileStream & solution: https://pmd.github.io/pmd/pmd_rules_java_performance.html#avoidfilestream
 Catching IllegalArgumentException (using lambda function): https://howtodoinjava.com/junit5/expected-exception-example/
+Initial idea to use Mockito for generating API unit tests: https://edstem.org/us/courses/58089/discussion/5248307
+What is Mockito: https://www.baeldung.com/mockito-annotations
+How to use Mockito: https://www.digitalocean.com/community/tutorials/mockito-tutorial
+Resolving issue where data.txt was Null during test: https://edstem.org/us/courses/58089/discussion/5261383
+How verify works in Mockito: https://www.dhiwise.com/post/mastering-unit-testing-a-complete-guide-to-mockito-verify
+How to use ArgumentCaptor in Mockito: https://www.baeldung.com/mockito-argumentcaptor
+Spy vs Mock Mockito: https://www.baeldung.com/mockito-spy
+Understanding Spy: https://stackoverflow.com/questions/15052984/what-is-the-difference-between-mocking-and-spying-when-using-mockito
+Understanding response entities: https://www.baeldung.com/spring-response-entity#:~:text=ResponseEntity%20represents%20the%20whole%20HTTP,ResponseEntity%20is%20a%20generic%20type.

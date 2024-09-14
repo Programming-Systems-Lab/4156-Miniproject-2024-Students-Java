@@ -7,31 +7,32 @@ COURSE BUG FIXES:
     - Problems: The toString() method does not print capacity, it also does not prefix variables with "this." adding ambiguity.
     - Solutions: rewrite the toString() method to include capacity, prepend all variables with this.
 
+    - PMD Warning: MissingOverride
+    - Solution: add override
+
 2. dropStudent() method:
     - PMD Error: N/A
     - Problem: this method did not account for if the class is empty.
     - Solution: If class is not empty, decrement enrollment count and return true, else return false.
 
-3. enrollStudent() method:
-    - PMD Error: N/A
-    - Problem: this method does not check if the class is at capacity before adding a student.
-    - Solution: check if the class is full. If not, increment counter and return true, else return false
-
-4. isCourseFull() method:
+5. isCourseFull() method:
     - PMD Error: N/A
     - Problem: the evaluation operator was the wrong way around
     - Solution: flip the larger-than operator
 
-5. getCourseLocation() method:
+6. getCourseLocation() method:
     - PMD Error: N/A
     - Problem: returns the incorrect variable (this.instructorName)
     - Solution: return the correct variable (this.courseLocation)
 
-6. getInstructorName() method:
+7. getInstructorName() method:
     - PMD Error: N/A
     - Problem: returns the incorrect variable (this.courseLocation)
     - Solution: return the correct variable (this.instructorName)
 
+8. Field Declarations:
+    - PMD Warning: FieldDeclarationsShouldBeAtTheStartOfClass
+    - Solution: Move field declaration to start of class
 
 DEPARTMENT BUG FIXES:
 
@@ -50,10 +51,19 @@ DEPARTMENT BUG FIXES:
     - Problems: method returns string literal instead of actual value
     - Solution: Return string variable
 
+5. addPersonToMajor():
+    - PMD Error: N/A
+    - Problem: method does not use "this." prefix. This does not update the instance of major
+    - Solution: Add this.numberOfMajors++
+
 5. getNumberOfMajors():
     - PMD Error: N/A
     - Problems: method returns negative number of majors.
     - Solution: return positive number of majors.
+
+6. setCourseSelection():
+    - PMD Error: N/A
+    - Included for debugging purposes
 
 MYFILEDATABASE BUG FIXES:
 
@@ -80,3 +90,43 @@ MYFILEDATABASE BUG FIXES:
     - PMD Error: AvoidFileStream
     - Problem: File stream is inefficient and can cause garbage collection problems.
     - Solution: Utilize Files.newOutputStream and Files.newBufferedWriter
+
+ROUTE CONTROLLER BUG FIXES:
+
+1. retrieveDepartment():
+    - PMD Error: N/A
+    - Problem: This method has incorrect return values for department found, not found
+    - Solution: Fix the return values of the function.
+
+    - PMD Error: N/A
+    - Problem: The exception handler had a generic response handleExpception(e). This is unclear and ambiguous
+    - Solution: return 500 Internal Server error.
+
+2. retrieveCourse():
+    - PMD Error: N/A
+    - Problem: Incorrect return value on success. We are returning the HTTP Code FORBIDDEN on success
+    - Solution: return HTTP code OK
+
+3. getMajorCtFromDept():
+    - PMD Error: N/A
+    - Problem: return new ResponseEntity<>("There are: " + -departmentMapping.get(deptCode) returns negative value
+    - Solution: remove the negative operator.
+
+4. setEnrollmentCount():
+    - PMD Error: N/A
+    - Problem: this function does not handle setEnrollmentCount() being invalid. i.e. you cannot set enrollment
+            above course capacity or to have negative numbers. Requires fixing return values
+    - Solution: Change return responses if enrollment count is invalid.
+
+5. findCourseTime():
+    - PMD ERROR: N/A
+    - Problem: return message is wrong
+    - Solution: Fix return message to include course time.
+----------------------------------------------------------------
+On Using Mockito
+
+
+
+
+
+

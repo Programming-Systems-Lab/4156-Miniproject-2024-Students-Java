@@ -57,12 +57,14 @@ public class MyFileDatabaseUnitTests {
    */
   @Test
   public void testSerializationAndDeserialization() {
-    Course testCourse = new Course("Donald Duck's Math", "Disneyland 1234", "12:55-12:56", 5000);
+    Course testCourse = new Course("Donald Duck's Math",
+      "Disneyland 1234", "12:55-12:56", 5000);
     HashMap<String, Course> courses = new HashMap<>();
     HashMap<String, Department> departmentMap = new HashMap<>();
 
     courses.put("1234", testCourse);
-    Department disneyDepartment = new Department("DIS", courses, "Mickey Mouse", 10000);
+    Department disneyDepartment = new Department("DIS", courses,
+        "Mickey Mouse", 10000);
     departmentMap.put("DIS", disneyDepartment);
 
     myFileDatabase.setMapping(departmentMap);

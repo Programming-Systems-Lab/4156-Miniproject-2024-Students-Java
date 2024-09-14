@@ -56,11 +56,15 @@ public class Department implements Serializable {
     return this.courses;
   }
 
+  public void setCourseSelection(HashMap<String, Course> mapping) {
+    this.courses = mapping;
+  }
+
   /**
    * Increases the number of majors in the department by one.
    */
   public void addPersonToMajor() {
-    numberOfMajors++;
+    this.numberOfMajors++;
   }
 
   /**
