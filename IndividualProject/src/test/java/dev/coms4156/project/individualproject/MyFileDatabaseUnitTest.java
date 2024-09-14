@@ -57,8 +57,21 @@ public class MyFileDatabaseUnitTest {
 
     @Test
     public void toStringTest() {
-        System.out.println(testMyFileDatabase.toString());
-        assertEquals(0, 0);
+        HashMap<String, Department> currentMapping = testMyFileDatabase.getDepartmentMapping();
+
+        Course testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+        HashMap<String, Course> testCourses = new HashMap<String, Course>();
+        testCourses.put("4156", testCourse);
+
+        Department testDepartment = new Department("COMS", testCourses, "Griffin Newbold", 2700);
+        HashMap<String, Department> testDepartmentMapping = new HashMap<String, Department>();
+        testDepartmentMapping.put("COMS", testDepartment);
+
+        testMyFileDatabase.setMapping(testDepartmentMapping);
+
+        assertEquals("For the COMS department: \nCOMS 4156: \nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n", testMyFileDatabase.toString());
+
+        testMyFileDatabase.setMapping(currentMapping);
     }
 
     @Test

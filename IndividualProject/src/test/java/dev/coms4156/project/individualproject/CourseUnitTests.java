@@ -81,14 +81,14 @@ public class CourseUnitTests {
 
   @Test
   public void enrollStudentTest() {
-    testCourse.setEnrolledStudentCount(250);
+    testCourse.setEnrolledStudentCount(249);
     testCourse.enrollStudent();
     assertEquals(true, testCourse.isCourseFull());
   }
 
   @Test
   public void dropStudentTest() {
-    testCourse.setEnrolledStudentCount(251);
+    testCourse.setEnrolledStudentCount(250);
     testCourse.dropStudent();
     assertEquals(false, testCourse.isCourseFull());
   }
