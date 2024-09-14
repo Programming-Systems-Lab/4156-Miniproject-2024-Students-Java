@@ -10,13 +10,22 @@ import java.io.Serializable;
  */
 public class Course implements Serializable {
 
+  @Serial
+  private static final long serialVersionUID = 123456L;
+
+  private final int enrollmentCapacity;
+  private int enrolledStudentCount;
+  private String courseLocation;
+  private String instructorName;
+  private String courseTimeSlot;
+
   /**
    * Constructs a new Course object with the given parameters. Initial count starts at 0.
    *
-   * @param instructorName     The name of the instructor teaching the course.
-   * @param courseLocation     The location where the course is held.
-   * @param timeSlot           The time slot of the course.
-   * @param capacity           The maximum number of students that can enroll in the course.
+   * @param instructorName The name of the instructor teaching the course.
+   * @param courseLocation The location where the course is held.
+   * @param timeSlot       The time slot of the course.
+   * @param capacity       The maximum number of students that can enroll in the course.
    */
   public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {
     this.courseLocation = courseLocation;
@@ -58,7 +67,7 @@ public class Course implements Serializable {
    * @return The location of the course as a string.
    */
   public String getCourseLocation() {
-    return this.courseLocation;
+    return courseLocation;
   }
 
   /**
@@ -67,7 +76,7 @@ public class Course implements Serializable {
    * @return The name of the course instructor as a string.
    */
   public String getInstructorName() {
-    return this.instructorName;
+    return instructorName;
   }
 
   /**
@@ -76,7 +85,7 @@ public class Course implements Serializable {
    * @return The course time slot as a string.
    */
   public String getCourseTimeSlot() {
-    return this.courseTimeSlot;
+    return courseTimeSlot;
   }
 
   /**
@@ -85,18 +94,19 @@ public class Course implements Serializable {
    * @return the enrolled student count
    */
   public int getEnrolledStudentCount() {
-    return this.enrolledStudentCount;
+    return enrolledStudentCount;
   }
 
   /**
-   * A string representation of the course details.
-   * Such as instructor name, course location, and course time slot.
+   * A string representation of the course details,
+   * such as instructor name, course location, and course time slot.
    *
    * @return A string representation of the course.
    */
+  @Override
   public String toString() {
     return "\nInstructor: " + instructorName
-            + "; Location: "  + courseLocation
+            + "; Location: " + courseLocation
             + "; Time: " + courseTimeSlot;
   }
 
@@ -106,7 +116,7 @@ public class Course implements Serializable {
    * @param newInstructorName The name of the new instructor.
    */
   public void reassignInstructor(String newInstructorName) {
-    this.instructorName = newInstructorName;
+    instructorName = newInstructorName;
   }
 
   /**
@@ -115,7 +125,7 @@ public class Course implements Serializable {
    * @param newLocation The new location of the course.
    */
   public void reassignLocation(String newLocation) {
-    this.courseLocation = newLocation;
+    courseLocation = newLocation;
   }
 
   /**
@@ -124,7 +134,7 @@ public class Course implements Serializable {
    * @param newTime The new time of the course.
    */
   public void reassignTime(String newTime) {
-    this.courseTimeSlot = newTime;
+    courseTimeSlot = newTime;
   }
 
   /**
@@ -133,7 +143,7 @@ public class Course implements Serializable {
    * @param count The new count of students.
    */
   public void setEnrolledStudentCount(int count) {
-    this.enrolledStudentCount = count;
+    enrolledStudentCount = count;
   }
 
   /**
@@ -144,12 +154,4 @@ public class Course implements Serializable {
   public boolean isCourseFull() {
     return enrolledStudentCount >= enrollmentCapacity;
   }
-
-  @Serial
-  private static final long serialVersionUID = 123456L;
-  private final int enrollmentCapacity;
-  private int enrolledStudentCount;
-  private String courseLocation;
-  private String instructorName;
-  private String courseTimeSlot;
 }
