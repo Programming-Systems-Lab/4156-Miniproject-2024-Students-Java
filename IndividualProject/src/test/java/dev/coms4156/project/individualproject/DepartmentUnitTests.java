@@ -10,12 +10,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 /**
- * Provides unit test for testing implementations in the Course class.
+ * Provides unit test for testing implementations in the Department class.
  */
 @SpringBootTest
 @ContextConfiguration
 public class DepartmentUnitTests {
-
+  /**
+   * Provides setup for unit testing, sets up a new COMS Department for testing.
+   */
   @BeforeAll
   public static void setupCourseForTesting() {
     String[] times = {"11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55"};
