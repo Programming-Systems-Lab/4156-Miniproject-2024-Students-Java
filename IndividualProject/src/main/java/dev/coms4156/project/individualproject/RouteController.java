@@ -6,10 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 /**
  * This class contains all the API routes for the system.
  */
@@ -561,8 +562,8 @@ public class RouteController {
    * Retrieves all courses with the specified course code across all departments.
    *
    * @param courseCode A {@code int} representing the course code to search for.
-   * @return           A {@code ResponseEntity} containing a list of courses with the specified course code,
-   *                   or an appropriate error message.
+   * @return           A {@code ResponseEntity} containing a list of courses
+   *                   with the specified course code, or an appropriate error message.
    */
   @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> retrieveCourses(@RequestParam(value = "courseCode") int courseCode) {
@@ -580,7 +581,8 @@ public class RouteController {
       }
 
       if (result.length() == 0) {
-        return new ResponseEntity<>("No courses found with the specified course code.", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("No courses found with the specified course code.",
+          HttpStatus.NOT_FOUND);
       } else {
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
       }
@@ -599,7 +601,8 @@ public class RouteController {
    */
   @PostMapping(value = "/enrollStudentInCourse", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> enrollStudentInCourse(@RequestParam(value = "deptCode") String deptCode,
-                                                 @RequestParam(value = "courseCode") int courseCode) {
+                                                 @RequestParam
+                                                   (value = "courseCode") int courseCode) {
     try {
       // Check if the course exists using the existing method
       ResponseEntity<?> courseResponse = retrieveCourse(deptCode, courseCode);
@@ -608,7 +611,8 @@ public class RouteController {
       }
 
       // Get the department and course details
-      HashMap<String, Department> departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+      HashMap<String, Department> departmentMapping =
+          IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
       HashMap<String, Course> coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
       Course course = coursesMapping.get(Integer.toString(courseCode));
 
@@ -621,9 +625,11 @@ public class RouteController {
       boolean enrollmentSuccess = course.enrollStudent();
 
       if (enrollmentSuccess) {
-        return new ResponseEntity<>("Student has been successfully enrolled in the course.", HttpStatus.OK);
+        return new ResponseEntity<>("Student has been successfully enrolled in the course.",
+          HttpStatus.OK);
       } else {
-        return new ResponseEntity<>("Failed to enroll student in the course.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Failed to enroll student in the course.",
+          HttpStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
       return handleException(e);

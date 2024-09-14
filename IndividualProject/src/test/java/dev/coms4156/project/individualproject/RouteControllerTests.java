@@ -324,6 +324,7 @@ public class RouteControllerTests {
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
   }
+
   @Test
   public void testRetrieveCoursesSuccess() {
     // Test for a course code that exists
