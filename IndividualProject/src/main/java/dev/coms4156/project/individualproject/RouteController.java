@@ -576,7 +576,7 @@ public class RouteController {
         HashMap<String, Course> coursesMapping = department.getCourseSelection();
         Course course = coursesMapping.get(Integer.toString(courseCode));
         if (course != null) {
-          result.append(course.toString()).append("\n");
+          result.append(course.toString()).append('\n');
         }
       }
 
