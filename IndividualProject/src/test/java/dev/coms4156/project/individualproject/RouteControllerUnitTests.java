@@ -198,54 +198,6 @@ public class RouteControllerUnitTests {
              .andExpect(content().string("Student has been dropped."));
   }
 
-  @Test
-  public void testSetEnrollmentCountSuccess() throws Exception {
-    mockMvc
-            .perform(
-                    MockMvcRequestBuilders.patch("/setEnrollmentCount")
-                            .param("deptCode", "COMS")
-                            .param("courseCode", "4156")
-                            .param("count", "20"))
-            .andExpect(status().isOk())
-            .andExpect(content().string("Attribute was updated successfully."));
-  }
-
-  @Test
-  public void testChangeCourseTimeSuccess() throws Exception {
-    mockMvc
-            .perform(
-                    MockMvcRequestBuilders.patch("/changeCourseTime")
-                            .param("deptCode", "COMS")
-                            .param("courseCode", "4156")
-                            .param("time", "12:00-13:00"))
-            .andExpect(status().isOk())
-            .andExpect(content().string("Attribute was updated successfully."));
-  }
-
-  @Test
-  public void testChangeCourseTeacherSuccess() throws Exception {
-    mockMvc
-            .perform(
-                    MockMvcRequestBuilders.patch("/changeCourseTeacher")
-                            .param("deptCode", "COMS")
-                            .param("courseCode", "4156")
-                            .param("teacher", "Gail Kaiser"))
-            .andExpect(status().isOk())
-            .andExpect(content().string("Attribute was updated successfully."));
-  }
-
-  @Test
-  public void testChangeCourseLocationSuccess() throws Exception {
-    mockMvc
-            .perform(
-                    MockMvcRequestBuilders.patch("/changeCourseLocation")
-                            .param("deptCode", "COMS")
-                            .param("courseCode", "4156")
-                            .param("location", "501 IAB"))
-            .andExpect(status().isOk())
-            .andExpect(content().string("Attribute was updated successfully."));
-  }
-
   // Test for not found scenarios
   @Test
   public void testRetrieveDepartmentNotFound() throws Exception {

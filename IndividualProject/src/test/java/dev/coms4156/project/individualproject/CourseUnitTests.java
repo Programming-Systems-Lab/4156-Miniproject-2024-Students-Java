@@ -40,6 +40,7 @@ public class CourseUnitTests {
    */
   @Test
   public void toStringTest() {
+    setupCourseForTesting();
     String expectedResult = "\nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55";
     assertEquals(expectedResult, testCourse.toString());
   }
@@ -67,7 +68,8 @@ public class CourseUnitTests {
    */
   @Test
   public void reassignTimeTest() {
-    testCourse.reassignLocation("14:40-15:55");
+    setupCourseForTesting();
+    testCourse.reassignTime("14:40-15:55");
     assertEquals("14:40-15:55", testCourse.getCourseTimeSlot());
   }
 

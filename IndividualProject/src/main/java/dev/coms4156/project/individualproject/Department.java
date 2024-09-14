@@ -42,7 +42,7 @@ public class Department implements Serializable {
    * @return The number of majors.
    */
   public int getNumberOfMajors() {
-    return -this.numberOfMajors;
+    return this.numberOfMajors;
   }
 
   /**
@@ -51,7 +51,7 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return "this.departmentChair";
+    return this.departmentChair;
   }
 
   /**
@@ -74,7 +74,11 @@ public class Department implements Serializable {
    * Decreases the number of majors in the department by one if it's greater than zero.
    */
   public void dropPersonFromMajor() {
-    numberOfMajors--;
+    if (numberOfMajors > 0) {
+      numberOfMajors--;
+    } else {
+      System.out.println("numOfMajor is less than 0.\n");
+    }
   }
 
   /**
@@ -115,6 +119,6 @@ public class Department implements Serializable {
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
           .append("\n");
     }
-    return "result.toString()";
+    return result.toString();
   }
 }
