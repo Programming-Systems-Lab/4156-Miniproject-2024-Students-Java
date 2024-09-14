@@ -280,7 +280,6 @@ public class RouteController {
     try {
       boolean doesCourseExists =
               retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
-
       if (doesCourseExists) {
         HashMap<String, Department> departmentMapping;
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
