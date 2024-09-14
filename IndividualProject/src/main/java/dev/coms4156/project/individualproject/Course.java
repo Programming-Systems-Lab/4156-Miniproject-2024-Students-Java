@@ -36,7 +36,7 @@ public class Course implements Serializable {
     this.instructorName = instructorName;
     this.courseTimeSlot = timeSlot;
     this.enrollmentCapacity = capacity;
-    this.enrolledStudentCount = 500;
+    this.enrolledStudentCount = 0;
   }
 
   /**
@@ -45,8 +45,11 @@ public class Course implements Serializable {
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
+    if (enrolledStudentCount >= enrollmentCapacity) {
+      return false;
+    }
     enrolledStudentCount++;
-    return false;
+    return true;
   }
 
   /**
@@ -55,8 +58,11 @@ public class Course implements Serializable {
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
+    if (enrolledStudentCount <= 0) {
+      return false;
+    }
     enrolledStudentCount--;
-    return false;
+    return true;
   }
 
   /**
@@ -65,7 +71,7 @@ public class Course implements Serializable {
    * @return the location of the course.
    */
   public String getCourseLocation() {
-    return this.instructorName;
+    return this.courseLocation;
   }
 
   /**
@@ -74,7 +80,7 @@ public class Course implements Serializable {
    * @return the name of the instructor of the course.
    */
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
   /**
@@ -140,6 +146,6 @@ public class Course implements Serializable {
    * @return A {@code boolean}. true if the course is full, otherwise false.
    */
   public boolean isCourseFull() {
-    return enrollmentCapacity > enrolledStudentCount;
+    return enrollmentCapacity <= enrolledStudentCount;
   }
 }

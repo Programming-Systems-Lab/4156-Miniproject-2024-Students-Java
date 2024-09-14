@@ -1,9 +1,7 @@
 package dev.coms4156.project.individualproject;
 
-import static dev.coms4156.project.individualproject.IndividualProjectApplication.myFileDatabase;
 import static org.assertj.core.api.Fail.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
@@ -12,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,23 +22,26 @@ import org.springframework.test.context.ContextConfiguration;
  */
 @SpringBootTest
 @ContextConfiguration
-public class MyFileDatabaseUnitTests { 
+public class MyFileDatabaseUnitTests {
 
   /**
    * Test instance of MyFileDatabase.
    */
-  public static MyFileDatabase myFileDatabase;
+  private MyFileDatabase myFileDatabase;
 
   /**
-   * Initializes MyFileDatabase before each test.
+   * Initializes MyFileDatabase and cleans up before each test.
    */
-  @BeforeAll
-  public static void setupMyFileDatabaseForTesting() {
+  @BeforeEach
+  public void setupMyFileDatabaseForTesting() {
     // Delete the file before each test if it exists
     File file = new File("./testdata.txt");
     if (file.exists()) {
       file.delete();
     }
+
+    // Initialize the MyFileDatabase instance
+    myFileDatabase = new MyFileDatabase(0, "./testdata.txt");
   }
 
   /**
@@ -49,14 +50,13 @@ public class MyFileDatabaseUnitTests {
    */
   @Test
   public void testSetMapping() {
-    setupMyFileDatabaseForTesting();
     Map<String, Department> testMapping = new HashMap<>();
     Department compSciDepartment = new Department("COMS", new HashMap<>(), "John Doe", 300);
     testMapping.put("COMS", compSciDepartment);
 
     myFileDatabase.setMapping((HashMap<String, Department>) testMapping);
 
-    // The below command verifies if the mapping is correctly set
+    // Verify if the mapping is correctly set
     assertEquals(compSciDepartment, myFileDatabase.getDepartmentMapping().get("COMS"));
   }
 
@@ -65,8 +65,6 @@ public class MyFileDatabaseUnitTests {
    */
   @Test
   public void testSaveContentsToFile() {
-    setupMyFileDatabaseForTesting();
-
     Department department = new Department("COMS", new HashMap<>(), "John Doe", 300);
     Map<String, Department> departmentMap = new HashMap<>();
     departmentMap.put("COMS", department);
@@ -93,21 +91,15 @@ public class MyFileDatabaseUnitTests {
     }
   }
 
-
   /**
    * Tests the {@link MyFileDatabase#deSerializeObjectFromFile()} method.
    * Verifies that the file content is deserialized and loaded into the database.
    */
   @Test
   public void testDeSerializeObjectFromFile() {
-    // Assuming the deserialization works, though this test could verify file contents.
-    MyFileDatabaseUnitTests.setupMyFileDatabaseForTesting();
     myFileDatabase.deSerializeObjectFromFile();
 
-    // Again, file system interaction would need advanced verification.
+    // Assuming file deserialization is working, additional verification can be added.
     assertTrue(true);  // Basic test to indicate the method was called.
   }
 }
-
-
-

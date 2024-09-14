@@ -1,0 +1,26 @@
+Courses.java:
+1. enrollStudent() added check if enrolledStudentCount >= enrollmentCapacity
+2. dropStudent() added check if enrolledStudentCount <= 0
+3. getCourseLocation() was originally get instructorName
+4. getInstructorName() was originally get courseLocation
+5. isCourseFull() should return true iff enrollmentCapacity <= enrolledStudentCount
+6. Course constructor should set this.enrolledStudentCount = 0 other than 500
+
+Department.java:
+1. getNumberOfMajors() was returning -this.numberOfMajors, should not be negative
+2. getDepartmentChair() was returning the literal "this.departmentChair", should be variable
+3. dropPersonFromMajor() added check if numberOfMajor > 0
+4. toString() was returning the literal "result.toString()", should be variable
+
+IndividualProjectApplication.java:
+No bugs found according to test cases
+
+MyFileDatabase.java:
+No bugs found according to test cases
+
+RouteController.java:
+1. ResponseEntity<?> retrieveDepartment() returns "...Not Found" when the dept is actually found, and returns departmentMapping.get(deptCode.toUpperCase()).toString() when the dept is actually not found
+2. ResponseEntity<?> retrieveCourse() returns HttpStatus.FORBIDDEN when the course is actually found, should return HttpStatus.OK
+3. public ResponseEntity<?> getMajorCtFromDept() returns -departmentMapping.get(deptCode) as it should not be negative, and it should return HttpStatus.NOT_FOUND instead of HttpStatus.FORBIDDEN when the department is not found
+4. ResponseEntity<?> findCourseTime() should return the actual time instead of the string literal "some time "
+5. ResponseEntity<?> handleException() should return HttpStatus.BAD_REQUEST instead of HttpStatus.OK
