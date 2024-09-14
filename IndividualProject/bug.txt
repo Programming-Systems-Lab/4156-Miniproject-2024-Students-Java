@@ -1,11 +1,65 @@
-1, In `Course` class, `enrollStudent` method, fix incorrect return value, add if/else branch to consider
-    what happened if enrolling a student when the course is full
-2, In `Course` class, `dropStudent` method, fix incorrect return value, add if/else branch to consider
-    what happened if dropping a student when the course has no students
-3, In `Course` class, `getCourseLocation` method, fix incorrect return value.
-4, In `Course` class, `getInstructorName` method, fix incorrect return value.
-5, In `Department` class, `getNumberOfMajors` method, fix incorrect return value.
-6, In `Department` class, `getDepartmentChair` method, fix incorrect return value.
-7, In `Department` class, `dropPersonFromMajor` method, fix incorrect return value, add if/else branch to consider
-    what happened if dropping a major when the department has 0 major
+Course Class Modifications
+enrollStudent Method:
+
+Fix incorrect return value.
+Add if/else branch to handle the scenario when the course is full.
+dropStudent Method:
+
+Fix incorrect return value.
+Add if/else branch to handle the scenario when there are no students to drop.
+getCourseLocation Method:
+
+Fix incorrect return value.
+getInstructorName Method:
+
+Fix incorrect return value.
+toString Method:
+
+Add @Override annotation.
+Department Class Modifications
+getNumberOfMajors Method:
+
+Fix incorrect return value.
+getDepartmentChair Method:
+
+Fix incorrect return value.
+dropPersonFromMajor Method:
+
+Fix incorrect return value.
+Add if/else branch to handle the scenario when there are no majors to drop from.
+Ensure numberOfMajors does not decrease below zero.
+General Changes:
+
+Replace HashMap with Map to adhere to best practices of using interfaces over implementations.
+RouteController Class Enhancements
+retrieveCourse Method:
+
+Refactor to check the existence of a department using the departmentResponse status.
+Streamline the process to verify if a course is full.
+Ensure method returns proper HTTP status codes.
+retrieveDepartment Method:
+
+Enhance the lookup to handle case insensitivity by normalizing the department code to uppercase using Locale.ROOT.
+Simplify the @GetMapping and @PatchMapping annotations by removing redundant value= parts.
+Avoid unexpected behavior in locale-sensitive environments by utilizing a locale for string transformations.
+isCourseFull Method:
+
+Streamline checking course capacity by first verifying the course's existence.
+findCourseTime Method:
+
+Modify the return value for accuracy.
+Other Class Enhancements
+IndividualProjectApplication Class:
+
+Remove unused import statement.
+Change string comparisons for null safety.
+MyFileDatabase Class:
+
+Replace HashMap with Map.
+Method deSerializeObjectFromFile should not return null for collections.
+Testing and Best Practices
+Correct method names in test classes to adhere to Java naming conventions.
+Replace HashMap with Map in test classes to ensure loose coupling and best practices are maintained.
+
+
 
