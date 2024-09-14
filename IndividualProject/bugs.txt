@@ -1,0 +1,175 @@
+					Course
+Bug 1：
+------------------------------------------------------------------
+  public boolean enrollStudent() {
+    enrolledStudentCount++;
+    return false;
+  }
+------------------------------------------------------------------
+is changed to:
+------------------------------------------------------------------
+ public boolean enrollStudent() {
+    if (enrolledStudentCount < enrollmentCapacity) {
+      enrolledStudentCount++;
+      return true;
+    }
+    return false;
+  }
+------------------------------------------------------------------
+
+
+Bug 2:
+------------------------------------------------------------------
+  public boolean dropStudent() {
+    enrolledStudentCount--;
+    return false;
+  }
+------------------------------------------------------------------
+is changed to:
+------------------------------------------------------------------
+  public boolean dropStudent() {
+    if (enrolledStudentCount > 0) {
+      enrolledStudentCount--;
+      return true;
+    }
+    return false;
+  }
+------------------------------------------------------------------
+
+Bug 3:
+------------------------------------------------------------------
+  public String getCourseLocation() {
+    return this.instructorName;
+  }
+------------------------------------------------------------------
+is changed to:
+------------------------------------------------------------------
+  public String getCourseLocation() {
+    return this.courseLocation;
+  }
+------------------------------------------------------------------
+
+Bug 4:
+------------------------------------------------------------------
+  public String getInstructorName() {
+    return this.courseLocation;
+  }
+------------------------------------------------------------------
+is changed to:
+------------------------------------------------------------------
+  public String getInstructorName() {
+    return this.instructorName;
+  }
+------------------------------------------------------------------
+
+Bug 5:
+------------------------------------------------------------------
+  public boolean isCourseFull() {
+    return enrollmentCapacity > enrolledStudentCount;
+  }
+------------------------------------------------------------------
+is changed to:
+------------------------------------------------------------------
+  public boolean isCourseFull() {
+    return enrollmentCapacity >= enrolledStudentCount;
+  }
+------------------------------------------------------------------
+
+
+				Department
+Bug 1:
+------------------------------------------------------------------
+  public int getNumberOfMajors() {
+    return -this.numberOfMajors;
+  }
+------------------------------------------------------------------
+is changed to:
+------------------------------------------------------------------
+  public int getNumberOfMajors() {
+    return this.numberOfMajors;
+  }
+------------------------------------------------------------------
+
+Bug 2:
+------------------------------------------------------------------
+  public String getDepartmentChair() {
+    return "this.departmentChair";
+  }
+------------------------------------------------------------------
+is changed to:
+------------------------------------------------------------------
+  public String getDepartmentChair() {
+    return this.departmentChair;
+  }
+------------------------------------------------------------------
+
+										RouteController
+----------------------------------------------------------------------------------------------------
+Bug 1:
+----------------------------------------------------------------------------------------------------
+retrieveDepartment:
+...
+      if (!departmentMapping.containsKey(deptCode.toUpperCase())) {
+        return new ResponseEntity<>("Department Not Found", HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(departmentMapping.get(deptCode.toUpperCase()).toString(),
+            HttpStatus.NOT_FOUND);
+      }
+----------------------------------------------------------------------------------------------------
+is changed to
+----------------------------------------------------------------------------------------------------
+...
+      if (!departmentMapping.containsKey(deptCode.toUpperCase())) {
+        return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
+      } else {
+        return new ResponseEntity<>(departmentMapping.get(deptCode.toUpperCase()), HttpStatus.OK);
+      }
+----------------------------------------------------------------------------------------------------
+
+Bug 2:
+----------------------------------------------------------------------------------------------------
+retrieveCourse：
+...
+else {
+          return new ResponseEntity<>(coursesMapping.get(Integer.toString(courseCode)).toString(),
+              HttpStatus.FORBIDDEN);
+        }
+----------------------------------------------------------------------------------------------------
+is changed to:
+----------------------------------------------------------------------------------------------------
+else {
+          return new ResponseEntity<>(coursesMapping.get(Integer.toString(courseCode)).toString(),
+              HttpStatus.OK);
+        }
+----------------------------------------------------------------------------------------------------
+
+
+Bug 3:
+----------------------------------------------------------------------------------------------------
+getMajorCtFromDept：
+...
+        return new ResponseEntity<>("There are: " + -departmentMapping.get(deptCode)
+            .getNumberOfMajors() + " majors in the department", HttpStatus.OK);
+}
+return new ResponseEntity<>("Department Not Found", HttpStatus.FORBIDDEN);
+----------------------------------------------------------------------------------------------------
+is changed to:
+----------------------------------------------------------------------------------------------------
+....
+        return new ResponseEntity<>("There are: " + departmentMapping.get(deptCode)
+            .getNumberOfMajors() + " majors in the department", HttpStatus.OK);
+}
+return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
+----------------------------------------------------------------------------------------------------
+
+Bug 4:
+----------------------------------------------------------------------------------------------------
+findCourseTime：
+        return new ResponseEntity<>("The course meets at: " + "some time ",
+            HttpStatus.OK);
+----------------------------------------------------------------------------------------------------
+is changed to:
+----------------------------------------------------------------------------------------------------
+        return new ResponseEntity<>("The course meets at: "
+            + requestedCourse.getCourseTimeSlot(), HttpStatus.OK);
+----------------------------------------------------------------------------------------------------
