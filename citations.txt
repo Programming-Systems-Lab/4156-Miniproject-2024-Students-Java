@@ -1,0 +1,4 @@
+Resources I used:
+
+1. Jacoco Tutorial: https://www.geeksforgeeks.org/how-to-generate-code-coverage-report-with-jacoco-in-java-application/
+2. PMD tutorial: https://docs.pmd-code.org/pmd-doc-7.2.0/pmd_userdocs_tools_maven.html

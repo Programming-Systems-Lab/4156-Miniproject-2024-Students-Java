@@ -1,6 +1,8 @@
+Bugs found by unit tests and PMD:
+
 Course.java:
 
-1. In the Course constructor, enrolledStudentCount() should be initialized to 0, according to comment
+1. In the Course constructor, enrolledStudentCount() should be initialized to 0 instead of 500
 2. enrollStudent() should return true instead of false upon success.
 3. dropStudent() should return true instead of false upon success.
 4. getCourseLocation() should return location, not instructor name.
@@ -16,7 +18,7 @@ Department.java:
 4. toString() should not have "" around this.toString.
 
 
-RounteController.java:
+RouteController.java:
 1. In retrieveDepartment(), when a department is not found, it should return HttpStatus.OK
 instead of HttpStatus.NOT_FOUND
 
