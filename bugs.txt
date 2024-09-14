@@ -195,3 +195,13 @@ RouteController.java:
   - Where: changeCourseTeacher()
   - Static analyzer name: N/A
 
+(15) Replace NotFound and OK
+  - Issue: The HTTPStatus.NotFound and OK were switched
+  - Where: changeCourseTeacher()
+  - Static analyzer name: N/A
+
+(16) Replace NotFound and Forbidden
+  - Issue: The HTTPStatus.NotFound and FORBIDDEN were switched
+  - Where: getMajorCtFromDept()
+  - Static analyzer name: N/A
+
