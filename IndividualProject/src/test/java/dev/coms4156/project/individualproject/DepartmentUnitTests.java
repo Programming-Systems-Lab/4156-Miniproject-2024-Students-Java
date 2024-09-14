@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ public class DepartmentUnitTests {
     coms3251.setEnrolledStudentCount(99);
 
 
-    HashMap<String, Course> courses = new HashMap<>();
+    Map<String, Course> courses = new HashMap<>();
     courses.put("1004", coms1004);
     courses.put("3134", coms3134);
     courses.put("3157", coms3157);
