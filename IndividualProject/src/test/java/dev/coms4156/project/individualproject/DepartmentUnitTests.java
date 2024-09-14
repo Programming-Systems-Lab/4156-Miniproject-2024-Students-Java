@@ -55,7 +55,6 @@ public class DepartmentUnitTests {
 
   @Test
   public void testAddPersonToMajor() {
-    // Test adding a major
     comsDept.addPersonToMajor();
     assertEquals(2701, comsDept.getNumberOfMajors(), "Number of COMS majors should increase by 1.");
   }
@@ -69,7 +68,6 @@ public class DepartmentUnitTests {
 
   @Test
   public void testDropPersonFromMajorEdgeCase() {
-    // Test dropping a major when majors is at zero
     Department smallDept = new Department("TEST", new HashMap<>(), "Test Chair", 0);
     smallDept.dropPersonFromMajor();
     assertEquals(0, smallDept.getNumberOfMajors(), "Number of majors should not go below 0.");
@@ -77,14 +75,12 @@ public class DepartmentUnitTests {
 
   @Test
   public void testGetDepartmentChair() {
-    // Test getting the department chair
     assertEquals("Luca Carloni", comsDept.getDepartmentChair(), "COMS department chair should be Luca Carloni.");
     assertEquals("Michael Woodford", econDept.getDepartmentChair(), "ECON department chair should be Michael Woodford.");
   }
 
   @Test
   public void testGetCourseSelection() {
-    // Test getting the course selection
     HashMap<String, Course> comsCourses = comsDept.getCourseSelection();
     assertNotNull(comsCourses, "COMS course selection should not be null.");
     assertEquals(2, comsCourses.size(), "COMS should have 2 courses.");
@@ -100,7 +96,6 @@ public class DepartmentUnitTests {
 
   @Test
   public void testAddCourse() {
-    // Test adding a new course
     Course newCourse = new Course("Test Instructor", "Test Location", "10:00-11:30", 100);
     comsDept.addCourse("9999", newCourse);
 
@@ -111,7 +106,6 @@ public class DepartmentUnitTests {
 
   @Test
   public void testCreateCourse() {
-    // Test creating and adding a new course
     econDept.createCourse("9999", "Test Instructor", "Test Location", "10:00-11:30", 100);
 
     HashMap<String, Course> courses = econDept.getCourseSelection();
@@ -121,7 +115,6 @@ public class DepartmentUnitTests {
 
   @Test
   public void testToString() {
-    // Test the toString method with actual data structure comparison
     String deptString = comsDept.toString();
     assertTrue(deptString.contains("1004"), "toString should contain course 1004.");
     assertTrue(deptString.contains("3134"), "toString should contain course 3134.");

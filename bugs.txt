@@ -14,3 +14,10 @@ Department.java:
 2. getNumberOfMajors() should not return negative of this.numberOfMajors.
 3. getDepartmentChair() should not have "" around this.departmentChair. Otherwise it returns a string
 4. toString() should not have "" around this.toString.
+
+
+RounteController.java:
+1. In retrieveDepartment(), when a department is not found, it should return HttpStatus.OK
+instead of HttpStatus.NOT_FOUND
+
+2. retrieveCourse() should return HttpStatus.OK upon success instead of FORBIDDEN
