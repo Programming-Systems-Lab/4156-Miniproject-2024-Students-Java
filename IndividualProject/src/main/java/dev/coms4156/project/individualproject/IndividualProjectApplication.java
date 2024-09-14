@@ -35,7 +35,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
    */
   public void run(String[] args) {
     for (String arg : args) {
-      if (arg.equalsIgnoreCase("setup")) {
+      if (arg.equals("setup")) {
         myFileDatabase = new MyFileDatabase(1, "./data.txt");
         resetDataFile();
         System.out.println("System Setup");
