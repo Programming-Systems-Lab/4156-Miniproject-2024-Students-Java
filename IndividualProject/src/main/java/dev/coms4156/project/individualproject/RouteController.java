@@ -1,6 +1,7 @@
 package dev.coms4156.project.individualproject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.logging.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,8 +28,8 @@ public class RouteController {
   @GetMapping({"/", "/index", "/home"})
   public String index() {
     return "Welcome, in order to make an API call direct your browser or Postman to an endpoint "
-        + "\n\n This can be done using the following format: \n\n http:127.0.0"
-        + ".1:8080/endpoint?arg=value";
+      + "\n\n This can be done using the following format: \n\n http:127.0.0"
+      + ".1:8080/endpoint?arg=value";
   }
 
   /**
@@ -46,17 +47,21 @@ public class RouteController {
       HashMap<String, Department> departmentMapping;
       departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
 
-      if (!departmentMapping.containsKey(deptCode.toUpperCase())) {
+      // Use Locale.ROOT for locale-independent case transformation
+      String deptCodeUpper = deptCode.toUpperCase(Locale.ROOT);
+
+      if (!departmentMapping.containsKey(deptCodeUpper)) {
         return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
       } else {
-        return new ResponseEntity<>(departmentMapping.get(deptCode.toUpperCase()).toString(),
-            HttpStatus.OK);
+        return new ResponseEntity<>(departmentMapping.get(deptCodeUpper).toString(),
+          HttpStatus.OK);
       }
 
     } catch (Exception e) {
       return handleException(e);
     }
   }
+
 
   /**
    * Displays the details of the requested course to the user or displays the proper error
@@ -87,7 +92,7 @@ public class RouteController {
           return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
         } else {
           return new ResponseEntity<>(coursesMapping.get(Integer.toString(courseCode)).toString(),
-              HttpStatus.OK);
+            HttpStatus.OK);
         }
 
       }
@@ -161,7 +166,7 @@ public class RouteController {
         HashMap<String, Department> departmentMapping;
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
         return new ResponseEntity<>("There are: " + departmentMapping.get(deptCode)
-            .getNumberOfMajors() + " majors in the department", HttpStatus.OK);
+          .getNumberOfMajors() + " majors in the department", HttpStatus.OK);
       }
       return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
     } catch (Exception e) {
@@ -187,7 +192,7 @@ public class RouteController {
         HashMap<String, Department> departmentMapping;
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
         return new ResponseEntity<>(departmentMapping.get(deptCode).getDepartmentChair() + " is "
-            + "the department chair.", HttpStatus.OK);
+          + "the department chair.", HttpStatus.OK);
       }
       return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
     } catch (Exception e) {
@@ -223,7 +228,7 @@ public class RouteController {
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         return new ResponseEntity<>(requestedCourse.getCourseLocation() + " is where the course "
-            + "is located.", HttpStatus.OK);
+          + "is located.", HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
       }
@@ -262,7 +267,7 @@ public class RouteController {
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         return new ResponseEntity<>(requestedCourse.getInstructorName() + " is the instructor for"
-            + " the course.", HttpStatus.OK);
+          + " the course.", HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
       }
@@ -300,7 +305,7 @@ public class RouteController {
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         return new ResponseEntity<>("The course meets at: " + "some time ",
-            HttpStatus.OK);
+          HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
       }

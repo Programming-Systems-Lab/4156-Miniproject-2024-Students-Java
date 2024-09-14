@@ -90,13 +90,14 @@ public class MyFileDatabase {
    */
   @Override
   public String toString() {
-<span class="fc" id="L93">    StringBuilder result = new StringBuilder();</span>
-<span class="fc bfc" id="L94" title="All 2 branches covered.">    for (Map.Entry&lt;String, Department&gt; entry : departmentMapping.entrySet()) {</span>
-<span class="fc" id="L95">      String key = entry.getKey();</span>
-<span class="fc" id="L96">      Department value = entry.getValue();</span>
-<span class="fc" id="L97">      result.append(&quot;For the &quot;).append(key).append(&quot; department: \n&quot;).append(value.toString());</span>
-<span class="fc" id="L98">    }</span>
-<span class="fc" id="L99">    return result.toString();</span>
+<span class="fc" id="L93">    int estimatedCapacity = departmentMapping.size() * 50;</span>
+<span class="fc" id="L94">    StringBuilder result = new StringBuilder(estimatedCapacity);</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">    for (Map.Entry&lt;String, Department&gt; entry : departmentMapping.entrySet()) {</span>
+<span class="fc" id="L96">      String key = entry.getKey();</span>
+<span class="fc" id="L97">      Department value = entry.getValue();</span>
+<span class="fc" id="L98">      result.append(&quot;For the &quot;).append(key).append(&quot; department: \n&quot;).append(value.toString());</span>
+<span class="fc" id="L99">    }</span>
+<span class="fc" id="L100">    return result.toString();</span>
   }
 
   /** The path to the file containing the database entries. */

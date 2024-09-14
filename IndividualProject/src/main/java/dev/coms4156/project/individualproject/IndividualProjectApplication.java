@@ -38,16 +38,25 @@ public class IndividualProjectApplication implements CommandLineRunner {
    */
   @Override
   public void run(String[] args) {
+    boolean setupMode = false;
+
+    // Check if "setup" argument is passed
     for (String arg : args) {
       if (arg.equals("setup")) {
-        myFileDatabase = new MyFileDatabase(1, "./data.txt");
-        resetDataFile();
-        LOG.fine("System Setup");
-        return;
+        setupMode = true;
+        break;
       }
     }
-    myFileDatabase = new MyFileDatabase(0, "./data.txt");
-    LOG.fine("Start up");
+
+    // Initialize myFileDatabase based on the setup mode
+    if (setupMode) {
+      myFileDatabase = new MyFileDatabase(1, "./data.txt");
+      resetDataFile();
+      LOG.fine("System Setup");
+    } else {
+      myFileDatabase = new MyFileDatabase(0, "./data.txt");
+      LOG.fine("Start up");
+    }
   }
 
   /**

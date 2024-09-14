@@ -30,3 +30,4 @@ MyFileDatabase:
 
 IndividualProjectApplication:
 1. Fixed static error by adding logger instead of print
+2. Fixed static error in run avoid instantiating new objects inside loops

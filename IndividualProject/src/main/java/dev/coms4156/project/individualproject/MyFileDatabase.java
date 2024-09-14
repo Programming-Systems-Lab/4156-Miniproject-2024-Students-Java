@@ -90,7 +90,8 @@ public class MyFileDatabase {
    */
   @Override
   public String toString() {
-    StringBuilder result = new StringBuilder();
+    int estimatedCapacity = departmentMapping.size() * 50;
+    StringBuilder result = new StringBuilder(estimatedCapacity);
     for (Map.Entry<String, Department> entry : departmentMapping.entrySet()) {
       String key = entry.getKey();
       Department value = entry.getValue();
