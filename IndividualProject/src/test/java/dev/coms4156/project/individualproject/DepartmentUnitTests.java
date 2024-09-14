@@ -1,6 +1,8 @@
 package dev.coms4156.project.individualproject;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the Department class.
- * Tests the functionality of the Department class methods, including edge cases.
  */
 public class DepartmentUnitTests {
 
@@ -17,6 +18,9 @@ public class DepartmentUnitTests {
   private Course coms1004;
   private Course coms3134;
 
+  /**
+   * Sets up the test course instance before all tests are run.
+   */
   @BeforeEach
   public void setUp() {
     // Set up COMS department with some courses
@@ -33,10 +37,17 @@ public class DepartmentUnitTests {
     comsDept = new Department("COMS", comsCourses, "Luca Carloni", 2700);
 
     // Set up ECON department with some courses
-    Course econ1105 = new Course("Waseem Noor", "309 HAV", "2:40-3:55", 210);
+    Course econ1105 = new Course("Waseem Noor",
+        "309 HAV",
+        "2:40-3:55",
+        210);
+
     econ1105.setEnrolledStudentCount(187);
 
-    Course econ2257 = new Course("Tamrat Gashaw", "428 PUP", "10:10-11:25", 125);
+    Course econ2257 = new Course("Tamrat Gashaw",
+        "428 PUP",
+        "10:10-11:25",
+        125);
     econ2257.setEnrolledStudentCount(63);
 
     HashMap<String, Course> econCourses = new HashMap<>();
@@ -68,15 +79,20 @@ public class DepartmentUnitTests {
 
   @Test
   public void testDropPersonFromMajorEdgeCase() {
-    Department smallDept = new Department("TEST", new HashMap<>(), "Test Chair", 0);
+    Department smallDept = new Department("TEST",
+        new HashMap<>(),
+        "Test Chair",
+        0);
     smallDept.dropPersonFromMajor();
     assertEquals(0, smallDept.getNumberOfMajors(), "Number of majors should not go below 0.");
   }
 
   @Test
   public void testGetDepartmentChair() {
-    assertEquals("Luca Carloni", comsDept.getDepartmentChair(), "COMS department chair should be Luca Carloni.");
-    assertEquals("Michael Woodford", econDept.getDepartmentChair(), "ECON department chair should be Michael Woodford.");
+    assertEquals("Luca Carloni", comsDept.getDepartmentChair(),
+        "COMS department chair should be Luca Carloni.");
+    assertEquals("Michael Woodford", econDept.getDepartmentChair(),
+        "ECON department chair should be Michael Woodford.");
   }
 
   @Test
@@ -96,7 +112,10 @@ public class DepartmentUnitTests {
 
   @Test
   public void testAddCourse() {
-    Course newCourse = new Course("Test Instructor", "Test Location", "10:00-11:30", 100);
+    Course newCourse = new Course("Test Instructor",
+        "Test Location",
+        "10:00-11:30",
+        100);
     comsDept.addCourse("9999", newCourse);
 
     HashMap<String, Course> courses = comsDept.getCourseSelection();
@@ -106,7 +125,11 @@ public class DepartmentUnitTests {
 
   @Test
   public void testCreateCourse() {
-    econDept.createCourse("9999", "Test Instructor", "Test Location", "10:00-11:30", 100);
+    econDept.createCourse("9999",
+        "Test Instructor",
+        "Test Location",
+        "10:00-11:30",
+        100);
 
     HashMap<String, Course> courses = econDept.getCourseSelection();
     assertEquals(3, courses.size(), "ECON should have 3 courses after creating.");
@@ -119,15 +142,4 @@ public class DepartmentUnitTests {
     assertTrue(deptString.contains("1004"), "toString should contain course 1004.");
     assertTrue(deptString.contains("3134"), "toString should contain course 3134.");
   }
-
-//  @Test
-//  public void testAddPersonToMajorEdgeCase() {
-//    // Edge case: Adding person to major should work with large numbers, but prevent overflow
-//    Department largeDept = new Department("MATH", new HashMap<>(), "Chair C", Integer.MAX_VALUE - 1);
-//    largeDept.addPersonToMajor();
-//    assertEquals(Integer.MAX_VALUE, largeDept.getNumberOfMajors(), "Majors count should handle max value without overflow.");
-//
-//    largeDept.addPersonToMajor(); // Now, adding beyond the max
-//    assertEquals(Integer.MAX_VALUE, largeDept.getNumberOfMajors(), "Majors should not exceed Integer.MAX_VALUE.");
-//  }
 }

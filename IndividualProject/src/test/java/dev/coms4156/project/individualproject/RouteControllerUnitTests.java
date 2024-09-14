@@ -1,6 +1,8 @@
 package dev.coms4156.project.individualproject;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,12 +10,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * Unit tests for the RouteController class.
+ */
 public class RouteControllerUnitTests {
 
   private RouteController routeController;
   private MyFileDatabase myFileDatabase;
   private HashMap<String, Department> departmentMapping;
 
+  /**
+   * Sets up the test route controller instance before all tests are run.
+   */
   @BeforeEach
   public void setUp() {
     routeController = new RouteController();
@@ -43,7 +51,7 @@ public class RouteControllerUnitTests {
   public void testRetrieveDepartment() {
     ResponseEntity<?> response = routeController.retrieveDepartment("COMS");
     assertEquals(HttpStatus.OK, response.getStatusCode());
-//    assertTrue(response.getBody().toString().contains("Luca Carloni"));
+    //assertTrue(response.getBody().toString().contains("Luca Carloni"));
     assertTrue(response.getBody().toString().contains("COMS"));
   }
 
@@ -197,9 +205,10 @@ public class RouteControllerUnitTests {
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
   }
+
   @Test
   public void testRetrieveDepartmentThrowsException() {
-    IndividualProjectApplication.overrideDatabase(null); // Nullify the database to cause an exception
+    IndividualProjectApplication.overrideDatabase(null);
 
     ResponseEntity<?> response = routeController.retrieveDepartment("COMS");
     assertEquals(HttpStatus.OK, response.getStatusCode());

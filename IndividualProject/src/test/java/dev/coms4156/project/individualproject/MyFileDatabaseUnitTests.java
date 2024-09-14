@@ -1,15 +1,18 @@
 package dev.coms4156.project.individualproject;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the MyFileDatabase class.
@@ -24,6 +27,9 @@ public class MyFileDatabaseUnitTests {
     fileDatabase = new MyFileDatabase(1, TEST_FILE_PATH);  // Test constructor for saving mode
   }
 
+  /**
+   * Clean up the tests after all tests are run.
+   */
   @AfterEach
   public void tearDown() {
     // Clean up the test file after each test
@@ -53,14 +59,18 @@ public class MyFileDatabaseUnitTests {
     HashMap<String, Department> loadedMapping = loadedDatabase.getDepartmentMapping();
 
     assertNotNull(loadedMapping, "Loaded department mapping should not be null.");
-    assertTrue(loadedMapping.containsKey("COMS"), "COMS department should exist after deserialization.");
-    assertEquals("Luca Carloni", loadedMapping.get("COMS").getDepartmentChair(), "Department chair should match.");
+    assertTrue(loadedMapping.containsKey("COMS"),
+        "COMS department should exist after deserialization.");
+    assertEquals("Luca Carloni", loadedMapping.get("COMS").getDepartmentChair(),
+        "Department chair should match.");
   }
 
   @Test
   public void testInvalidFilePath() {
-    MyFileDatabase invalidDatabase = new MyFileDatabase(0, "./nonExistentFile.txt");
-    assertNull(invalidDatabase.getDepartmentMapping(), "Loading from non-existent file should return null.");
+    MyFileDatabase invalidDatabase = new MyFileDatabase(0,
+        "./nonExistentFile.txt");
+    assertNull(invalidDatabase.getDepartmentMapping(),
+        "Loading from non-existent file should return null.");
   }
 
   @Test
@@ -72,16 +82,23 @@ public class MyFileDatabaseUnitTests {
 
     MyFileDatabase corruptedDatabase = new MyFileDatabase(0, TEST_FILE_PATH);
 
-    assertNull(corruptedDatabase.getDepartmentMapping(), "Corrupted file should result in a null department mapping.");
+    assertNull(corruptedDatabase.getDepartmentMapping(),
+        "Corrupted file should result in a null department mapping.");
   }
 
   @Test
   public void testSetMapping() {
-    Course coms1004 = new Course("Adam Cannon", "417 IAB", "11:40-12:55", 400);
+    Course coms1004 = new Course("Adam Cannon",
+        "417 IAB",
+        "11:40-12:55",
+        400);
     HashMap<String, Course> comsCourses = new HashMap<>();
     comsCourses.put("1004", coms1004);
 
-    Department comsDept = new Department("COMS", comsCourses, "Luca Carloni", 2700);
+    Department comsDept = new Department("COMS",
+        comsCourses,
+        "Luca Carloni",
+        2700);
     HashMap<String, Department> initialMapping = new HashMap<>();
     initialMapping.put("COMS", comsDept);
 
@@ -108,9 +125,9 @@ public class MyFileDatabaseUnitTests {
 
     String result = fileDatabase.toString();
 
-    String expectedOutput = "For the COMS department: \n" +
-        "COMS 1004: \nInstructor: Adam Cannon; Location: 417 IAB; Time: 11:40-12:55\n" +
-        "COMS 3134: \nInstructor: Brian Borowski; Location: 301 URIS; Time: 4:10-5:25\n";
+    String expectedOutput = "For the COMS department: \n"
+        + "COMS 1004: \nInstructor: Adam Cannon; Location: 417 IAB; Time: 11:40-12:55\n"
+        + "COMS 3134: \nInstructor: Brian Borowski; Location: 301 URIS; Time: 4:10-5:25\n";
 
     assertEquals(expectedOutput, result, "toString output should match the expected format.");
   }
@@ -120,7 +137,8 @@ public class MyFileDatabaseUnitTests {
     HashMap<String, Department> emptyMapping = new HashMap<>();
     fileDatabase.setMapping(emptyMapping);
 
-    assertTrue(fileDatabase.getDepartmentMapping().isEmpty(), "Department mapping should be empty.");
+    assertTrue(fileDatabase.getDepartmentMapping().isEmpty(),
+        "Department mapping should be empty.");
   }
 
   @Test
@@ -132,6 +150,7 @@ public class MyFileDatabaseUnitTests {
 
     MyFileDatabase invalidDatabase = new MyFileDatabase(0, TEST_FILE_PATH);
 
-    assertNull(invalidDatabase.getDepartmentMapping(), "Invalid data should result in a null department mapping.");
+    assertNull(invalidDatabase.getDepartmentMapping(),
+        "Invalid data should result in a null department mapping.");
   }
 }

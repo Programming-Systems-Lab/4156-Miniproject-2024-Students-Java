@@ -1,8 +1,8 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,7 +65,7 @@ public class CourseUnitTests {
   @Test
   public void isCourseFullTest() {
     testCourse.setEnrolledStudentCount(250);
-    assertTrue(testCourse.isCourseFull(), "Course should be full when enrollment reaches capacity.");
+    assertTrue(testCourse.isCourseFull(), "Course shows full when enrollment reaches capacity.");
 
     assertFalse(testCourse.enrollStudent(), "Enrollment should fail when the course is full.");
   }
