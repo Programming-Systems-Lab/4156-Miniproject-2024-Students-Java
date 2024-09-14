@@ -12,16 +12,27 @@ import java.util.Map;
  */
 public class Department implements Serializable {
 
+  @Serial
+  private static final long serialVersionUID = 234567L;
+
+  private HashMap<String, Course> courses;
+  private String departmentChair;
+  private String deptCode;
+  private int numberOfMajors;
+
   /**
    * Constructs a new Department object with the given parameters.
    *
-   * @param deptCode         The code of the department.
-   * @param courses          A HashMap containing courses offered by the department.
-   * @param departmentChair  The name of the department chair.
-   * @param numberOfMajors   The number of majors in the department.
+   * @param deptCode        The code of the department.
+   * @param courses         A HashMap containing courses offered by the department.
+   * @param departmentChair The name of the department chair.
+   * @param numberOfMajors  The number of majors in the department.
    */
-  public Department(String deptCode, HashMap<String, Course> courses, String departmentChair,
-                    int numberOfMajors) {
+  public Department(
+          String deptCode,
+          HashMap<String, Course> courses,
+          String departmentChair,
+          int numberOfMajors) {
     this.courses = courses;
     this.departmentChair = departmentChair;
     this.numberOfMajors = numberOfMajors;
@@ -34,7 +45,7 @@ public class Department implements Serializable {
    * @return The number of majors.
    */
   public int getNumberOfMajors() {
-    return this.numberOfMajors;
+    return numberOfMajors;
   }
 
   /**
@@ -43,7 +54,7 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return this.departmentChair;
+    return departmentChair;
   }
 
   /**
@@ -52,7 +63,7 @@ public class Department implements Serializable {
    * @return A HashMap containing courses offered by the department.
    */
   public HashMap<String, Course> getCourseSelection() {
-    return this.courses;
+    return courses;
   }
 
   /**
@@ -86,14 +97,18 @@ public class Department implements Serializable {
   /**
    * Creates and adds a new course to the department's course selection.
    *
-   * @param courseId           The ID of the new course.
-   * @param instructorName     The name of the instructor teaching the course.
-   * @param courseLocation     The location where the course is held.
-   * @param courseTimeSlot     The time slot of the course.
-   * @param capacity           The maximum number of students that can enroll in the course.
+   * @param courseId       The ID of the new course.
+   * @param instructorName The name of the instructor teaching the course.
+   * @param courseLocation The location where the course is held.
+   * @param courseTimeSlot The time slot of the course.
+   * @param capacity       The maximum number of students that can enroll in the course.
    */
-  public void createCourse(String courseId, String instructorName, String courseLocation,
-                           String courseTimeSlot, int capacity) {
+  public void createCourse(
+          String courseId,
+          String instructorName,
+          String courseLocation,
+          String courseTimeSlot,
+          int capacity) {
     Course newCourse = new Course(instructorName, courseLocation, courseTimeSlot, capacity);
     addCourse(courseId, newCourse);
   }
@@ -103,21 +118,20 @@ public class Department implements Serializable {
    *
    * @return A string representing the department.
    */
+  @Override
   public String toString() {
     StringBuilder result = new StringBuilder();
     for (Map.Entry<String, Course> entry : courses.entrySet()) {
       String key = entry.getKey();
       Course value = entry.getValue();
-      result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
-          .append("\n");
+      result
+              .append(deptCode)
+              .append(" ")
+              .append(key)
+              .append(": ")
+              .append(value.toString())
+              .append("\n");
     }
     return result.toString();
   }
-
-  @Serial
-  private static final long serialVersionUID = 234567L;
-  private HashMap<String, Course> courses;
-  private String departmentChair;
-  private String deptCode;
-  private int numberOfMajors;
 }

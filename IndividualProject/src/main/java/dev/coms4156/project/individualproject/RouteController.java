@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class RouteController {
-  Logger logger = Logger.getLogger(this.getClass().getName());
+
+  /** Logger for logging information and errors. */
+  private static final Logger logger = Logger.getLogger(RouteController.class.getName());
 
   /**
    * Redirects to the homepage.

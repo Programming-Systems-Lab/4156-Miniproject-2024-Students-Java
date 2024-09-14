@@ -1,4 +1,5 @@
-Bugs Documented
+Bugs Documented - I would like to mention that I used the PMD PLUGIN for INTELLIJ
+MOST OF THE ERRORS/BUGS I fixed via looking at the code manually.
 
 1. getCourseLocation() in Course.java used to return the instructor name.
     Now returns the correct course location.

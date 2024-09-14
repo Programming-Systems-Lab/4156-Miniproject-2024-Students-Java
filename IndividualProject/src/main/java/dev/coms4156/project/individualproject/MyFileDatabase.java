@@ -13,7 +13,15 @@ import java.util.logging.Logger;
  * This class represents a file-based database containing department mappings.
  */
 public class MyFileDatabase {
-  Logger logger = Logger.getLogger(this.getClass().getName());
+
+  /** Logger for logging information and errors. */
+  private static final Logger logger = Logger.getLogger(MyFileDatabase.class.getName());
+
+  /** The path to the file containing the database entries. */
+  private String filePath;
+
+  /** The mapping of department names to Department objects. */
+  private HashMap<String, Department> departmentMapping;
 
   /**
    * Constructs a MyFileDatabase object and loads up the data structure with
@@ -25,7 +33,7 @@ public class MyFileDatabase {
   public MyFileDatabase(int flag, String filePath) {
     this.filePath = filePath;
     if (flag == 0) {
-      this.departmentMapping = deSerializeObjectFromFile();
+      departmentMapping = deSerializeObjectFromFile();
     }
   }
 
@@ -35,7 +43,7 @@ public class MyFileDatabase {
    * @param mapping the mapping of department names to Department objects
    */
   public void setMapping(HashMap<String, Department> mapping) {
-    this.departmentMapping = mapping;
+    departmentMapping = mapping;
   }
 
   /**
@@ -76,7 +84,7 @@ public class MyFileDatabase {
    * @return the department mapping
    */
   public HashMap<String, Department> getDepartmentMapping() {
-    return this.departmentMapping;
+    return departmentMapping;
   }
 
   /**
@@ -90,14 +98,12 @@ public class MyFileDatabase {
     for (Map.Entry<String, Department> entry : departmentMapping.entrySet()) {
       String key = entry.getKey();
       Department value = entry.getValue();
-      result.append("For the ").append(key).append(" department: \n").append(value.toString());
+      result
+              .append("For the ")
+              .append(key)
+              .append(" department: \n")
+              .append(value.toString());
     }
     return result.toString();
   }
-
-  /** The path to the file containing the database entries. */
-  private String filePath;
-
-  /** The mapping of department names to Department objects. */
-  private HashMap<String, Department> departmentMapping;
 }
