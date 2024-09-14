@@ -35,7 +35,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
    */
   public void run(String[] args) {
     for (String arg : args) {
-      if (arg.equals("setup")) {
+      if (arg.equalsIgnoreCase("setup")) {
         myFileDatabase = new MyFileDatabase(1, "./data.txt");
         resetDataFile();
         System.out.println("System Setup");
@@ -310,6 +310,14 @@ public class IndividualProjectApplication implements CommandLineRunner {
     if (saveData) {
       myFileDatabase.saveContentsToFile();
     }
+  }
+
+  public boolean isSaveData() {
+    return saveData;
+  }
+
+  public void setSaveData(boolean newSaveData) {
+    saveData = newSaveData;
   }
 
   //Database Instance
