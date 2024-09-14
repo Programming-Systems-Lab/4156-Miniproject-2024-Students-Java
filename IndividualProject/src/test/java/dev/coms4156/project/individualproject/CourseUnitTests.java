@@ -49,8 +49,6 @@ public class CourseUnitTests {
     testCourse = myFileDatabase.getDepartmentMapping().get("COMS").getCourseSelection().get("1004");
     String expectedResult = "\nInstructor: Adam Cannon; Location: "
         + "417 IAB; Time: 11:40-12:55; Capacity: 400";
-    System.out.println(expectedResult);
-    System.out.println(testCourse.toString());
     assertEquals(expectedResult, testCourse.toString());
   }
 
@@ -74,7 +72,7 @@ public class CourseUnitTests {
   @Test
   public void enrollStudentFailure() {
 
-    testCourse.setEnrolledStudentCount(testCourse.getCourseCapacity());
+    testCourse.setEnrolledCount(testCourse.getCourseCapacity());
     assertFalse(testCourse.enrollStudent());
   }
 
@@ -85,7 +83,7 @@ public class CourseUnitTests {
    */
   @Test
   public void dropStudentSuccess() {
-    testCourse.setEnrolledStudentCount(5);
+    testCourse.setEnrolledCount(5);
     assertTrue(testCourse.dropStudent());
   }
 
@@ -96,7 +94,7 @@ public class CourseUnitTests {
    */
   @Test
   public void dropStudentFailure() {
-    testCourse.setEnrolledStudentCount(0);
+    testCourse.setEnrolledCount(0);
     assertFalse(testCourse.dropStudent());
   }
 
@@ -163,8 +161,8 @@ public class CourseUnitTests {
   @Test
   public void testSetEnrolledStudentCount() {
     int newEnrollmentCount = 350;
-    testCourse.setEnrolledStudentCount(newEnrollmentCount);
-    assertEquals(newEnrollmentCount, testCourse.getEnrolledStudentCount());
+    testCourse.setEnrolledCount(newEnrollmentCount);
+    assertEquals(newEnrollmentCount, testCourse.getEnrolledCount());
   }
 
   /**
@@ -175,7 +173,7 @@ public class CourseUnitTests {
   @Test
   public void testIsCourseFullSuccess() {
     int amountAboveCapacity = testCourse.getCourseCapacity();
-    testCourse.setEnrolledStudentCount(amountAboveCapacity);
+    testCourse.setEnrolledCount(amountAboveCapacity);
     assertTrue(testCourse.isCourseFull());
   }
 
@@ -186,7 +184,7 @@ public class CourseUnitTests {
    */
   @Test
   public void testIsCourseFullFailure() {
-    testCourse.setEnrolledStudentCount(testCourse.getCourseCapacity() - 1);
+    testCourse.setEnrolledCount(testCourse.getCourseCapacity() - 1);
     assertFalse(testCourse.isCourseFull());
   }
 

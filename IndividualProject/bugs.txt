@@ -122,8 +122,14 @@ ROUTE CONTROLLER BUG FIXES:
     - PMD ERROR: N/A
     - Problem: return message is wrong
     - Solution: Fix return message to include course time.
-----------------------------------------------------------------
-On Using Mockito
+
+-----------------------------
+Main errors fixed by PMD:
+
+- LooseCoupling (Swapped HashMap to Map)
+- UnnecessaryAnnotationValueElement (remove value =)
+
+
 
 
 

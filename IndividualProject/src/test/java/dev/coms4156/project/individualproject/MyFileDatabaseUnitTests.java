@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -50,7 +51,7 @@ public class MyFileDatabaseUnitTests {
    * This method verifies the serialization and deserialization of the Department Object in
    * MyFileDatabase.
    *
-   * <p>Firstly, this method creates a sample Department object, and appends it to a hashmap.
+   * <p>Firstly, this method creates a sample Department object, and appends it to a map.
    * Then it saves the contents to a file using the {@code saveContentsToFile()}
    * method. Then it will deserialize the file into a new MyFileDatabase object, and ensures
    * that the originally serialized object matches the deserialized one.
@@ -58,9 +59,9 @@ public class MyFileDatabaseUnitTests {
   @Test
   public void testSerializationAndDeserialization() {
     Course testCourse = new Course("Donald Duck's Math",
-      "Disneyland 1234", "12:55-12:56", 5000);
-    HashMap<String, Course> courses = new HashMap<>();
-    HashMap<String, Department> departmentMap = new HashMap<>();
+        "Disneyland 1234", "12:55-12:56", 5000);
+    Map<String, Course> courses = new HashMap<>();
+    Map<String, Department> departmentMap = new HashMap<>();
 
     courses.put("1234", testCourse);
     Department disneyDepartment = new Department("DIS", courses,
@@ -71,7 +72,7 @@ public class MyFileDatabaseUnitTests {
     myFileDatabase.saveContentsToFile();
 
     MyFileDatabase testDatabase = new MyFileDatabase(0, testFilePath);
-    HashMap<String, Department> deserializedMap = testDatabase.getDepartmentMapping();
+    Map<String, Department> deserializedMap = testDatabase.getDepartmentMapping();
 
     assertNotNull(deserializedMap);
     assertEquals(departmentMap.toString(), deserializedMap.toString());
@@ -80,7 +81,7 @@ public class MyFileDatabaseUnitTests {
   /**
    * This method verifies the output of the {@code toString()} method in the MyFileDatabase class.
    *
-   * <p>Firstly, this method create two sample Course objects, and appends it to a hashmap.
+   * <p>Firstly, this method create two sample Course objects, and appends it to a map.
    * Then it saves the contents to a {@link Department} Object. It then asserts that
    * the toString() method and a defined expected String are the same.
    */
@@ -91,14 +92,14 @@ public class MyFileDatabaseUnitTests {
     Course testCourse2 = new Course("Goofy", "Disneyland 4251",
         "13:33-14:44", 2500);
 
-    HashMap<String, Course> disneyCourses = new HashMap<>();
+    Map<String, Course> disneyCourses = new HashMap<>();
     disneyCourses.put("1234", testCourse1);
     disneyCourses.put("4251", testCourse2);
 
     Department disDept = new Department("DIS", disneyCourses,
         "Bob Iger", 8000);
 
-    HashMap<String, Department> departmentMapping = new HashMap<>();
+    Map<String, Department> departmentMapping = new HashMap<>();
     departmentMapping.put("DIS", disDept);
 
     MyFileDatabase myFileDatabase = new MyFileDatabase(1, testFilePath);
@@ -120,7 +121,7 @@ public class MyFileDatabaseUnitTests {
   @Test
   public void testDeserializeFileNotFound() {
     MyFileDatabase myFileDatabase = new MyFileDatabase(0, "notRealFile.txt");
-    HashMap<String, Department> departmentMapping = myFileDatabase.deSerializeObjectFromFile();
+    Map<String, Department> departmentMapping = myFileDatabase.deSerializeObjectFromFile();
     assertNotNull(departmentMapping);
     assertTrue(departmentMapping.isEmpty());
   }
@@ -133,14 +134,14 @@ public class MyFileDatabaseUnitTests {
   @Test
   public void testDeserializeInvalidObjectType() {
     try (ObjectOutputStream out = new ObjectOutputStream(
-      new BufferedOutputStream(Files.newOutputStream(Paths.get(testFilePath))))) {
+        new BufferedOutputStream(Files.newOutputStream(Paths.get(testFilePath))))) {
       out.writeObject("This is not a HashMap");  // Writing an invalid object type
     } catch (IOException e) {
       e.printStackTrace();
       fail("Failed to write invalid object type to file");
     }
 
-      // check if deSerializeObjectFromFile() throws an IllegalArgumentException.
+    // check if deSerializeObjectFromFile() throws an IllegalArgumentException.
     assertThrows(IllegalArgumentException.class, () -> myFileDatabase.deSerializeObjectFromFile());
   }
 
@@ -154,7 +155,7 @@ public class MyFileDatabaseUnitTests {
     String invalidFilePath = "/invalid/directory/thisFileDoesNotExist.txt";
 
     MyFileDatabase myFileDatabase = new MyFileDatabase(0, invalidFilePath);
-    HashMap<String, Department> result = myFileDatabase.deSerializeObjectFromFile();
+    Map<String, Department> result = myFileDatabase.deSerializeObjectFromFile();
 
     assertNotNull(result);
     assertTrue(result.isEmpty());

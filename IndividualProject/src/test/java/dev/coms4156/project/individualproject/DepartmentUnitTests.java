@@ -25,7 +25,6 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration
 public class DepartmentUnitTests {
 
-  private static MyFileDatabase myFileDatabase;
   private static Department originalCompSciDept;
   private static String departmentCode = "COMS";
 
@@ -33,9 +32,10 @@ public class DepartmentUnitTests {
 
   @BeforeAll
   public static void setupDepartmentDataForTesting() {
-    myFileDatabase = new MyFileDatabase(0, "./data.txt");
+    MyFileDatabase myFileDatabase = new MyFileDatabase(0, "./data.txt"); // Local variable
     originalCompSciDept = myFileDatabase.getDepartmentMapping().get(departmentCode);
   }
+
 
   /**
    * Generates a deep copy of the originalCompSciDept object for

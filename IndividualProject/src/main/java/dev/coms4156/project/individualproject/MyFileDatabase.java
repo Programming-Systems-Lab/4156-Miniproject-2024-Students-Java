@@ -15,6 +15,12 @@ import java.util.Map;
  */
 public class MyFileDatabase {
 
+  /** The path to the file containing the database entries. */
+  private final String filePath;
+
+  /** The mapping of department names to Department objects. */
+  private Map<String, Department> departmentMapping;
+
   /**
    * Constructs a MyFileDatabase object and loads up the data structure with
    * the contents of the file.
@@ -34,7 +40,7 @@ public class MyFileDatabase {
    *
    * @param mapping the mapping of department names to Department objects
    */
-  public void setMapping(HashMap<String, Department> mapping) {
+  public void setMapping(Map<String, Department> mapping) {
     this.departmentMapping = mapping;
   }
 
@@ -43,12 +49,12 @@ public class MyFileDatabase {
    *
    * @return the deserialized department mapping
    */
-  public final HashMap<String, Department> deSerializeObjectFromFile() {
+  public final Map<String, Department> deSerializeObjectFromFile() {
     try (ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(
         Files.newInputStream(Paths.get(filePath))))) {
       Object obj = in.readObject();
       if (obj instanceof HashMap) {
-        return (HashMap<String, Department>) obj;
+        return (Map<String, Department>) obj;
       } else {
         throw new IllegalArgumentException("Invalid object type in file.");
       }
@@ -59,8 +65,8 @@ public class MyFileDatabase {
   }
 
   /**
-   * Saves the contents of the internal data structure to the file. Contents of the file are
-   * overwritten with this operation.
+   * Saves the contents of the internal data structure to the file.
+   * Contents of the file are overwritten with this operation.
    */
   public void saveContentsToFile() {
     try (ObjectOutputStream out = new ObjectOutputStream(
@@ -76,7 +82,7 @@ public class MyFileDatabase {
    *
    * @return the department mapping
    */
-  public HashMap<String, Department> getDepartmentMapping() {
+  public Map<String, Department> getDepartmentMapping() {
     return this.departmentMapping;
   }
 
@@ -96,9 +102,4 @@ public class MyFileDatabase {
     return result.toString();
   }
 
-  /** The path to the file containing the database entries. */
-  private String filePath;
-
-  /** The mapping of department names to Department objects. */
-  private HashMap<String, Department> departmentMapping;
 }
