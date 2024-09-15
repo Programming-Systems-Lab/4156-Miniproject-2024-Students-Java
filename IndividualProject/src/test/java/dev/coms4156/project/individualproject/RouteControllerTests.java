@@ -241,7 +241,7 @@ public class RouteControllerTests {
                     .param("deptCode", "non-exist"))
             .andExpect(status().isNotFound())
             .andExpect(content().string("Department Not Found"));
-    mockMvc.perform(get("/addMajorToDept")
+    mockMvc.perform(patch("/addMajorToDept")
                     .param("error", "COMS"))
             .andExpect(status().isBadRequest());
   }
@@ -285,7 +285,7 @@ public class RouteControllerTests {
                     .param("courseCode", "1004"))
             .andExpect(status().isNotFound())
             .andExpect(content().string("Course Not Found"));
-    mockMvc.perform(get("/dropStudentFromCourse")
+    mockMvc.perform(patch("/dropStudentFromCourse")
                     .param("error", "COMS"))
             .andExpect(status().isBadRequest());
   }
@@ -338,7 +338,7 @@ public class RouteControllerTests {
                     .param("time", "0"))
             .andExpect(status().isNotFound())
             .andExpect(content().string("Course Not Found"));
-    mockMvc.perform(get("/changeCourseTime")
+    mockMvc.perform(patch("/changeCourseTime")
                     .param("error", "COMS"))
             .andExpect(status().isBadRequest());
   }
