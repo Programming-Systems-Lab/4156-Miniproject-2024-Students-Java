@@ -1,3 +1,8 @@
-# Welcome Students of 4156
+# 4156 project 1
+## Static Analysis
+I am using PMD
 
-Please follow the assignment specifications on Courseworks when completing this project.
+### How to run PMD
+
+```mvn pmd:check```
+Analysis results in the `target/pmd.xml` file

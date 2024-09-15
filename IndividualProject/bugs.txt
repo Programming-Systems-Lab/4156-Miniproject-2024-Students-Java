@@ -1,0 +1,20 @@
+dalBugs
+
+A.Course.java
+- enrollStudent() always return false; fixed by adding if statement to check if there is space available.
+- dropStudent() always return false; fixed by adding if statement to check if the enrolled student number is positive before dropping.
+- getCourseLocation() return instructor name instead of location; fixed by changing "this.instructor" to "this.location".
+- isCourseFull() always return false; fixed by changing > to <.
+
+B. Department.java
+- getNumberMajors() return negative of number of major; fixed by removing "-".
+- getDepartmentChair() return "this.departmentChair" instead of the real chair name; fixed by returning the real chair name.
+- dropPersonFromMajor() always return false; fixed by adding if statement to check if number of majors is greater than zero.
+- toString() returning "result.toString()" instead of the real result; fixed by returning the real result.
+
+C. RouteController.java
+- retrieveDepartment() return OK when not found and not found when found department; fixed by changing the return value.
+- retrieveCourse() return Forbidden when found course; fixed by changing the return value.
+- getMajorCtFromDept() return negative number of major; fixed by removing "-".
+- getMajorCtFromDept() return Forbidden 403 when not found; fixed by changing the return value.
+- findCourseTime() not returning time and missing space before "some time"; fixed by adding the missing space and returning the time.
