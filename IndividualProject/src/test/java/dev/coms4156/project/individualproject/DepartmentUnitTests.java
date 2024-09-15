@@ -96,7 +96,7 @@ public class DepartmentUnitTests {
 
   @Test
   public void toStringTest() {
-    String expectedResult = "PSYC 1001: \n"
+    String expectedResult = "PSYC 1001: "
             + "Instructor: Szabolcs Marka; Location: 301 PUP; Time: 2:40-3:55\n";
     assertEquals(expectedResult, testDept5.toString());
   }

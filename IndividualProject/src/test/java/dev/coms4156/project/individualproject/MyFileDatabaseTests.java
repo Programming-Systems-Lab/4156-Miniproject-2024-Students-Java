@@ -28,13 +28,11 @@ public class MyFileDatabaseTests {
    */
   @BeforeAll
   public static void setupDepartmentForTesting() {
-    String[] times = {"11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55"};
-    String[] locations = {"417 IAB", "309 HAV", "301 URIS"};
     testDb = new MyFileDatabase(1, "./data.txt");
     testDb2 = new MyFileDatabase(1, "data.java");
     testDb3 = new MyFileDatabase(3, "testdata.txt");
 
-    testCourse = new Course("Ruben M Savizky", locations[1], "6:10-7:25", 120);
+    testCourse = new Course("Ruben M Savizky", "309 HAV", "6:10-7:25", 120);
     testCourse.setEnrolledStudentCount(100);
     testCourse2 = new Course("Patricia G Lindemann", "501 SCH", "1:10-2:25", 200);
     testCourse2.setEnrolledStudentCount(191);
@@ -62,10 +60,10 @@ public class MyFileDatabaseTests {
   public void toStringTest() {
     testDb.setMapping(testDeptMap);
     String expect = "For the PHYS department: \n"
-            + "PHYS 1403: \n"
+            + "PHYS 1403: "
             + "Instructor: Ruben M Savizky; Location: 309 HAV; Time: 6:10-7:25\n"
             + "For the PSYC department: \n"
-            + "PSYC 1001: \n"
+            + "PSYC 1001: "
             + "Instructor: Patricia G Lindemann; Location: 501 SCH; Time: 1:10-2:25\n";
     assertEquals(expect, testDb.toString());
   }
