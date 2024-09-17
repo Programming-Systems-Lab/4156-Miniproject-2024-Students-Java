@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,8 +25,8 @@ public class DepartmentUnitTests {
   /**
    * Sets up the department for testing.
    */
-  @BeforeAll
-  public static void setupDepartmentForTesting() {
+  @BeforeEach
+  public void setupDepartmentForTesting() {
     HashMap<String, Course> courses = new HashMap<>();
     courses.put("4156", new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250));
     testDepartment = new Department("CS", courses, "Dean", 50);
