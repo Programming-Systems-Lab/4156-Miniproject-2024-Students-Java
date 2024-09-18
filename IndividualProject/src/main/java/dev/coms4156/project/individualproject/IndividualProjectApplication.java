@@ -97,6 +97,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
         mapping.put("COMS", compSci);
 
         // data for econ dept
+        Course econ1004 = new Course("Waseem Noor", locations[1], times[3], 210);
         Course econ1105 = new Course("Waseem Noor", locations[1], times[3], 210);
         econ1105.setEnrolledStudentCount(187);
         Course econ2257 = new Course("Tamrat Gashaw", "428 PUP", times[2], 125);

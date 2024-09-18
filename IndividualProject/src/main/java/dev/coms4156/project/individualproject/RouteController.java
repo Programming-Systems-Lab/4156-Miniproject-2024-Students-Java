@@ -546,6 +546,28 @@ public class RouteController {
         }
     }
 
+    @GetMapping(value = "/enrollStudentInCourse", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> enrollStudentInCourse(@RequestParam String courseCode, @RequestParam String departmentCode) {
+        try {
+            HashMap<String, Department> departmentHashMap = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+            if (!departmentHashMap.containsKey(departmentCode)) {
+                return new ResponseEntity<>("department not found, please check your department code", HttpStatus.NOT_FOUND);
+            }
+            HashMap<String, Course> courseHashMap = departmentHashMap.get(departmentCode).getCourseSelection();
+            if (!courseHashMap.containsKey(courseCode)) {
+                return new ResponseEntity<>("course not found, please check your course code", HttpStatus.NOT_FOUND);
+            }
+            Course course = courseHashMap.get(courseCode);
+            boolean enrollSuccessfully = course.enrollStudent();
+            if (enrollSuccessfully) {
+                return new ResponseEntity<>("enroll successfully", HttpStatus.OK);
+            }
+            return new ResponseEntity<>("enroll failed", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return handleException(e);
+        }
+    }
+
 
     private ResponseEntity<?> handleException(Exception e) {
         System.out.println(e.toString());

@@ -40,7 +40,7 @@ public class Course implements Serializable {
      */
     public boolean enrollStudent() {
         enrolledStudentCount++;
-        return false;
+        return true;
     }
 
     /**
