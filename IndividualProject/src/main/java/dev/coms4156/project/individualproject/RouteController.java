@@ -517,6 +517,13 @@ public class RouteController {
         }
     }
 
+    /**
+     * retrieve a specific course from all department, and return all department name if there are
+     * matched courses.
+     *
+     * @param courseCode a course needed to find
+     * @return A {@code ResponseEntity} indicating if the retrieval is successful.
+     */
     @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> retrieveCourses(@RequestParam String courseCode) {
         try {
