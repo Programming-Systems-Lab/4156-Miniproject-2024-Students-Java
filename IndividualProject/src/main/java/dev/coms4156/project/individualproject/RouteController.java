@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class contains all the API routes for the system.
@@ -515,6 +516,36 @@ public class RouteController {
             return handleException(e);
         }
     }
+
+    /**
+     * retrieve a specific course from all department, and return all department name if there are
+     * matched courses.
+     *
+     * @param courseCode a course needed to find
+     * @return A {@code ResponseEntity} indicating if the retrieval is successful.
+     */
+    @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> retrieveCourses(@RequestParam String courseCode) {
+        try {
+            StringBuffer responseBody = new StringBuffer();
+            HashMap<String, Department> departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+            for (Map.Entry<String, Department> departmentEntry : departmentMapping.entrySet()) {
+                HashMap<String, Course> courses = departmentEntry.getValue().getCourseSelection();
+                if (!courses.containsKey(courseCode)) {
+                    continue;
+                }
+                responseBody.append(departmentEntry.getKey());
+                responseBody.append(" ");
+            }
+            if (responseBody.isEmpty()) {
+                return new ResponseEntity<>("no relevant course found", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        } catch (Exception e) {
+            return handleException(e);
+        }
+    }
+
 
     private ResponseEntity<?> handleException(Exception e) {
         System.out.println(e.toString());
