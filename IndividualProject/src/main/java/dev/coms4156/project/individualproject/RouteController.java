@@ -546,6 +546,13 @@ public class RouteController {
         }
     }
 
+    /**
+     * Enrolls a student in a specified course within an assigned department.
+     *
+     * @param courseCode     The code of the course in which the student will be enrolled.
+     * @param departmentCode The code of the department to which the course belongs.
+     * @return A {@code ResponseEntity} indicating whether the enrollment was successful.
+     */
     @GetMapping(value = "/enrollStudentInCourse", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> enrollStudentInCourse(@RequestParam String courseCode, @RequestParam String departmentCode) {
         try {
