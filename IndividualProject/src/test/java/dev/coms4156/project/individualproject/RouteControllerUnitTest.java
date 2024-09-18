@@ -52,13 +52,13 @@ public class RouteControllerUnitTest {
 
   @Test
   public void retrieveCourseTest() throws Exception {
-    String deptCode = "COMS";
-    int courseCode = 4156;
-    String expectedJson = "{\"instructorName\":\"Gail Kaiser\",\"courseLocation\":\"501 NWC\"}";
+    String deptCode = "PSYC";
+    int courseCode = 1001;
+    String expectedJson = "{\"instructorName\":\"Patricia G Lindemann\", \"courseLocation\":\"501 SCH\", \"courseTimeSlot\":\"1:10-2:25\"}";
 
     // Case that the department code and course code are valid, 
-    // we see if the instructor is Gail Kaiser 
-    // and courseLocation is 501 NWC
+    // we see if the instructor is Patricia G Lindemann 
+    // and courseLocation is 501 SCH
     mockMvc.perform(get("/retrieveCourse")
         .param("deptCode", deptCode)
         .param("courseCode", String.valueOf(courseCode)))
@@ -81,6 +81,33 @@ public class RouteControllerUnitTest {
         .param("courseCode", String.valueOf(courseCode)))
         .andExpect(status().isNotFound())
         .andExpect(content().string("Department Not Found"));
+  }
+
+  @Test
+  public void retrieveCourses_Success() throws Exception {
+      int courseCode = 1001;
+      // {"PHYS":"\nInstructor: Szabolcs Marka; Location: 301 PUP; Time: 2:40-3:55","PSYC":"\nInstructor: Patricia G Lindemann; Location: 501 SCH; Time: 1:10-2:25"}
+      String expectedJson = "{\"PHYS\":\"\\nInstructor: Szabolcs Marka; Location: 301 PUP; " 
+                            + "Time: 2:40-3:55\",\"PSYC\":\"\\nInstructor: Patricia G Lindemann; "
+                            + "Location: 501 SCH; Time: 1:10-2:25\"}";
+      // Case where the course code exists across multiple departments
+      mockMvc.perform(get("/retrieveCourses")
+          .param("courseCode", String.valueOf(courseCode)))
+          .andDo(result -> System.out.println(result.getResponse().getContentAsString()))
+          .andExpect(status().isOk())
+          .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+          .andExpect(content().json(expectedJson));
+  }
+
+  @Test
+  public void retrieveCourses_CourseNotFound() throws Exception {
+      int failCourseCode = 9999; // Non-existent course code
+
+      // Case where the course code does not exist
+      mockMvc.perform(get("/retrieveCourses")
+          .param("courseCode", String.valueOf(failCourseCode)))
+          .andExpect(status().isNotFound())
+          .andExpect(content().string("Course Not Found"));
   }
 
   @Test
@@ -287,6 +314,87 @@ public class RouteControllerUnitTest {
         .param("deptCode", failDeptCode))
         .andExpect(status().isNotFound())
         .andExpect(content().string("Department Not Found"));
+  }
+
+
+  @Test
+  public void enrollStudent_Success() throws Exception {
+    String deptCode = "COMS";
+    int courseCode = 4156;
+
+    // Case that student is successfully enrolled in the course
+    mockMvc.perform(patch("/enrollStudentInCourse")
+        .param("deptCode", deptCode)
+        .param("courseCode", String.valueOf(courseCode)))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(content().string("Successfully enrolled student"));
+    
+    // Drop the studnet to maintain the number
+    mockMvc.perform(patch("/dropStudentFromCourse")
+        .param("deptCode", deptCode)
+        .param("courseCode", String.valueOf(courseCode)))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(content().string("Student has been dropped."));
+  }
+
+  @Test
+  public void enrollStudent_CourseNotFound() throws Exception {
+      String deptCode = "COMS";
+      int failCourseCode = 9999; // Non-existent course code
+
+      // Case where the course code does not exist
+      mockMvc.perform(patch("/enrollStudentInCourse")
+          .param("deptCode", deptCode)
+          .param("courseCode", String.valueOf(failCourseCode)))
+          .andExpect(status().isBadRequest())
+          .andExpect(content().string("Failed to enroll student"));
+  }
+
+  @Test
+  public void enrollStudent_DepartmentNotFound() throws Exception {
+      String failDeptCode = "AAAA"; // Non-existent department code
+      int courseCode = 4156;
+
+      // Case where the department code does not exist
+      mockMvc.perform(patch("/enrollStudentInCourse")
+          .param("deptCode", failDeptCode)
+          .param("courseCode", String.valueOf(courseCode)))
+          .andExpect(status().isBadRequest())
+          .andExpect(content().string("Failed to enroll student"));
+  }
+
+  @Test
+  public void enrollStudent_FailureToEnroll() throws Exception {
+    String deptCode = "COMS";
+    int courseCode = 4156;
+
+    // Set the enrollment count to the capacity (120)
+    mockMvc.perform(patch("/setEnrollmentCount")
+        .param("deptCode", deptCode)
+        .param("courseCode", String.valueOf(courseCode))
+        .param("count", "120"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(content().string("Attributed was updated successfully."));
+    
+    // Case where enrollment fails for some reason (e.g., course is full)
+    mockMvc.perform(patch("/enrollStudentInCourse")
+        .param("deptCode", deptCode)
+        .param("courseCode", String.valueOf(courseCode)))
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(content().string("Failed to enroll student"));
+    
+    // Set the student num back to maintain the number
+    mockMvc.perform(patch("/setEnrollmentCount")
+        .param("deptCode", deptCode)
+        .param("courseCode", String.valueOf(courseCode))
+        .param("count", "109"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(content().string("Attributed was updated successfully."));
   }
 
   @Test
