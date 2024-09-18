@@ -98,6 +98,46 @@ public class RouteController {
   }
 
   /**
+   * Displays the details of all the courses with the same course code, regardless of their department.
+   * 
+   * @param courseCode  A {@code int} representing the course the user wishes to retrieve.
+   * 
+   * @return            A {@code ResponseEntity} object containing either the details of the
+   *                    course and an HTTP 200 response or, an appropriate message indicating the
+   *                    proper response.
+   */
+
+  @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> retrieveCourses(
+    @RequestParam("courseCode") int courseCode
+  ) {
+    try {
+      ResponseEntity<?> tryRetrievingCourse;
+      Map<String, Department> departmentMapping;
+      departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+      Map<String, Course> coursesMapping;
+      Map<String, String> coursesWithSameCodeToString = new HashMap<>();
+      // get all deptCodes by iterating the departmentMapping keys
+      for (String deptCode : departmentMapping.keySet()) {
+        tryRetrievingCourse = retrieveCourse(deptCode, courseCode);
+        if (tryRetrievingCourse.getStatusCode() == HttpStatus.OK) {
+          // if the course exists, add it to the map
+          coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
+          coursesWithSameCodeToString.put(deptCode, coursesMapping.get(Integer.toString(courseCode)).toString());
+        }
+      }
+      if (coursesWithSameCodeToString.isEmpty()) {
+        return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+      } else {
+        return new ResponseEntity<>(coursesWithSameCodeToString, HttpStatus.OK);
+      }
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
+
+  /**
    * Displays whether the course has at minimum reached its enrollmentCapacity.
    *
    * @param deptCode   A {@code String} representing the department the user wishes
@@ -374,6 +414,42 @@ public class RouteController {
       return handleException(e);
     }
   }
+
+  /**
+   * Attempts to add a student to the specified course.
+   * 
+   * @param deptCode        A {@code String} representing the department.
+   * @param courseCode      A {@code int} representing the course within the department.
+   * 
+   * @return                A {@code ResponseEntity} object containing an HTTP 200
+   *                        response with an appropriate message or the proper status  
+   *                        code in tune with what has happened.
+   */
+  @PatchMapping(value = "/enrollStudentInCourse", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> enrollStudent(
+      @RequestParam("deptCode") String deptCode, 
+      @RequestParam("courseCode") int courseCode
+  ) {
+    try{
+      boolean doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
+      if (doesCourseExists) {
+        Map<String, Department> departmentMapping;
+        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        Map<String, Course> courseMapping;
+        courseMapping = departmentMapping.get(deptCode).getCourseSelection();
+        boolean enrollStudent;
+        enrollStudent = courseMapping.get(Integer.toString(courseCode)).enrollStudent();
+        if (enrollStudent) {
+          return new ResponseEntity<>("Successfully enrolled student", HttpStatus.OK);
+        }
+      }
+      return new ResponseEntity<>("Failed to enroll student", HttpStatus.BAD_REQUEST);
+
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+  
 
   /**
    * Attempts to drop a student from the specified course.
