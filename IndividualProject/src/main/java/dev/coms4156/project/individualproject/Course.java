@@ -99,6 +99,9 @@ public class Course implements Serializable {
     return this.enrolledStudentCount >= this.enrollmentCapacity;
   }
 
+  public int getEnrollmentCount() {
+    return this.enrolledStudentCount;
+  }
 
   @Serial
   private static final long serialVersionUID = 123456L;

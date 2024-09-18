@@ -160,6 +160,13 @@ public class RouteControllerUnitTests {
     assertEquals(firstResponse.getBody(), getCountResponse.getBody());
   }
 
+  @Test
+  public void testRetrieveCourses() {
+    ResponseEntity<?> removeResponse = routeController.retrieveCourses(1004);
+    assertEquals(HttpStatus.OK, removeResponse.getStatusCode());
+  }
+
+
 
   @Test 
   public void testCourseTime() {
