@@ -213,7 +213,7 @@ public class RouteController {
   public ResponseEntity<?> findCourseLocation(@RequestParam(value = "deptCode") String deptCode,
       @RequestParam(value = "courseCode") int courseCode) {
     try {
-      boolean doesCourseExists; 
+      boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
       if (doesCourseExists) {
@@ -300,7 +300,7 @@ public class RouteController {
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
         Map<String, Course> coursesMapping = departmentMapping
             .get(deptCode).getCourseSelection();
-        
+
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
 
         return new ResponseEntity<>("The course meets at: " + requestedCourse.getCourseTimeSlot(),
@@ -530,7 +530,7 @@ public class RouteController {
 
   @PatchMapping(value = "/changeCourseLocation", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> changeCourseLocation(@RequestParam(value = "deptCode") String deptCode,
-      @RequestParam(value = "courseCode") int courseCode, 
+      @RequestParam(value = "courseCode") int courseCode,
       @RequestParam(value = "location") String location) {
     try {
       boolean doesCourseExists;
@@ -554,29 +554,55 @@ public class RouteController {
   }
 
   /**
-  //  * Returns the string representation of all courses with the specified course code.
-  //  *
-  //  * @param courseCode the code of the course(s) to retrieve
-  //  * @return A response entity indicating the result of the operation.
-  //  */
-  // @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
-  // public ResponseEntity<?> retrieveCourses(@RequestParam(value = "courseCode") int courseCode) {
-            
-  // }
+   * Returns the string representation of all courses with the specified course
+   * code regardless of the department.
+   *
+   * @param courseCode the code of the course(s) to retrieve
+   * @return A response entity indicating the result of the operation.
+   */
+  @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> retrieveCourses(@RequestParam(value = "courseCode") String courseCode) {
+    try {
+      // use code from retrieveDepartments to get all departments
+      Map<String, Department> departmentMapping;
+      departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+      StringBuilder result = new StringBuilder();
+      
+      // for each department, retrieve the courses and check if the course code is in the department
+      for (Map.Entry<String, Department> entry : departmentMapping.entrySet()) {
+        String key = entry.getKey();
+        Department value = entry.getValue();
+        Map<String, Course> courses = value.getCourseSelection();
+        // if the course code is in the department, append the course to the result
+        if (courses.containsKey(courseCode)) {
+          result.append(courses.get(courseCode).toString());
+        }
+      }
+      // if no courses found, return not found
+      if (result.length() == 0) {
+        return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+      }
+      // otherwise, return the result
+      return new ResponseEntity<>(result.toString(), HttpStatus.OK);
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
 
   // /**
-  //  * Use the department ID and course code to enrol a student in a course.
-  //  *
-  //  * @param deptCode the code of the department to retrieve
-  //  * @param courseCode the code of the course(s) to retrieve
-  //  * @return A response entity indicating the result of the operation.
-  //  */
-  // @GetMapping(value = "/enrollStudentInCourse", produces = MediaType.APPLICATION_JSON_VALUE)
-  // public ResponseEntity<?> enrollStudentInCourse(@RequestParam(value = "deptCode") String deptCode,
-  //     @RequestParam(value = "courseCode") int courseCode) {
+  // * Use the department ID and course code to enrol a student in a course.
+  // *
+  // * @param deptCode the code of the department to retrieve
+  // * @param courseCode the code of the course(s) to retrieve
+  // * @return A response entity indicating the result of the operation.
+  // */
+  // @GetMapping(value = "/enrollStudentInCourse", produces =
+  // MediaType.APPLICATION_JSON_VALUE)
+  // public ResponseEntity<?> enrollStudentInCourse(@RequestParam(value =
+  // "deptCode") String deptCode,
+  // @RequestParam(value = "courseCode") int courseCode) {
 
   // }
-
 
   private ResponseEntity<?> handleException(Exception e) {
     System.out.println(e.toString());

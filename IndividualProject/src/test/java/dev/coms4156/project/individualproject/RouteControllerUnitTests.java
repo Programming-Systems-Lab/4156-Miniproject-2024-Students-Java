@@ -419,4 +419,30 @@ public class RouteControllerUnitTests {
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertEquals("Course Not Found", response.getBody());
   }
+  
+  /**
+   * Test case for the retrieveCourses method in the RouteController class for one class.
+   *
+   * @throws Exception if an error occurs during the test
+   */
+
+  @Test
+  public void retrieveCourses() throws Exception {
+    ResponseEntity<?> response = testRouteController.retrieveCourses("4040");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("\nInstructor: James C Hill; Location: 214 PUP; Time: 4:10-5:25", response.getBody());
+  }
+
+    /**
+   * Test case for the retrieveCourses method in the RouteController class for no classes.
+   *
+   * @throws Exception if an error occurs during the test
+   */
+
+   @Test
+   public void retrieveCoursesNoClass() throws Exception {
+     ResponseEntity<?> response = testRouteController.retrieveCourses("5000");
+     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+     assertEquals("Course Not Found", response.getBody());
+   }
 }
