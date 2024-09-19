@@ -100,6 +100,45 @@ public class RouteController {
   }
 
   /**
+   * Displays the details of all courses that have the desired courseCode (across all departments)
+   * to the user or displays the proper error message in response to the request.
+   *
+   * @param courseCode A {@code int} representing the course the user wishes
+   *                   to retrieve.
+   *
+   * @return           A {@code ResponseEntity} object containing either the details of the
+   *                   course and an HTTP 200 response or, an appropriate message indicating the
+   *                   proper response.
+   */
+  @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> retrieveCourses(@RequestParam(value = "courseCode") int courseCode) {
+    try {
+      StringBuilder result = new StringBuilder();
+
+      Map<String, Department> departmentMapping;
+      departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+
+      for (Map.Entry<String, Department> entry : departmentMapping.entrySet()) {
+        ResponseEntity<?> response = retrieveCourse(entry.getKey(), courseCode);
+
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+          result.append(entry.getKey()).append(" ").append(courseCode)
+            .append(response.getBody()).append("\n");
+        }
+      }
+
+      if (result.length() > 0) {
+        return new ResponseEntity<>(result.toString(), HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>("No Courses Found", HttpStatus.NOT_FOUND);
+      }
+
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
+  /**
    * Displays whether the course has at minimum reached its enrollmentCapacity.
    *
    * @param deptCode   A {@code String} representing the department the user wishes
@@ -356,6 +395,48 @@ public class RouteController {
   }
 
   /**
+   * Attempts to enroll a student in a course if possible.
+   *
+   * @param deptCode       A {@code String} representing the department.
+   *
+   * @param courseCode     A {@code int} representing the course within the department.
+   *
+   * @return               A {@code ResponseEntity} object containing an HTTP 200
+   *                       response with an appropriate message or the proper status
+   *                       code in tune with what has happened.
+   */
+  @PatchMapping(value = "/enrollStudentInCourse", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> enrollStudentInCourse(@RequestParam(value = "deptCode") String deptCode, 
+                                              @RequestParam(value = "courseCode") int courseCode) {
+    try {
+      boolean doesCourseExists;
+      doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
+
+      if (doesCourseExists) {
+        Map<String, Department> departmentMapping;
+        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        Map<String, Course> courseMapping;
+        courseMapping = departmentMapping.get(deptCode).getCourseSelection();
+
+        Course requestedCourse = courseMapping.get(Integer.toString(courseCode));
+        boolean isStudentEnrolled = requestedCourse.enrollStudent();
+
+        if (isStudentEnrolled) {
+          return new ResponseEntity<>("Student has been enrolled.", HttpStatus.OK);
+        } else {
+          return new ResponseEntity<>("Student has been enrolled.", HttpStatus.BAD_REQUEST);
+        }
+
+      } else {
+        return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+      }
+
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
+  /**
    * Attempts to drop a student from the specified course.
    *
    * @param deptCode       A {@code String} representing the department.
@@ -544,6 +625,5 @@ public class RouteController {
     logger.log(Level.SEVERE, "Stack trace: ", e);
     return new ResponseEntity<>("An Error has occurred", HttpStatus.OK);
   }
-
 
 }
