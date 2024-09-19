@@ -139,7 +139,53 @@ public class RouteController {
       return handleException(e);
     }
   }
+  /**
+   * Displays the details of the requested course to the user or displays the proper error
+   * message in response to the request.
+   *
+   * @param courseCode A {@code int} representing the course the user wishes
+   *                   to retrieve.
+   *
+   * @return           A {@code ResponseEntity} object containing either the information of the
+   *                   course and an HTTP 200 response or, an appropriate message indicating the
+   *                   proper response.
+   */
 
+  @GetMapping(value = "/enrollStudentCourse", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> enrollStudentCourse(
+      @RequestParam(value = "deptCode") String deptCode,
+      @RequestParam(value = "courseCode") int courseCode) {
+    try {
+      boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
+      if (doesDepartmentExists) {
+        HashMap<String, Department> departmentMapping;
+        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, Course> coursesMapping;
+        coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
+        //System.out.println(coursesMapping.keySet());
+
+        if (!coursesMapping.containsKey(Integer.toString(courseCode))) {
+          return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+        } else {
+          Course selectedCourse = coursesMapping.get(Integer.toString(courseCode));
+          boolean isenrolled = selectedCourse.enrollStudent();
+          String strenrolled;
+          if (isenrolled == true) {
+            strenrolled = "Successfully enrolled!";
+          } else {
+            strenrolled = "Enrollment failed!";
+          }
+          return new ResponseEntity<>(deptCode + " " + courseCode + " " + strenrolled,
+          HttpStatus.OK);
+        }
+
+      }
+      return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+ 
   /**
    * Displays whether the course has at minimum reached its enrollmentCapacity.
    *

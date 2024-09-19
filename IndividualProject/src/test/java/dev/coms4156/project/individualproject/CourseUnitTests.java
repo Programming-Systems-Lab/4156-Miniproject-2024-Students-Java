@@ -254,7 +254,13 @@ public class CourseUnitTests {
     assertTrue(temp.contains(expectedResult));
   }
 
-
+  @Test
+  public void enrollStudentCourseTest() throws Exception {
+    String expectedResult = "Successfully enrolled!";
+    String temp = testRC.enrollStudentCourse("IEOR", 4102).toString();
+    System.out.println(temp);
+    assertTrue(temp.contains(expectedResult));
+  }
 
 
 
