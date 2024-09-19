@@ -345,6 +345,7 @@ public class RouteControllerUnitTest {
   }
 
   @Test
+<<<<<<< HEAD
   public void enrollStudentInCourseSuccessTest() throws Exception {
     mockMvc.perform(patch("/enrollStudentInCourse")
             .param("deptCode", "COMS")
