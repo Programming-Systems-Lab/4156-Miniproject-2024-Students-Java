@@ -345,6 +345,36 @@ public class RouteControllerUnitTest {
   }
 
   @Test
+  public void enrollStudentInCourseSuccessTest() throws Exception {
+    mockMvc.perform(patch("/enrollStudentInCourse")
+            .param("deptCode", "COMS")
+            .param("courseCode", "1004")
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect((content().string("Enrollment Success")));
+  }
+
+  @Test
+  public void enrollStudentInCourseNotSuccessTest1() throws Exception {
+    mockMvc.perform(patch("/enrollStudentInCourse")
+            .param("deptCode", "MATH")
+            .param("courseCode", "1004")
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect((content().string("Course Not Found")));
+  }
+
+  @Test
+  public void enrollStudentInCourseNotSuccessTest2() throws Exception {
+    mockMvc.perform(patch("/enrollStudentInCourse")
+            .param("deptCode", "COMS")
+            .param("courseCode", "9999")
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect((content().string("Course Not Found")));
+  }
+
+  @Test
   public void changeCourseTimeSuccessTest() throws Exception {
     mockMvc.perform(patch("/changeCourseTime")
             .param("deptCode", "COMS")

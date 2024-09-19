@@ -93,19 +93,18 @@ public class RouteController {
   }
 
   /**
-   * Displays the details of the requested course to the user or displays the proper error
+   * Displays the details of the requested courses to the user or displays the proper error
    * message in response to the request.
    *
-   * @param courseCode A {@code int} representing the course the user wishes
+   * @param courseCode A {@code int} representing the courses the user wishes
    *                   to retrieve.
    *
-   * @return           A {@code ResponseEntity} object containing either the details of the
-   *                   course and an HTTP 200 response or, an appropriate message indicating the
-   *                   proper response.
+   * @return           A {@code ResponseEntity} object containing either the details of all the
+   *                   courses with courseCode and an HTTP 200 response or, an appropriate message
+   *                   indicating the proper response.
    */
   @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> retrieveCourses(@RequestParam(value = "courseCode") int courseCode) {
-    // 找所有dept里coursecode = coursecode的课程，并且用string返回
     try {
       HashMap<String, Department> departmentMapping;
       departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
@@ -426,7 +425,7 @@ public class RouteController {
   }
 
   /**
-   * Attempts to drop a student from the specified course.
+   * Attempts to set enrollment number for the specified course.
    *
    * @param deptCode       A {@code String} representing the department.
    *
@@ -463,6 +462,47 @@ public class RouteController {
     }
   }
 
+  /**
+   * Attempts to enroll student from the specified course.
+   *
+   * @param deptCode       A {@code String} representing the department.
+   *
+   * @param courseCode     A {@code int} representing the course within the department.
+   *
+   * @return               A {@code ResponseEntity} object containing an HTTP 200
+   *                       response with an appropriate message or the proper status
+   *                       code in tune with what has happened.
+   */
+  @PatchMapping(value = "/enrollStudentInCourse", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> enrollStudentInCourse(@RequestParam(value = "deptCode") String deptCode,
+      @RequestParam(value = "courseCode") int courseCode) {
+    try {
+      boolean doesCourseExists;
+      doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
+
+      if (doesCourseExists) {
+        HashMap<String, Department> departmentMapping;
+        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, Course> coursesMapping;
+        coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
+
+        Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+        int previousEnrollment = requestedCourse.getEnrolledStudentCount();
+        boolean isEnrollSuccess = requestedCourse.enrollStudent();
+        int afterEnrollment = requestedCourse.getEnrolledStudentCount();
+        if (isEnrollSuccess) {
+          return new ResponseEntity<>("Enrollment Success", HttpStatus.OK);
+        } else {
+          return new ResponseEntity<>("Enrollment Failed - Course is full",
+              HttpStatus.CONFLICT);
+        }
+      } else {
+        return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+      }
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
   /**
    * Endpoint for changing the time of a course.
    * This method handles PATCH requests to change the time of a course identified by
