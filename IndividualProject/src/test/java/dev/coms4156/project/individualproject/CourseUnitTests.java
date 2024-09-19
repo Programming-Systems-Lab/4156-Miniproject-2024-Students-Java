@@ -246,6 +246,14 @@ public class CourseUnitTests {
     assertTrue(temp.contains(expectedResult));
   }
 
+  @Test
+  public void retrieveCoursesTest() throws Exception {
+    String expectedResult = "Department: CHEM";
+    String temp = testRC.retrieveCourses(4102).toString();
+    //System.out.println(temp);
+    assertTrue(temp.contains(expectedResult));
+  }
+
 
 
 
