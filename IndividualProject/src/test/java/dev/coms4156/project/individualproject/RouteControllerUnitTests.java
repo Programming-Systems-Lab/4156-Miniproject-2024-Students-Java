@@ -43,16 +43,19 @@ public class RouteControllerUnitTests {
     comsCourses.put("1004", new Course("Adam Cannon", "417 IAB", "11:40-12:55", 400));
     comsCourses.put("3134", new Course("Brian Borowski", "301 URIS", "4:10-5:25", 250));
     comsCourses.put("3157", new Course("Jae Lee", "417 IAB", "4:10-5:25", 400));
+    comsCourses.put("4404", new Course("Alex Turner", "505 NWC", "10:10-11:25", 400));
 
     Map<String, Course> econCourses = new HashMap<>();
     econCourses.put("1105", new Course("Abraham Lincoln", "309 HAV", "2:40-3:55", 200));
     econCourses.put("2257", new Course("Thomas Jefferson", "428 PUP", "10:10-11:25", 125));
-    econCourses.put("3412", new Course("Taylor Swift", "702 HAM", "8:40-9:55", 100));
+    econCourses.put("3412", new Course("Charles Leclerc", "702 HAM", "8:40-9:55", 100));
+    econCourses.put("4404", new Course("Julian Casablancas", "125 DOD", "11:40-12:55", 100));
 
     Map<String, Course> ieorCourses = new HashMap<>();
-    ieorCourses.put("2500", new Course("Selena Gomez", "627 MUDD", "11:40-12:55", 150));
-    ieorCourses.put("3404", new Course("Justin Bieber", "303 MUDD", "4:10-5:25", 100));
-    ieorCourses.put("4511", new Course("Michael Jordan", "633 MUDD", "2:40-3:55", 200));
+    ieorCourses.put("1004", new Course("Tame Impala", "627 MUDD", "11:40-12:55", 150));
+    ieorCourses.put("2500", new Course("Oscar Piastri", "303 MUDD", "4:10-5:25", 100));
+    ieorCourses.put("4511", new Course("Lando Norris", "633 MUDD", "2:40-3:55", 200));
+    ieorCourses.put("4404", new Course("Mac DeMarco", "702 DOD", "11:40-12:55", 100));
 
     departmentMapping = new HashMap<>();
     
@@ -261,6 +264,26 @@ public class RouteControllerUnitTests {
   public void testChangeCourseLocationNotExist() {
     ResponseEntity<?> response = routeController.changeCourseTeacher("PHIL", 9999, "701 HAM");
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testRetrieveCourses()  {
+    ResponseEntity<?> response = routeController.retrieveCourses(1004);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+
+    System.out.println(response.getBody());
+    
+    response = routeController.retrieveCourses(4404);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+
+    response = routeController.retrieveCourses(3134);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+
+    response = routeController.retrieveCourses(2233);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+    response = routeController.retrieveCourses(5774);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
   }
 
 }
