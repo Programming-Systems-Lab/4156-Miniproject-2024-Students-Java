@@ -56,7 +56,7 @@ public class CourseUnitTests {
   public void getInstructorNameTest() {
     String expectedResult = "Adam Cannon";
     assertEquals(expectedResult, testCourse.getInstructorName());
-}
+  }
 
   @Test
   public void getCourseTimeSlotTest() {

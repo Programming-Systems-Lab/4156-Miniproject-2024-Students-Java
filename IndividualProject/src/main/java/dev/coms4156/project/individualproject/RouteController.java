@@ -93,6 +93,43 @@ public class RouteController {
   }
 
   /**
+   * Displays the details of the requested course to the user or displays the proper error
+   * message in response to the request.
+   *
+   * @param courseCode A {@code int} representing the course the user wishes
+   *                   to retrieve.
+   *
+   * @return           A {@code ResponseEntity} object containing either the details of the
+   *                   course and an HTTP 200 response or, an appropriate message indicating the
+   *                   proper response.
+   */
+  @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> retrieveCourses(@RequestParam(value = "courseCode") int courseCode) {
+    // 找所有dept里coursecode = coursecode的课程，并且用string返回
+    try {
+      HashMap<String, Department> departmentMapping;
+      departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+      String result = "";
+      HashMap<String, Course> coursesMapping;
+      for (String deptCode : departmentMapping.keySet()) {
+        coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
+        if (!coursesMapping.containsKey(Integer.toString(courseCode))) {
+          continue;
+        } else {
+          result += coursesMapping.get(Integer.toString(courseCode)).toString();
+        }
+      }
+      if (result.length() == 0) {
+        return new ResponseEntity<>("Course NOT FOUND", HttpStatus.NOT_FOUND);
+      } else {
+        return new ResponseEntity<>(result, HttpStatus.OK);
+      }
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
+  /**
    * Displays whether the course has at minimum reached its enrollmentCapacity.
    *
    * @param deptCode   A {@code String} representing the department the user wishes
