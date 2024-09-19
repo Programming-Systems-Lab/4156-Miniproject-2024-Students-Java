@@ -63,6 +63,27 @@ public class RouteControllerUnitTest {
   }
 
   @Test
+  public void retrieveCoursesFoundTest() throws Exception {
+    mockMvc.perform(get("/retrieveCourses")
+            .param("courseCode", "1001")
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect((content().string(
+            "\nInstructor: Szabolcs Marka; Location: 301 PUP; Time: 2:40-3:55"
+            + "\nInstructor: Patricia G Lindemann; Location: 501 SCH; Time: 1:10-2:25")));
+  }
+
+  @Test
+  public void retrieveCoursesNotFoundTest() throws Exception {
+    mockMvc.perform(get("/retrieveCourses")
+            .param("courseCode", "9999")
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect((content().string("Course NOT FOUND")));
+  }
+
+
+  @Test
   public void retrieveCourseNotFoundDepartmentTest() throws Exception {
     mockMvc.perform(get("/retrieveCourse")
             .param("deptCode", "MATH")
