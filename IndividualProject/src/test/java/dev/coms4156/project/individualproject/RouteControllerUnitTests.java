@@ -57,6 +57,9 @@ public class RouteControllerUnitTests {
     ieorCourses.put("4511", new Course("Lando Norris", "633 MUDD", "2:40-3:55", 200));
     ieorCourses.put("4404", new Course("Mac DeMarco", "702 DOD", "11:40-12:55", 100));
 
+    comsCourses.get("3157").setEnrolledStudentCount(425);
+    econCourses.get("2257").setEnrolledStudentCount(2);
+
     departmentMapping = new HashMap<>();
     
     Department comsDept = new Department("COMS", comsCourses, "Luca Carloni", 2700);
@@ -284,6 +287,18 @@ public class RouteControllerUnitTests {
 
     response = routeController.retrieveCourses(5774);
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+  }
+
+  @Test
+  public void testEnrollStudentInCourse() {
+    ResponseEntity<?> response = routeController.enrollStudentInCourse("PHIL", 9999);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+    response = routeController.enrollStudentInCourse("COMS", 3157);
+    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+    response = routeController.enrollStudentInCourse("ECON", 2257);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
 }
