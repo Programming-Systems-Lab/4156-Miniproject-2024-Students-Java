@@ -403,7 +403,7 @@ public class RouteController {
    *                   courses and an HTTP 200 response or, an appropriate message
    *                   indicating the proper response.
    */
-  @PatchMapping(value = "/enrollStudentInCourse", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/enrollStudentInCourse", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> addMajorToDept(
       @RequestParam String deptCode,       
       @RequestParam int courseCode
@@ -424,14 +424,14 @@ public class RouteController {
         StringBuilder result = new StringBuilder();
         if (requestedCourse.enrollStudent()) {
           result.append("Student was successfully added to the following course: ").append("\n");
-          result.append(requestedCourse.toString());
+          result.append(requestedCourse.toString()).append("\n");
         } else {
           result.append("The following course is full: ").append("\n");
-          result.append(requestedCourse.toString());
-          result.append("The following courses are available as alternatives in this department: ");
+          result.append(requestedCourse.toString()).append("\n\n");
+          result.append("The following courses are available as alternatives in this department: ").append("\n");
           for (Map.Entry<String, Course> entry : courseMapping.entrySet()) {
             if (!entry.getValue().isCourseFull()) {
-              result.append(entry.getValue().toString());
+              result.append(entry.getValue().toString()).append(" ").append(entry.getValue().getEnrollmentCount()).append(" ").append(entry.getValue().getEnrollmentCapacity());
             } 
           }
         }

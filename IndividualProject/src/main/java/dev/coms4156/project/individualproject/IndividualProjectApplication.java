@@ -114,8 +114,13 @@ public class IndividualProjectApplication implements CommandLineRunner {
     econ4710.setEnrolledStudentCount(37);
     Course econ4840 = new Course("Mark Dean", "142 URIS", times[3], 108);
     econ4840.setEnrolledStudentCount(67);
+    //testing for retrieve courses
+    Course econ1004 = new Course("Phillip Le", locations[1], times[3], 210);
+    econ1004.setEnrolledStudentCount(187);
+
 
     courses = new HashMap<>();
+    courses.put("1004", econ1004);
     courses.put("1105", econ1105);
     courses.put("2257", econ2257);
     courses.put("3211", econ3211);
@@ -131,6 +136,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     //data for ieor dept
     Course ieor2500 = new Course("Uday Menon", "627 MUDD", times[0], 50);
     ieor2500.setEnrolledStudentCount(52);
+    
     Course ieor3404 = new Course("Christopher J Dolan", "303 MUDD", times[2], 73);
     ieor3404.setEnrolledStudentCount(80);
     Course ieor3658 = new Course("Daniel Lacker", "310 FAY", times[2], 96);
@@ -145,8 +151,12 @@ public class IndividualProjectApplication implements CommandLineRunner {
     ieor4511.setEnrolledStudentCount(50);
     Course ieor4540 = new Course("Krzysztof M Choromanski", "633 MUDD", "7:10-9:40", 60);
     ieor4540.setEnrolledStudentCount(33);
+    //testing for retrieved courses
+    Course ieor1004 = new Course("Christopher J Dolan", "303 MUDD", times[2], 73);
+    ieor1004.setEnrolledStudentCount(80);
 
     courses = new HashMap<>();
+    courses.put("1004", ieor1004);
     courses.put("2500", ieor2500);
     courses.put("3404", ieor3404);
     courses.put("3658", ieor3658);
@@ -176,8 +186,12 @@ public class IndividualProjectApplication implements CommandLineRunner {
     chem4071.setEnrolledStudentCount(29);
     Course chem4102 = new Course("Dalibor Sames", "320 HAV", times[2], 28);
     chem4102.setEnrolledStudentCount(27);
+    //testing for retrieve courses
+    Course chem1004 = new Course("Dalibor Sames", "320 HAV", times[2], 28);
+    chem1004.setEnrolledStudentCount(27);
 
     courses = new HashMap<>();
+    courses.put("1004", chem1004);
     courses.put("1403", chem1403);
     courses.put("1500", chem1500);
     courses.put("2045", chem2045);
