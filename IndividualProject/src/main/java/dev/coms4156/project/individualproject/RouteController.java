@@ -39,6 +39,11 @@ public class RouteController {
   @GetMapping(value = "/retrieveDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> retrieveDepartment(@RequestParam(value = "deptCode") String deptCode) {
     try {
+      if (deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       HashMap<String, Department> departmentMapping;
       departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
 
@@ -71,6 +76,11 @@ public class RouteController {
   public ResponseEntity<?> retrieveCourse(@RequestParam(value = "deptCode") String deptCode,
                                           @RequestParam(value = "courseCode") int courseCode) {
     try {
+      if (courseCode < 1000 || courseCode > 9999 || deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
       if (doesDepartmentExists) {
         HashMap<String, Department> departmentMapping;
@@ -106,6 +116,10 @@ public class RouteController {
   @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> retrieveCourses(@RequestParam(value = "courseCode") int courseCode) {
     try {
+      if (courseCode < 1000 || courseCode > 9999) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       HashMap<String, Department> departmentMapping;
       departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
       String result = "";
@@ -145,6 +159,11 @@ public class RouteController {
   public ResponseEntity<?> isCourseFull(@RequestParam(value = "deptCode") String deptCode,
                                         @RequestParam(value = "courseCode") int courseCode) {
     try {
+      if (courseCode < 1000 || courseCode > 9999 || deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
@@ -178,6 +197,11 @@ public class RouteController {
   @GetMapping(value = "/getMajorCountFromDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> getMajorCtFromDept(@RequestParam(value = "deptCode") String deptCode) {
     try {
+      if (deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
       if (doesDepartmentExists) {
         HashMap<String, Department> departmentMapping;
@@ -204,6 +228,11 @@ public class RouteController {
   @GetMapping(value = "/idDeptChair", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> identifyDeptChair(@RequestParam(value = "deptCode") String deptCode) {
     try {
+      if (deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
       if (doesDepartmentExists) {
         HashMap<String, Department> departmentMapping;
@@ -234,6 +263,11 @@ public class RouteController {
   public ResponseEntity<?> findCourseLocation(@RequestParam(value = "deptCode") String deptCode,
                                               @RequestParam(value = "courseCode") int courseCode) {
     try {
+      if (courseCode < 1000 || courseCode > 9999 || deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
@@ -272,6 +306,11 @@ public class RouteController {
   public ResponseEntity<?> findCourseInstructor(@RequestParam(value = "deptCode") String deptCode,
       @RequestParam(value = "courseCode") int courseCode) {
     try {
+      if (courseCode < 1000 || courseCode > 9999 || deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
@@ -310,6 +349,11 @@ public class RouteController {
   public ResponseEntity<?> findCourseTime(@RequestParam(value = "deptCode") String deptCode,
                                           @RequestParam(value = "courseCode") int courseCode) {
     try {
+      if (courseCode < 1000 || courseCode > 9999 || deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
@@ -342,6 +386,11 @@ public class RouteController {
   @PatchMapping(value = "/addMajorToDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> addMajorToDept(@RequestParam(value = "deptCode") String deptCode) {
     try {
+      if (deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
       if (doesDepartmentExists) {
         HashMap<String, Department> departmentMapping;
@@ -369,6 +418,11 @@ public class RouteController {
   @PatchMapping(value = "/removeMajorFromDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> removeMajorFromDept(@RequestParam(value = "deptCode") String deptCode) {
     try {
+      if (deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
       if (doesDepartmentExists) {
         HashMap<String, Department> departmentMapping;
@@ -399,6 +453,11 @@ public class RouteController {
   public ResponseEntity<?> dropStudent(@RequestParam(value = "deptCode") String deptCode,
       @RequestParam(value = "courseCode") int courseCode) {
     try {
+      if (courseCode < 1000 || courseCode > 9999 || deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
@@ -442,6 +501,11 @@ public class RouteController {
       @RequestParam(value = "courseCode") int courseCode,
       @RequestParam(value = "count") int count) {
     try {
+      if (courseCode < 1000 || courseCode > 9999 || deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter) || count < 0) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
@@ -477,6 +541,11 @@ public class RouteController {
   public ResponseEntity<?> enrollStudentInCourse(@RequestParam(value = "deptCode") String deptCode,
       @RequestParam(value = "courseCode") int courseCode) {
     try {
+      if (courseCode < 1000 || courseCode > 9999 || deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
@@ -520,6 +589,11 @@ public class RouteController {
       @RequestParam(value = "courseCode") int courseCode,
       @RequestParam(value = "time") String time) {
     try {
+      if (courseCode < 1000 || courseCode > 9999 || deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
@@ -558,6 +632,11 @@ public class RouteController {
                                                @RequestParam(value = "courseCode") int courseCode,
                                                @RequestParam(value = "teacher") String teacher) {
     try {
+      if (courseCode < 1000 || courseCode > 9999 || deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
@@ -596,6 +675,11 @@ public class RouteController {
                                                 @RequestParam(value = "courseCode") int courseCode,
                                                 @RequestParam(value = "location") String location) {
     try {
+      if (courseCode < 1000 || courseCode > 9999 || deptCode == null || deptCode.length() != 4
+          || !deptCode.chars().allMatch(Character::isLetter)) {
+        return new ResponseEntity<>("Invalid Input", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
