@@ -1,0 +1,2 @@
+https://symflower.com/en/company/blog/2023/how-to-write-junit-test-cases/
+https://google.github.io/styleguide/javaguide.html#s7-javadoc
