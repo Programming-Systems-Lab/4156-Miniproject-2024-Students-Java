@@ -2,7 +2,6 @@ package dev.coms4156.project.individualproject;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -36,9 +35,6 @@ public class Department implements Serializable {
   public int getNumberOfMajors() {
     return this.numberOfMajors;
   }
-  // public int getNumberOfMajors() {
-  //   return -this.numberOfMajors;
-  // } LUCI BUG FIX
 
   /**
    * Gets the name of the department chair.
@@ -48,9 +44,6 @@ public class Department implements Serializable {
   public String getDepartmentChair() {
     return this.departmentChair;
   }
-  // public String getDepartmentChair() {
-  //   return "this.departmentChair";
-  // } LUCI BUG FIX
 
   /**
    * Gets the courses offered by the department.
@@ -76,9 +69,6 @@ public class Department implements Serializable {
       this.numberOfMajors--;
     }
   }
-  // public void dropPersonFromMajor() {
-  //   numberOfMajors--;
-  // } LUCI BUG FIX
 
   /**
    * Adds a new course to the department's course selection.
@@ -119,7 +109,7 @@ public class Department implements Serializable {
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
           .append("\n");
     }
-    return "result.toString()";
+    return result.toString();
   }
 
   @Serial

@@ -34,7 +34,7 @@ public class Course implements Serializable {
       this.setEnrolledStudentCount(this.enrolledStudentCount + 1);
       return true;
     }
-    return false; //LUCI BUG HERE
+    return false; 
   }
 
   /**
@@ -51,12 +51,12 @@ public class Course implements Serializable {
   }
 
   public String getCourseLocation() {
-    return this.instructorName;
+    return this.courseLocation;
   }
 
 
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
 
