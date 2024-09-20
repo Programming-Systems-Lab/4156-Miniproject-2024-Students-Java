@@ -1,6 +1,8 @@
 package dev.coms4156.project.individualproject;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -147,8 +149,8 @@ public class RouteController {
       if (doesDepartmentExists) {
         Map<String, Department> departmentMapping;
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        return new ResponseEntity<>("There are: " + -departmentMapping.get(deptCode)
-            .getNumberOfMajors() + " majors in the department", HttpStatus.OK);
+        return new ResponseEntity<>("There are: " + departmentMapping.get(deptCode)
+            .getNumberOfMajors() + " majors in the department", HttpStatus.OK); 
       }
       return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
     } catch (Exception e) {
@@ -285,7 +287,7 @@ public class RouteController {
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
-        return new ResponseEntity<>("The course meets at: " + "some time ",
+        return new ResponseEntity<>("The course meets at: " + requestedCourse.getCourseTimeSlot(), 
             HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
@@ -313,7 +315,7 @@ public class RouteController {
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
 
         Department specifiedDept = departmentMapping.get(deptCode);
-        specifiedDept.addPersonToMajor();
+        specifiedDept.addPersonToMajor(); 
         return new ResponseEntity<>("Attribute was updated successfully", HttpStatus.OK);
       }
       return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
@@ -542,10 +544,59 @@ public class RouteController {
     }
   }
 
+  /**
+   * Attempts to return a string representation of all courses of a specific code.
+   *
+   * @param courseCode     A {@code int} representing the course within the department.
+   * 
+   * @return               A {@code ResponseEntity} object containing either readable string
+   *                       representaiton of all the courses and their respective departments 
+   *                       with the entered course code and a HTTP 200 response or, and 
+   *                       appreociate message indicating the proper reponse..
+   */
+  @PatchMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> retrieveCourses(@RequestParam(value = "courseCode") int courseCode) {
+    try {
+      Map<String, Department> departmentMapping;
+      departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+
+      String rep = "Couses found: ";
+      int courseCount = 0;
+
+      for(String currDeptCode: departmentMapping.keySet()){
+        boolean doesCourseExists;
+        doesCourseExists = retrieveCourse(currDeptCode, courseCode).getStatusCode() == HttpStatus.OK;
+        if(doesCourseExists){
+          Map<String, Course> coursesMapping;
+          coursesMapping = departmentMapping.get(currDeptCode).getCourseSelection();
+
+          String courseForDeptString = coursesMapping.get(Integer.toString(courseCode)).toString();
+
+          rep = ++courseCount + ". " + courseForDeptString + ",";
+        }
+      }
+
+      if (courseCount > 0) {
+        rep = rep.substring(0, rep.length() - 1);
+        return new ResponseEntity<>(rep, HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>("No courses found.", HttpStatus.NOT_FOUND);
+      }
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
   private ResponseEntity<?> handleException(Exception e) {
-    System.out.println(e.toString());
+    if (logger.isLoggable(Level.SEVERE)) {
+      logger.log(Level.SEVERE, "An exception occurred: {0}", e.toString());
+    }
+    logger.log(Level.SEVERE, "Stack trace: ", e);
     return new ResponseEntity<>("An Error has occurred", HttpStatus.OK);
   }
 
-
+    /** Logger for stylistic changes */
+    private static final Logger logger = Logger.getLogger(
+      MyFileDatabase.class.getName()
+    );
 }
