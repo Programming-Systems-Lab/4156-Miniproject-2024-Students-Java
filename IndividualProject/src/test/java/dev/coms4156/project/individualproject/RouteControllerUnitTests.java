@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 /**
@@ -25,7 +26,9 @@ public class RouteControllerUnitTests {
   @MockBean private MyFileDatabase mockDatabase;
 
   private HashMap<String, Department> mockDepartments;
-  private HashMap<String, Course> mockCourses;
+  private HashMap<String, Course> mockComsCourses;
+  private HashMap<String, Course> mockEconCourses;
+  private HashMap<String, Course> mockIeorCourses;
 
   /**
    * Set up the mock behavior of the static database in IndividualProjectApplication.
@@ -35,13 +38,39 @@ public class RouteControllerUnitTests {
     MockitoAnnotations.openMocks(this);
 
     mockDepartments = new HashMap<>();
-    mockCourses = new HashMap<>();
+    mockComsCourses = new HashMap<>();
+    mockEconCourses = new HashMap<>();
+    mockIeorCourses = new HashMap<>();
 
-    Course mockCourse = new Course("Adam Cannon", "417 IAB", "11:40-12:55", 400);
-    mockCourse.setEnrolledStudentCount(5);
-    mockCourses.put("4156", mockCourse);
-    Department mockDepartment = new Department("COMS", mockCourses, "Luca Carloni", 2700);
-    mockDepartments.put("COMS", mockDepartment);
+    // mock database for COMS Dept and Courses
+    Course mockComs3827 = new Course("Daniel Rubenstein", "207 Math", "10:10-11:25", 300);
+    mockComs3827.setEnrolledStudentCount(400);
+    Course mockComs4156 = new Course("Gail Kaiser", "501 NWC", "10:10-11:25", 120);
+    mockComs4156.setEnrolledStudentCount(0);
+    mockComsCourses.put("3827", mockComs3827);
+    mockComsCourses.put("4156", mockComs4156);
+    Department mockComsDepartment = new Department("COMS", mockComsCourses, "Luca Carloni", 2700);
+    mockDepartments.put("COMS", mockComsDepartment);
+
+    // mock database for Econ Dept and Courses
+    Course mockEcon3827 = new Course("Matthieu Gomez", "517 HAM", "8:40-9:55", 86);
+    mockEcon3827.setEnrolledStudentCount(400);
+    Course mockEcon4156 = new Course("Mark Dean", "142 URIS", "2:40-3:55", 108);
+    mockEcon4156.setEnrolledStudentCount(0);
+    mockEconCourses.put("3827", mockEcon3827);
+    mockEconCourses.put("4156", mockEcon4156);
+    Department mockEconDepartment = new Department("ECON", mockEconCourses, "Michael Wood", 2345);
+    mockDepartments.put("ECON", mockEconDepartment);
+
+    // mock database for Ieor Dept and Courses
+    Course mockIeor3827 = new Course("Michael Robbins", "633 MUDD", "9:00-11:30", 150);
+    mockIeor3827.setEnrolledStudentCount(400);
+    Course mockIeor4156 = new Course("Krzysztof M Choromanski", "633 MUDD", "7:10-9:40", 60);
+    mockIeor4156.setEnrolledStudentCount(0);
+    mockIeorCourses.put("3827", mockIeor3827);
+    mockIeorCourses.put("4156", mockIeor4156);
+    Department mockIeorDepartment = new Department("IEOR", mockIeorCourses, "Jay Sethuraman", 67);
+    mockDepartments.put("IEOR", mockIeorDepartment);
 
     when(mockDatabase.getDepartmentMapping()).thenReturn(mockDepartments);
 
@@ -57,8 +86,8 @@ public class RouteControllerUnitTests {
             .andExpect(
                     content()
                             .string("Welcome, in order to make an API call direct your browser "
-                                    + "or Postman to an endpoint \n"
-                                    + "\n This can be done using the following "
+                                    + "or Postman to an endpoint "
+                                    + "\n\n This can be done using the following "
                                     + "format: \n\n http:127.0.0.1:8080/endpoint?arg=value"));
   }
 
@@ -78,7 +107,39 @@ public class RouteControllerUnitTests {
                           .param("deptCode", "COMS")
                           .param("courseCode", "4156"))
           .andExpect(status().isOk())
-          .andExpect(content().string(mockCourses.get("4156").toString()));
+          .andExpect(content().string(mockComsCourses.get("4156").toString()));
+  }
+
+  @Test
+  public void testRetrieveCoursesSuccess() throws Exception {
+    MvcResult result = mockMvc
+            .perform(
+                    MockMvcRequestBuilders.get("/retrieveCourses")
+                            .param("courseCode", "4156"))
+            .andExpect(status().isOk())
+            .andExpect(content().string(
+                    "\nInstructor: Gail Kaiser; Location: 501 NWC; Time: 10:10-11:25\n"
+                    + "\nInstructor: Mark Dean; Location: 142 URIS; Time: 2:40-3:55\n"
+                    + "\nInstructor: Krzysztof M Choromanski; "
+                            + "Location: 633 MUDD; Time: 7:10-9:40\n"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void testRetrieveCoursesNotFound() throws Exception {
+    MvcResult result = mockMvc
+            .perform(
+                    MockMvcRequestBuilders.get("/retrieveCourses")
+                            .param("courseCode", "4111"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
@@ -89,7 +150,7 @@ public class RouteControllerUnitTests {
                           .param("deptCode", "COMS")
                           .param("courseCode", "4156"))
           .andExpect(status().isOk())
-          .andExpect(content().string(String.valueOf(mockCourses.get("4156").isCourseFull())));
+          .andExpect(content().string(String.valueOf(mockComsCourses.get("4156").isCourseFull())));
   }
 
   @Test
@@ -103,7 +164,7 @@ public class RouteControllerUnitTests {
           .andExpect(
                   content()
                           .string(
-                                  mockCourses.get("4156").getCourseLocation()
+                                  mockComsCourses.get("4156").getCourseLocation()
                                           + " is where the course is located."));
   }
 
@@ -118,7 +179,7 @@ public class RouteControllerUnitTests {
           .andExpect(
                   content()
                           .string(
-                                  mockCourses.get("4156").getInstructorName()
+                                  mockComsCourses.get("4156").getInstructorName()
                                           + " is the instructor for the course."));
   }
 
@@ -132,7 +193,7 @@ public class RouteControllerUnitTests {
           .andExpect(status().isOk())
           .andExpect(
                   content().string("The course meets at: "
-                          + mockCourses.get("4156").getCourseTimeSlot()));
+                          + mockComsCourses.get("4156").getCourseTimeSlot()));
   }
 
   @Test
@@ -193,7 +254,7 @@ public class RouteControllerUnitTests {
              .perform(
                      MockMvcRequestBuilders.patch("/dropStudentFromCourse")
                              .param("deptCode", "COMS")
-                             .param("courseCode", "4156"))
+                             .param("courseCode", "3827"))
              .andExpect(status().isOk())
              .andExpect(content().string("Student has been dropped."));
   }
@@ -202,7 +263,7 @@ public class RouteControllerUnitTests {
   @Test
   public void testRetrieveDepartmentNotFound() throws Exception {
     mockMvc
-            .perform(MockMvcRequestBuilders.get("/retrieveDept").param("deptCode", "ECON"))
+            .perform(MockMvcRequestBuilders.get("/retrieveDept").param("deptCode", "MATH"))
             .andExpect(status().isNotFound())
             .andExpect(content().string("Department Not Found"));
   }
@@ -212,7 +273,7 @@ public class RouteControllerUnitTests {
     mockMvc
             .perform(
                     MockMvcRequestBuilders.get("/retrieveCourse")
-                            .param("deptCode", "ECON")
+                            .param("deptCode", "MATH")
                             .param("courseCode", "4156"))
             .andExpect(status().isNotFound())
             .andExpect(content().string("Department Not Found"));
@@ -265,7 +326,7 @@ public class RouteControllerUnitTests {
   @Test
   public void testAddMajorToDeptNotFound() throws Exception {
     mockMvc
-            .perform(MockMvcRequestBuilders.patch("/addMajorToDept").param("deptCode", "ECON"))
+            .perform(MockMvcRequestBuilders.patch("/addMajorToDept").param("deptCode", "MATH"))
             .andExpect(status().isNotFound())
             .andExpect(content().string("Department Not Found"));
   }
@@ -274,7 +335,7 @@ public class RouteControllerUnitTests {
   public void testRemoveMajorFromDeptNotFound() throws Exception {
     mockMvc
               .perform(MockMvcRequestBuilders.patch(
-                      "/removeMajorFromDept").param("deptCode", "ECON"))
+                      "/removeMajorFromDept").param("deptCode", "MATH"))
               .andExpect(status().isNotFound())
               .andExpect(content().string("Department Not Found"));
   }
