@@ -1,3 +1,7 @@
 https://maven.apache.org/plugins/maven-checkstyle-plugin/
 https://www.baeldung.com/jacoco
 https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html
+https://spring.io/projects/spring-framework
+https://docs.spring.io/spring-framework/reference/testing/spring-mvc-test-framework.html
+https://www.geeksforgeeks.org/spring-boot-mockmvc-example/
+
