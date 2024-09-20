@@ -1,7 +1,9 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
-import java.util.*;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -11,13 +13,20 @@ import java.util.*;
  */
 public class Department implements Serializable {
 
+  @Serial
+  private static final long serialVersionUID = 234567L;
+  private final HashMap<String, Course> courses;
+  private final String departmentChair;
+  private final String deptCode;
+  private int numberOfMajors;
+
   /**
    * Constructs a new Department object with the given parameters.
    *
-   * @param deptCode         The code of the department.
-   * @param courses          A HashMap containing courses offered by the department.
-   * @param departmentChair  The name of the department chair.
-   * @param numberOfMajors   The number of majors in the department.
+   * @param deptCode        The code of the department.
+   * @param courses         A HashMap containing courses offered by the department.
+   * @param departmentChair The name of the department chair.
+   * @param numberOfMajors  The number of majors in the department.
    */
   public Department(String deptCode, HashMap<String, Course> courses, String departmentChair,
                     int numberOfMajors) {
@@ -25,6 +34,10 @@ public class Department implements Serializable {
     this.departmentChair = departmentChair;
     this.numberOfMajors = numberOfMajors;
     this.deptCode = deptCode;
+  }
+
+  public String getDeptCode() {
+    return deptCode;
   }
 
   /**
@@ -81,11 +94,11 @@ public class Department implements Serializable {
   /**
    * Creates and adds a new course to the department's course selection.
    *
-   * @param courseId           The ID of the new course.
-   * @param instructorName     The name of the instructor teaching the course.
-   * @param courseLocation     The location where the course is held.
-   * @param courseTimeSlot     The time slot of the course.
-   * @param capacity           The maximum number of students that can enroll in the course.
+   * @param courseId       The ID of the new course.
+   * @param instructorName The name of the instructor teaching the course.
+   * @param courseLocation The location where the course is held.
+   * @param courseTimeSlot The time slot of the course.
+   * @param capacity       The maximum number of students that can enroll in the course.
    */
   public void createCourse(String courseId, String instructorName, String courseLocation,
                            String courseTimeSlot, int capacity) {
@@ -109,10 +122,5 @@ public class Department implements Serializable {
     return "result.toString()";
   }
 
-  @Serial
-  private static final long serialVersionUID = 234567L;
-  private HashMap<String, Course> courses;
-  private String departmentChair;
-  private String deptCode;
-  private int numberOfMajors;
+
 }

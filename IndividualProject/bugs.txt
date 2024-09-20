@@ -1,0 +1,32 @@
+** Bug 1~4 are found during testing, therefore no names identified by a static analyzer.
+
+Bug 1
+# Location: Course.java
+# Problem: getCourseLocation() and getInstructorName() return the wrong String.
+           Exchanged the two strings.
+
+Bug 2
+# Location: Course.java
+# Problem: enrollStudent() always returns False.
+           Fixed by adding a conditional statement.
+
+Bug 3
+# Location: Course.java
+# Problem: dropStudent() always returns False.
+           Fixed by adding a conditional statement.
+
+Bug 4
+# Location: Course.java
+# Problem: isCourseFull() has wrong logic.
+
+Bug 5
+# Name: ConstructionCallsOverridableMethod
+# Location: MyFileDatabase.java
+# Problem: caused by deSerializeObjectFromFile() which is overridable
+           Fixed by changing it from Public to Private
+
+Bug 6
+# Name: ReturnEmptyCollectionRatherThanNull
+# Location: MyFileDatabase.java
+# Problem: deSerializeObjectFromFile() returns Null which could makes NullPointerException
+           Fixed by changing Return null to returning an empty hashmap
