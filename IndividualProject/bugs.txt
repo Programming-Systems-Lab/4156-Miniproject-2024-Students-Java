@@ -1,4 +1,5 @@
 ** Bug 1~4 are found during testing, therefore no names identified by a static analyzer.
+** The rest are found by running PMD
 
 Bug 1
 # Location: Course.java
