@@ -24,3 +24,5 @@ RouteController.java:
 3. public ResponseEntity<?> getMajorCtFromDept() returns -departmentMapping.get(deptCode) as it should not be negative, and it should return HttpStatus.NOT_FOUND instead of HttpStatus.FORBIDDEN when the department is not found
 4. ResponseEntity<?> findCourseTime() should return the actual time instead of the string literal "some time "
 5. ResponseEntity<?> handleException() should return HttpStatus.BAD_REQUEST instead of HttpStatus.OK
+6. ResponseEntity<?> setEnrollmentCount() should not allow count to be negative
+7. ResponseEntity<?> changeCourseTime() should not allow invalid time slot

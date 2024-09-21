@@ -1,5 +1,8 @@
 package dev.coms4156.project.individualproject;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,9 +57,9 @@ public class RouteControllerUnitTests {
 
     // mock database for Econ Dept and Courses
     Course mockEcon3827 = new Course("Matthieu Gomez", "517 HAM", "8:40-9:55", 86);
-    mockEcon3827.setEnrolledStudentCount(400);
+    mockEcon3827.setEnrolledStudentCount(86);
     Course mockEcon4156 = new Course("Mark Dean", "142 URIS", "2:40-3:55", 108);
-    mockEcon4156.setEnrolledStudentCount(0);
+    mockEcon4156.setEnrolledStudentCount(107);
     mockEconCourses.put("3827", mockEcon3827);
     mockEconCourses.put("4156", mockEcon4156);
     Department mockEconDepartment = new Department("ECON", mockEconCourses, "Michael Wood", 2345);
@@ -64,12 +67,12 @@ public class RouteControllerUnitTests {
 
     // mock database for Ieor Dept and Courses
     Course mockIeor3827 = new Course("Michael Robbins", "633 MUDD", "9:00-11:30", 150);
-    mockIeor3827.setEnrolledStudentCount(400);
+    mockIeor3827.setEnrolledStudentCount(150);
     Course mockIeor4156 = new Course("Krzysztof M Choromanski", "633 MUDD", "7:10-9:40", 60);
     mockIeor4156.setEnrolledStudentCount(0);
     mockIeorCourses.put("3827", mockIeor3827);
     mockIeorCourses.put("4156", mockIeor4156);
-    Department mockIeorDepartment = new Department("IEOR", mockIeorCourses, "Jay Sethuraman", 67);
+    Department mockIeorDepartment = new Department("IEOR", mockIeorCourses, "Jay Sethuraman", 0);
     mockDepartments.put("IEOR", mockIeorDepartment);
 
     when(mockDatabase.getDepartmentMapping()).thenReturn(mockDepartments);
@@ -79,8 +82,8 @@ public class RouteControllerUnitTests {
   }
 
   @Test
-  public void testIndex() throws Exception {
-    mockMvc
+  public void indexTest1() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .get("/"))
             .andExpect(status().isOk())
@@ -88,32 +91,122 @@ public class RouteControllerUnitTests {
                     "Welcome, in order to make an API call direct your browser "
                     + "or Postman to an endpoint "
                     + "\n\n This can be done using the following "
-                    + "format: \n\n http:127.0.0.1:8080/endpoint?arg=value"));
+                    + "format: \n\n http:127.0.0.1:8080/endpoint?arg=value"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testRetrieveDepartmentSuccess() throws Exception {
-    mockMvc
+  public void indexTest2() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/index"))
+            .andExpect(status().isOk())
+            .andExpect(content().string(
+                    "Welcome, in order to make an API call direct your browser "
+                            + "or Postman to an endpoint "
+                            + "\n\n This can be done using the following "
+                            + "format: \n\n http:127.0.0.1:8080/endpoint?arg=value"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void indexTest3() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/home"))
+            .andExpect(status().isOk())
+            .andExpect(content().string(
+                    "Welcome, in order to make an API call direct your browser "
+                            + "or Postman to an endpoint "
+                            + "\n\n This can be done using the following "
+                            + "format: \n\n http:127.0.0.1:8080/endpoint?arg=value"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void retrieveDepartmentSuccessTest() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .get("/retrieveDept")
                     .param("deptCode", "COMS"))
             .andExpect(status().isOk())
-            .andExpect(content().string(mockDepartments.get("COMS").toString()));
+            .andExpect(content().string(mockDepartments.get("COMS").toString()))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testRetrieveCourseSuccess() throws Exception {
-    mockMvc
+  public void retrieveDepartmentNotFoundTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/retrieveDept")
+                    .param("deptCode", "MATH"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Department Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void retrieveCourseSuccessTest() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .get("/retrieveCourse")
                     .param("deptCode", "COMS")
                     .param("courseCode", "4156"))
             .andExpect(status().isOk())
-            .andExpect(content().string(mockComsCourses.get("4156").toString()));
+            .andExpect(content().string(mockComsCourses.get("4156").toString()))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testRetrieveCoursesSuccess() throws Exception {
+  public void retrieveCourseDeptNotFoundTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/retrieveCourse")
+                    .param("deptCode", "MATH")
+                    .param("courseCode", "4156"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Department Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void retrieveCourseNotFoundTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/retrieveCourse")
+                    .param("deptCode", "COMS")
+                    .param("courseCode", "4111"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void retrieveCoursesSuccessTest() throws Exception {
     MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .get("/retrieveCourses")
@@ -131,7 +224,7 @@ public class RouteControllerUnitTests {
   }
 
   @Test
-  public void testRetrieveCoursesNotFound() throws Exception {
+  public void retrieveCoursesNotFoundTest() throws Exception {
     MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .get("/retrieveCourses")
@@ -145,70 +238,54 @@ public class RouteControllerUnitTests {
   }
 
   @Test
-  public void testIsCourseFullSuccess() throws Exception {
-    mockMvc
+  public void isCourseFullSuccessTest() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .get("/isCourseFull")
                     .param("deptCode", "COMS")
                     .param("courseCode", "4156"))
             .andExpect(status().isOk())
             .andExpect(content().string(
-                    String.valueOf(mockComsCourses.get("4156").isCourseFull())));
+                    String.valueOf(mockComsCourses.get("4156").isCourseFull())))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testFindCourseLocationSuccess() throws Exception {
-    mockMvc
-            .perform(MockMvcRequestBuilders
-                    .get("/findCourseLocation")
-                    .param("deptCode", "COMS")
-                    .param("courseCode", "4156"))
-            .andExpect(status().isOk())
-            .andExpect(content().string(
-                    mockComsCourses.get("4156").getCourseLocation()
-                            + " is where the course is located."));
-  }
-
-  @Test
-  public void testFindCourseInstructorSuccess() throws Exception {
-    mockMvc
-            .perform(MockMvcRequestBuilders
-                    .get("/findCourseInstructor")
-                    .param("deptCode", "COMS")
-                    .param("courseCode", "4156"))
-            .andExpect(status().isOk())
-            .andExpect(content().string(
-                    mockComsCourses.get("4156").getInstructorName()
-                            + " is the instructor for the course."));
-  }
-
-  @Test
-  public void testFindCourseTimeSuccess() throws Exception {
-    mockMvc
-            .perform(MockMvcRequestBuilders
-                    .get("/findCourseTime")
-                    .param("deptCode", "COMS")
-                    .param("courseCode", "4156"))
-            .andExpect(status().isOk())
-            .andExpect(content().string(
-                    "The course meets at: "
-                            + mockComsCourses.get("4156").getCourseTimeSlot()));
-  }
-
-  @Test
-  public void testIsCourseFullNotFound() throws Exception {
-    mockMvc
+  public void isCourseFullNotFoundTest1() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .get("/isCourseFull")
                     .param("deptCode", "COMS")
-                    .param("courseCode", "0000"))
+                    .param("courseCode", "4111"))
             .andExpect(status().isNotFound())
-            .andExpect(content().string("Course Not Found"));
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testGetMajorCtFromDeptSuccess() throws Exception {
-    mockMvc
+  public void isCourseFullNotFoundTest2() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/isCourseFull")
+                    .param("deptCode", "MATH")
+                    .param("courseCode", "4156"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void getMajorCtFromDeptSuccessTest() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .get("/getMajorCountFromDept")
                     .param("deptCode", "COMS"))
@@ -216,227 +293,657 @@ public class RouteControllerUnitTests {
             .andExpect(content().string(
                     "There are: "
                             + mockDepartments.get("COMS").getNumberOfMajors()
-                            + " majors in the department"));
+                            + " majors in the department"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testIdentifyDeptChairSuccess() throws Exception {
-    mockMvc
+  public void getMajorCtFromDeptNotFoundTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/getMajorCountFromDept")
+                    .param("deptCode", "MATH"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Department Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void identifyDeptChairSuccessTest() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .get("/idDeptChair")
                     .param("deptCode", "COMS"))
             .andExpect(status().isOk())
             .andExpect(content().string(
                     mockDepartments.get("COMS").getDepartmentChair()
-                            + " is the department chair."));
+                            + " is the department chair."))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testAddMajorToDeptSuccess() throws Exception {
-    mockMvc
+  public void identifyDeptChairNotFoundTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/idDeptChair")
+                    .param("deptCode", "MATH"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Department Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void findCourseLocationSuccessTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/findCourseLocation")
+                    .param("deptCode", "COMS")
+                    .param("courseCode", "4156"))
+            .andExpect(status().isOk())
+            .andExpect(content().string(
+                    mockComsCourses.get("4156").getCourseLocation()
+                            + " is where the course is located."))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void findCourseLocationNotFoundTest1() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/findCourseLocation")
+                    .param("deptCode", "COMS")
+                    .param("courseCode", "4111"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void findCourseLocationNotFoundTest2() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/findCourseLocation")
+                    .param("deptCode", "MATH")
+                    .param("courseCode", "4156"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void findCourseInstructorSuccessTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/findCourseInstructor")
+                    .param("deptCode", "COMS")
+                    .param("courseCode", "4156"))
+            .andExpect(status().isOk())
+            .andExpect(content().string(
+                    mockComsCourses.get("4156").getInstructorName()
+                            + " is the instructor for the course."))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void findCourseInstructorNotFoundTest1() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/findCourseInstructor")
+                    .param("deptCode", "COMS")
+                    .param("courseCode", "4111"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void findCourseInstructorNotFoundTest2() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/findCourseInstructor")
+                    .param("deptCode", "MATH")
+                    .param("courseCode", "4156"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void findCourseTimeSuccessTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/findCourseTime")
+                    .param("deptCode", "COMS")
+                    .param("courseCode", "4156"))
+            .andExpect(status().isOk())
+            .andExpect(content().string(
+                    "The course meets at: "
+                            + mockComsCourses.get("4156").getCourseTimeSlot()))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void findCourseTimeNotFoundTest1() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/findCourseTime")
+                    .param("deptCode", "COMS")
+                    .param("courseCode", "4111"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void findCourseTimeNotFoundTest2() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .get("/findCourseTime")
+                    .param("deptCode", "MATH")
+                    .param("courseCode", "4156"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void addMajorToDeptSuccessTest() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .patch("/addMajorToDept")
                     .param("deptCode", "COMS"))
             .andExpect(status().isOk())
-            .andExpect(content().string("Attribute was updated successfully"));
+            .andExpect(content().string("Attribute was updated successfully"))
+            .andReturn();
+
+    assertEquals(mockDepartments.get("COMS").getNumberOfMajors(), 2701);
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testRemoveMajorFromDeptSuccess() throws Exception {
-    mockMvc
+  public void addMajorToDeptNotFoundTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/addMajorToDept")
+                    .param("deptCode", "MATH"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Department Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void removeMajorFromDeptSuccessTest1() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .patch("/removeMajorFromDept")
-                    .param("deptCode", "COMS"))
+                    .param("deptCode", "ECON"))
             .andExpect(status().isOk())
-            .andExpect(content().string("Attribute was updated or is at minimum"));
+            .andExpect(content().string("Attribute was updated or is at minimum"))
+            .andReturn();
+
+    assertEquals(mockDepartments.get("ECON").getNumberOfMajors(), 2344);
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testDropStudentSuccess() throws Exception {
-    mockMvc
+  public void removeMajorFromDeptSuccessTest2() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
-                    .patch("/dropStudentFromCourse")
-                    .param("deptCode", "COMS")
-                    .param("courseCode", "3827"))
-             .andExpect(status().isOk())
-             .andExpect(content().string("Student has been dropped."));
+                    .patch("/removeMajorFromDept")
+                    .param("deptCode", "IEOR"))
+            .andExpect(status().isOk())
+            .andExpect(content().string("Attribute was updated or is at minimum"))
+            .andReturn();
+
+    assertEquals(mockDepartments.get("IEOR").getNumberOfMajors(), 0);
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testEnrollStudentSuccess() throws Exception {
-    mockMvc
+  public void removeMajorFromDeptNotFoundTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/removeMajorFromDept")
+                    .param("deptCode", "MATH"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Department Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void enrollStudentSuccessTest() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .patch("/enrollStudentInCourse")
-                    .param("deptCode", "COMS")
+                    .param("deptCode", "ECON")
                     .param("courseCode", "4156"))
             .andExpect(status().isOk())
-            .andExpect(content().string("Student has been enrolled."));
+            .andExpect(content().string("Student has been enrolled."))
+            .andReturn();
+
+    assertTrue(mockEconCourses.get("4156").isCourseFull());
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testEnrollStudentFail() throws Exception {
-    mockMvc
+  public void enrollStudentFailTest() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .patch("/enrollStudentInCourse")
                     .param("deptCode", "COMS")
                     .param("courseCode", "3827"))
             .andExpect(status().isBadRequest())
-            .andExpect(content().string("Student has not been enrolled."));
+            .andExpect(content().string("Student has not been enrolled."))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testEnrollStudentNotFound() throws Exception {
-    mockMvc
+  public void enrollStudentNotFoundTest1() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .patch("/enrollStudentInCourse")
                     .param("deptCode", "COMS")
                     .param("courseCode", "4111"))
             .andExpect(status().isNotFound())
-            .andExpect(content().string("Course Not Found"));
-  }
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
 
-
-  @Test
-  public void testRetrieveDepartmentNotFound() throws Exception {
-    mockMvc
-            .perform(MockMvcRequestBuilders
-                    .get("/retrieveDept")
-                    .param("deptCode", "MATH"))
-            .andExpect(status().isNotFound())
-            .andExpect(content().string("Department Not Found"));
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testRetrieveCourseDepartmentNotFound() throws Exception {
-    mockMvc
+  public void enrollStudentNotFoundTest2() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
-                    .get("/retrieveCourse")
+                    .patch("/enrollStudentInCourse")
                     .param("deptCode", "MATH")
                     .param("courseCode", "4156"))
             .andExpect(status().isNotFound())
-            .andExpect(content().string("Department Not Found"));
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testRetrieveCourseNotFound() throws Exception {
-    mockMvc
+  public void dropStudentSuccessTest() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
-                    .get("/retrieveCourse")
+                    .patch("/dropStudentFromCourse")
+                    .param("deptCode", "IEOR")
+                    .param("courseCode", "3827"))
+            .andExpect(status().isOk())
+            .andExpect(content().string("Student has been dropped."))
+            .andReturn();
+
+    assertFalse(mockIeorCourses.get("3827").isCourseFull());
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void dropStudentFailTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/dropStudentFromCourse")
                     .param("deptCode", "COMS")
-                    .param("courseCode", "0000"))
-            .andExpect(status().isNotFound())
-            .andExpect(content().string("Course Not Found"));
+                    .param("courseCode", "4156"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().string("Student has not been dropped."))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testFindCourseLocationNotFound() throws Exception {
-    mockMvc
+  public void dropStudentNotFoundTest1() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
-                    .get("/findCourseLocation")
+                    .patch("/dropStudentFromCourse")
                     .param("deptCode", "COMS")
-                    .param("courseCode", "0000"))
+                    .param("courseCode", "4111"))
             .andExpect(status().isNotFound())
-            .andExpect(content().string("Course Not Found"));
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testFindCourseInstructorNotFound() throws Exception {
-    mockMvc
+  public void dropStudentNotFoundTest2() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
-                    .get("/findCourseInstructor")
+                    .patch("/dropStudentFromCourse")
+                    .param("deptCode", "MATH")
+                    .param("courseCode", "4156"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void setEnrollmentCountSuccessTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/setEnrollmentCount")
+                    .param("deptCode", "IEOR")
+                    .param("courseCode", "4156")
+                    .param("count", "60"))
+            .andExpect(status().isOk())
+            .andExpect(content().string("Attributed was updated successfully."))
+            .andReturn();
+
+    assertTrue(mockIeorCourses.get("4156").isCourseFull());
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void setEnrollmentCountBadCountTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/setEnrollmentCount")
+                    .param("deptCode", "IEOR")
+                    .param("courseCode", "4156")
+                    .param("count", "-10"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().string("Count cannot be negative"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void setEnrollmentCountNotFoundTest1() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/setEnrollmentCount")
                     .param("deptCode", "COMS")
-                    .param("courseCode", "0000"))
+                    .param("courseCode", "4111")
+                    .param("count", "20"))
             .andExpect(status().isNotFound())
-            .andExpect(content().string("Course Not Found"));
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testFindCourseTimeNotFound() throws Exception {
-    mockMvc
+  public void setEnrollmentCountNotFoundTest2() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
-                    .get("/findCourseTime")
-                    .param("deptCode", "COMS")
-                    .param("courseCode", "0000"))
+                    .patch("/setEnrollmentCount")
+                    .param("deptCode", "MATH")
+                    .param("courseCode", "4156")
+                    .param("count", "20"))
             .andExpect(status().isNotFound())
-            .andExpect(content().string("Course Not Found"));
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testAddMajorToDeptNotFound() throws Exception {
-    mockMvc
+  public void changeCourseTimeSuccessTest() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
-                    .patch("/addMajorToDept")
-                    .param("deptCode", "MATH"))
-            .andExpect(status().isNotFound())
-            .andExpect(content().string("Department Not Found"));
+                    .patch("/changeCourseTime")
+                    .param("deptCode", "IEOR")
+                    .param("courseCode", "3827")
+                    .param("time", "10:10-11:25"))
+            .andExpect(status().isOk())
+            .andExpect(content().string("Attributed was updated successfully."))
+            .andReturn();
+
+    assertEquals(mockIeorCourses.get("3827").getCourseTimeSlot(), "10:10-11:25");
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testRemoveMajorFromDeptNotFound() throws Exception {
-    mockMvc
-              .perform(MockMvcRequestBuilders
-                      .patch("/removeMajorFromDept")
-                      .param("deptCode", "MATH"))
-              .andExpect(status().isNotFound())
-              .andExpect(content().string("Department Not Found"));
+  public void changeCourseTimeInvalidTimeTest1() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/changeCourseTime")
+                    .param("deptCode", "IEOR")
+                    .param("courseCode", "3827")
+                    .param("time", "10:10-15:25"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().string("Time Slot Not Valid"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testDropStudentNotFound() throws Exception {
-    mockMvc
-              .perform(MockMvcRequestBuilders
-                      .patch("/dropStudentFromCourse")
-                      .param("deptCode", "COMS")
-                      .param("courseCode", "0000"))
-              .andExpect(status().isNotFound())
-              .andExpect(content().string("Course Not Found"));
+  public void changeCourseTimeInvalidTimeTest2() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/changeCourseTime")
+                    .param("deptCode", "IEOR")
+                    .param("courseCode", "3827")
+                    .param("time", "100:10-11:25"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().string("Time Slot Not Valid"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testSetEnrollmentCountNotFound() throws Exception {
-    mockMvc
-              .perform(MockMvcRequestBuilders
-                      .patch("/setEnrollmentCount")
-                      .param("deptCode", "COMS")
-                      .param("courseCode", "0000")
-                      .param("count", "20"))
-              .andExpect(status().isNotFound())
-              .andExpect(content().string("Course Not Found"));
+  public void changeCourseTimeInvalidTimeTest3() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/changeCourseTime")
+                    .param("deptCode", "IEOR")
+                    .param("courseCode", "3827")
+                    .param("time", "10:10-11:61"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().string("Time Slot Not Valid"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testChangeCourseTimeNotFound() throws Exception {
-    mockMvc
+  public void changeCourseTimeNotFoundTest1() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .patch("/changeCourseTime")
                     .param("deptCode", "COMS")
-                    .param("courseCode", "0000")
-                    .param("time", "12:00-13:00"))
+                    .param("courseCode", "4111")
+                    .param("time", "12:00-2:00"))
             .andExpect(status().isNotFound())
-            .andExpect(content().string("Course Not Found"));
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testChangeCourseTeacherNotFound() throws Exception {
-    mockMvc
+  public void changeCourseTimeNotFoundTest2() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/changeCourseTime")
+                    .param("deptCode", "MATH")
+                    .param("courseCode", "4156")
+                    .param("time", "12:00-2:00"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void changeCourseTeacherSuccessTest() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/changeCourseTeacher")
+                    .param("deptCode", "IEOR")
+                    .param("courseCode", "3827")
+                    .param("teacher", "John Lennon"))
+            .andExpect(status().isOk())
+            .andExpect(content().string("Attributed was updated successfully."))
+            .andReturn();
+
+    assertEquals(mockIeorCourses.get("3827").getInstructorName(), "John Lennon");
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void changeCourseTeacherNotFoundTest1() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .patch("/changeCourseTeacher")
                     .param("deptCode", "COMS")
-                    .param("courseCode", "0000")
+                    .param("courseCode", "4111")
                     .param("teacher", "Gail Kaiser"))
             .andExpect(status().isNotFound())
-            .andExpect(content().string("Course Not Found"));
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 
   @Test
-  public void testChangeCourseLocationNotFound() throws Exception {
-    mockMvc
+  public void changeCourseTeacherNotFoundTest2() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/changeCourseTeacher")
+                    .param("deptCode", "MATH")
+                    .param("courseCode", "4156")
+                    .param("teacher", "Gail Kaiser"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void changeCourseLocationSuccessTest() throws Exception {
+    MvcResult result = mockMvc
             .perform(MockMvcRequestBuilders
                     .patch("/changeCourseLocation")
                     .param("deptCode", "COMS")
-                    .param("courseCode", "0000")
+                    .param("courseCode", "4156")
+                    .param("location", "HAV 314"))
+            .andExpect(status().isOk())
+            .andExpect(content().string("Attributed was updated successfully."))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void changeCourseLocationNotFoundTest1() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/changeCourseLocation")
+                    .param("deptCode", "COMS")
+                    .param("courseCode", "4111")
                     .param("location", "HAV 314"))
             .andExpect(status().isNotFound())
-            .andExpect(content().string("Course Not Found"));
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
+  }
+
+  @Test
+  public void changeCourseLocationNotFoundTest2() throws Exception {
+    MvcResult result = mockMvc
+            .perform(MockMvcRequestBuilders
+                    .patch("/changeCourseLocation")
+                    .param("deptCode", "MATH")
+                    .param("courseCode", "4156")
+                    .param("location", "HAV 314"))
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("Course Not Found"))
+            .andReturn();
+
+    String responseContent = result.getResponse().getContentAsString();
+    System.err.println(responseContent);
   }
 }

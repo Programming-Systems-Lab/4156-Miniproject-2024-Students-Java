@@ -1,6 +1,8 @@
 package dev.coms4156.project.individualproject;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -463,6 +465,10 @@ public class RouteController {
           @RequestParam(value = "courseCode") int courseCode,
           @RequestParam(value = "count") int count) {
     try {
+      if (count < 0) {
+        return new ResponseEntity<>("Count cannot be negative", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
@@ -500,6 +506,26 @@ public class RouteController {
           @RequestParam(value = "courseCode") int courseCode,
           @RequestParam(value = "time") String time) {
     try {
+      String regex = "^(1[0-2]|[1-9]):([0-5][0-9])-(1[0-2]|[1-9]):([0-5][0-9])$";
+
+      Pattern pattern = Pattern.compile(regex);
+      Matcher matcher = pattern.matcher(time);
+
+      boolean timeSlotValid = false;
+
+      if (matcher.matches()) {
+        int startHour = Integer.parseInt(matcher.group(1));
+        int endHour = Integer.parseInt(matcher.group(3));
+
+        if (startHour >= 0 && startHour <= 12 && endHour >= 0 && endHour <= 12) {
+          timeSlotValid = true;
+        }
+      }
+
+      if (!timeSlotValid) {
+        return new ResponseEntity<>("Time Slot Not Valid", HttpStatus.BAD_REQUEST);
+      }
+
       boolean doesCourseExists;
       doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
 
