@@ -507,7 +507,35 @@ public class RouteController {
     }
   }
 
-
+  /**
+   * retrieve a specific course from all department, and return all department name if there are
+   * matched courses.
+   *
+   * @param courseCode a course needed to find
+   * @return A {@code ResponseEntity} indicating if the retrieval is successful.
+   */
+  @GetMapping("/retrieveCourses")
+  public ResponseEntity<?> retrieveCourses(@RequestParam String courseCode) {
+    try {
+      StringBuffer responseBody = new StringBuffer();
+      Map<String, Department> departmentMapping =
+          IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+      for (Map.Entry<String, Department> departmentEntry : departmentMapping.entrySet()) {
+        Map<String, Course> courses = departmentEntry.getValue().getCourseSelection();
+        if (!courses.containsKey(courseCode)) {
+          continue;
+        }
+        responseBody.append(departmentEntry.getKey());
+        responseBody.append(" ");
+      }
+      if (responseBody.isEmpty()) {
+        return new ResponseEntity<>("no relevant course found", HttpStatus.NOT_FOUND);
+      }
+      return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
 
   /**
    * Enroll a student in a course.
