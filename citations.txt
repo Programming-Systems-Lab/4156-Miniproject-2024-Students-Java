@@ -5,3 +5,6 @@ https://spring.io/projects/spring-framework
 https://docs.spring.io/spring-framework/reference/testing/spring-mvc-test-framework.html
 https://www.geeksforgeeks.org/spring-boot-mockmvc-example/
 
+Maven PMD static source code analyzer    mvn checkstyle:check
+Maven Style Checker                      mvn pmd:check
+Maven Jacoco                             mvn clean test jacoco:report

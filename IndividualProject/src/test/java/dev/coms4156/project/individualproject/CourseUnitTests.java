@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,8 +27,8 @@ public class CourseUnitTests {
    * Initializes a Course instance to be used across all tests in this class.
    * This method runs once before all the test methods are executed.
    */
-  @BeforeAll
-  public static void setupCourseForTesting() {
+  @BeforeEach
+  public void setupCourseForTesting() {
     testCourse = new Course(
             "Griffin Newbold",
             "417 IAB",
@@ -36,11 +37,57 @@ public class CourseUnitTests {
   }
 
   /**
+   * Tests the {@link Course#enrollStudent()} method.
+   */
+  @Test
+  public void enrollStudentTest() {
+    testCourse.setEnrolledStudentCount(250);
+    assertFalse(testCourse.enrollStudent());
+    testCourse.setEnrolledStudentCount(0);
+    assertTrue(testCourse.enrollStudent());
+  }
+
+  /**
+   * Tests the {@link Course#dropStudent()} method.
+   */
+  @Test
+  public void dropStudentTest() {
+    testCourse.setEnrolledStudentCount(250);
+    assertTrue(testCourse.dropStudent());
+    assertFalse(testCourse.isCourseFull());
+    testCourse.setEnrolledStudentCount(0);
+    assertFalse(testCourse.dropStudent());
+  }
+
+  /**
+   * Tests the {@link Course#getCourseLocation()} method.
+   */
+  @Test
+  public void getCourseLocationTest() {
+    assertEquals("417 IAB", testCourse.getCourseLocation());
+  }
+
+  /**
+   * Tests the {@link Course#getInstructorName()} method.
+   */
+  @Test
+  public void getInstructorNameTest() {
+    assertEquals("Griffin Newbold", testCourse.getInstructorName());
+  }
+
+  /**
+   * Tests the {@link Course#getCourseTimeSlot()} method.
+   */
+  @Test
+  public void getCourseTimeSlotTest() {
+    assertEquals("11:40-12:55", testCourse.getCourseTimeSlot());
+  }
+
+  /**
    * Tests the {@link Course#toString()} method.
    */
   @Test
   public void toStringTest() {
-    setupCourseForTesting();
     String expectedResult = "\nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55";
     assertEquals(expectedResult, testCourse.toString());
   }
@@ -68,13 +115,13 @@ public class CourseUnitTests {
    */
   @Test
   public void reassignTimeTest() {
-    setupCourseForTesting();
     testCourse.reassignTime("14:40-15:55");
     assertEquals("14:40-15:55", testCourse.getCourseTimeSlot());
   }
 
   /**
-   * Tests the {@link Course#setEnrolledStudentCount(int)} method.
+   * Tests the {@link Course#setEnrolledStudentCount(int)}
+   * and {@link Course#isCourseFull()} methods.
    */
   @Test
   public void setEnrolledStudentCountTest() {
@@ -82,29 +129,6 @@ public class CourseUnitTests {
     assertTrue(testCourse.isCourseFull());
     testCourse.setEnrolledStudentCount(100);
     assertFalse(testCourse.isCourseFull());
-  }
-
-  /**
-   * Tests the {@link Course#dropStudent()} method.
-   */
-  @Test
-  public void dropStudentTest() {
-    testCourse.setEnrolledStudentCount(250);
-    assertTrue(testCourse.dropStudent());
-    assertFalse(testCourse.isCourseFull());
-    testCourse.setEnrolledStudentCount(0);
-    assertFalse(testCourse.dropStudent());
-  }
-
-  /**
-   * Tests the {@link Course#enrollStudent()} method.
-   */
-  @Test
-  public void enrollStudentTest() {
-    testCourse.setEnrolledStudentCount(250);
-    assertFalse(testCourse.enrollStudent());
-    testCourse.setEnrolledStudentCount(0);
-    assertTrue(testCourse.enrollStudent());
   }
 }
 
