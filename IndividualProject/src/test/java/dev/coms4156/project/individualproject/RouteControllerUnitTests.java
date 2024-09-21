@@ -2,6 +2,7 @@ package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
@@ -392,6 +393,15 @@ public class RouteControllerUnitTests {
     assertEquals(400, response.getStatusCodeValue());
     assertEquals("Invalid course code.", response.getBody());
   }
+
+  @Test
+  public void testCreateCourseWithNegativeCapacity() {
+    IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+      new Course("Kenneth Shepard", "1205 MUDD", "4:10-6:40", -10);
+    });
+    assertEquals("Course capacity cannot be less than 0", thrown.getMessage());
+  }
+
 
 
 }
