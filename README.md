@@ -23,7 +23,7 @@ In I2, I finished:
 
   honesty-ip2.txt
   
-  3 pull requests(not merged)
+  3 pull requests(already merged)
   
 
 
