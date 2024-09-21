@@ -23,4 +23,3 @@ public class MyFileDatabaseUnitTests {
    * */
   public static MyFileDatabase testDatabase;
 }
-

@@ -1,6 +1,8 @@
 package dev.coms4156.project.individualproject;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -147,8 +149,8 @@ public class RouteController {
       if (doesDepartmentExists) {
         Map<String, Department> departmentMapping;
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-        return new ResponseEntity<>("There are: " + -departmentMapping.get(deptCode)
-            .getNumberOfMajors() + " majors in the department", HttpStatus.OK);
+        return new ResponseEntity<>("There are: " + departmentMapping.get(deptCode)
+            .getNumberOfMajors() + " majors in the department", HttpStatus.OK); 
       }
       return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
     } catch (Exception e) {
@@ -285,7 +287,7 @@ public class RouteController {
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
-        return new ResponseEntity<>("The course meets at: " + "some time ",
+        return new ResponseEntity<>("The course meets at: " + requestedCourse.getCourseTimeSlot(), 
             HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
@@ -313,7 +315,7 @@ public class RouteController {
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
 
         Department specifiedDept = departmentMapping.get(deptCode);
-        specifiedDept.addPersonToMajor();
+        specifiedDept.addPersonToMajor(); 
         return new ResponseEntity<>("Attribute was updated successfully", HttpStatus.OK);
       }
       return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
@@ -541,11 +543,17 @@ public class RouteController {
       return handleException(e);
     }
   }
-
+  
   private ResponseEntity<?> handleException(Exception e) {
-    System.out.println(e.toString());
+    if (logger.isLoggable(Level.SEVERE)) {
+      logger.log(Level.SEVERE, "An exception occurred: {0}", e.toString());
+    }
+    logger.log(Level.SEVERE, "Stack trace: ", e);
     return new ResponseEntity<>("An Error has occurred", HttpStatus.OK);
   }
 
-
+    /** Logger for stylistic changes */
+    private static final Logger logger = Logger.getLogger(
+      MyFileDatabase.class.getName()
+    );
 }

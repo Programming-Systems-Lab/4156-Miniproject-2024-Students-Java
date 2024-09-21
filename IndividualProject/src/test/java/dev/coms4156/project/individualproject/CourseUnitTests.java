@@ -98,4 +98,3 @@ public class CourseUnitTests {
   public static Course testCourse3;
 
 }
-
