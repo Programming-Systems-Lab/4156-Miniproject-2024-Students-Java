@@ -16,9 +16,12 @@ In I1, I finished:
 
 
 In I2, I finished:
+
   adding two endpoints to RouteController and corresponding tests
   
   making sure the code is clean and robust
+
+  honesty-ip2.txt
   
   3 pull requests(not merged)
   
