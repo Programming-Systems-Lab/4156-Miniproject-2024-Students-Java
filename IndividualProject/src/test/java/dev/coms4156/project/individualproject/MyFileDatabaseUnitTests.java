@@ -81,7 +81,7 @@ public class MyFileDatabaseUnitTests {
       boolean contentFound = false;
       while ((line = reader.readLine()) != null) {
         if (line.contains("COMS")) {
-          contentFound = true;  // Check that department data is saved
+          contentFound = true;
           break;
         }
       }
@@ -89,17 +89,5 @@ public class MyFileDatabaseUnitTests {
     } catch (IOException e) {
       fail(e.getMessage());
     }
-  }
-
-  /**
-   * Tests the {@link MyFileDatabase#deSerializeObjectFromFile()} method.
-   * Verifies that the file content is deserialized and loaded into the database.
-   */
-  @Test
-  public void testDeSerializeObjectFromFile() {
-    myFileDatabase.deSerializeObjectFromFile();
-
-    // Assuming file deserialization is working, additional verification can be added.
-    assertTrue(true);  // Basic test to indicate the method was called.
   }
 }

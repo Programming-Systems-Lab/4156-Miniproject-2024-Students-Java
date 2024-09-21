@@ -2,5 +2,5 @@
 
 Ken Deng, kd3005
 
-No static bug finder was used
+Used Maven PMD static source code analyzer.
 

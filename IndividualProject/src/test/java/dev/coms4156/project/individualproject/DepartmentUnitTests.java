@@ -3,7 +3,7 @@ package dev.coms4156.project.individualproject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashMap;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,8 +25,8 @@ public class DepartmentUnitTests {
    * Initializes a Department instance used across all tests in this class.
    * This method runs once before all the test methods are executed.
    */
-  @BeforeAll
-  public static void setupCourseForTesting() {
+  @BeforeEach
+  public void setupCourseForTesting() {
     String[] times = {"11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55", "1:10-3:40"};
     String[] locations = {"417 IAB", "309 HAV", "301 URIS", "402 CHANDLER", "207 Math", "501 NWC"};
 
@@ -49,14 +49,14 @@ public class DepartmentUnitTests {
     coms4156.setEnrolledStudentCount(109);
 
     HashMap<String, Course> courses = new HashMap<>();
-    courses.put("coms1004", coms1004);
-    courses.put("coms3134", coms3134);
-    courses.put("coms3157", coms3157);
-    courses.put("coms3203", coms3203);
-    courses.put("coms3261", coms3261);
-    courses.put("coms3251", coms3251);
-    courses.put("coms3827", coms3827);
-    courses.put("coms4156", coms4156);
+    courses.put("1004", coms1004);
+    courses.put("3134", coms3134);
+    courses.put("3157", coms3157);
+    courses.put("3203", coms3203);
+    courses.put("3261", coms3261);
+    courses.put("3251", coms3251);
+    courses.put("3827", coms3827);
+    courses.put("4156", coms4156);
 
 
     testDepartment = new Department(
@@ -88,7 +88,7 @@ public class DepartmentUnitTests {
   @Test
   public void getCourseSelectionTest() {
     assertEquals("\nInstructor: Adam Cannon; Location: 417 IAB; Time: 11:40-12:55",
-            testDepartment.getCourseSelection().get("coms1004").toString());
+            testDepartment.getCourseSelection().get("1004").toString());
   }
 
   /**
@@ -96,7 +96,6 @@ public class DepartmentUnitTests {
    */
   @Test
   public void addPersonToMajorTest() {
-    setupCourseForTesting();
     testDepartment.addPersonToMajor();
     assertEquals(1001, testDepartment.getNumberOfMajors());
   }
@@ -106,7 +105,6 @@ public class DepartmentUnitTests {
    */
   @Test
   public void dropPersonFromMajorTest() {
-    setupCourseForTesting();
     testDepartment.dropPersonFromMajor();
     assertEquals(999, testDepartment.getNumberOfMajors());
   }
@@ -116,7 +114,6 @@ public class DepartmentUnitTests {
    */
   @Test
   public void addCourseTest() {
-    setupCourseForTesting();
     Course coms4111 = new Course("Donald Ferguson", "309 HAV", "10:10-12:40", 400);
     testDepartment.addCourse("4111", coms4111);
     assertEquals("\nInstructor: Donald Ferguson; Location: 309 HAV; Time: 10:10-12:40",
@@ -130,7 +127,6 @@ public class DepartmentUnitTests {
    */
   @Test
   public void createCourseTest() {
-    setupCourseForTesting();
     testDepartment.createCourse("4111", "Donald Ferguson", "309 HAV", "10:10-12:40", 400);
     assertEquals("\nInstructor: Donald Ferguson; Location: 309 HAV; Time: 10:10-12:40",
             testDepartment.getCourseSelection().get("4111").toString());
@@ -141,23 +137,24 @@ public class DepartmentUnitTests {
    */
   @Test
   public void toStringTest() {
-    setupCourseForTesting();
     String expectedResult =
-            " coms1004: \nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n"
-            + " coms3134: \nInstructor: Brian Borowski; Location: 301 URIS; Time: 4:10-5:25\n"
-            + " coms3157: \nInstructor: Jae Lee; Location: 417 IAB; Time: 4:10-5:25\n"
-            + " coms3203: \nInstructor: Ansaf Salleb-Aouissi; Location: "
-                    + "301 URIS; Time: 10:10-11:25\n"
-            + " coms3261: \nInstructor: Josh Alman; Location: 417 IAB; Time: 2:40-3:55\n"
-            + " coms3251: \nInstructor: Tony Dear; Location: 402 CHANDLER; Time: 1:10-3:40\n"
-            + " coms3827: \nInstructor: Daniel Rubenstein; Location: 207 Math; Time: 10:10-11:25\n"
-            + " coms4156: \nInstructor: Gail Kaiser; Location: 501 NWC; Time: 10:10-11:25\n";
-    testDepartment.createCourse("4111",
-            "Donald Ferguson",
-            "309 HAV",
-            "10:10-12:40",
-            400);
+            "coms 3827: \n"
+            + "Instructor: Daniel Rubenstein; Location: 207 Math; Time: 10:10-11:25\n"
+            + "coms 1004: \n"
+            + "Instructor: Adam Cannon; Location: 417 IAB; Time: 11:40-12:55\n"
+            + "coms 3203: \n"
+            + "Instructor: Ansaf Salleb-Aouissi; Location: 301 URIS; Time: 10:10-11:25\n"
+            + "coms 4156: \n"
+            + "Instructor: Gail Kaiser; Location: 501 NWC; Time: 10:10-11:25\n"
+            + "coms 3157: \n"
+            + "Instructor: Jae Lee; Location: 417 IAB; Time: 4:10-5:25\n"
+            + "coms 3134: \n"
+            + "Instructor: Brian Borowski; Location: 301 URIS; Time: 4:10-5:25\n"
+            + "coms 3251: \n"
+            + "Instructor: Tony Dear; Location: 402 CHANDLER; Time: 1:10-3:40\n"
+            + "coms 3261: \n"
+            + "Instructor: Josh Alman; Location: 417 IAB; Time: 2:40-3:55\n";
 
-    //assertEquals(expectedResult, testDepartment.toString());
+    assertEquals(expectedResult, testDepartment.toString());
   }
 }
