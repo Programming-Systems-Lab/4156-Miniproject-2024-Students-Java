@@ -1,7 +1,14 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
-import java.util.*;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class represents a file-based database containing department mappings.
@@ -39,11 +46,22 @@ public class MyFileDatabase {
   public HashMap<String, Department> deSerializeObjectFromFile() {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
       Object obj = in.readObject();
-      if (obj instanceof HashMap) {
-        return (HashMap<String, Department>) obj;
+      if (obj instanceof HashMap<?, ?> tempMap) {
+        HashMap<String, Department> resultMap = new HashMap<>();  // Create a new type-safe HashMap
+        // Iterate over the entries and populate the new map
+        for (Map.Entry<?, ?> entry : tempMap.entrySet()) {
+          if (entry.getKey() instanceof String && entry.getValue() instanceof Department) {
+            resultMap.put((String) entry.getKey(), (Department) entry.getValue());
+          } else {
+            throw new IllegalArgumentException("Invalid key or value type in the map.");
+          }
+        }
+        return resultMap;
       } else {
         throw new IllegalArgumentException("Invalid object type in file.");
       }
+    } catch (FileNotFoundException e) {
+      throw new RuntimeException(e);
     } catch (IOException | ClassNotFoundException e) {
       e.printStackTrace();
       return null;
@@ -89,7 +107,7 @@ public class MyFileDatabase {
   }
 
   /** The path to the file containing the database entries. */
-  private String filePath;
+  private final String filePath;
 
   /** The mapping of department names to Department objects. */
   private HashMap<String, Department> departmentMapping;
