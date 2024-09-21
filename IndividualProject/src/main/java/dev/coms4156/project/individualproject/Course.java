@@ -31,6 +31,9 @@ public class Course implements Serializable {
     this.instructorName = instructorName;
     this.courseTimeSlot = timeSlot;
     this.enrollmentCapacity = capacity;
+    if (enrollmentCapacity < 0) {
+      throw new IllegalArgumentException("Course capacity cannot be less than 0");
+    }
     this.enrolledStudentCount = 500;
   }
 
