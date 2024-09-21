@@ -318,4 +318,80 @@ public class RouteControllerUnitTests {
     assertEquals("The course is not full.", response.getBody());
   }
 
+  @Test
+  public void testRetrieveCoursesValid() {
+    Department dept = mockDatabase.getDepartmentMapping().get("ELEN");
+    dept.createCourse("3082", "Kenneth Shepard", "1205 MUDD", "4:10-6:40", 100);
+
+    ResponseEntity<?> response = routeController.retrieveCourses("3082");
+    assertEquals(200, response.getStatusCodeValue());
+    assertTrue(response.getBody().toString().contains("Kenneth Shepard"));
+    assertTrue(response.getBody().toString().contains("1205 MUDD"));
+  }
+
+  @Test
+  public void testRetrieveCoursesInvalidCourseCode() {
+    ResponseEntity<?> response = routeController.retrieveCourses("INVALID");
+    assertEquals(404, response.getStatusCodeValue());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void testRetrieveCoursesNullCourseCode() {
+    ResponseEntity<?> response = routeController.retrieveCourses(null);
+    assertEquals(400, response.getStatusCodeValue());
+    assertEquals("Invalid course code.", response.getBody());
+  }
+
+  @Test
+  public void testEnrollStudentInCourseSuccess() {
+    Department dept = mockDatabase.getDepartmentMapping().get("ELEN");
+    dept.createCourse("3082", "Kenneth Shepard", "1205 MUDD", "4:10-6:40", 100);
+
+    ResponseEntity<?> response = routeController.enrollStudentInCourse("ELEN", "3082");
+    assertEquals(200, response.getStatusCodeValue());
+    assertEquals("Student enrolled successfully in course: 3082", response.getBody());
+  }
+
+  @Test
+  public void testEnrollStudentInCourseCourseFull() {
+    Department dept = mockDatabase.getDepartmentMapping().get("ELEN");
+    dept.createCourse("3082", "Kenneth Shepard", "1205 MUDD", "4:10-6:40", 100);
+    Course course = dept.getCourseSelection().get("3082");
+    course.setEnrolledStudentCount(250);
+
+    ResponseEntity<?> response = routeController.enrollStudentInCourse("ELEN", "3082");
+    assertEquals(400, response.getStatusCodeValue());
+    assertEquals("Course is full, enrollment failed.", response.getBody());
+  }
+
+  @Test
+  public void testEnrollStudentInCourseInvalidDepartment() {
+    ResponseEntity<?> response = routeController.enrollStudentInCourse("INVALID", "3082");
+    assertEquals(404, response.getStatusCodeValue());
+    assertEquals("Department Not Found.", response.getBody());
+  }
+
+  @Test
+  public void testEnrollStudentInCourseInvalidCourse() {
+    ResponseEntity<?> response = routeController.enrollStudentInCourse("ELEN", "INVALID");
+    assertEquals(404, response.getStatusCodeValue());
+    assertEquals("Course Not Found.", response.getBody());
+  }
+
+  @Test
+  public void testEnrollStudentInCourseNullDepartment() {
+    ResponseEntity<?> response = routeController.enrollStudentInCourse(null, "3082");
+    assertEquals(400, response.getStatusCodeValue());
+    assertEquals("Invalid department code.", response.getBody());
+  }
+
+  @Test
+  public void testEnrollStudentInCourseNullCourse() {
+    ResponseEntity<?> response = routeController.enrollStudentInCourse("ELEN", null);
+    assertEquals(400, response.getStatusCodeValue());
+    assertEquals("Invalid course code.", response.getBody());
+  }
+
+
 }
