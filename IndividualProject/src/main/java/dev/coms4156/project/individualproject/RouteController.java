@@ -1,6 +1,7 @@
 package dev.coms4156.project.individualproject;
 
 import java.util.HashMap;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -519,6 +520,78 @@ public class RouteController {
     System.out.println(e.toString());
     return new ResponseEntity<>("An Error has occurred", HttpStatus.OK);
   }
+
+  /** Endpoint for returning all the courses with the specified course code across departments.
+   *
+   *  @param courseCode A {@code int} representing the course within the department.
+   *  @return A {@code ResponseEntity} object containing all courses with the specified code.
+   */
+
+  @GetMapping("/retrieveCourses")
+  public ResponseEntity<String> retrieveCourses(@RequestParam String courseCode) {
+    if (courseCode == null || courseCode.isEmpty()) {
+      return ResponseEntity.status(400).body("Invalid course code.");
+    }
+
+    Map<String, Department> departments = IndividualProjectApplication.myFileDatabase
+        .getDepartmentMapping();
+    StringBuilder courseDetails = new StringBuilder();
+
+    for (Map.Entry<String, Department> entry : departments.entrySet()) {
+      Department department = entry.getValue();
+      Course course = department.getCourseSelection().get(courseCode);
+      if (course != null) {
+        courseDetails.append("Department: ").append(department.getDeptCode()).append("\n")
+            .append(course.toString()).append("\n\n");
+      }
+    }
+
+    if (courseDetails.length() == 0) {
+      return ResponseEntity.status(404).body("No courses found with the given code.");
+    }
+
+    return ResponseEntity.ok(courseDetails.toString());
+  }
+
+  /**
+   * Endpoint for enrolling a student in a specific course within a department.
+   *
+   * @param deptCode   A {@code String} representing the department code where the course is offered
+   * @param courseCode A {@code String} representing the course code within the department.
+   * @return A {@code ResponseEntity} object containing a success message if the enrollment is
+   *         successful or an error message if the course is full or if any error occurs.
+   */
+
+  @GetMapping("/enrollStudentInCourse")
+  public ResponseEntity<String> enrollStudentInCourse(@RequestParam String deptCode,
+                                                      @RequestParam String courseCode) {
+    if (deptCode == null || deptCode.isEmpty()) {
+      return ResponseEntity.status(400).body("Invalid department code.");
+    }
+
+    if (courseCode == null || courseCode.isEmpty()) {
+      return ResponseEntity.status(400).body("Invalid course code.");
+    }
+
+    Department department = IndividualProjectApplication.myFileDatabase.getDepartmentMapping()
+        .get(deptCode);
+    if (department == null) {
+      return ResponseEntity.status(404).body("Department Not Found.");
+    }
+
+    Course course = department.getCourseSelection().get(courseCode);
+    if (course == null) {
+      return ResponseEntity.status(404).body("Course Not Found.");
+    }
+
+    boolean enrollmentSuccess = course.enrollStudent();
+    if (enrollmentSuccess) {
+      return ResponseEntity.ok("Student enrolled successfully in course: " + courseCode);
+    } else {
+      return ResponseEntity.status(400).body("Course is full so the enrollment failed.");
+    }
+  }
+
 
 
 }
