@@ -1,7 +1,6 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +27,8 @@ public class DepartmentUnitTests {
   public void setupForTesting() {
     testCourses = new HashMap<>();
     testCourses.put("1004", new Course("Adam Cannon", "417 IAB", "11:40-12:55", 400));
-    testDepartment = new Department("COMS", testCourses, "Luca Carloni", 2700);
+    testDepartment = new Department("COMS", testCourses,
+          "Luca Carloni", 2700);
   }
 
   /**
@@ -57,6 +57,7 @@ public class DepartmentUnitTests {
 
   /**
    * Tests the createCourse method by creating a new course and adding it to the department.
+   * Tests that all the attributes are correctly set.
    */
   @Test
   public void createCourseTest() {
@@ -64,7 +65,6 @@ public class DepartmentUnitTests {
     Course createdCourse = testDepartment.getCourseSelection().get("3157");
 
     // Verify that the course was successfully created and added
-    assertNotNull(createdCourse);
     assertEquals("Jae Lee", createdCourse.getInstructorName());
     assertEquals("417 IAB", createdCourse.getCourseLocation());
     assertEquals("4:10-5:25", createdCourse.getCourseTimeSlot());

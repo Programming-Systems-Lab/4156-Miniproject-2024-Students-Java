@@ -117,6 +117,7 @@ public class MyFileDatabaseUnitTests {
 
   /**
    * Test for toString method.
+   * Checks that it contains the dept code that it was initialized with.
    */
   @Test
   public void toStringTest() {

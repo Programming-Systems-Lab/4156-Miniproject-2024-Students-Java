@@ -11,8 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Unit tests for the Course class.
- * This class contains unit tests for the Course class, primarily testing the
- * functionality of the various methods.
  */
 @SpringBootTest
 @ContextConfiguration
@@ -52,10 +50,10 @@ public class CourseUnitTests {
 
   /**
    * Tests the dropStudent method by dropping a student from the course.
+   * Checks that the new student count decreased by one.
    */
   @Test
   public void dropStudentTest() {
-    testCourse.setEnrolledStudentCount(5);  // Set a known student count
     int initialCount = testCourse.getEnrolledStudentCount();
     testCourse.dropStudent();
     assertEquals(initialCount - 1, testCourse.getEnrolledStudentCount());
@@ -66,15 +64,17 @@ public class CourseUnitTests {
    */
   @Test
   public void getCourseLocationTest() {
-    assertEquals("417 IAB", testCourse.getCourseLocation());
+    assertEquals("417 IAB",
+          testCourse.getCourseLocation());
   }
 
   /**
-   * Tests the getInstructorName method by checking the instructor name.
+   * Tests the getInstructorName method by checking the instructor name matches initialized value.
    */
   @Test
   public void getInstructorNameTest() {
-    assertEquals("G N", testCourse.getInstructorName());
+    assertEquals("G N",
+          testCourse.getInstructorName());
   }
 
   /**
@@ -122,6 +122,11 @@ public class CourseUnitTests {
   public void setEnrolledStudentCountTest() {
     testCourse.setEnrolledStudentCount(100);
     assertEquals(100, testCourse.getEnrolledStudentCount());
+
+    // Test negative values
+    testCourse.setEnrolledStudentCount(-100);
+    assertEquals(-100, testCourse.getEnrolledStudentCount());
+
   }
 
   /**
@@ -129,10 +134,10 @@ public class CourseUnitTests {
    */
   @Test
   public void isCourseFullTest() {
-    testCourse.setEnrolledStudentCount(250);  // Set the student count to match capacity
+    testCourse.setEnrolledStudentCount(250);  // Match the capacity
     assertFalse(testCourse.isCourseFull());
 
-    testCourse.setEnrolledStudentCount(260);  // Set the student count over the capacity
+    testCourse.setEnrolledStudentCount(260);  // Set count over the max capacity
     assertTrue(testCourse.isCourseFull());
   }
 }

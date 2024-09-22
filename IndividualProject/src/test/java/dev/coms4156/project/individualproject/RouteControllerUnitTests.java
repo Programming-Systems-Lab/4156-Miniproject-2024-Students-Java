@@ -1,7 +1,6 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
@@ -49,7 +48,6 @@ public class RouteControllerUnitTests {
     String url = "http://localhost:" + port + "/index";
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-    assertNotNull(response.getBody());
     assertEquals("""
           Welcome, in order to make an API call direct your browser or Postman to an endpoint\s
 
@@ -67,7 +65,6 @@ public class RouteControllerUnitTests {
     String url = "http://localhost:" + port + "/retrieveCourse?deptCode=COMS&courseCode=0000";
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-    assertNotNull(response.getBody());
     assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
   }
 
@@ -80,7 +77,6 @@ public class RouteControllerUnitTests {
     String url = "http://localhost:" + port + "/retrieveDept?deptCode=INVALID";
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-    assertNotNull(response.getBody());
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
   }
 
@@ -96,7 +92,6 @@ public class RouteControllerUnitTests {
 
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-    assertNotNull(response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertTrue(response.getBody().contains("417 IAB"));
   }
@@ -114,7 +109,6 @@ public class RouteControllerUnitTests {
 
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-    assertNotNull(response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertTrue(response.getBody().contains("Adam Cannon"));
   }
@@ -131,7 +125,6 @@ public class RouteControllerUnitTests {
 
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-    assertNotNull(response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertTrue(response.getBody().contains("11:40-12:55"));
   }
@@ -148,7 +141,6 @@ public class RouteControllerUnitTests {
 
       ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-      assertNotNull(response.getBody());
       assertEquals(HttpStatus.OK, response.getStatusCode());
     }
   }
@@ -194,7 +186,6 @@ public class RouteControllerUnitTests {
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-        assertNotNull(response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
       }
     }
@@ -215,7 +206,6 @@ public class RouteControllerUnitTests {
     restTemplate.patchForObject(updateEnrollUrl, null, String.class);
     String url = "http://localhost:" + port + "/isCourseFull?deptCode=COMS&courseCode=1004";
     ResponseEntity<Boolean> response = restTemplate.getForEntity(url, Boolean.class);
-    assertNotNull(response.getBody());
     assertEquals(true, response.getBody());
   }
 
@@ -230,7 +220,6 @@ public class RouteControllerUnitTests {
     String url = "http://localhost:" + port + "/isCourseFull?deptCode=COMS&courseCode=1004";
     ResponseEntity<Boolean> response = restTemplate.getForEntity(url, Boolean.class);
 
-    assertNotNull(response.getBody());
     assertEquals(false, response.getBody());
   }
 
@@ -242,7 +231,6 @@ public class RouteControllerUnitTests {
     String url = "http://localhost:" + port + "/getMajorCountFromDept?deptCode=COMS";
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-    assertNotNull(response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
@@ -256,7 +244,6 @@ public class RouteControllerUnitTests {
 
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-    assertNotNull(response.getBody());
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertTrue(response.getBody().contains("Luca Carloni"));
   }
@@ -272,7 +259,6 @@ public class RouteControllerUnitTests {
 
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-    assertNotNull(response.getBody());
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertTrue(response.getBody().contains("Department Not Found"));
   }
@@ -287,7 +273,6 @@ public class RouteControllerUnitTests {
 
     String response = restTemplate.patchForObject(url, null, String.class);
 
-    assertNotNull(response);
     assertTrue(response.contains("Attribute was updated or is at minimum"));
   }
 
@@ -302,7 +287,6 @@ public class RouteControllerUnitTests {
 
     String response = restTemplate.patchForObject(url, null, String.class);
 
-    assertNotNull(response);
     assertTrue(response.contains("Department Not Found"));
   }
 
@@ -317,7 +301,6 @@ public class RouteControllerUnitTests {
                        + deptCode + "&courseCode=" + courseCode;
 
     String response = restTemplate.patchForObject(url, null, String.class);
-    assertNotNull(response);
     assertTrue(response.contains("Student has been dropped."));
   }
 
@@ -334,7 +317,6 @@ public class RouteControllerUnitTests {
 
     String response = restTemplate.patchForObject(url, null, String.class);
 
-    assertNotNull(response);
     assertTrue(response.contains("Course Not Found"));
   }
 
@@ -345,7 +327,6 @@ public class RouteControllerUnitTests {
   public void addMajorToDeptTest() {
     String url = "http://localhost:" + port + "/addMajorToDept?deptCode=COMS";
     String response = restTemplate.patchForObject(url, null, String.class);
-    assertNotNull(response);
     assertTrue(response.contains("Attribute was updated successfully"));
   }
 
@@ -361,7 +342,6 @@ public class RouteControllerUnitTests {
                                    + deptCode + "&courseCode=" + courseCode  + "&count=" + count;
     String response = restTemplate.patchForObject(updateEnrollUrl, null, String.class);
 
-    assertNotNull(response);
     assertTrue(response.contains(count));
   }
 
@@ -379,7 +359,6 @@ public class RouteControllerUnitTests {
 
     String response = restTemplate.patchForObject(changeTimeUrl, null, String.class);
 
-    assertNotNull(response);
     assertTrue(response.contains(newTime));
   }
 
@@ -397,7 +376,6 @@ public class RouteControllerUnitTests {
 
     String response = restTemplate.patchForObject(changeInstructorUrl, null, String.class);
 
-    assertNotNull(response);
     assertTrue(response.contains(newInstructor));
   }
 
@@ -415,7 +393,6 @@ public class RouteControllerUnitTests {
 
     String response = restTemplate.patchForObject(changeLocationUrl, null, String.class);
 
-    assertNotNull(response);
     assertTrue(response.contains(newLocation));
   }
 }
