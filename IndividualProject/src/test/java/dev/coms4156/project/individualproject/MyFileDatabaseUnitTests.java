@@ -40,14 +40,11 @@ public class MyFileDatabaseUnitTests {
 
   /**
    * Teardown method to wipe the test file after each test, if it exists.
-   * Runs once after each test is conducted.
    */
   @AfterEach
   public void tearDown() {
     File file = new File("./testData.txt");
-    if (file.exists()) {
-      assertTrue(file.delete());
-    }
+    assertTrue(file.delete());
   }
 
   /**
