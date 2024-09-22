@@ -20,7 +20,7 @@ public class Course implements Serializable {
 
   /**
    * Constructs a new Course object with the given parameters.
-   *     The initial enrolled student count is set to 0.
+   * The initial enrolled student count is set to 0.
    *
    * @param instructorName The name of the instructor teaching the course.
    * @param courseLocation The location where the course is held.
