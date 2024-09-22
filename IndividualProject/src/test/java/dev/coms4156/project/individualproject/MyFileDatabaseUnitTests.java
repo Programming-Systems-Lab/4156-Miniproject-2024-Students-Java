@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,7 +90,7 @@ public class MyFileDatabaseUnitTests {
     }
 
     // Deserialization test
-    HashMap<String, Department> deserializedData = testDatabase.deSerializeObjectFromFile();
+    Map<String, Department> deserializedData = testDatabase.deSerializeObjectFromFile();
     assertNotNull(deserializedData, "The deserialized data should not be null.");
 
     // Check that the deserialized department exists

@@ -34,7 +34,7 @@ public class MyFileDatabase {
    *
    * @param mapping the mapping of department names to Department objects
    */
-  public void setMapping(HashMap<String, Department> mapping) {
+  public void setMapping(Map<String, Department> mapping) {
     this.departmentMapping = mapping;
   }
 
@@ -43,11 +43,11 @@ public class MyFileDatabase {
    *
    * @return the deserialized department mapping
    */
-  public HashMap<String, Department> deSerializeObjectFromFile() {
+  public Map<String, Department> deSerializeObjectFromFile() {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
       Object obj = in.readObject();
-      if (obj instanceof HashMap<?, ?> tempMap) {
-        HashMap<String, Department> resultMap = new HashMap<>();  // Create a new type-safe HashMap
+      if (obj instanceof Map<?, ?> tempMap) {
+        Map<String, Department> resultMap = new HashMap<>();  // Create a new type-safe HashMap
         // Iterate over the entries and populate the new map
         for (Map.Entry<?, ?> entry : tempMap.entrySet()) {
           if (entry.getKey() instanceof String && entry.getValue() instanceof Department) {
@@ -64,7 +64,7 @@ public class MyFileDatabase {
       throw new RuntimeException(e);
     } catch (IOException | ClassNotFoundException e) {
       e.printStackTrace();
-      return null;
+      return new HashMap<>();
     }
   }
 
@@ -86,7 +86,7 @@ public class MyFileDatabase {
    *
    * @return the department mapping
    */
-  public HashMap<String, Department> getDepartmentMapping() {
+  public Map<String, Department> getDepartmentMapping() {
     return this.departmentMapping;
   }
 
@@ -110,5 +110,5 @@ public class MyFileDatabase {
   private final String filePath;
 
   /** The mapping of department names to Department objects. */
-  private HashMap<String, Department> departmentMapping;
+  private Map<String, Department> departmentMapping;
 }

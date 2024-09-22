@@ -1,0 +1,10 @@
+1. Return false from dropStudent
+2. Return false from enrollStudent
+3. getMajorCtFromDept returns "There are: " + -departmentMapping.get(deptCode) -numberOfCourse
+4. In getMajorCtFromDept returns HttpStatus.FORBIDDEN if the dept doesn't exist
+5. In retrieveDept returns HttpStatus.NOT_FOUND when course exists
+6. In retrieveCourse returns HttpStatus.NOT_FOUND when course exists
+7. getNumberOfMajors returns -this.numberOfMajors;
+8. getDepartmentChair returns "this.departmentChair"
+9. Department.toString returns "result.toString()"
+10. isCourseFull returns enrollmentCapacity > enrolledStudentCount

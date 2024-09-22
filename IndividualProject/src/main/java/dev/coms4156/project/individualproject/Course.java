@@ -42,7 +42,7 @@ public class Course implements Serializable {
    */
   public boolean enrollStudent() {
     enrolledStudentCount++;
-    return false;
+    return true;
   }
 
   /**
@@ -52,7 +52,7 @@ public class Course implements Serializable {
    */
   public boolean dropStudent() {
     enrolledStudentCount--;
-    return false;
+    return true;
   }
 
   /**
@@ -103,14 +103,20 @@ public class Course implements Serializable {
   /**
    * Returns a string representation of the course.
    *
-   * @return A string describing the instructor, location, and time of the course.
+   * @return A string describing the instructor, location, time and enrollment of the course.
    */
+  @Override
   public String toString() {
     return "\nInstructor: " + instructorName
                  + "; Location: "
                  + courseLocation
                  + "; Time: "
-                 + courseTimeSlot;
+                 + courseTimeSlot
+                 + "; Capacity: "
+                 + enrollmentCapacity
+                 + "; Enrollment: "
+                 + enrolledStudentCount;
+
   }
 
   /**

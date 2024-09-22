@@ -1,0 +1,5 @@
+test/java/dev/coms4156/project/individualproject/DepartmentUnitTests.java:23:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+test/java/dev/coms4156/project/individualproject/MyFileDatabaseUnitTests.java:29:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+test/java/dev/coms4156/project/individualproject/MyFileDatabaseUnitTests.java:65:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+test/java/dev/coms4156/project/individualproject/MyFileDatabaseUnitTests.java:81:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+test/java/dev/coms4156/project/individualproject/MyFileDatabaseUnitTests.java:85:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead

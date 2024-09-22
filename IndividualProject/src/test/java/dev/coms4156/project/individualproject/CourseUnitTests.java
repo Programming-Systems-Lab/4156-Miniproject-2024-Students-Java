@@ -27,7 +27,7 @@ public class CourseUnitTests {
    */
   @BeforeEach
   public void setupCourseForTesting() {
-    testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    testCourse = new Course("G N", "417 IAB", "11:40-12:55", 250);
   }
 
   /**
@@ -37,7 +37,8 @@ public class CourseUnitTests {
    */
   @Test
   public void toStringTest() {
-    String expectedResult = "\nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55";
+    String expectedResult =
+          "\nInstructor: G N; Location: 417 IAB; Time: 11:40-12:55; Capacity: 250; Enrollment: 500";
     assertEquals(expectedResult, testCourse.toString());
   }
 
@@ -75,7 +76,7 @@ public class CourseUnitTests {
    */
   @Test
   public void getInstructorNameTest() {
-    assertEquals("Griffin Newbold", testCourse.getInstructorName());
+    assertEquals("G N", testCourse.getInstructorName());
   }
 
   /**
@@ -91,9 +92,9 @@ public class CourseUnitTests {
    */
   @Test
   public void reassignInstructorTest() {
-
-    testCourse.reassignInstructor("New Instructor");
-    assertEquals("New Instructor", testCourse.getInstructorName());
+    String newInsName = "New Instructor";
+    testCourse.reassignInstructor(newInsName);
+    assertEquals(newInsName, testCourse.getInstructorName());
   }
 
   /**
@@ -101,8 +102,10 @@ public class CourseUnitTests {
    */
   @Test
   public void reassignLocationTest() {
-    testCourse.reassignLocation("New Location");
-    assertEquals("New Location", testCourse.getCourseLocation());
+    String newLocation = "New Location";
+    testCourse.reassignLocation(newLocation);
+    String currLocation = testCourse.getCourseLocation();
+    assertEquals(newLocation, currLocation);
   }
 
   /**
