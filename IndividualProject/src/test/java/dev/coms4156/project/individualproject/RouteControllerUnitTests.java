@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 /**
- * Integration tests for the RouteController class using setup parameters.
+ * Unit tests for the RouteController class using setup parameters.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, args = {"setup"})
 public class RouteControllerUnitTests {
