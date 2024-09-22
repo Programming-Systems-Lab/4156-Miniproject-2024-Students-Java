@@ -11,8 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Unit tests for the Department class.
- * This class contains unit tests for the Department class, primarily testing the
- * functionality of the various methods.
  */
 @SpringBootTest
 @ContextConfiguration
@@ -24,10 +22,10 @@ public class DepartmentUnitTests {
 
   /**
    * Sets up a Department object for testing.
-   * This method is run once before all tests.
+   * Runs once before each test is conducted.
    */
   @BeforeEach
-  public void setupDepartmentForTesting() {
+  public void setupForTesting() {
     testCourses = new HashMap<>();
     testCourses.put("1004", new Course("Adam Cannon", "417 IAB", "11:40-12:55", 400));
     testDepartment = new Department("COMS", testCourses, "Luca Carloni", 2700);
@@ -42,7 +40,7 @@ public class DepartmentUnitTests {
   }
 
   /**
-   * Tests the getDepartmentChair method to verify it returns the correct department chair.
+   * Tests the getDepartmentChair method and verifies that it returns the correct department chair.
    */
   @Test
   public void getDepartmentChairTest() {
@@ -50,7 +48,7 @@ public class DepartmentUnitTests {
   }
 
   /**
-   * Tests the getCourseSelection method to verify it returns the correct course selection.
+   * Tests that getCourseSelection method returns the appropriate course selection.
    */
   @Test
   public void getCourseSelectionTest() {
@@ -58,7 +56,7 @@ public class DepartmentUnitTests {
   }
 
   /**
-   * Tests the createCourse method to ensure a new course is created and added to the department.
+   * Tests the createCourse method by creating a new course and adding it to the department.
    */
   @Test
   public void createCourseTest() {
@@ -74,7 +72,7 @@ public class DepartmentUnitTests {
   }
 
   /**
-   * Tests the addPersonToMajor method to ensure it correctly increments the number of majors.
+   * Tests the addPersonToMajor method by incrementing the number of majors.
    */
   @Test
   public void addPersonToMajorTest() {
@@ -84,11 +82,11 @@ public class DepartmentUnitTests {
   }
 
   /**
-   * Tests the dropPersonFromMajor method to ensure it correctly decrements the number of majors.
+   * Tests the dropPersonFromMajor method by decrementing the number of majors.
+   * The updated value is then verified.
    */
   @Test
   public void dropPersonFromMajorTest() {
-    testDepartment.setNumberOfMajors(2700); // Resetting to known value
     int initialCount = testDepartment.getNumberOfMajors();
     testDepartment.dropPersonFromMajor();
     assertEquals(initialCount - 1, testDepartment.getNumberOfMajors());

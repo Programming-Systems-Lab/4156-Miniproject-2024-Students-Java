@@ -42,9 +42,7 @@ public class CourseUnitTests {
     assertEquals(expectedResult, testCourse.toString());
   }
 
-  /**
-   * Tests the enrollStudent method to ensure that students can be enrolled in the course.
-   */
+
   @Test
   public void enrollStudentTest() {
     int initialCount = testCourse.getEnrolledStudentCount();
@@ -53,7 +51,7 @@ public class CourseUnitTests {
   }
 
   /**
-   * Tests the dropStudent method to ensure that students can be dropped from the course.
+   * Tests the dropStudent method by dropping a student from the course.
    */
   @Test
   public void dropStudentTest() {
@@ -64,7 +62,7 @@ public class CourseUnitTests {
   }
 
   /**
-   * Tests the getCourseLocation method to verify it returns the correct course location.
+   * Tests the getCourseLocation method by checking if it returns the correct course location.
    */
   @Test
   public void getCourseLocationTest() {
@@ -72,7 +70,7 @@ public class CourseUnitTests {
   }
 
   /**
-   * Tests the getInstructorName method to verify it returns the correct instructor name.
+   * Tests the getInstructorName method by checking the instructor name.
    */
   @Test
   public void getInstructorNameTest() {

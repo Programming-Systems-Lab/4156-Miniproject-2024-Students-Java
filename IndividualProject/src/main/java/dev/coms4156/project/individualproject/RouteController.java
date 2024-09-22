@@ -122,7 +122,6 @@ public class RouteController {
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
-        System.out.println("CNT: " + requestedCourse.getEnrolledStudentCount());
         return new ResponseEntity<>(requestedCourse.isCourseFull(), HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);

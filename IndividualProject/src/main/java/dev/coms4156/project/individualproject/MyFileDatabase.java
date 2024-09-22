@@ -46,9 +46,8 @@ public class MyFileDatabase {
   public Map<String, Department> deSerializeObjectFromFile() {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
       Object obj = in.readObject();
-      if (obj instanceof Map<?, ?> tempMap) {
-        Map<String, Department> resultMap = new HashMap<>();  // Create a new type-safe HashMap
-        // Iterate over the entries and populate the new map
+      if (obj instanceof Map<?, ?> tempMap) { // If the data conforms to the Map type, proceed
+        Map<String, Department> resultMap = new HashMap<>();
         for (Map.Entry<?, ?> entry : tempMap.entrySet()) {
           if (entry.getKey() instanceof String && entry.getValue() instanceof Department) {
             resultMap.put((String) entry.getKey(), (Department) entry.getValue());

@@ -16,7 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 /**
- * Unit tests for the RouteController class using setup parameters.
+ * These are Unit tests for the RouteController class.
+ * The class initializes the application using the setup param.
+ * This is done to trigger the resetData script to populate the test database.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, args = {"setup"})
 public class RouteControllerUnitTests {
@@ -66,8 +68,7 @@ public class RouteControllerUnitTests {
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
     assertNotNull(response.getBody());
-    assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND,
-          "The response should not contain a course.");
+    assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
   }
 
   /**
@@ -80,12 +81,11 @@ public class RouteControllerUnitTests {
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
     assertNotNull(response.getBody());
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
-          "The response should return not found.");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
   }
 
   /**
-   * Test for retrieving the location of a course ("/findCourseLocation").
+   * Test for ("/findCourseLocation").
    */
   @Test
   public void findCourseLocationTest() {
@@ -97,14 +97,12 @@ public class RouteControllerUnitTests {
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
     assertNotNull(response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode(),
-          "The response should return HttpStatus.OK.");
-    assertTrue(response.getBody().contains("417 IAB"),
-          "The response should contain the correct course location.");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertTrue(response.getBody().contains("417 IAB"));
   }
 
   /**
-   * Test for retrieving the course instructor ("/findCourseInstructor").
+   * Test for ("/findCourseInstructor").
    */
   @Test
   public void findCourseInstructorTest() {
@@ -117,14 +115,12 @@ public class RouteControllerUnitTests {
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
     assertNotNull(response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode(),
-          "The response should return HttpStatus.OK.");
-    assertTrue(response.getBody().contains("Adam Cannon"),
-          "The response should contain the correct instructor name.");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertTrue(response.getBody().contains("Adam Cannon"));
   }
 
   /**
-   * Test for retrieving the course time ("/findCourseTime").
+   * Test for ("/findCourseTime").
    */
   @Test
   public void findCourseTimeTest() {
@@ -136,94 +132,70 @@ public class RouteControllerUnitTests {
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
     assertNotNull(response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode(),
-          "The response should return HttpStatus.OK.");
-    assertTrue(response.getBody().contains("11:40-12:55"),
-          "The response should contain the correct course time.");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertTrue(response.getBody().contains("11:40-12:55"));
   }
 
   /**
-   * Test for the retrieve department route ("/retrieveDept").
+   * Test for ("/retrieveDept").
    */
   @Test
   public void retrieveAllDepartmentsTest() {
-    // List of department codes
     String[] departments = {"COMS", "ECON", "IEOR", "CHEM", "PHYS", "ELEN", "PSYC"};
 
-    // Loop over each department code and send a GET request to the /retrieveDept endpoint
     for (String deptCode : departments) {
-      // Build the URL for each department
       String url = "http://localhost:" + port + "/retrieveDept?deptCode=" + deptCode;
 
-      // Make the GET request
       ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-      // Validate the response
-      assertNotNull(response.getBody(),
-            "The department details should not be null for deptCode: " + deptCode);
-      assertEquals(HttpStatus.OK, response.getStatusCode(),
-            "The response should be HttpStatus.OK for department code: " + deptCode);
+      assertNotNull(response.getBody());
+      assertEquals(HttpStatus.OK, response.getStatusCode());
     }
   }
 
 
   /**
-   * Test for the retrieve course route ("/retrieveCourse").
-   * The course should exist.
+   * Test for ("/retrieveCourse").
+   * This tests that each course exists, based on the data populated in the application file.
    */
   @Test
   public void retrieveAllCoursesTest() {
-    // Define departments and their corresponding courses
     Map<String, String[]> departmentCourses = new HashMap<>();
 
-    // COMS department
     departmentCourses.put("COMS",
           new String[]{"1004", "3134", "3157", "3203", "3261", "3251", "3827", "4156"});
 
-    // ECON department
     departmentCourses.put("ECON",
           new String[]{"1105", "2257", "3211", "3213", "3412", "4415", "4710", "4840"});
 
-    // IEOR department
     departmentCourses.put("IEOR",
           new String[]{"2500", "3404", "3658", "4102", "4106", "4405", "4511", "4540"});
 
-    // CHEM department
     departmentCourses.put("CHEM",
           new String[]{"1403", "1500", "2045", "2444", "2494", "3080", "4071", "4102"});
 
-    // PHYS department
     departmentCourses.put("PHYS",
           new String[]{"1001", "1201", "1602", "2802", "3008", "4003", "4018", "4040"});
 
-    // ELEN department
     departmentCourses.put("ELEN",
           new String[]{"1201", "3082", "3331", "3401", "3701", "4510", "4702", "4830"});
 
-    // PSYC department
     departmentCourses.put("PSYC",
           new String[]{"1001", "1610", "2235", "2620", "3212", "3445", "4236", "4493"});
 
-    // Loop over each department and its courses
     for (Map.Entry<String, String[]> department : departmentCourses.entrySet()) {
       String deptCode = department.getKey();
-      String[] courses = department.getValue();
+      String[] associatedCourses = department.getValue();
 
-      for (String courseCode : courses) {
-        // Build the URL for each course
+      for (String courseCode : associatedCourses) {
         String url = "http://localhost:"
                            + port + "/retrieveCourse?deptCode="
                            + deptCode + "&courseCode=" + courseCode;
 
-        // Make the GET request
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-        // Validate the response
-        assertNotNull(response.getBody(),
-              "The course details should not be null for courseCode: " + courseCode);
-        assertEquals(HttpStatus.OK, response.getStatusCode(),
-              "The response should be HttpStatus.OK for courseCode: "
-                    + courseCode + " in department " + deptCode);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
       }
     }
   }
@@ -232,8 +204,8 @@ public class RouteControllerUnitTests {
 
 
   /**
-   * Test for the is course full route ("/isCourseFull").
-   * The course is made to be full.
+   * Test for ("/isCourseFull").
+   * Case where course is full.
    */
   @Test
   public void courseIsFullTest() {
@@ -244,15 +216,14 @@ public class RouteControllerUnitTests {
     String url = "http://localhost:" + port + "/isCourseFull?deptCode=COMS&courseCode=1004";
     ResponseEntity<Boolean> response = restTemplate.getForEntity(url, Boolean.class);
     assertNotNull(response.getBody());
-    assertEquals(true, response.getBody(),
-          "The course should be full.");
+    assertEquals(true, response.getBody());
   }
 
 
 
   /**
-   * Test for the is course full route ("/isCourseFull").
-   * The course is not full.
+   * Test for ("/isCourseFull").
+   * Case where the course is not full.
    */
   @Test
   public void courseIsNotFullTest() {
@@ -260,12 +231,11 @@ public class RouteControllerUnitTests {
     ResponseEntity<Boolean> response = restTemplate.getForEntity(url, Boolean.class);
 
     assertNotNull(response.getBody());
-    assertEquals(false, response.getBody(),
-          "The course should not be full.");
+    assertEquals(false, response.getBody());
   }
 
   /**
-   * Test for the get major count route ("/getMajorCountFromDept").
+   * Test for ("/getMajorCountFromDept").
    */
   @Test
   public void getMajorCountFromDeptTest() {
@@ -273,12 +243,11 @@ public class RouteControllerUnitTests {
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
     assertNotNull(response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode(),
-          "The response should contain the number of majors.");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
   /**
-   * Test for identifying the department chair ("/idDeptChair").
+   * Test for ("/idDeptChair").
    */
   @Test
   public void identifyDeptChairTest() {
@@ -288,10 +257,8 @@ public class RouteControllerUnitTests {
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
     assertNotNull(response.getBody());
-    assertEquals(HttpStatus.OK, response.getStatusCode(),
-          "The response should return HttpStatus.OK.");
-    assertTrue(response.getBody().contains("Luca Carloni"),
-          "The response should contain the correct department chair name.");
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertTrue(response.getBody().contains("Luca Carloni"));
   }
 
   /**
@@ -306,14 +273,12 @@ public class RouteControllerUnitTests {
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
     assertNotNull(response.getBody());
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
-          "The response should return HttpStatus.NOT_FOUND.");
-    assertTrue(response.getBody().contains("Department Not Found"),
-          "The response should indicate that the department was not found.");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertTrue(response.getBody().contains("Department Not Found"));
   }
 
   /**
-   * Test for removing a major from the department ("/removeMajorFromDept").
+   * Test for ("/removeMajorFromDept").
    */
   @Test
   public void removeMajorFromDeptTest() {
@@ -323,12 +288,11 @@ public class RouteControllerUnitTests {
     String response = restTemplate.patchForObject(url, null, String.class);
 
     assertNotNull(response);
-    assertTrue(response.contains("Attribute was updated or is at minimum"),
-          "The major count should be updated or at minimum.");
+    assertTrue(response.contains("Attribute was updated or is at minimum"));
   }
 
   /**
-   * Test for removing a major from the department ("/removeMajorFromDept").
+   * Test for ("/removeMajorFromDept").
    * Case when department is not found.
    */
   @Test
@@ -339,12 +303,11 @@ public class RouteControllerUnitTests {
     String response = restTemplate.patchForObject(url, null, String.class);
 
     assertNotNull(response);
-    assertTrue(response.contains("Department Not Found"),
-          "The response should indicate that the department was not found.");
+    assertTrue(response.contains("Department Not Found"));
   }
 
   /**
-   * Test for dropping a student from a course ("/dropStudentFromCourse").
+   * Test for ("/dropStudentFromCourse").
    */
   @Test
   public void dropStudentFromCourseTest() {
@@ -355,8 +318,7 @@ public class RouteControllerUnitTests {
 
     String response = restTemplate.patchForObject(url, null, String.class);
     assertNotNull(response);
-    assertTrue(response.contains("Student has been dropped."),
-          "The response should indicate that the student was dropped.");
+    assertTrue(response.contains("Student has been dropped."));
   }
 
   /**
@@ -373,24 +335,22 @@ public class RouteControllerUnitTests {
     String response = restTemplate.patchForObject(url, null, String.class);
 
     assertNotNull(response);
-    assertTrue(response.contains("Course Not Found"),
-          "The response should indicate that the course was not found.");
+    assertTrue(response.contains("Course Not Found"));
   }
 
   /**
-   * Test for adding a major to the department ("/addMajorToDept").
+   * Test for ("/addMajorToDept").
    */
   @Test
   public void addMajorToDeptTest() {
     String url = "http://localhost:" + port + "/addMajorToDept?deptCode=COMS";
     String response = restTemplate.patchForObject(url, null, String.class);
     assertNotNull(response);
-    assertTrue(response.contains("Attribute was updated successfully"),
-          "The major should be added to the dept.");
+    assertTrue(response.contains("Attribute was updated successfully"));
   }
 
   /**
-   * Test for updating the course enrollment ("/setEnrollment").
+   * Test for ("/setEnrollment").
    */
   @Test
   public void changeCourseEnrollment() {
@@ -402,12 +362,11 @@ public class RouteControllerUnitTests {
     String response = restTemplate.patchForObject(updateEnrollUrl, null, String.class);
 
     assertNotNull(response);
-    assertTrue(response.contains(count),
-          "The course enrollment should be updated.");
+    assertTrue(response.contains(count));
   }
 
   /**
-   * Test for changing the course time ("/updateCourseTime").
+   * Test for ("/updateCourseTime").
    */
   @Test
   public void changeCourseTimeTest() {
@@ -421,12 +380,11 @@ public class RouteControllerUnitTests {
     String response = restTemplate.patchForObject(changeTimeUrl, null, String.class);
 
     assertNotNull(response);
-    assertTrue(response.contains(newTime),
-          "The course time should be updated to " + newTime);
+    assertTrue(response.contains(newTime));
   }
 
   /**
-   * Test for changing the course instructor ("/updateCourseTeacher").
+   * Test for ("/updateCourseTeacher").
    */
   @Test
   public void changeCourseInstructorTest() {
@@ -440,12 +398,11 @@ public class RouteControllerUnitTests {
     String response = restTemplate.patchForObject(changeInstructorUrl, null, String.class);
 
     assertNotNull(response);
-    assertTrue(response.contains(newInstructor),
-          "The course instructor should be updated to " + newInstructor);
+    assertTrue(response.contains(newInstructor));
   }
 
   /**
-   * Test for changing the course location ("/updateCourseLocation").
+   * Test for ("/updateCourseLocation").
    */
   @Test
   public void changeCourseLocationTest() {
@@ -459,7 +416,6 @@ public class RouteControllerUnitTests {
     String response = restTemplate.patchForObject(changeLocationUrl, null, String.class);
 
     assertNotNull(response);
-    assertTrue(response.contains(newLocation),
-          "The course location should be updated to " + newLocation);
+    assertTrue(response.contains(newLocation));
   }
 }
