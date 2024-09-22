@@ -8,10 +8,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 /**
  * Integration tests for the RouteController class using setup parameters.
@@ -26,10 +26,15 @@ public class RouteControllerUnitTests {
   private TestRestTemplate restTemplate;
 
 
+  /**
+   * Sets up application object for testing.
+   * This method is run once before all tests.
+   */
   @BeforeAll
   public static void setupApplicationForTesting() {
     // Override the database with test data
-    IndividualProjectApplication.overrideDatabase(new MyFileDatabase(1, "./testData.txt"));
+    IndividualProjectApplication.overrideDatabase(new MyFileDatabase(1,
+          "./testData.txt"));
   }
 
   /**
@@ -96,7 +101,7 @@ public class RouteControllerUnitTests {
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
     assertNotNull(response.getBody());
-    assertTrue(response.getStatusCode().equals(HttpStatus.OK),
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
           "The response should contain the number of majors.");
   }
 
@@ -117,24 +122,28 @@ public class RouteControllerUnitTests {
    */
   @Test
   public void changeCourseTimeTest() {
-    String url = "http://localhost:" + port + "/changeCourseTime?deptCode=COMS&courseCode=1004&time=10:10-11:25";
+    String url = "http://localhost:" + port
+                       + "/changeCourseTime?deptCode=COMS&courseCode=1004&time=10:10-11:25";
     String response = restTemplate.patchForObject(url, null, String.class);
 
     assertNotNull(response);
     assertTrue(response.contains("Attributed was updated successfully"),
           "The course time should be updated.");
   }
-//
+
   /**
    * Test for changing the course instructor ("/changeCourseTeacher").
    */
   @Test
   public void changeCourseInstructorTest() {
-    String url = "http://localhost:" + port + "/changeCourseTeacher?deptCode=COMS&courseCode=1004&teacher=New Instructor";
+    String url = "http://localhost:" + port
+                       + "/changeCourseTeacher"
+                       + "?deptCode=COMS&courseCode=1004&teacher=New Instructor";
     String response = restTemplate.patchForObject(url, null, String.class);
 
     assertNotNull(response);
-    assertTrue(response.contains("Attributed was updated successfully"), "The course instructor should be updated.");
+    assertTrue(response.contains("Attributed was updated successfully"),
+          "The course instructor should be updated.");
   }
 
   /**
@@ -142,10 +151,13 @@ public class RouteControllerUnitTests {
    */
   @Test
   public void changeCourseLocationTest() {
-    String url = "http://localhost:" + port + "/changeCourseLocation?deptCode=COMS&courseCode=1004&location=New Location";
+    String url = "http://localhost:" + port
+                       + "/changeCourseLocation"
+                       + "?deptCode=COMS&courseCode=1004&location=New Location";
     String response = restTemplate.patchForObject(url, null, String.class);
 
     assertNotNull(response);
-    assertTrue(response.contains("Attributed was updated successfully"), "The course location should be updated.");
+    assertTrue(response.contains("Attributed was updated successfully"),
+          "The course location should be updated.");
   }
 }
