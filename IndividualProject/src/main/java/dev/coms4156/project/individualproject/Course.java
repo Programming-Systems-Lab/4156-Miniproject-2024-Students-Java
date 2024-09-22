@@ -61,7 +61,25 @@ public class Course implements Serializable {
    * @return The location where the course is held.
    */
   public String getCourseLocation() {
-    return this.instructorName;
+    return this.courseLocation;
+  }
+
+  /**
+   * Returns the number of enrolled students in the course.
+   *
+   * @return The enrolled student count for the course.
+   */
+  public int getEnrolledStudentCount() {
+    return this.enrolledStudentCount;
+  }
+
+  /**
+   * Returns the enrollment capacity for the course.
+   *
+   * @return The enrollment capacity of the course.
+   */
+  public int getEnrollmentCapacity() {
+    return this.enrollmentCapacity;
   }
 
   /**
@@ -70,7 +88,7 @@ public class Course implements Serializable {
    * @return The instructor's name.
    */
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
   /**
@@ -137,6 +155,6 @@ public class Course implements Serializable {
    * @return true if the course is not full, false otherwise.
    */
   public boolean isCourseFull() {
-    return enrollmentCapacity > enrolledStudentCount;
+    return enrollmentCapacity < enrolledStudentCount;
   }
 }

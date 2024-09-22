@@ -57,6 +57,15 @@ public class Department implements Serializable {
   }
 
   /**
+   * Sets the number of majors in the course.
+   *
+   * @param numberOfMajors The updated number of majors to set.
+   */
+  public void setNumberOfMajors(int numberOfMajors) {
+    this.numberOfMajors = numberOfMajors;
+  }
+
+  /**
    * Increases the number of majors in the department by one.
    */
   public void addPersonToMajor() {
