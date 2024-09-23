@@ -33,3 +33,13 @@
 
    12. https://stackoverflow.com/questions/12190103/checkstyle-always-receive-file-contains-tab-characters-this-is-the-first-inst
    Used to debug Maven style checker tab character error
+
+   13. https://www.baeldung.com/java-org-json
+   https://www.quora.com/Does-Java-have-a-built-in-JSON-library
+   JSON array deserialization
+
+   14. https://stackoverflow.com/questions/65171828/how-to-return-an-array-of-objects-in-json-format-in-spring-boot
+   Returning JSON array in Spring
+
+   15. https://www.baeldung.com/java-tuples
+   Using Java Tuples

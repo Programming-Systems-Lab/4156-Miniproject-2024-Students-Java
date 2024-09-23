@@ -42,6 +42,17 @@ public class Department implements Serializable {
    *
    * @return The name of the department chair.
    */
+
+  public String getCode() {
+    return this.deptCode;
+  }
+
+  /**
+   * Gets the name of the department chair.
+   *
+   * @return The name of the department chair.
+   */
+
   public String getDepartmentChair() {
     return this.departmentChair;
   }

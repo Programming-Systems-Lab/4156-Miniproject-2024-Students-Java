@@ -1,7 +1,7 @@
 package dev.coms4156.project.individualproject;
 
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -97,6 +97,40 @@ public class RouteController {
       return handleException(e);
     }
   }
+
+
+  /**
+   * Displays the details of the requested course to the user or displays the proper error
+   * message in response to the request.
+   *
+   * @param courseCode A {@code int} representing the course the user wishes
+   *                   to retrieve.
+   *
+   * @return A {@code ResponseEntity} object containing either the details of the
+   *       course and an HTTP 200 response or, an appropriate message indicating the
+   *       proper response.
+   */
+  @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> retrieveCourses(@RequestParam("courseCode") int courseCode) {
+    try {
+      Map<String, Department> departmentMapping;
+      departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+      Department[] departments = departmentMapping.values().toArray(new Department[0]);
+      ArrayList<String> res = new ArrayList<>();
+        for (Department dept: departments)
+          if (dept.getCourseSelection().containsKey(Integer.toString(courseCode)))
+            res.add(dept.getCourseSelection().get(Integer.toString(courseCode)).toString()
+                          + "; Code: " + courseCode + "; Department: " + dept.getCode());
+
+        if (!res.isEmpty())
+          return new ResponseEntity<>(Arrays.asList(res.toArray()), HttpStatus.OK);
+         else
+          return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
 
   /**
    * Displays whether the course has at minimum reached its enrollmentCapacity.
@@ -440,7 +474,7 @@ public class RouteController {
    *       successful, or an error message if the course is not found
    */
   @PatchMapping(value = "/updateCourseTime", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> changeCourseTime(@RequestParam("deptCode") String deptCode,
+  public ResponseEntity<?> updateCourseTime(@RequestParam("deptCode") String deptCode,
                                             @RequestParam("courseCode") int courseCode,
                                             @RequestParam("time") String time) {
     try {
@@ -478,7 +512,7 @@ public class RouteController {
    *       successful, or an error message if the course is not found
    */
   @PatchMapping(value = "/updateCourseTeacher", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> changeCourseTeacher(@RequestParam("deptCode") String deptCode,
+  public ResponseEntity<?> updateCourseTeacher(@RequestParam("deptCode") String deptCode,
                                                @RequestParam("courseCode") int courseCode,
                                                @RequestParam("teacher") String teacher) {
     try {
@@ -516,7 +550,7 @@ public class RouteController {
    * @return a ResponseEntity with a success message if the operation is
    */
   @PatchMapping(value = "/updateCourseLocation", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> changeCourseLocation(@RequestParam("deptCode") String deptCode,
+  public ResponseEntity<?> updateCourseLocation(@RequestParam("deptCode") String deptCode,
                                                 @RequestParam("courseCode") int courseCode,
                                                 @RequestParam("location") String location) {
     try {
