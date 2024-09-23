@@ -25,7 +25,7 @@ import org.springframework.test.context.ContextConfiguration;
 public class MyFileDatabaseUnitTests {
 
   private MyFileDatabase testDatabase;
-  private HashMap<String, Department> testMapping;
+  private Map<String, Department> testMapping;
 
   /**
    * Sets up the test database before each test.
@@ -58,7 +58,7 @@ public class MyFileDatabaseUnitTests {
    */
   @Test
   public void setMappingTest() {
-    HashMap<String, Department> newMapping = new HashMap<>();
+    Map<String, Department> newMapping = new HashMap<>();
     Department newDepartment = new Department("MATH", new HashMap<>(),
           "Joan Smith", 500);
     newMapping.put("MATH", newDepartment);
@@ -74,11 +74,11 @@ public class MyFileDatabaseUnitTests {
    */
   @Test
   public void deSerializeObjectFromFileTest() throws IOException {
-    HashMap<String, Course> courses = new HashMap<>();
+    Map<String, Course> courses = new HashMap<>();
     courses.put("1004", new Course("Adam Cannon", "417 IAB", "11:40-12:55", 400));
 
     Department testDepartment = new Department("COMS", courses, "Luca Carloni", 2700);
-    HashMap<String, Department> expectedMapping = new HashMap<>();
+    Map<String, Department> expectedMapping = new HashMap<>();
     expectedMapping.put("COMS", testDepartment);
 
     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("./testData.txt"))) {

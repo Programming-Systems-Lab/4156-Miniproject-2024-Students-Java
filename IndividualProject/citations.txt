@@ -43,3 +43,10 @@
 
    15. https://www.baeldung.com/java-tuples
    Using Java Tuples
+
+   16. https://stackoverflow.com/questions/1444341/defensive-programming-guidelines-in-java
+   Defensive programming strategy
+
+   17. https://stackoverflow.com/questions/48129112/how-to-test-that-a-constructor-throws-an-exception-using-junit-5
+   https://rollbar.com/blog/how-to-throw-illegalargumentexception-in-java/
+   Assert throws exception

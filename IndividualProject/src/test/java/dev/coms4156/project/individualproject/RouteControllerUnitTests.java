@@ -211,13 +211,13 @@ public class RouteControllerUnitTests {
     assertEquals(HttpStatus.OK, response.getStatusCode());
 
     List<Object> jsonArray = new JSONArray(response.getBody()).toList();
-    ArrayList<String> stringArray = new ArrayList<>();
+    List<String> stringArray = new ArrayList<>();
 
     for (Object item : jsonArray) {
       stringArray.add((String) item);
     }
 
-    ArrayList<Pair<String, Integer>> correctResult = new ArrayList<>();
+    List<Pair<String, Integer>> correctResult = new ArrayList<>();
 
     Map<String, Department> departmentMapping;
     departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
@@ -231,7 +231,7 @@ public class RouteControllerUnitTests {
       }
     }
 
-    assertTrue(correctResult.size() > 0);
+    assertTrue(!correctResult.isEmpty());
 
     // For each item in response, ensure both the course code and dept code
     // match an entry in the correctResult array

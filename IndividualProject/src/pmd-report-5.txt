@@ -1,0 +1,8 @@
+main/java/dev/coms4156/project/individualproject/RouteController.java:122:	LooseCoupling:	Avoid using implementation types like 'ArrayList'; use the interface instead
+test/java/dev/coms4156/project/individualproject/MyFileDatabaseUnitTests.java:28:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+test/java/dev/coms4156/project/individualproject/MyFileDatabaseUnitTests.java:61:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+test/java/dev/coms4156/project/individualproject/MyFileDatabaseUnitTests.java:77:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+test/java/dev/coms4156/project/individualproject/MyFileDatabaseUnitTests.java:81:	LooseCoupling:	Avoid using implementation types like 'HashMap'; use the interface instead
+test/java/dev/coms4156/project/individualproject/RouteControllerUnitTests.java:214:	LooseCoupling:	Avoid using implementation types like 'ArrayList'; use the interface instead
+test/java/dev/coms4156/project/individualproject/RouteControllerUnitTests.java:220:	LooseCoupling:	Avoid using implementation types like 'ArrayList'; use the interface instead
+test/java/dev/coms4156/project/individualproject/RouteControllerUnitTests.java:234:	UseCollectionIsEmpty:	Substitute calls to size() == 0 (or size() != 0, size() > 0, size() < 1) with calls to isEmpty()
