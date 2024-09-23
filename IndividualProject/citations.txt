@@ -1,2 +1,35 @@
    1. https://spring.io/guides/gs/testing-web
    Used the official Spring guide to aid in generating unit tests for the Route Controller
+
+   2. https://www.freecodecamp.org/news/java-unit-testing/
+   Used to help generate unit tests
+
+   3. https://softwareengineering.stackexchange.com/questions/368765/is-it-bad-practice-to-enforce-an-execution-order-for-unit-tests
+   Used to learn about unit test execution
+
+   4. https://stackoverflow.com/questions/72410785/in-spring-boot-what-should-i-test-in-rest-controller
+   Learning more about unit testing
+
+   5. https://medium.com/javarevisited/invalid-http-method-patch-e12ba62ddd9f
+   Used to debug patch request failure
+
+   6. https://improveandrepeat.com/2021/02/how-to-activate-branch-coverage-in-intellij/
+   Used to check branch coverage
+
+   7. https://stackoverflow.com/questions/16992255/how-can-i-make-intellij-idea-update-my-dependencies-from-maven
+   Used to update http client dependency for patch request failure
+
+   8.https://www.jetbrains.com/help/idea/tutorial-finding-and-replacing-text-using-regular-expressions.html
+   Used for finding and replacing
+
+   9. https://docs.pmd-code.org/pmd-doc-7.5.0/pmd_userdocs_installation.html#shell-completion
+   Used to learn how to install and execute pmd https://docs.pmd-code.org/pmd-doc-7.5.0/pmd_userdocs_installation.html#shell-completion
+
+   10. https://stackoverflow.com/questions/69273720/how-to-resolve-checkstyle-error-method-def-modifier-has-incorrect-indentatio
+   Used for debugging Maven style checker for methods
+
+   11. https://stackoverflow.com/questions/31831321/check-style-indentation-violation-public-have-incorrect-indentation-level-4
+   Used for debugging Maven style checker for indentations
+
+   12. https://stackoverflow.com/questions/12190103/checkstyle-always-receive-file-contains-tab-characters-this-is-the-first-inst
+   Used to debug Maven style checker tab character error
