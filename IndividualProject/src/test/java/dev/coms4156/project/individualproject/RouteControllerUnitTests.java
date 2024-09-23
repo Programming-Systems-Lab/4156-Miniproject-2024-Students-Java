@@ -232,7 +232,6 @@ public class RouteControllerUnitTests {
     ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
-
   }
 
   /**
@@ -357,8 +356,6 @@ public class RouteControllerUnitTests {
     String changeTimeUrl = "http://localhost:" + port + "/updateCourseTime"
                                  + "?deptCode=" + deptCode + "&courseCode=" + courseCode
                                  + "&time=" + newTime;
-    String url = "http://localhost:" + port
-                       + "/changeCourseTime?deptCode=COMS&courseCode=1004&time=10:10-11:25";
 
     String response = restTemplate.patchForObject(changeTimeUrl, null, String.class);
 
@@ -380,5 +377,22 @@ public class RouteControllerUnitTests {
     String response = restTemplate.patchForObject(changeInstructorUrl, null, String.class);
 
     assertTrue(response.contains(newInstructor));
+  }
+
+  /**
+   * Test for ("/updateCourseLocation").
+   */
+  @Test
+  public void changeCourseLocationTest() {
+    String deptCode = "COMS";
+    String courseCode = "1004";
+    String newLocation = "New Location";
+    String changeLocationUrl = "http://localhost:" + port + "/updateCourseLocation"
+                                     + "?deptCode=" + deptCode + "&courseCode=" + courseCode
+                                     + "&location=" + newLocation;
+
+    String response = restTemplate.patchForObject(changeLocationUrl, null, String.class);
+
+    assertTrue(response.contains(newLocation));
   }
 }

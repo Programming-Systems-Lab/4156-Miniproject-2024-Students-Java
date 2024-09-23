@@ -28,7 +28,7 @@ public class DepartmentUnitTests {
   public void setupForTesting() {
     testCourses = new HashMap<>();
     testCourses.put("1004", new Course("Adam Cannon", "417 IAB", "11:40-12:55", 400));
-    testDepartment = new Department("COMS", (HashMap<String, Course>) testCourses,
+    testDepartment = new Department("COMS", testCourses,
           "Luca Carloni", 2700);
   }
 
