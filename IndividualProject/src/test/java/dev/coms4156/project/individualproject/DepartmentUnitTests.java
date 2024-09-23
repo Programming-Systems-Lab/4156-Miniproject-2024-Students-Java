@@ -1,6 +1,8 @@
+
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -91,5 +93,15 @@ public class DepartmentUnitTests {
     int initialCount = testDepartment.getNumberOfMajors();
     testDepartment.dropPersonFromMajor();
     assertEquals(initialCount - 1, testDepartment.getNumberOfMajors());
+  }
+  /**
+   * Tests the dropPersonFromMajor method by decrementing the number of majors.
+   * Case where number of majors is 0.
+   */
+  @Test
+  public void dropPersonFromMajorBelowZeroTest() {
+    testDepartment.setNumberOfMajors(0);
+    boolean res = testDepartment.dropPersonFromMajor();
+    assertFalse(res);
   }
 }

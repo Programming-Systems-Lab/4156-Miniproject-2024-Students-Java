@@ -28,10 +28,15 @@ public class Course implements Serializable {
    * @param capacity       The maximum number of students that can enroll in the course.
    */
   public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {
-    this.courseLocation = courseLocation;
-    this.instructorName = instructorName;
+    if (courseLocation.length() <= 1) throw new IllegalArgumentException();
+    else this.courseLocation = courseLocation;
+
+    if (instructorName.length() <= 1) throw new IllegalArgumentException();
+    else this.instructorName = instructorName;
+
     this.courseTimeSlot = timeSlot;
-    this.enrollmentCapacity = capacity;
+    if (capacity < 0) throw new IllegalArgumentException();
+    else this.enrollmentCapacity = capacity;
     this.enrolledStudentCount = 500;
   }
 
@@ -51,6 +56,7 @@ public class Course implements Serializable {
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
+    if (enrolledStudentCount == 0) return false;
     enrolledStudentCount--;
     return true;
   }
@@ -125,6 +131,7 @@ public class Course implements Serializable {
    * @param newInstructorName The name of the new instructor.
    */
   public void reassignInstructor(String newInstructorName) {
+    if (newInstructorName.length() <= 1) throw new IllegalArgumentException();
     this.instructorName = newInstructorName;
   }
 
@@ -134,6 +141,7 @@ public class Course implements Serializable {
    * @param newLocation The new location for the course.
    */
   public void reassignLocation(String newLocation) {
+    if (newLocation.length() <= 1) throw new IllegalArgumentException();
     this.courseLocation = newLocation;
   }
 
@@ -143,6 +151,7 @@ public class Course implements Serializable {
    * @param newTime The new time slot for the course.
    */
   public void reassignTime(String newTime) {
+    if (newTime.length() <= 8) throw new IllegalArgumentException();
     this.courseTimeSlot = newTime;
   }
 
@@ -152,13 +161,14 @@ public class Course implements Serializable {
    * @param count The number of students enrolled in the course.
    */
   public void setEnrolledStudentCount(int count) {
-    this.enrolledStudentCount = count;
+    if (count < 0) throw new IllegalArgumentException();
+    else this.enrolledStudentCount = count;
   }
 
   /**
    * Checks if the course is full.
    *
-   * @return true if the course is not full, false otherwise.
+   * @return true if the course is full, false otherwise.
    */
   public boolean isCourseFull() {
     return enrollmentCapacity < enrolledStudentCount;
