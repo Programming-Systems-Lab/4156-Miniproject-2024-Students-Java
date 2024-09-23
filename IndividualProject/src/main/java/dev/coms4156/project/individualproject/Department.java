@@ -25,8 +25,11 @@ public class Department implements Serializable {
     this.courses = courses;
     this.departmentChair = departmentChair;
 
-    if (numberOfMajors < 0) throw new IllegalArgumentException();
-    else this.numberOfMajors = numberOfMajors;
+    if (numberOfMajors < 0) {
+      throw new IllegalArgumentException();
+    } else {
+      this.numberOfMajors = numberOfMajors;
+    }
     this.deptCode = deptCode;
   }
 
@@ -88,7 +91,9 @@ public class Department implements Serializable {
    * Decreases the number of majors in the department by one if it's greater than zero.
    */
   public boolean dropPersonFromMajor() {
-    if (numberOfMajors == 0) return false;
+    if (numberOfMajors == 0) {
+      return false;
+    }
     numberOfMajors--;
     return true;
   }

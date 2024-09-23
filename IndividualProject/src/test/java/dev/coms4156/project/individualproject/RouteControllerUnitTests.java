@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
 import org.javatuples.Pair;
 import org.json.JSONArray;
 import org.junit.jupiter.api.BeforeAll;
@@ -212,13 +210,14 @@ public class RouteControllerUnitTests {
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
 
-    List<Object> jArray = new JSONArray(response.getBody()).toList();
+    List<Object> jsonArray = new JSONArray(response.getBody()).toList();
     ArrayList<String> stringArray = new ArrayList<>();
 
-    for (Object item: jArray)
+    for (Object item : jsonArray) {
       stringArray.add((String) item);
+    }
 
-    ArrayList<Pair<String, Integer>>correctResult = new ArrayList<>();
+    ArrayList<Pair<String, Integer>> correctResult = new ArrayList<>();
 
     Map<String, Department> departmentMapping;
     departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
@@ -226,21 +225,24 @@ public class RouteControllerUnitTests {
 
     assertTrue(departments.length > 0);
 
-    for (Department dept: departments)
-      if (dept.getCourseSelection().containsKey(courseCode.toString()))
-        correctResult.add(new Pair<>(dept.getCode(), courseCode) );
+    for (Department dept : departments) {
+      if (dept.getCourseSelection().containsKey(courseCode.toString())) {
+        correctResult.add(new Pair<>(dept.getCode(), courseCode));
+      }
+    }
 
     assertTrue(correctResult.size() > 0);
 
     // For each item in response, ensure both the course code and dept code
     // match an entry in the correctResult array
-    for (String resItem: stringArray) {
+    for (String resItem : stringArray) {
       boolean found = false;
-      for (Pair<String, Integer> c: correctResult)
+      for (Pair<String, Integer> c : correctResult) {
         if (resItem.contains(c.getValue0()) && resItem.contains(c.getValue1().toString())) {
           found = true;
           break;
         }
+      }
       assertTrue(found);
     }
   }

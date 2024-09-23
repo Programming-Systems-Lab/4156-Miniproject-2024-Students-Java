@@ -94,6 +94,7 @@ public class DepartmentUnitTests {
     testDepartment.dropPersonFromMajor();
     assertEquals(initialCount - 1, testDepartment.getNumberOfMajors());
   }
+
   /**
    * Tests the dropPersonFromMajor method by decrementing the number of majors.
    * Case where number of majors is 0.

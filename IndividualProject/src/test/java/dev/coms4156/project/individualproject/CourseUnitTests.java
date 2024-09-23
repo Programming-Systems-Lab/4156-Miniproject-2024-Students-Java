@@ -1,11 +1,17 @@
 package dev.coms4156.project.individualproject;
 
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * Unit tests for the Course class.
@@ -33,7 +39,8 @@ public class CourseUnitTests {
 
   @Test
   public void invalidCapacity() {
-    assertThrows(IllegalArgumentException.class, () -> new Course("G N", "417 IAB", "11:40-12:55", -1));
+    assertThrows(IllegalArgumentException.class,
+          () -> new Course("G N", "417 IAB", "11:40-12:55", -1));
   }
 
   /**
@@ -50,17 +57,16 @@ public class CourseUnitTests {
    * Tests the constructor of the Course class.
    * Case for invalid instructor name.
    */
-
   @Test
   public void invalidInstructorName() {
-    assertThrows(IllegalArgumentException.class, () -> new Course("G", "417 IAB", "11:40-12:55", 100));
+    assertThrows(IllegalArgumentException.class,
+          () -> new Course("G", "417 IAB", "11:40-12:55", 100));
   }
 
   /**
    * Tests the constructor of the Course class.
    * Case for invalid time.
    */
-
   @Test
   public void invalidTime() {
     assertThrows(IllegalArgumentException.class, () -> new Course("G", "417 IAB", "1", 100));
@@ -78,7 +84,9 @@ public class CourseUnitTests {
     assertEquals(expectedResult, testCourse.toString());
   }
 
-
+  /**
+   * Tests the enrollStudent method.
+   */
   @Test
   public void enrollStudentTest() {
     int initialCount = testCourse.getEnrolledStudentCount();

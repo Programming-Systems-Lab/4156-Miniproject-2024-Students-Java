@@ -141,6 +141,6 @@ public class MyFileDatabaseUnitTests {
       Department value = entry.getValue();
       result.append("For the ").append(key).append(" department: \n").append(value.toString());
     }
-    assertEquals(result.toString(),dbString);
+    assertEquals(result.toString(), dbString);
   }
 }

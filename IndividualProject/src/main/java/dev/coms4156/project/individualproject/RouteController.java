@@ -1,7 +1,9 @@
 package dev.coms4156.project.individualproject;
 
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 
 
 /**
@@ -117,15 +120,18 @@ public class RouteController {
       departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
       Department[] departments = departmentMapping.values().toArray(new Department[0]);
       ArrayList<String> res = new ArrayList<>();
-        for (Department dept: departments)
-          if (dept.getCourseSelection().containsKey(Integer.toString(courseCode)))
-            res.add(dept.getCourseSelection().get(Integer.toString(courseCode)).toString()
+      for (Department dept : departments) {
+        if (dept.getCourseSelection().containsKey(Integer.toString(courseCode))) {
+          res.add(dept.getCourseSelection().get(Integer.toString(courseCode)).toString()
                           + "; Code: " + courseCode + "; Department: " + dept.getCode());
+        }
+      }
 
-        if (!res.isEmpty())
-          return new ResponseEntity<>(Arrays.asList(res.toArray()), HttpStatus.OK);
-         else
-          return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+      if (!res.isEmpty()) {
+        return new ResponseEntity<>(Arrays.asList(res.toArray()), HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+      }
     } catch (Exception e) {
       return handleException(e);
     }
