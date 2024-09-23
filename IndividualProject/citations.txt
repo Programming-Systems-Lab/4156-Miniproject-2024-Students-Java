@@ -1,0 +1,16 @@
+- https://docs.google.com/presentation/d/1rwOg1KWrjz3vSzGDMtfWVNDsB62sPfM8AUQ4-_QBmOE/edit#slide=id.g2f73f7074b0_0_79: Used for basic git knowledge
+- https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo: Used for basic git knowledge
+- https://medium.com/@truongbui95/jacoco-code-coverage-with-spring-boot-835af8debc68: Used to understand JaCoCo 
+- https://stackoverflow.com/questions/68584096/convert-all-existing-tabs-to-spaces-in-vs-code: Used this to quickly replace tabs with spaces using VSCode
+- https://www.tutorialspoint.com/junit/index.htm: Used for JUnit overview
+https://www.youtube.com/watch?v=vZm0lHciFsQ&ab_channel=CodingwithJohn: Used for JUnit testing deeper dive
+
+***
+
+As an additional note, this file is not well covered by tests and likely still has a good number of bugs remaining. In all honesty, I've just started a very challenging new job and have only been able to start this assignment tonight. This week was quite challenging in particular. With that being said, I imagine the next few months will be less intense on average and will have more time to allocate to future projects.
+
+I was able to complete fixing the files for style issues, write some test coverage, as well as fix the more obvious bugs that wouldn't require testing or a static analyzer to identify. For the remainder of the project, I generally have a good sense of what to test and how to test it, I just didn't have time to execute it.
+
+One thing to call out is that I used the references for basic git knowledge to fork the repo and work locally, but as I was running up against the deadline I ended up just updating my files in GitHub directly and you can see the commit history.
+
+I'm fully fine with accepting whatever consequences this has on my grade since as someone 15+ years into my career I'm here to learn, not to maximize my grades.
