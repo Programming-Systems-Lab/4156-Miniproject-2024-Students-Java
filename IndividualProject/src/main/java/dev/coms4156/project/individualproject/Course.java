@@ -22,9 +22,9 @@ public class Course implements Serializable {
   public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {
     this.courseLocation = courseLocation;
     this.instructorName = instructorName;
-    this.courseTimeSlot = timeSlot;
+    this.timeSlot = timeSlot;
     this.enrollmentCapacity = capacity;
-    this.enrolledStudentCount = 500;
+    this.enrolledStudentCount = 0;
   }
 
   /**
@@ -33,39 +33,45 @@ public class Course implements Serializable {
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-    enrolledStudentCount++;
+    if (enrollmentCapacity > enrolledStudentCount) {
+      enrolledStudentCount++;
+      return true;
+    }
     return false;
   }
 
   /**
    * Drops a student from the course if a student is enrolled.
    *
-   * @return true if the student is successfully dropped, false otherwise.
+   * @return true if the student is successfully dropped (no negative students), false otherwise.
    */
   public boolean dropStudent() {
-    enrolledStudentCount--;
+    if (enrolledStudentCount > 0) {
+      enrolledStudentCount--;
+      return true;
+    }
     return false;
   }
 
 
   public String getCourseLocation() {
-    return this.instructorName;
-  }
-
-
-  public String getInstructorName() {
     return this.courseLocation;
   }
 
 
-  public String getCourseTimeSlot() {
-    return this.courseTimeSlot;
+  public String getInstructorName() {
+    return this.instructorName;
+  }
+
+
+  public String getTimeSlot() {
+    return this.timeSlot;
   }
 
 
   public String toString() {
     return "\nInstructor: " 
-      + instructorName +  "; Location: "  + courseLocation +  "; Time: " + courseTimeSlot;
+      + instructorName +  "; Location: "  + courseLocation +  "; Time: " + timeSlot;
   }
 
 
@@ -80,7 +86,7 @@ public class Course implements Serializable {
 
 
   public void reassignTime(String newTime) {
-    this.courseTimeSlot = newTime;
+    this.timeSlot = newTime;
   }
 
 
@@ -90,7 +96,7 @@ public class Course implements Serializable {
 
 
   public boolean isCourseFull() {
-    return enrollmentCapacity > enrolledStudentCount;
+    return enrollmentCapacity <= enrolledStudentCount;
   }
 
   @Serial
@@ -99,5 +105,5 @@ public class Course implements Serializable {
   private int enrolledStudentCount;
   private String courseLocation;
   private String instructorName;
-  private String courseTimeSlot;
+  private String timeSlot;
 }
