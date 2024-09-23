@@ -3,6 +3,7 @@ package dev.coms4156.project.individualproject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,7 @@ public class DepartmentUnitTests {
 
   /** The test department instance used for testing. */
   public static Department testDepartment;
-  public static HashMap<String, Course> testCourses;
+  public static Map<String, Course> testCourses;
 
   /**
    * Sets up a Department object for testing.
