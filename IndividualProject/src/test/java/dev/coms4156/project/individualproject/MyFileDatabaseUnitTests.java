@@ -135,6 +135,12 @@ public class MyFileDatabaseUnitTests {
   @Test
   public void toStringTest() {
     String dbString = testDatabase.toString();
-    assertTrue(dbString.contains("COMS"));
+    StringBuilder result = new StringBuilder();
+    for (Map.Entry<String, Department> entry : testDatabase.getDepartmentMapping().entrySet()) {
+      String key = entry.getKey();
+      Department value = entry.getValue();
+      result.append("For the ").append(key).append(" department: \n").append(value.toString());
+    }
+    assertEquals(result.toString(),dbString);
   }
 }

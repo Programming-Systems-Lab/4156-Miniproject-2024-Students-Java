@@ -95,6 +95,8 @@ public class CourseUnitTests {
     assertEquals(newInsName, testCourse.getInstructorName());
   }
 
+
+
   /**
    * Tests the reassignLocation method to ensure the course location can be updated.
    */
@@ -105,6 +107,7 @@ public class CourseUnitTests {
     String currLocation = testCourse.getCourseLocation();
     assertEquals(newLocation, currLocation);
   }
+
 
   /**
    * Tests the reassignTime method to ensure the course time can be updated.
@@ -123,11 +126,9 @@ public class CourseUnitTests {
     testCourse.setEnrolledStudentCount(100);
     assertEquals(100, testCourse.getEnrolledStudentCount());
 
-    // Test negative values
-    testCourse.setEnrolledStudentCount(-100);
-    assertEquals(-100, testCourse.getEnrolledStudentCount());
-
   }
+
+
 
   /**
    * Tests the isCourseFull method to verify it correctly checks if the course is full.

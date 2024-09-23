@@ -373,6 +373,37 @@ public class RouteControllerUnitTests {
   }
 
   /**
+   * Test for dropping a student from a course ("/dropStudentFromCourse").
+   */
+  @Test
+  public void enrollStudentInCourseTest() {
+    String deptCode = "COMS";
+    int courseCode = 1004;
+    String url = "http://localhost:" + port + "/enrollStudentInCourse?deptCode="
+                       + deptCode + "&courseCode=" + courseCode;
+
+    String response = restTemplate.patchForObject(url, null, String.class);
+    assertTrue(response.contains("Student has been enrolled"));
+  }
+
+  /**
+   * Test for dropping a student from a course ("/dropStudentFromCourse").
+   * Case where course not found.
+   */
+  @Test
+  public void enrollStudentInCourseNotFoundTest() {
+    String deptCode = "COMS";
+    int courseCode = 100000; // Fake course
+    String url = "http://localhost:" + port + "/enrollStudentInCourse?deptCode="
+                       + deptCode + "&courseCode=" + courseCode;
+
+    String response = restTemplate.patchForObject(url, null, String.class);
+    assertTrue(response.contains("Course Not Found"));
+  }
+
+
+
+  /**
    * Test for ("/addMajorToDept").
    */
   @Test
@@ -413,6 +444,7 @@ public class RouteControllerUnitTests {
 
     assertTrue(response.contains(newTime));
   }
+
 
   /**
    * Test for ("/updateCourseTeacher").
