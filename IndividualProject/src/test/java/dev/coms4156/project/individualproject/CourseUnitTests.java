@@ -11,8 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Unit tests for the Course class.
- * This class contains unit tests for the Course class, primarily testing the
- * functionality of the various methods.
  */
 @SpringBootTest
 @ContextConfiguration
@@ -27,7 +25,7 @@ public class CourseUnitTests {
    */
   @BeforeEach
   public void setupCourseForTesting() {
-    testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
+    testCourse = new Course("G N", "417 IAB", "11:40-12:55", 250);
   }
 
   /**
@@ -37,13 +35,12 @@ public class CourseUnitTests {
    */
   @Test
   public void toStringTest() {
-    String expectedResult = "\nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55";
+    String expectedResult =
+          "\nInstructor: G N; Location: 417 IAB; Time: 11:40-12:55; Capacity: 250; Enrollment: 500";
     assertEquals(expectedResult, testCourse.toString());
   }
 
-  /**
-   * Tests the enrollStudent method to ensure that students can be enrolled in the course.
-   */
+
   @Test
   public void enrollStudentTest() {
     int initialCount = testCourse.getEnrolledStudentCount();
@@ -52,30 +49,32 @@ public class CourseUnitTests {
   }
 
   /**
-   * Tests the dropStudent method to ensure that students can be dropped from the course.
+   * Tests the dropStudent method by dropping a student from the course.
+   * Checks that the new student count decreased by one.
    */
   @Test
   public void dropStudentTest() {
-    testCourse.setEnrolledStudentCount(5);  // Set a known student count
     int initialCount = testCourse.getEnrolledStudentCount();
     testCourse.dropStudent();
     assertEquals(initialCount - 1, testCourse.getEnrolledStudentCount());
   }
 
   /**
-   * Tests the getCourseLocation method to verify it returns the correct course location.
+   * Tests the getCourseLocation method by checking if it returns the correct course location.
    */
   @Test
   public void getCourseLocationTest() {
-    assertEquals("417 IAB", testCourse.getCourseLocation());
+    assertEquals("417 IAB",
+          testCourse.getCourseLocation());
   }
 
   /**
-   * Tests the getInstructorName method to verify it returns the correct instructor name.
+   * Tests the getInstructorName method by checking the instructor name matches initialized value.
    */
   @Test
   public void getInstructorNameTest() {
-    assertEquals("Griffin Newbold", testCourse.getInstructorName());
+    assertEquals("G N",
+          testCourse.getInstructorName());
   }
 
   /**
@@ -91,9 +90,9 @@ public class CourseUnitTests {
    */
   @Test
   public void reassignInstructorTest() {
-
-    testCourse.reassignInstructor("New Instructor");
-    assertEquals("New Instructor", testCourse.getInstructorName());
+    String newInsName = "New Instructor";
+    testCourse.reassignInstructor(newInsName);
+    assertEquals(newInsName, testCourse.getInstructorName());
   }
 
   /**
@@ -101,8 +100,10 @@ public class CourseUnitTests {
    */
   @Test
   public void reassignLocationTest() {
-    testCourse.reassignLocation("New Location");
-    assertEquals("New Location", testCourse.getCourseLocation());
+    String newLocation = "New Location";
+    testCourse.reassignLocation(newLocation);
+    String currLocation = testCourse.getCourseLocation();
+    assertEquals(newLocation, currLocation);
   }
 
   /**
@@ -121,6 +122,11 @@ public class CourseUnitTests {
   public void setEnrolledStudentCountTest() {
     testCourse.setEnrolledStudentCount(100);
     assertEquals(100, testCourse.getEnrolledStudentCount());
+
+    // Test negative values
+    testCourse.setEnrolledStudentCount(-100);
+    assertEquals(-100, testCourse.getEnrolledStudentCount());
+
   }
 
   /**
@@ -128,10 +134,10 @@ public class CourseUnitTests {
    */
   @Test
   public void isCourseFullTest() {
-    testCourse.setEnrolledStudentCount(250);  // Set the student count to match capacity
+    testCourse.setEnrolledStudentCount(250);  // Match the capacity
     assertFalse(testCourse.isCourseFull());
 
-    testCourse.setEnrolledStudentCount(260);  // Set the student count over the capacity
+    testCourse.setEnrolledStudentCount(260);  // Set count over the max capacity
     assertTrue(testCourse.isCourseFull());
   }
 }
