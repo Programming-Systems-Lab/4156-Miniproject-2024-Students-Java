@@ -4,7 +4,10 @@ import java.util.HashMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -43,17 +46,16 @@ public class RouteController {
     try {
       HashMap<String, Department> departmentMapping;
       departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
-
-      if (!departmentMapping.containsKey(deptCode.toUpperCase())) {
-        return new ResponseEntity<>("Department Not Found", HttpStatus.OK);
-      } else {
+      boolean doesDepartmentExists = departmentMapping.containsKey(deptCode);
+      if (doesDepartmentExists) {
         return new ResponseEntity<>(departmentMapping.get(deptCode.toUpperCase()).toString(),
               HttpStatus.OK);
       }
-
+      return new ResponseEntity<>("Department Not Found", HttpStatus.OK);
     } catch (Exception e) {
       return handleException(e);
     }
+
   }
 
   /**
@@ -77,7 +79,6 @@ public class RouteController {
       departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
       boolean doesDepartmentExists = departmentMapping.containsKey(deptCode.toUpperCase());
       if (doesDepartmentExists) {
-
         HashMap<String, Course> coursesMapping;
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
@@ -150,7 +151,7 @@ public class RouteController {
                                             .getNumberOfMajors() + " majors in the department";
         return new ResponseEntity<>(body, HttpStatus.OK);
       }
-      return new ResponseEntity<>("Department Not Found", HttpStatus.FORBIDDEN);
+      return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
     } catch (Exception e) {
       return handleException(e);
     }
@@ -285,7 +286,8 @@ public class RouteController {
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
-        return new ResponseEntity<>("The course meets at: " + "some time ", HttpStatus.OK);
+        return new ResponseEntity<>("The course meets at: "
+                                          + requestedCourse.getCourseTimeSlot(), HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
       }
@@ -303,7 +305,7 @@ public class RouteController {
    *       response with an appropriate message or the proper status
    *       code in tune with what has happened.
    */
-  @PatchMapping  (value = "/addMajorToDept", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PatchMapping(value = "/addMajorToDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> addMajorToDept(@RequestParam(value = "deptCode") String deptCode) {
     try {
       boolean doesDepartmentExists = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
