@@ -2,13 +2,13 @@ package dev.coms4156.project.individualproject;
 
 import jakarta.annotation.PreDestroy;
 import java.util.HashMap;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Class contains all the startup logic for the application.
- *
+ * 
  * <p>DO NOT MODIFY ANYTHING BELOW THIS POINT WITH REGARD TO FUNCTIONALITY
  * YOU MAY MAKE STYLE/REFACTOR MODIFICATIONS AS NEEDED
  */
@@ -20,7 +20,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
    * is make a call to the overridden run method.
    *
    * @param args A {@code String[]} of any potential
-   *         runtime arguments
+   *             runtime arguments
    */
   public static void main(String[] args) {
     SpringApplication.run(IndividualProjectApplication.class, args);
@@ -282,7 +282,6 @@ public class IndividualProjectApplication implements CommandLineRunner {
 
     myFileDatabase.setMapping(mapping);
   }
-    
 
   /**
    * This contains all the overheading teardown logic, it will

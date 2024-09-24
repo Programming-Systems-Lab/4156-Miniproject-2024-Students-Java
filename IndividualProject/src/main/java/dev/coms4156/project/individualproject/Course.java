@@ -1,6 +1,5 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -56,6 +55,7 @@ public class Course implements Serializable {
 
   public String getCourseLocation() {
     return this.courseLocation;
+    // return this.instructorName;
   }
 
 
@@ -68,10 +68,14 @@ public class Course implements Serializable {
     return this.timeSlot;
   }
 
+  public int getEnrolledStudentCount() {
+    return this.enrolledStudentCount;
+  }
+
 
   public String toString() {
-    return "\nInstructor: " 
-      + instructorName +  "; Location: "  + courseLocation +  "; Time: " + timeSlot;
+    return "\nInstructor: " + instructorName 
+      + "; Location: "  + courseLocation +  "; Time: " + timeSlot;
   }
 
 
@@ -96,10 +100,9 @@ public class Course implements Serializable {
 
 
   public boolean isCourseFull() {
-    return enrollmentCapacity <= enrolledStudentCount;
+    return enrollmentCapacity < enrolledStudentCount;
   }
-
-  @Serial
+  
   private static final long serialVersionUID = 123456L;
   private final int enrollmentCapacity;
   private int enrolledStudentCount;
