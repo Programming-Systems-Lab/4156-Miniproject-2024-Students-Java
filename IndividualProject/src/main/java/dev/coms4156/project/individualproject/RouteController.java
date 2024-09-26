@@ -106,9 +106,9 @@ public class RouteController {
    * @param courseCode A {@code int} representing the course the user wishes
    *                   to retrieve.
    *
-   * @return           A {@code ResponseEntity} object containing either the details of the
-   *                   course and an HTTP 200 response or, an appropriate message indicating the
-   *                   proper response.
+   * @return           A {@code ResponseEntity} object containing the HTTP status code and an
+   *                   accompanying message (e.g., the courses as a String or indicating that
+   *                   no courses were found).
    */
   @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> retrieveCourses(@RequestParam(value = "courseCode") int courseCode) {
@@ -401,9 +401,9 @@ public class RouteController {
    *
    * @param courseCode     A {@code int} representing the course within the department.
    *
-   * @return               A {@code ResponseEntity} object containing an HTTP 200
-   *                       response with an appropriate message or the proper status
-   *                       code in tune with what has happened.
+   * @return               A {@code ResponseEntity} object containing an HTTP status code
+   *                       response with a message indicating if the student has been
+   *                       enrolled or not or if the course is not found.
    */
   @PatchMapping(value = "/enrollStudentInCourse", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> enrollStudentInCourse(@RequestParam(value = "deptCode") String deptCode, 
@@ -424,7 +424,7 @@ public class RouteController {
         if (isStudentEnrolled) {
           return new ResponseEntity<>("Student has been enrolled.", HttpStatus.OK);
         } else {
-          return new ResponseEntity<>("Student has been enrolled.", HttpStatus.BAD_REQUEST);
+          return new ResponseEntity<>("Student has not been enrolled.", HttpStatus.BAD_REQUEST);
         }
 
       } else {
