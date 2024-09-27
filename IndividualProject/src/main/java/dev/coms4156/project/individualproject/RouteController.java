@@ -472,7 +472,7 @@ public class RouteController {
         if (isStudentDropped) {
           return new ResponseEntity<>("Student has been dropped.", HttpStatus.OK);
         } else {
-          return new ResponseEntity<>("Student has not been dropped.", HttpStatus.BAD_REQUEST);
+          return new ResponseEntity<>("Drop unsuccessful. No person to drop.", HttpStatus.BAD_REQUEST);
         }
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
