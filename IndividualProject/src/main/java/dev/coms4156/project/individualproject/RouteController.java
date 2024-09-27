@@ -385,8 +385,14 @@ public class RouteController {
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
 
         Department specifiedDept = departmentMapping.get(deptCode);
-        specifiedDept.dropPersonFromMajor();
-        return new ResponseEntity<>("Attribute was updated or is at minimum", HttpStatus.OK);
+        boolean successfullyDropped = specifiedDept.dropPersonFromMajor();
+        if (successfullyDropped) {
+          return new ResponseEntity<>("Person successfully dropped from major.", HttpStatus.OK);
+        }
+        else {
+          return new ResponseEntity<>("Drop unsuccessful. No person to drop.", 
+                                        HttpStatus.BAD_REQUEST);
+        }
       }
       return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
     } catch (Exception e) {
@@ -424,7 +430,8 @@ public class RouteController {
         if (isStudentEnrolled) {
           return new ResponseEntity<>("Student has been enrolled.", HttpStatus.OK);
         } else {
-          return new ResponseEntity<>("Student has not been enrolled.", HttpStatus.BAD_REQUEST);
+          return new ResponseEntity<>("Course is full. Student has not been enrolled.", 
+                                        HttpStatus.BAD_REQUEST);
         }
 
       } else {
@@ -499,10 +506,44 @@ public class RouteController {
         coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
-        requestedCourse.setEnrolledStudentCount(count);
-        return new ResponseEntity<>("Attributed was updated successfully.", HttpStatus.OK);
+        boolean setEnrolled = requestedCourse.setEnrolledStudentCount(count);
+
+        if (setEnrolled) {
+          return new ResponseEntity<>("New enrollment count has been set.", HttpStatus.OK);
+        } else {
+          return new ResponseEntity<>("Enrollment count requested is negative.", 
+                                        HttpStatus.BAD_REQUEST);
+        }
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+      }
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
+  @PatchMapping(value = "/setNumberOfMajors", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> setNumberOfMajors(@RequestParam(value = "deptCode") String deptCode, 
+                                              @RequestParam(value = "count") int count) {
+    try {
+      boolean doesDeptExist;
+      doesDeptExist = retrieveDepartment(deptCode).getStatusCode() == HttpStatus.OK;
+
+      if (doesDeptExist) {
+        Map<String, Department> departmentMapping;
+        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        Department dept = departmentMapping.get(deptCode);
+
+        boolean successfullySet = dept.setNumberOfMajors(count);
+
+        if (successfullySet) {
+          return new ResponseEntity<>("New number of majors has been set.", HttpStatus.OK);
+        } else {
+          return new ResponseEntity<>("Number of majors is negative.", 
+                                        HttpStatus.BAD_REQUEST);
+        }
+      } else {
+        return new ResponseEntity<>("Dept Not Found", HttpStatus.NOT_FOUND);
       }
     } catch (Exception e) {
       return handleException(e);
@@ -537,7 +578,7 @@ public class RouteController {
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         requestedCourse.reassignTime(time);
-        return new ResponseEntity<>("Attributed was updated successfully.", HttpStatus.OK);
+        return new ResponseEntity<>("Attribute was updated successfully.", HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
       }
@@ -575,7 +616,7 @@ public class RouteController {
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         requestedCourse.reassignInstructor(teacher);
-        return new ResponseEntity<>("Attributed was updated successfully.", HttpStatus.OK);
+        return new ResponseEntity<>("Attribute was updated successfully.", HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
       }
@@ -609,7 +650,7 @@ public class RouteController {
 
         Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
         requestedCourse.reassignLocation(location);
-        return new ResponseEntity<>("Attributed was updated successfully.", HttpStatus.OK);
+        return new ResponseEntity<>("Attribute was updated successfully.", HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
       }
@@ -623,7 +664,7 @@ public class RouteController {
       logger.log(Level.SEVERE, "An exception occurred: {0}", e.toString());
     }
     logger.log(Level.SEVERE, "Stack trace: ", e);
-    return new ResponseEntity<>("An Error has occurred", HttpStatus.OK);
+    return new ResponseEntity<>("An Error has occurred", HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
 }
