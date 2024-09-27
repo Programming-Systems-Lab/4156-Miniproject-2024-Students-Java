@@ -204,15 +204,42 @@ public class RouteControllerUnitTests {
   }
 
   @Test
+  public void testRemoveMajorFromDeptInvalid() {
+    ResponseEntity<?> response = routeController.setNumberOfMajors("IEOR", 0);
+    response = routeController.removeMajorFromDept("IEOR");
+    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+  }
+
+  @Test
   public void testRemoveMajorFromDeptNotExist() {
     ResponseEntity<?> response = routeController.removeMajorFromDept("PHIL");
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
   }
 
   @Test
+  public void testSetNumberOfMajors() {
+    ResponseEntity<?> response = routeController.setNumberOfMajors("BIOL", 100);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
+
+    response = routeController.setNumberOfMajors("IEOR", -1);
+    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()); 
+
+    response = routeController.setNumberOfMajors("IEOR", 500);
+    assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+
+  @Test
   public void testDropStudentExist() {
     ResponseEntity<?> response = routeController.dropStudent("IEOR", 2500);
     assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testDropStudentInvalid() {
+    ResponseEntity<?> response = routeController.setEnrollmentCount("IEOR", 2500, 0);
+    response = routeController.dropStudent("IEOR", 2500);
+    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
   }
 
   @Test
@@ -225,6 +252,12 @@ public class RouteControllerUnitTests {
   public void testSetEnrollmentCountExist() {
     ResponseEntity<?> response = routeController.setEnrollmentCount("IEOR", 2500, 300);
     assertEquals(HttpStatus.OK, response.getStatusCode()); 
+  }
+
+  @Test
+  public void testInvalidEnrollmentCount() {
+    ResponseEntity<?> response = routeController.setEnrollmentCount("IEOR", 2500, -1);
+    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()); 
   }
 
   @Test
