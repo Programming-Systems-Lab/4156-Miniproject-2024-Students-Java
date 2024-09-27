@@ -60,4 +60,5 @@ mvn jacoco:report
 ```
 
 A target directory will be created (if it doesn't exist already) in IndividualProject and you can find the coverage report in IndividualProject/target/site/jacoco/index.html. Below is the coverage report as of 09/26/24:
-<img width="1102" alt="Screenshot 2024-09-26 at 15 25 05" src="https://github.com/user-attachments/assets/bd0c4d36-1d83-494b-b358-de84b3b78096">
+<img width="1103" alt="Screenshot 2024-09-26 at 23 54 12" src="https://github.com/user-attachments/assets/f7d10817-b43f-49a1-b06d-376ef327167d">
+
