@@ -1,4 +1,4 @@
-name: Java CI
+naname: Java CI
 
 on:
   push:
@@ -14,16 +14,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
+      - name: Set up JDK 22
+        uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '22'
+          distribution: 'temurin'
 
       - name: Build with Maven
         run: mvn clean install
 
       - name: Run tests
         run: mvn test
-
