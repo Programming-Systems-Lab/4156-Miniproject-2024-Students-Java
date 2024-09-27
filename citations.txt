@@ -1,3 +1,5 @@
+I1
+---
 Part 1: Code Clean Up
 
 - https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html
@@ -6,9 +8,7 @@ I wasn't familiar with writing doc comments for javadoc so I used the link above
 - https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716
 I used the link above as reference on how I should make meaningful commit messages.
 
-
-
-
+---
 Part 2 & 3: Test Suite Creation & Debugging
 
 - https://mkyong.com/maven/maven-jacoco-code-coverage-example/
@@ -19,7 +19,6 @@ version of jacoco that I can use for this project.
 - https://www.baeldung.com/junit-5-test-order
 - https://www.geeksforgeeks.org/junit-5-test-execution-order/
 I wanted to decide the order that the tests will be executed so I used this as reference.
-
 
 - https://www.baeldung.com/junit-5-nested-test-classes
 I wanted to make 2 separate nested classes in the unit tests to simulate different parameters
@@ -36,3 +35,27 @@ CustomLoggerHandler class to handle these scenarios, as shown in the second link
 - https://www.baeldung.com/mockito-annotations
 I had to use mockito to test the IndividualProjectApplication.java and RouteController.java files
 so I used the links above as reference on how to use it.
+
+---
+---
+I3 
+---
+Part 1: Github Actions
+
+- https://github.blog/enterprise-software/ci-cd/build-ci-cd-pipeline-github-actions-four-steps/
+Setting up Github Actions
+
+- https://docs.github.com/en/actions/use-cases-and-examples/building-and-testing/building-and-testing-java-with-maven
+Writing yaml file for workflow
+
+---
+Part 3: Deploying to Google Cloud
+
+- https://cloud.google.com/billing/docs/how-to/edu-grants
+Redeeming coupon
+
+- https://cloud.google.com/appengine/docs/flexible/monitoring-and-alerting-latency
+To get the monitoring metrics dashboard for App Engine
+
+- https://cloud.google.com/appengine/docs/standard/reference/app-yaml?tab=java
+Setting up app.yaml file
