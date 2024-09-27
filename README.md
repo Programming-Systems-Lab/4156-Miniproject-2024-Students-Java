@@ -50,7 +50,7 @@ mvn pmd:check
 
 Below is the PMD report as of 09/26/24:
 
-<img width="404" alt="Screenshot 2024-09-26 at 14 57 06" src="https://github.com/user-attachments/assets/a73744be-0808-4113-94d9-ecb9e6ebeee1">
+<img width="503" alt="Screenshot 2024-09-26 at 23 58 51" src="https://github.com/user-attachments/assets/2dabf991-7840-48aa-bea3-c9c3d632b838">
 
 ## Branch Coverage Reporting
 
