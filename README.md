@@ -38,8 +38,8 @@ Style checking was done using the checkstyle tool on Maven. You can run checksty
 mvn checkstyle:check
 ```
 
-Below is the checkstyle report as of 09/26/24, showing that there are 0 checkstyle violations:
-<img width="406" alt="Screenshot 2024-09-26 at 14 51 23" src="https://github.com/user-attachments/assets/907da696-a4e9-4d16-93fd-615b24b226b2">
+Below is the checkstyle report as of 09/27/24, showing that there are 0 checkstyle violations:
+<img width="407" alt="Screenshot 2024-09-27 at 00 09 52" src="https://github.com/user-attachments/assets/b9d2a086-dadf-48df-8c5e-5b74d758dad7">
 
 ## Static Code Analysis Report
 
@@ -50,7 +50,7 @@ mvn pmd:check
 
 Below is the PMD report as of 09/26/24:
 
-<img width="404" alt="Screenshot 2024-09-26 at 14 57 06" src="https://github.com/user-attachments/assets/a73744be-0808-4113-94d9-ecb9e6ebeee1">
+<img width="503" alt="Screenshot 2024-09-26 at 23 58 51" src="https://github.com/user-attachments/assets/2dabf991-7840-48aa-bea3-c9c3d632b838">
 
 ## Branch Coverage Reporting
 
@@ -60,4 +60,5 @@ mvn jacoco:report
 ```
 
 A target directory will be created (if it doesn't exist already) in IndividualProject and you can find the coverage report in IndividualProject/target/site/jacoco/index.html. Below is the coverage report as of 09/26/24:
-<img width="1102" alt="Screenshot 2024-09-26 at 15 25 05" src="https://github.com/user-attachments/assets/bd0c4d36-1d83-494b-b358-de84b3b78096">
+<img width="1103" alt="Screenshot 2024-09-26 at 23 54 12" src="https://github.com/user-attachments/assets/f7d10817-b43f-49a1-b06d-376ef327167d">
+
