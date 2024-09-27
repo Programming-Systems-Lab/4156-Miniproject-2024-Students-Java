@@ -220,4 +220,46 @@ public class CourseUnitTests {
     assertFalse(testCourse.enrollStudent());
   }
 
+  @Test
+  public void testGetAvailableSeats() {
+    testCourse.setEnrolledStudentCount(200);
+    int expectedAvailableSeats = 250 - 200;
+    assertEquals(expectedAvailableSeats, testCourse.getAvailableSeats());
+  }
+
+  @Test
+  public void testGetAvailableSeatsWhenNoStudentsEnrolled() {
+    testCourse.setEnrolledStudentCount(0);
+    int expectedAvailableSeats = 250;
+    assertEquals(expectedAvailableSeats, testCourse.getAvailableSeats());
+  }
+
+  @Test
+  public void testGetAvailableSeatsWhenNearlyFull() {
+    testCourse.setEnrolledStudentCount(249);
+    int expectedAvailableSeats = 1;
+    assertEquals(expectedAvailableSeats, testCourse.getAvailableSeats());
+  }
+
+  @Test
+  public void testGetAvailableSeatsWhenFull() {
+    testCourse.setEnrolledStudentCount(250);
+    int expectedAvailableSeats = 0;
+    assertEquals(expectedAvailableSeats, testCourse.getAvailableSeats());
+  }
+
+  @Test
+  public void testGetAvailableSeatsWhenOverCapacity() {
+    testCourse.setEnrolledStudentCount(260);
+    int expectedAvailableSeats = -10;
+    assertEquals(expectedAvailableSeats, testCourse.getAvailableSeats());
+  }
+
+  @Test
+  public void testGetAvailableSeatsWhenNegativeEnrollment() {
+    testCourse.setEnrolledStudentCount(-5);
+    int expectedAvailableSeats = 250 + 5;
+    assertEquals(expectedAvailableSeats, testCourse.getAvailableSeats());
+  }
+
 }

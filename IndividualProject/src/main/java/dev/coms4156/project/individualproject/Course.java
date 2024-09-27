@@ -105,4 +105,17 @@ public class Course implements Serializable {
   public boolean isCourseFull() {
     return enrollmentCapacity <= enrolledStudentCount;
   }
+
+  /**
+   * Returns the number of available seats left in the course.
+   *
+   * @return The number of available seats.
+   */
+  public int getAvailableSeats() {
+    return enrollmentCapacity - enrolledStudentCount;
+  }
+
 }
+
+
+
