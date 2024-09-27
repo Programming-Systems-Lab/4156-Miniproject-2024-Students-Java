@@ -1,2 +1,1 @@
-https://symflower.com/en/company/blog/2023/how-to-write-junit-test-cases/
-https://google.github.io/styleguide/javaguide.html#s7-javadoc
+https://github.blog/enterprise-software/ci-cd/build-ci-cd-pipeline-github-actions-four-steps/
