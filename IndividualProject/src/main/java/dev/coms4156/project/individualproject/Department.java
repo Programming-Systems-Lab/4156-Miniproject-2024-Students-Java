@@ -27,6 +27,18 @@ public class Department implements Serializable {
     this.deptCode = deptCode;
   }
 
+  /**
+   * Sets the number of majors in the department.
+   * 
+   *
+   * @param numberOfMajors an {@code int} representing the number of majors 
+   *                       to set for the department. The value must be 
+   *                       greater than or equal to 0.
+   * 
+   * @return {@code true} if the number of majors was successfully updated, 
+   *         {@code false} if the provided number was negative and the 
+   *         update was not performed.
+   */
   public boolean setNumberOfMajors(int numberOfMajors) {
     if (numberOfMajors >= 0) {
       this.numberOfMajors = numberOfMajors;

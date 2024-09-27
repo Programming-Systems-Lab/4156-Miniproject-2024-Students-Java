@@ -388,8 +388,7 @@ public class RouteController {
         boolean successfullyDropped = specifiedDept.dropPersonFromMajor();
         if (successfullyDropped) {
           return new ResponseEntity<>("Person successfully dropped from major.", HttpStatus.OK);
-        }
-        else {
+        } else {
           return new ResponseEntity<>("Drop unsuccessful. No person to drop.", 
                                         HttpStatus.BAD_REQUEST);
         }
@@ -522,6 +521,13 @@ public class RouteController {
     }
   }
 
+  /**
+   * Sets the number of majors count for a specific department.
+   *
+   * @param deptCode  the department code for the course
+   * @param count  the enrollment count to set
+   * @return a ResponseEntity containing the result of the operation
+   */
   @PatchMapping(value = "/setNumberOfMajors", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> setNumberOfMajors(@RequestParam(value = "deptCode") String deptCode, 
                                               @RequestParam(value = "count") int count) {
