@@ -16,6 +16,38 @@ mvn spring-boot:run -Dspring-boot.run.arguments="setup"
 
 ## Running a Cloud based Instance
 
+To deploy your app on the cloud, you can use Google Cloud Platform's App Engine (overview here: [https://cloud.google.com/appengine/docs/an-overview-of-app-engine](url)). To begin, you need to:
+1. Download and install the gcloud CLI (link: [https://cloud.google.com/sdk/docs/install](url))
+2. Run the following on your terminal for authentication and setting up your SDK:
+```
+gcloud init
+```
+3. Create a project on Google Cloud Console
+4. Navigate to the [IndividualProject directory](https://github.com/elifia-muthia/4156-Miniproject-2024-Students-Java/tree/main/IndividualProject) in your local copy of the repo and create an `app.yaml` file containing the following:
+```
+entrypoint: java -jar target/IndividualProject-0.0.1-SNAPSHOT.jar
+runtime: java17
+instance_class: F1
+```
+5. Make sure that you have set up the project as described in step 5 of [this section](https://github.com/elifia-muthia/4156-Miniproject-2024-Students-Java/edit/docs-and-maintenance/README.md#building-and-running-a-local-instance).
+6. Run the following command, replacing `PROJECT_ID` with your GCP Project ID:
+```
+gcloud config set project PROJECT_ID
+```
+7. Run the following command in your terminal to deploy:
+```
+gcloud app deploy
+```
+8. Running the following command will tell you what URL your app has been deployed in:
+```
+gcloud app browse
+```
+9. Test your app using [Postman](https://www.postman.com/). You can find a video demo of this app being tested on Postman in the [Video-Demo-Link.txt](https://github.com/elifia-muthia/4156-Miniproject-2024-Students-Java/blob/main/Video-Demo-Link.txt) of this repo's root directory.
+
+Voila - Your app is now fully deployed on the cloud!
+
+You can see what the app instance on Google Cloud looks like in the [Google-Cloud-Instance.png](https://github.com/elifia-muthia/4156-Miniproject-2024-Students-Java/blob/main/Google-Cloud-Instance.png) image found in the root directory of this repo.
+
 ## Running Unit Tests
 
 The unit tests for this project can be found in the [IndividualProject/src/test/java/dev/coms4156/project/individualproject](https://github.com/elifia-muthia/4156-Miniproject-2024-Students-Java/tree/main/IndividualProject/src/test/java/dev/coms4156/project/individualproject) directory. In that directory, you will find unit tests for each of the classes developed for this project.
@@ -25,11 +57,7 @@ To run the unit tests, you must first build the project ([see here](https://gith
 mvn clean test
 ```
 
-Running the command above will show you if all the units are successful or any errors that occurred.
-
-## Postman Test Documentation
-
-## Endpoints
+Running the command above will show you if all the unit tests are successful or any errors that occurred.
 
 ## Style Checking Report
 
