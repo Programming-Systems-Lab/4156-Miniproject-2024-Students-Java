@@ -1,7 +1,7 @@
 package dev.coms4156.project.individualproject;
 
 import jakarta.annotation.PreDestroy;
-// import java.util.Map;
+import java.util.Map;
 import java.util.HashMap;
 // import java.util.List;
 import org.springframework.boot.CommandLineRunner;
@@ -83,7 +83,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     coms3827.setEnrolledStudentCount(283);
     Course coms4156 = new Course("Gail Kaiser", "501 NWC", times[2], 120);
     coms4156.setEnrolledStudentCount(109);
-    HashMap<String, Course> courses = new HashMap<>();
+    Map<String, Course> courses = new HashMap<>();
     courses.put("1004", coms1004);
     courses.put("3134", coms3134);
     courses.put("3157", coms3157);
@@ -93,7 +93,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     courses.put("3827", coms3827);
     courses.put("4156", coms4156);
     Department compSci = new Department("COMS", courses, "Luca Carloni", 2700);
-    HashMap<String, Department> mapping = new HashMap<>();
+    Map<String, Department> mapping = new HashMap<>();
     mapping.put("COMS", compSci);
 
     //data for econ dept
