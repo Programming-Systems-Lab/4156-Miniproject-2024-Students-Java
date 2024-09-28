@@ -1,7 +1,14 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 
+/**
+ * Represents a course in an educational setting.
+ * This class encapsulates information about a course, including its instructor,
+ * location, time slot, and enrollment details. It provides methods for managing
+ * student enrollment and course information.
+ */
 public class Course implements Serializable {
 
   /**
@@ -9,28 +16,28 @@ public class Course implements Serializable {
    *
    * @param instructorName     The name of the instructor teaching the course.
    * @param courseLocation     The location where the course is held.
-   * @param timeSlot           The time slot of the course.
+   * @param courseTimeSlot     The time slot of the course.
    * @param capacity           The maximum number of students that can enroll in the course.
    */
-  public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {
+  public Course(String instructorName, String courseLocation, String courseTimeSlot, int capacity) {
     this.courseLocation = courseLocation;
     this.instructorName = instructorName;
-    this.courseTimeSlot = timeSlot;
+    this.courseTimeSlot = courseTimeSlot;
     this.enrollmentCapacity = capacity;
-    this.enrolledStudentCount = 500;
+    this.enrolledStudentCount = 0;
   }
 
- /**
+  /**
    * Enrolls a student in the course if there is space available.
    *
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-   enrolledStudentCount++;
+    enrolledStudentCount++;
     return false;
   }
 
- /**
+  /**
    * Drops a student from the course if a student is enrolled.
    *
    * @return true if the student is successfully dropped, false otherwise.
@@ -42,12 +49,12 @@ public class Course implements Serializable {
 
 
   public String getCourseLocation() {
-    return this.instructorName;
+    return this.courseLocation;
   }
 
 
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
 
@@ -55,9 +62,10 @@ public class Course implements Serializable {
     return this.courseTimeSlot;
   }
 
-
+  @Override
   public String toString() {
-    return "\nInstructor: " + instructorName +  "; Location: "  + courseLocation +  "; Time: " + courseTimeSlot;
+    return "\nInstructor: " + instructorName 
+      +  "; Location: "  + courseLocation +  "; Time: " + courseTimeSlot;
   }
 
 
