@@ -36,8 +36,7 @@ public class Course implements Serializable {
     if (enrollmentCapacity > enrolledStudentCount) {
       enrolledStudentCount++;
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -51,8 +50,7 @@ public class Course implements Serializable {
     if (enrolledStudentCount > 0) {
       enrolledStudentCount--;
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -96,6 +94,10 @@ public class Course implements Serializable {
 
   public void setEnrolledStudentCount(int count) {
     this.enrolledStudentCount = count;
+  }
+
+  public int getEnrolledStudentCount() {
+    return enrolledStudentCount;
   }
 
 
