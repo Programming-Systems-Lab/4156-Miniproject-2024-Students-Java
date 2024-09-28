@@ -42,6 +42,8 @@ This project is also deployed onto Google Cloud App Engine, where you can access
 to it at https://my-4156-project.uk.r.appspot.com/ with your endpoint and query
 parameters. You can also use Postman to interact with this project as well.
 
+![gcloud_metrics_report.png](IndividualProject/report/gcloud_metrics_report.png)
+
 ## Style Checking Report Using mvn stylecheck
 
 ![mvn_stylecheck.png](IndividualProject/report/mvn_stylecheck.png)
