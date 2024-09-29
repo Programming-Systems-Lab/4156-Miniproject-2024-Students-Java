@@ -51,7 +51,7 @@ public class Department implements Serializable {
   /**
    * Gets the courses offered by the department.
    *
-   * @return A HashMap containing courses offered by the department.
+   * @return A Map containing courses offered by the department.
    */
   public Map<String, Course> getCourseSelection() {
     return this.courses;
@@ -110,7 +110,7 @@ public class Department implements Serializable {
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
           .append("\n");
     }
-    return "result.toString()";
+    return result.toString();
   }
 
   @Serial
