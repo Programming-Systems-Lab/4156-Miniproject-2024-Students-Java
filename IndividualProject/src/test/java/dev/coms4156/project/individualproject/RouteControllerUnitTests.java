@@ -108,6 +108,22 @@ class RouteControllerTest {
         assertTrue(((String) response.getBody()).contains(COURSE_LOCATION));
     }
 
+    @Test
+    void testAddMajorToDept() {
+        ResponseEntity<?> response = routeController.addMajorToDept(EXISTING_DEPT_CODE);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(((String) response.getBody()).contains(String.valueOf(NUMBER_OF_MAJORS + 1)));
+    }
+
+    @Test
+    void testDropStudentFromCourse() {
+        ResponseEntity<?> response = routeController.dropStudentFromCourse(EXISTING_DEPT_CODE, EXISTING_COURSE_CODE);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(((String) response.getBody()).contains("Student Dropped"));
+    }
+
     private static class TestMyFileDatabase extends MyFileDatabase {
         private Map<String, Department> mapping;
 
