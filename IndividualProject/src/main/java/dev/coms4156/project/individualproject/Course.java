@@ -1,7 +1,11 @@
 package dev.coms4156.project.individualproject;
 
-import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 
+/**
+ * This class represents a course and its information.
+ */
 public class Course implements Serializable {
 
   /**
@@ -20,17 +24,17 @@ public class Course implements Serializable {
     this.enrolledStudentCount = 500;
   }
 
- /**
+  /**
    * Enrolls a student in the course if there is space available.
    *
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
-   enrolledStudentCount++;
+    enrolledStudentCount++;
     return false;
   }
 
- /**
+  /**
    * Drops a student from the course if a student is enrolled.
    *
    * @return true if the student is successfully dropped, false otherwise.
@@ -55,9 +59,15 @@ public class Course implements Serializable {
     return this.courseTimeSlot;
   }
 
-
+  /**
+   * Get the instructor, location and time of the course as a string.
+   *
+   * @return the result string
+   */
   public String toString() {
-    return "\nInstructor: " + instructorName +  "; Location: "  + courseLocation +  "; Time: " + courseTimeSlot;
+    return "\nInstructor: " + instructorName 
+        +  "; Location: "  + courseLocation 
+        +  "; Time: " + courseTimeSlot;
   }
 
 
