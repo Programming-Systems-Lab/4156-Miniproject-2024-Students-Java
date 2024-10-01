@@ -600,6 +600,47 @@ public class RouteController {
     }
   }
 
+  /**
+   * Attempts to enroll a student to the specified course.
+   *
+   * @param deptCode                    the code of the department containing the course
+   * @param courseCode                  the code of the course
+   *
+   * @return               A {@code ResponseEntity} object containing an HTTP 200
+   *                       response with an appropriate message or the proper status
+   *                       code in tune with what has happened.
+   */
+  @PatchMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> enrollStudentInCourse(
+      @RequestParam(value = "deptCode") String deptCode, 
+      @RequestParam(value = "courseCode") int courseCode
+  ) {
+    try {
+      boolean doesCourseExists;
+      doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
+
+      if (doesCourseExists) {
+        HashMap<String, Department> departmentMapping;
+        departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+        HashMap<String, Course> coursesMapping;
+        coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
+
+        Course requestedCourse = coursesMapping.get(Integer.toString(courseCode));
+        boolean isStudentEnrolled = requestedCourse.enrollStudent();
+
+        if (isStudentEnrolled) {
+          return new ResponseEntity<>("Student has been enrolled.", HttpStatus.OK);
+        } else {
+          return new ResponseEntity<>("Student has not been enrolled because course is full.", HttpStatus.BAD_REQUEST);
+        }
+      } else {
+        return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+      }
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
   private ResponseEntity<?> handleException(Exception e) {
     System.out.println(e.toString());
     return new ResponseEntity<>("An Error has occurred", HttpStatus.OK);
