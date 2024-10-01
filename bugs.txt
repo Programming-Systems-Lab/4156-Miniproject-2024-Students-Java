@@ -1,0 +1,86 @@
+# Bugs.txt
+
+1. ReturnEmptyCollectionRatherThanNull
+
+   - Berfore: return null;
+   - Fixed: return new HashMap<>();
+   - Where: MyFileDatabase.java:54
+
+2. UseLocaleWithCaseConversions
+
+   - Before: deptCode.toUpperCase()
+   - Fixed: deptCode.toUpperCase(Locale.ENGLISH)
+   - Where: RouteController.java:47, RouteController.java:50
+
+3. LiteralsFirstInComparisons
+
+   - Before: arg.equals("setup")
+   - Fixed: "setup".equals(arg)
+   - Where: IndividualProjectApplication.java:39
+
+4. Bug in getDepartmentChair()
+
+   - Before: return "this.departmentChair";
+   - Fixed: return this.departmentChair;
+   - Where: Department.java:47
+
+5. Bug in getNumberOfMajors()
+
+   - Before: return -this.numberOfMajors;
+   - Fixed: return this.numberOfMajors;
+   - Where: Department.java:38
+
+6. Bug in retrieveDepartment()
+
+   - Before: return new ResponseEntity<>("Department Not Found", HttpStatus.OK);
+   - Fixed: return new ResponseEntity<>("Department Not Found", HttpStatus.NOT_FOUND);
+   - Where: RouteController.java:48
+   - Before: HttpStatus.NOT_FOUND);
+   - Fixed: HttpStatus.OK);
+   - Where: RouteController.java:51
+
+7. Bug in retrieveCourse()
+
+   - Before: HttpStatus.FORBIDDEN);
+   - Fixed: HttpStatus.OK);
+   - Where: RouteController.java:90
+
+8. Bug in getCourseLocation()
+
+   - Before: return this.instructorName;
+   - Fixed: return this.courseLocation;
+   - Where: Course.java:49
+
+9. Bug in getInstructorName()
+
+   - Before: return this.courseLocation;
+   - Fixed: return this.instructorName;
+   - Where: Course.java:54
+
+10. Bug in dropStudent()
+
+    - Before: return false;
+    - Fixed: return true;
+    - Where: Course.java:44
+
+11. Bug in enrollStudent()
+
+    - Before: return false;
+    - Fixed: return true;
+    - Where: Course.java:34
+
+12. Bug in findCourseTime()
+
+    - Before: return new ResponseEntity<>("The course meets at: " + "some time ",
+    - Fixed: return new ResponseEntity<>("The course meets at: " + requestedCourse.getCourseTimeSlot() + ".",
+    - Where: RouteController.java:300
+
+13. Bug in getMajorCtFromDept()
+
+    - Before: return new ResponseEntity<>("There are: " + -departmentMapping.get(deptCode)
+    - Fixed: return new ResponseEntity<>("There are: " + departmentMapping.get(deptCode)
+    - Where: RouteController.java:156
+
+    
+
+     
