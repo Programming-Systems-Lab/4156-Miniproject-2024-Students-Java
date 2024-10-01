@@ -224,6 +224,45 @@ public class RouteControllerUnitTests {
     assertEquals("Course Not Found", response.getBody());
   }
 
+  @Test
+  public void retrieveCoursesTests() {
+    ResponseEntity<?> response = testRouteController.retrieveCourses(4102);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("CHEM 4102: \n"
+        + "Instructor: Dalibor Sames; Location: 320 HAV; Time: 10:10-11:25\n"
+        + "IEOR 4102: \n"
+        + "Instructor: Antonius B Dieker; Location: 209 HAM; Time: 10:10-11:25\n", 
+        response.getBody());
+
+    response = testRouteController.retrieveCourses(9999);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
+  @Test
+  public void enrollStudentInCourseTests() {
+    ResponseEntity<?> response = testRouteController.enrollStudentInCourse("COMS", 4156);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals("Student has been enrolled.", response.getBody());
+
+    Map<String, Department> departmentMapping;
+    departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+    Map<String, Course> coursesMapping;
+    coursesMapping = departmentMapping.get("COMS").getCourseSelection();
+    Course coms4156 = coursesMapping.get("4156");
+    coms4156.setEnrolledStudentCount(120);
+
+    response = testRouteController.enrollStudentInCourse("COMS", 4156);
+    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    assertEquals("Student has not been enrolled because course is full.", response.getBody());
+
+    coms4156.setEnrolledStudentCount(109);
+
+    response = testRouteController.dropStudent("COMS", 4150);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertEquals("Course Not Found", response.getBody());
+  }
+
   /** The test course instance used for testing. */
   private static RouteController testRouteController;
 }

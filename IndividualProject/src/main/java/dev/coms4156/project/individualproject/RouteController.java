@@ -3,7 +3,6 @@ package dev.coms4156.project.individualproject;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -563,7 +562,7 @@ public class RouteController {
   }
 
   /**
-   * Endpoint for getting the String representation of all the courses with the specified course code.
+   * Endpoint for getting the String representation of all courses with the specified course code.
    * This method handles PATCH requests to get courses information identified by a course code. If
    * any course exists, it is returned in the result String.
    *
@@ -585,14 +584,13 @@ public class RouteController {
         String deptCode = entry.getKey();
         ResponseEntity<?> response = retrieveCourse(deptCode, courseCode);
         if (response.getStatusCode() == HttpStatus.OK) {
-          result.append(deptCode).append(" ").append(courseCode).append(": ").append(response.getBody())
-          .append("\n");
+          result.append(deptCode).append(" ").append(courseCode).append(": ")
+          .append(response.getBody()).append("\n");
         }
       }
       if (result.length() == 0) {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
-      }
-      else {
+      } else {
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
       }
     } catch (Exception e) {
@@ -610,7 +608,7 @@ public class RouteController {
    *                       response with an appropriate message or the proper status
    *                       code in tune with what has happened.
    */
-  @PatchMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PatchMapping(value = "/enrollStudentInCourse", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> enrollStudentInCourse(
       @RequestParam(value = "deptCode") String deptCode, 
       @RequestParam(value = "courseCode") int courseCode
@@ -631,7 +629,8 @@ public class RouteController {
         if (isStudentEnrolled) {
           return new ResponseEntity<>("Student has been enrolled.", HttpStatus.OK);
         } else {
-          return new ResponseEntity<>("Student has not been enrolled because course is full.", HttpStatus.BAD_REQUEST);
+          return new ResponseEntity<>("Student has not been enrolled because course is full.", 
+              HttpStatus.BAD_REQUEST);
         }
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
