@@ -1,6 +1,11 @@
 # Citations.txt
 
-### I1: Setup, Testing and Bug Fixing
+## I1: Setup, Testing and Bug Fixing
+
++ Static Bug Finder PMD: https://pmd.github.io
++ Google Java Style Guide: https://google.github.io/styleguide/javaguide.html
+
+## I2: Feature Implementation and Maintenance
 
 + Static Bug Finder PMD: https://pmd.github.io
 + Google Java Style Guide: https://google.github.io/styleguide/javaguide.html
