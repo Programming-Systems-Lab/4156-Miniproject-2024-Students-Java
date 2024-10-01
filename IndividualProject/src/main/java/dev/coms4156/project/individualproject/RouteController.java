@@ -2,6 +2,8 @@ package dev.coms4156.project.individualproject;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -554,6 +556,44 @@ public class RouteController {
         return new ResponseEntity<>("Attributed was updated successfully.", HttpStatus.OK);
       } else {
         return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+      }
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
+  /**
+   * Endpoint for getting the String representation of all the courses with the specified course code.
+   * This method handles PATCH requests to get courses information identified by a course code. If
+   * any course exists, it is returned in the result String.
+   *
+   * @param courseCode                  the code of the course
+   *
+   * @return                            the String representation of all the courses with the 
+   *                                    specified course code
+   */
+  @PatchMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> retrieveCourses(
+      @RequestParam(value = "courseCode") int courseCode
+  ) {
+    try {
+      HashMap<String, Department> departmentMapping;
+      departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
+
+      StringBuilder result = new StringBuilder();
+      for (Map.Entry<String, Department> entry : departmentMapping.entrySet()) {
+        String deptCode = entry.getKey();
+        ResponseEntity<?> response = retrieveCourse(deptCode, courseCode);
+        if (response.getStatusCode() == HttpStatus.OK) {
+          result.append(deptCode).append(" ").append(courseCode).append(": ").append(response.getBody())
+          .append("\n");
+        }
+      }
+      if (result.length() == 0) {
+        return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
+      }
+      else {
+        return new ResponseEntity<>(result.toString(), HttpStatus.OK);
       }
     } catch (Exception e) {
       return handleException(e);
